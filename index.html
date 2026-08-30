@@ -166,7 +166,8 @@ function doSearch(query) {
 qInput.addEventListener('input', () => doSearch(qInput.value));
 clearBtn.addEventListener('click', () => { qInput.value = ''; doSearch(''); qInput.focus(); });
 
-loadIndex();
+// Show the browse list on first load (doSearch('') restores it)
+loadIndex().then(() => doSearch(''));
 </script>
 </body>
 </html>
