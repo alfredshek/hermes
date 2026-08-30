@@ -55,9 +55,13 @@
         font-family:"SF Mono","Menlo",monospace;font-size:.85rem;white-space:pre;overflow-x:auto;color:#c4b5fd;margin:12px 0}
   footer{margin-top:64px;padding-top:20px;border-top:2px solid var(--border);color:var(--muted);font-size:.85rem;text-align:center}
   @media(max-width:640px){ .toc ol{columns:1} header.hero h1{font-size:1.6rem} }
+  .btop{display:inline-block;margin:20px 0 6px;color:var(--accent);text-decoration:none;
+       font-size:.88rem;border:1px solid var(--border);padding:6px 16px;border-radius:999px;
+       background:var(--panel);transition:.15s}
+  .btop:hover{border-color:var(--accent);background:var(--panel2)}
 </style>
 </head>
-<body style="background-color:#0f172a;color:#e2e8f0">
+<body id="top" style="background-color:#0f172a;color:#e2e8f0">
 <div class="wrap">
 
 <header class="hero">
@@ -156,6 +160,8 @@
 </div>
 
 <!-- ================= S2 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
 <h2 id="s2"><span class="num">2</span>EKS Upgrade — 升級流程與地雷</h2>
 <p>EKS 升級比其他服務多好多限制,先記硬規則,再講流程。</p>
 
@@ -206,6 +212,8 @@ kubectl drain &lt;node&gt; --ignore-daemonsets --delete-emptydir-data  # 逐走 
 </div>
 
 <!-- ================= S3 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
 <h2 id="s3"><span class="num">3</span>CloudFormation — 基礎設施即代碼</h2>
 <p><strong>CloudFormation (CFN)</strong> 係 AWS 原生嘅 IaC 工具:用 JSON / YAML template 宣告式建立資源,刪 template = 成批資源一齊刪,唔使自己 click console。</p>
 
@@ -259,6 +267,8 @@ sam build && sam deploy</code></pre>
 </div>
 
 <!-- ================= S4 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
 <h2 id="s4"><span class="num">4</span>SAM — Serverless Application Model</h2>
 <p><strong>SAM 全名:Serverless Application Model</strong>(AWS Serverless Application Model)。</p>
 <ul>
@@ -269,6 +279,8 @@ sam build && sam deploy</code></pre>
 </ul>
 
 <!-- ================= S5 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
 <h2 id="s5"><span class="num">5</span>CloudFormation Stack — 部署實例深入</h2>
 <p><strong>Stack</strong> = 一個 template 部署一次嘅「實例」,管理成批資源嘅完整生命周期。</p>
 
@@ -317,6 +329,8 @@ Resources:
 </ul>
 
 <!-- ================= S6 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
 <h2 id="s6"><span class="num">6</span>StackSets — 多帳號 × 多區域部署</h2>
 <p><strong>StackSets</strong> = 用一個 Operation,一次過喺<strong>多個帳號 × 多個 Region</strong> 部署同一套基建。治管大規模環境嘅神器。</p>
 
@@ -357,6 +371,8 @@ Resources:
 </div>
 
 <!-- ================= S7 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
 <h2 id="s7"><span class="num">7</span>Route 53 Resolver — Inbound / Outbound</h2>
 <p><strong>Route 53 Resolver</strong> 係處理「VPC ↔ 外面」DNS 互通嘅中間人,三大件:Inbound Endpoint、Outbound Endpoint、Resolver Rules。</p>
 
@@ -386,6 +402,8 @@ Resources:
 <p><strong>最常見場景</strong>:Hybrid DNS 互通(兩個 endpoint 一齊建做雙向)、DR / 多 region 私有 DNS 互通(配合 VPC Peering / Transit Gateway)。</p>
 
 <!-- ================= S8 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
 <h2 id="s8"><span class="num">8</span>CloudFront Functions — 邊緣超輕量運算</h2>
 <p><strong>CloudFront Functions</strong> 係喺 CloudFront edge 上面行嘅<strong>輕量 JavaScript(ES5/ES6 子集)</strong>,用嚟做 request/response 嘅輕改寫。</p>
 
@@ -427,6 +445,8 @@ Resources:
 </div>
 
 <!-- ================= S9 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
 <h2 id="s9"><span class="num">9</span>AWS Backup — 每日備份 + 加密 EBS</h2>
 
 <h3>9.1 建立每日備份 Plan</h3>
@@ -469,6 +489,8 @@ CMK 加密 Backup Vault → EC2 tag(<code>Backup:Daily</code>)自動入 plan →
 </div>
 
 <!-- ================= S10 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
 <h2 id="s10"><span class="num">10</span>IGW vs NAT Gateway — 出網兩條路</h2>
 
 <h3>10.1 一句分清楚</h3>
@@ -511,6 +533,8 @@ Web server / ALB 要接受外網請求 → public subnet + <strong>IGW</strong>�
 </div>
 
 <!-- ================= S11 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
 <h2 id="s11"><span class="num">11</span>Security Group vs NACL — 兩層防線</h2>
 
 <h3>11.1 一句分清楚</h3>
@@ -554,6 +578,8 @@ Web server / ALB 要接受外網請求 → public subnet + <strong>IGW</strong>�
 </div>
 
 <!-- ================= S12 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
 <h2 id="s12"><span class="num">12</span>AWS Config vs CloudTrail vs SCP — 三兄弟</h2>
 
 <h3>12.1 一句分清楚</h3>
@@ -601,6 +627,8 @@ Web server / ALB 要接受外網請求 → public subnet + <strong>IGW</strong>�
 </div>
 
 <!-- ================= S13 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
 <h2 id="s13"><span class="num">13</span>三劍合璧 — Config + CloudTrail + GuardDuty</h2>
 <p>三樣一齊用先係完整嘅「安全監察 + 合規 + 異常偵測」方案:</p>
 
@@ -636,6 +664,8 @@ Web server / ALB 要接受外網請求 → public subnet + <strong>IGW</strong>�
 </div>
 
 <!-- ================= S14 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
 <h2 id="s14"><span class="num">14</span>CloudFormation 卡住 / Timeout 排查</h2>
 <p>Stack 卡喺 <code>CREATE_IN_PROGRESS</code> / <code>UPDATE_IN_PROGRESS</code> 好耐繼而 timeout,通常唔係即時報錯,而係「靜靜咁等緊啲嘢」。必做第一步:<strong>睇 Stack Events</strong>。</p>
 <pre><code>aws cloudformation describe-stack-events --stack-name my-stack \
@@ -659,6 +689,8 @@ Web server / ALB 要接受外網請求 → public subnet + <strong>IGW</strong>�
 </div>
 
 <!-- ================= S15 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
 <h2 id="s15"><span class="num">15</span>AWS Storage Gateway — 混合雲儲存</h2>
 <p><strong>Storage Gateway</strong> = 連接「on-premises ↔ 雲」嘅儲存橋樑:本地照用標準協定(<strong>SMB / NFS / iSCSI / VTL</strong>),底層數據其實存喺 AWS。<strong>本地睇落似網絡磁碟,實際儲喺雲。</strong></p>
 
@@ -686,6 +718,8 @@ Web server / ALB 要接受外網請求 → public subnet + <strong>IGW</strong>�
 </div>
 
 <!-- ================= S16 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
 <h2 id="s16"><span class="num">16</span>EC2 可以用 Storage Gateway 嗎?</h2>
 <p><strong>EC2 自己嘅硬盤用 EBS,唔需要 Storage Gateway</strong> —— 後者係為 on-premises 設計。但有三種情況會扯上關係:</p>
 <ul>
@@ -706,6 +740,8 @@ Web server / ALB 要接受外網請求 → public subnet + <strong>IGW</strong>�
 </div>
 
 <!-- ================= S17 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
 <h2 id="s17"><span class="num">17</span>Secrets Manager vs SSM Parameter Store</h2>
 <p><strong>Secrets Manager = 為「會流動嘅 secrets」設計(自動輪換);Parameter Store = 輕量「設定 + secrets」雜物櫃(基本免費)</strong>。</p>
 
@@ -740,6 +776,8 @@ Web server / ALB 要接受外網請求 → public subnet + <strong>IGW</strong>�
 「要自動輪換 DB 密碼」→ <strong>Secrets Manager</strong>。「要免費存環境設定 / AMI ID / 細 secrets」→ <strong>Parameter Store</strong>。「跨 region 同步 / 怕誤刪 / 要 audit」→ <strong>Secrets Manager</strong>。兩者都用 KMS 加密(SecureString / secrets 內容)。
 </div>
 
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
 <footer>
   <p>📖 本筆記由 <strong>Hermes Agent</strong> 整理 — Alfred 嘅 AWS Solutions Architect 備考系列 · 2026-08-27</p>
   <p>內容基於官方文件與實戰經驗,僅供學習用途。</p>
