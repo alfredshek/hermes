@@ -115,11 +115,14 @@
  │          │        │              │          │
  │          │        │              │          └─ runtime 持續掃描 + 監控
  │          │        │              └─ gate: CVSS 門檻 + 簽名驗證
- │          │        └─ DAST(掃運行中 app)
- │          └─ Image 掃描 + SBOM + 簽名
+ │          │        └─ DAST(掃運行中 app) + 容器化測試
+ │          └─ docker build → push registry → 掃描 + SBOM + 簽名
  └─ SAST + Secret 掃描 + SCA(依賴漏洞)
 觸發: git push / PR merge</div>
 <ul>
+  <li><strong>Docker image 喺 Build 階段 build</strong>:compile 完 → <code>docker build</code>(跟 Dockerfile)→ push 去 registry(ECR / Docker Hub / GHCR)→ 成為 immutable artifact(每個 build 有唯一 tag,如 <code>git-sha</code>)</li>
+  <li>Image 掃描 + SBOM + 簽名喺 build 完之後即刻做(push 前 / 後都得,但一定要喺 Deploy gate 之前完成)</li>
+  <li><strong>Test 階段用 build 好嘅 image 嚟測</strong>(容器化測試),唔係直接跑 source — 確保測試緊嘅嘢 = 生產嗰隻</li>
   <li><strong>Artifact 要 immutable</strong>:每個 build 有唯一版本號,之後唔改 — 先可以精準回滾</li>
   <li><strong>Verify 階段</strong>(smoke test / health check / canary analysis)係 CD 嘅靈魂,冇 verify 嘅 deploy 等於盲賭</li>
 </ul>
@@ -128,7 +131,7 @@
 <table>
   <tr><th>Pipeline 階段</th><th>加咩 scanning</th><th>代表工具</th></tr>
   <tr><td><strong>Source / Commit</strong></td><td>SAST(掃 source code)+ Secret 掃描(密碼有冇入 code)+ SCA(依賴庫漏洞)</td><td>Semgrep / gitleaks / Dependabot</td></tr>
-  <tr><td><strong>Build</strong></td><td>Image 掃描 + SBOM 生成 + image 簽名</td><td>Trivy / Grype / cosign</td></tr>
+  <tr><td><strong>Build</strong></td><td><strong>docker build</strong> + push registry,再 Image 掃描 + SBOM 生成 + image 簽名</td><td>Docker / Trivy / Grype / cosign</td></tr>
   <tr><td><strong>Test / Staging</strong></td><td>DAST(對運行中嘅 app 掃)</td><td>OWASP ZAP</td></tr>
   <tr><td><strong>Deploy 前(gate)</strong></td><td>政策門檻:CVSS ≥ 7 自動 block + 簽名驗證</td><td>OPA / Kyverno</td></tr>
   <tr><td><strong>Deploy 後(Runtime)</strong></td><td>持續掃描 + 異常行為偵測</td><td>AWS Inspector / Falco</td></tr>
