@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AWS Solutions Architect 學習筆記 — 33 個核心概念詳解 | Blog</title>
+<style>
+  :root{
+    --bg:#0f172a; --panel:#1e293b; --panel2:#273449; --fg:#e2e8f0; --muted:#94a3b8;
+    --accent:#38bdf8; --accent2:#a78bfa; --ok:#4ade80; --warn:#fbbf24; --bad:#f87171;
+    --border:#334155; --code:#0b1120;
+  }
+  *{box-sizing:border-box}
+  html{background-color:#0f172a}
+  body{margin:0;font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+       background:#0f172a;background:var(--bg);color:#e2e8f0;color:var(--fg);line-height:1.75;font-size:16px}
+  .wrap{max-width:900px;margin:0 auto;padding:32px 20px 80px}
+  header.hero{background:linear-gradient(135deg,#0ea5e9 0%,#6366f1 55%,#a855f7 100%);
+       border-radius:20px;padding:40px 36px;color:#fff;margin-bottom:36px;
+       box-shadow:0 10px 40px rgba(56,189,248,.25)}
+  header.hero h1{margin:0 0 8px;font-size:2.1rem;line-height:1.3;letter-spacing:.5px}
+  header.hero p{margin:0;opacity:.92;font-size:1.05rem}
+  .meta{display:flex;gap:14px;flex-wrap:wrap;margin-top:18px;font-size:.85rem}
+  .meta span{background:rgba(255,255,255,.16);padding:4px 12px;border-radius:999px;backdrop-filter:blur(4px)}
+  h2{font-size:1.55rem;color:var(--accent);margin:52px 0 14px;padding-bottom:8px;border-bottom:2px solid var(--border)}
+  h2 .num{display:inline-block;background:var(--accent);color:#0f172a;border-radius:8px;
+       font-size:1rem;width:32px;height:32px;line-height:32px;text-align:center;margin-right:10px;font-weight:700}
+  h3{font-size:1.15rem;color:var(--accent2);margin:28px 0 10px}
+  p{margin:10px 0}
+  ul,ol{margin:8px 0 16px;padding-left:26px}
+  li{margin:6px 0}
+  strong{color:#fff}
+  code{background:var(--code);border:1px solid var(--border);border-radius:6px;padding:2px 7px;
+       font-family:"SF Mono","Menlo",monospace;font-size:.86em;color:#7dd3fc}
+  pre{background:var(--code);border:1px solid var(--border);border-radius:12px;padding:16px 18px;
+      overflow-x:auto;font-family:"SF Mono","Menlo",monospace;font-size:.86rem;line-height:1.6;color:#a5f3fc}
+  pre code{background:none;border:none;padding:0;color:inherit}
+  table{width:100%;border-collapse:collapse;margin:14px 0 20px;font-size:.92rem;background:var(--panel);border-radius:10px;overflow:hidden}
+  th{background:var(--panel2);color:#fff;text-align:left;padding:10px 14px;font-weight:600;border-bottom:2px solid var(--border)}
+  td{padding:9px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  .callout{border-radius:12px;padding:14px 18px;margin:18px 0;border-left:5px solid;font-size:.95rem}
+  .callout.exam{border-color:var(--warn);background:rgba(251,191,36,.08)}
+  .callout.key{border-color:var(--ok);background:rgba(74,222,128,.08)}
+  .callout.trap{border-color:var(--bad);background:rgba(248,113,113,.08)}
+  .callout h4{margin:0 0 8px;font-size:1rem}
+  .callout.exam h4{color:var(--warn)} .callout.key h4{color:var(--ok)} .callout.trap h4{color:var(--bad)}
+  .toc{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px 26px;margin-bottom:8px}
+  .toc h3{margin-top:0}
+  .toc a{color:var(--accent);text-decoration:none}
+  .toc a:hover{text-decoration:underline}
+  .toc ol{margin:0;columns:2;column-gap:40px}
+  .toc li{margin:5px 0;font-size:.93rem;break-inside:avoid}
+  .flow{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px 18px;
+        font-family:"SF Mono","Menlo",monospace;font-size:.85rem;white-space:pre;overflow-x:auto;color:#c4b5fd;margin:12px 0}
+  footer{margin-top:64px;padding-top:20px;border-top:2px solid var(--border);color:var(--muted);font-size:.85rem;text-align:center}
+  @media(max-width:640px){ .toc ol{columns:1} header.hero h1{font-size:1.6rem} }
+</style>
+</head>
+<body style="background-color:#0f172a;color:#e2e8f0">
+<div class="wrap">
+
+<header class="hero">
+  <h1>☁️ AWS Solutions Architect 學習筆記<br>從零到一嘅 13 個核心主題</h1>
+  <p>由 Hermes 同 Alfred 嘅溫習對話整理而成 — 涵蓋治理、網絡、安全、容器與無伺服器架構</p>
+  <div class="meta">
+    <span>📅 2026-08-27</span>
+    <span>📚 13 個主題</span>
+    <span>🎯 目標: AWS Solutions Architect 認證</span>
+    <span>🤖 協作: Hermes Agent × Alfred</span>
+  </div>
+</header>
+
+<div class="toc">
+  <h3>📑 目錄</h3>
+  <ol>
+    <li><a href="#s1">AWS Landing Zone — 多帳號治理藍圖</a></li>
+    <li><a href="#s2">EKS Upgrade — 升級流程與地雷</a></li>
+    <li><a href="#s3">CloudFormation — 基礎設施即代碼</a></li>
+    <li><a href="#s4">SAM — Serverless Application Model</a></li>
+    <li><a href="#s5">CloudFormation Stack — 部署實例深入</a></li>
+    <li><a href="#s6">StackSets — 多帳號 × 多區域部署</a></li>
+    <li><a href="#s7">Route 53 Resolver — Inbound / Outbound</a></li>
+    <li><a href="#s8">CloudFront Functions — 邊緣超輕量運算</a></li>
+    <li><a href="#s9">AWS Backup — 每日備份 + 加密 EBS</a></li>
+    <li><a href="#s10">IGW vs NAT Gateway — 出網兩條路</a></li>
+    <li><a href="#s11">Security Group vs NACL — 兩層防線</a></li>
+    <li><a href="#s12">AWS Config vs CloudTrail vs SCP — 三兄弟</a></li>
+    <li><a href="#s13">三劍合璧 — Config + CloudTrail + GuardDuty</a></li>
+  </ol>
+</div>
+
+<!-- ================= S1 ================= -->
+<h2 id="s1"><span class="num">1</span>AWS Landing Zone — 多帳號治理藍圖</h2>
+<p><strong>Landing Zone</strong> 係建構一個符合 AWS Well-Architected 最佳實踐嘅<strong>多帳號環境</strong>。核心哲學:</p>
+<ul>
+  <li><strong>帳號分層</strong>:唔同 workload 放唔同帳號,故障爆炸半徑隔離</li>
+  <li><strong>中央管治</strong>:統一嘅安全基線、審計、成本控制</li>
+  <li><strong>標準化供應</strong>:新帳號 = 一樣嘅骨架,唔使自己慢慢砌</li>
+</ul>
+
+<h3>1.1 帳號結構設計(Organizational Units)</h3>
+<p>用 <strong>AWS Organizations</strong> 建立層級式 OU:</p>
+<div class="flow">Root
+├── Security            ← Log Archive 帳號 + Security Tooling 帳號
+├── Infrastructure      ← 網絡帳號(Transit Gateway、共享服務)
+└── Workloads
+    ├── Development
+    ├── Staging
+    └── Production</div>
+<ul>
+  <li>每個 OU 可以套用唔同嘅 <strong>SCP</strong> 同 <strong>guardrails</strong></li>
+  <li>Production 同 Development 徹底隔離,權限同審計強度唔同</li>
+</ul>
+
+<h3>1.2 用 AWS Control Tower 起 Landing Zone</h3>
+<p><strong>AWS Control Tower</strong> 係托管嘅 landing zone 服務,自動建立:</p>
+<ul>
+  <li><strong>Management Account</strong> — 只做管治,唔放 workload</li>
+  <li><strong>Log Archive 帳號</strong> — 集中收 CloudTrail / Config logs</li>
+  <li>預設 guardrails + 帳號供應流程(Account Factory)</li>
+</ul>
+<p>或者純手動用 Organizations 砌,但 Control Tower 一次過搞掂晒,係 AWS 推薦路徑。</p>
+
+<h3>1.3 用戶登入 — IAM Identity Center</h3>
+<ul>
+  <li>前身叫 <strong>AWS SSO</strong>;single sign-on 所有帳號</li>
+  <li>支援接返公司 <strong>AD / SAML 2.0 federation</strong>(混合雲身份)</li>
+  <li>避免長命 Access Key,支援臨時憑證</li>
+</ul>
+
+<h3>1.4 中央審計與安全</h3>
+<table>
+  <tr><th>服務</th><th>喺 Landing Zone 嘅角色</th></tr>
+  <tr><td><strong>CloudTrail</strong></td><td>全帳號 API 動作記錄 → 去 Log Archive</td></tr>
+  <tr><td><strong>GuardDuty</strong></td><td>智能威脅偵測(異常登入、挖礦、port scan)</td></tr>
+  <tr><td><strong>Security Hub</strong></td><td>聚合所有安全 findings,單一窗口睇晒</td></tr>
+  <tr><td><strong>AWS Config</strong></td><td>全環境資源合規檢查</td></tr>
+  <tr><td><strong>AWS Budgets</strong></td><td>成本控制 + 閾值告警</td></tr>
+</table>
+
+<h3>1.5 Guardrails(治理護欄)</h3>
+<ul>
+  <li><strong>Preventive(阻止型)</strong> = <strong>SCP</strong>:喺 OU 層直接 deny,例如唔准起喺非指定 region、唔准 public S3、唔准 root 登入</li>
+  <li><strong>Detective(偵察型)</strong> = <strong>Config rules</strong>:偵測違規並告警(例如發現有 public bucket 即刻 alert)</li>
+</ul>
+
+<div class="callout key"><h4>✅ 考試必記 3 點</h4>
+1. <strong>Management Account</strong> 唔好放任何 workload,只係管治中樞。<br>
+2. <strong>SCP 係「頂層限制」</strong>:只可以 allow/deny,唔可以 grant 權限;要掛喺 OU 層先對下賬生效。<br>
+3. Control Tower guardrails 分 mandatory(強制)同 strongly recommended;SCP 做 preventive、Config 做 detective。
+</div>
+
+<!-- ================= S2 ================= -->
+<h2 id="s2"><span class="num">2</span>EKS Upgrade — 升級流程與地雷</h2>
+<p>EKS 升級比其他服務多好多限制,先記硬規則,再講流程。</p>
+
+<h3>2.1 硬規則(不可違反)</h3>
+<ul>
+  <li><strong>唔可以跳 minor version</strong>:1.29 → 1.30 → 1.31,一次一個,冇得飛</li>
+  <li><strong>Version skew</strong>:Node 可以等於或比 Control Plane 舊 <strong>最多 1 個 minor version</strong>,再舊就入唔到 cluster</li>
+  <li><strong>支援周期</strong>:Standard Support 約 14 個月;可畀錢延長至 <strong>Extended Support ~26 個月</strong></li>
+  <li><strong>冇得 rollback Control Plane</strong>:升級唔可以簡單回滾,必須喺 staging 驗證晒先</li>
+</ul>
+
+<h3>2.2 升級流程(6 步)</h3>
+<ol>
+  <li><strong>評估</strong> — 睇 Kubernetes changelog / deprecation:<br>
+    <ul>
+      <li>將被<strong>移除嘅舊版 API</strong>(例如 `extensions/v1beta1` 系列)</li>
+      <li><strong>CRD / Webhook</strong>(Cert-manager、Admission webhooks)有冇新版兼容</li>
+      <li>用工具掃描:API compatibility checks + <code>kubectl convert</code></li>
+    </ul>
+  </li>
+  <li><strong>預先確認 / 升級有相容風險嘅 Add-on</strong> — 尤其 <strong>VPC CNI(aws-node)</strong> 同 <strong>CoreDNS</strong>,佢哋同 K8s 版本有硬綁定,舊版可能喺升級後出問題</li>
+  <li><strong>升 Control Plane</strong> — <code>aws eks update-cluster-config</code> 或 Console;EKS 自動 rolling(跨 AZ),期間 API server 短暫唔穩,動作會變慢</li>
+  <li><strong>升 Node Group</strong>(最關鍵一步)— 逐個 node 做:<br>
+    <pre><code>kubectl cordon &lt;node&gt;                 # 標記不可排程
+kubectl drain &lt;node&gt; --ignore-daemonsets --delete-emptydir-data  # 逐走 Pod
+# Pod 喺其他 healthy node 重新調度
+# 更換 / 升級 node,再 uncordon</code></pre>
+    <ul>
+      <li><strong>一定要有 PodDisruptionBudget (PDB)</strong>,否則一齊 drain 會成堆 Pod 落地</li>
+      <li>配合 <strong>TopologySpreadConstraints / Pod anti-affinity</strong>,確保每輪都有足夠副本喺度</li>
+    </ul>
+  </li>
+  <li><strong>升其餘 Add-on</strong> — kube-proxy、EBS/EFS CSI driver 等,對齊最終版本</li>
+  <li><strong>驗證</strong> — smoke test、檢查 <code>Terminating</code> / <code>NotReady</code> node、確認 workload 恢復</li>
+</ol>
+
+<div class="callout trap"><h4>⚠️ 常見誤解:Add-on「一定最後升」?</h4>
+<b>唔係。</b>Add-on 同 Control Plane 係「互通相容」關係,冇硬性次序。實務上:
+<ul>
+  <li><strong>VPC CNI / CoreDNS</strong> 呢啲有相容風險嘅,反而建議<strong>喺升 Control Plane 前/同步</strong>就升定</li>
+  <li>其他 add-on 可以喺 Node Group 之後彈性處理</li>
+  <li>原則:升之前<strong>確認所有 add-on 都支援 target 版本</strong>,咁先有序可言</li>
+</ul>
+</div>
+
+<div class="callout exam"><h4>📝 考試焦點</h4>
+① Node 比 CP 舊多過 1 版 → <strong>Node 唔會 join</strong>。② 冇 PDB 做 rolling → 服務中斷。③ 唔跳版本 + 14 個月標準支援。④ Add-on 要獨立 trigger,唔會自動跟住升。⑤ 先 staging 後 production。
+</div>
+
+<!-- ================= S3 ================= -->
+<h2 id="s3"><span class="num">3</span>CloudFormation — 基礎設施即代碼</h2>
+<p><strong>CloudFormation (CFN)</strong> 係 AWS 原生嘅 IaC 工具:用 JSON / YAML template 宣告式建立資源,刪 template = 成批資源一齊刪,唔使自己 click console。</p>
+
+<h3>3.1 Template 結構</h3>
+<pre><code>AWSTemplateFormatVersion: "2010-09-09"
+Description: ...
+Parameters:      # 部署時傳入嘅可變值(如 CIDR、環境名)
+Mappings:        # 環境 → 值嘅對照表(如 env → instance type)
+Resources:       # ★ 必填 — 真正會建嘅資源
+Outputs:         # 建成後嘅輸出(俾人 / 其他 stack 用)
+Metadata:        # 元資料 / 文件說明
+Conditions:      # 條件邏輯(如 prod 先行 multi-AZ)</code></pre>
+
+<h3>3.2 部署方式</h3>
+<pre><code># CLI
+aws cloudformation deploy \
+  --stack-name my-stack \
+  --template-file template.yaml \
+  --parameter-overrides Env=prod
+
+# SAM(serverless)
+sam build && sam deploy</code></pre>
+
+<h3>3.3 關鍵特性</h3>
+<ul>
+  <li><strong>自動 Rollback</strong>:任何資源建失敗,自動回滾到上一個健康狀態</li>
+  <li><strong>Change Set</strong>:部署前預覽「會新增 / 刪除 / 替換邊啲資源」,唔會直接改嘢,要另外 apply</li>
+  <li><strong>UpdatePolicy</strong>:<code>RollingUpdate</code>(逐批)或 <code>Recreate</code>,常配 ASG 用</li>
+  <li><strong>Drift Detection</strong>:人手喺 console 改資源但冇經 CFN → 狀態漂移;<code>detect-stack-drift</code> 偵測,但<strong>只報告、唔自動修正</strong></li>
+  <li><strong>Nested Stacks</strong>:大 stack 內嵌 <code>AWS::CloudFormation::Stack</code>,拆模組重用</li>
+  <li><strong>Cross-stack reference</strong>:Outputs + <code>Fn::ImportValue</code> 俾其他 stack 引用</li>
+  <li><strong>Intrinsic Functions</strong>:<code>!Ref</code> / <code>!GetAtt</code> / <code>!Sub</code> / <code>!Join</code> / <code>!FindInMap</code>…</li>
+  <li><strong>CreationPolicy / WaitCondition</strong>:配 <code>cfn-signal</code> 等 instance「真係 ready」先當建完</li>
+</ul>
+
+<h3>3.4 同其他 IaC 工具對比</h3>
+<table>
+  <tr><th>工具</th><th>定位</th><th>特點</th></tr>
+  <tr><td><strong>CloudFormation</strong></td><td>AWS 原生 declarative</td><td>支援所有 AWS 資源、Change Set、Drift</td></tr>
+  <tr><td><strong>Terraform</strong></td><td>跨雲 declarative</td><td>HCL,要自己管 state</td></tr>
+  <tr><td><strong>SAM</strong></td><td>CFN 嘅 serverless 強化</td><td>自動起 Lambda/API GW/Bucket</td></tr>
+  <tr><td><strong>CDK</strong></td><td>用程式碼寫 infra</td><td>Python/TS/Go 寫,compile 做 CFN template</td></tr>
+  <tr><td><strong>Elastic Beanstalk</strong></td><td>PaaS</td><td>唔算 IaC,可生成 template</td></tr>
+</table>
+
+<div class="callout trap"><h4>⚠️ 考試陷阱</h4>
+① 刪 stack = 刪晒底層資源;要保留用 <code>DeletionPolicy: Retain</code>(或 Snapshot)。<br>
+② <strong>Change Set 只係預覽</strong>,唔會直接改資源,要另外 apply。<br>
+③ <strong>Drift 只偵測、唔自動修正</strong>。<br>
+④ Nested Stack ≠ Cross-stack reference(前者係 stack 嵌 stack,後者係 stack 之間引用)。
+</div>
+
+<!-- ================= S4 ================= -->
+<h2 id="s4"><span class="num">4</span>SAM — Serverless Application Model</h2>
+<p><strong>SAM 全名:Serverless Application Model</strong>(AWS Serverless Application Model)。</p>
+<ul>
+  <li>建喺 <strong>CloudFormation 之上</strong>嘅 serverless 框架</li>
+  <li>用 <code>AWS::Serverless::*</code> 語法簡化宣告,例如一行 <code>AWS::Serverless::Function</code> 就自動幫你起好 Lambda + IAM Execution Role + Event source 接駁</li>
+  <li>支援 <code>sam build</code>(本地打包)、<code>sam deploy</code>(部署)、<code>sam local invoke</code>(本地測試)</li>
+  <li>最終都會<strong>轉化成交畀 CloudFormation</strong> 落去建</li>
+</ul>
+
+<!-- ================= S5 ================= -->
+<h2 id="s5"><span class="num">5</span>CloudFormation Stack — 部署實例深入</h2>
+<p><strong>Stack</strong> = 一個 template 部署一次嘅「實例」,管理成批資源嘅完整生命周期。</p>
+
+<h3>5.1 生命周期狀態</h3>
+<table>
+  <tr><th>狀態</th><th>意思</th></tr>
+  <tr><td>CREATE_IN_PROGRESS / CREATE_COMPLETE</td><td>建緊 / 建完</td></tr>
+  <tr><td>CREATE_FAILED / ROLLBACK_COMPLETE</td><td>建失敗,自動回滾</td></tr>
+  <tr><td>UPDATE_COMPLETE / UPDATE_ROLLBACK_COMPLETE</td><td>更新完 / 更新失敗自動回滾</td></tr>
+  <tr><td>REVIEW_IN_PROGRESS</td><td>用 Change Set 建立中,未真正 create</td></tr>
+</table>
+
+<h3>5.2 Stack 之間嘅互動</h3>
+<p><strong>A. Outputs + ImportValue(跨 Stack 引用)</strong></p>
+<pre><code># Stack A
+Outputs:
+  VpcId:
+    Value: !Ref MyVpc
+    Export:
+      Name: app-vpc-id
+
+# Stack B
+Resources:
+  Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      VpcId: !ImportValue app-vpc-id</code></pre>
+<ul>
+  <li>Export 名喺 <strong>成個 region 唯一</strong>;有人引用緊就刪唔到</li>
+</ul>
+<p><strong>B. Nested Stack(Stack 嵌 Stack)</strong></p>
+<pre><code>Resources:
+  Nested:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.../nested-template.yaml
+      Parameters:
+        Cidr: !Ref VpcCidr</code></pre>
+<p>一套大 infra 拆多個細 template → 重用 + 分工管理。</p>
+
+<h3>5.3 特性</h3>
+<ul>
+  <li>刪 Stack = 資源按依賴倒序刪</li>
+  <li>想保留資源用 <code>DeletionPolicy: Retain / Snapshot</code>(DB 好常用 Snapshot)</li>
+  <li><strong>CFN 最大好處:冇 state 檔案</strong> — AWS 幫你 track 成個 stack,唔似 Terraform 要自己管理 state(考試愛考)</li>
+</ul>
+
+<!-- ================= S6 ================= -->
+<h2 id="s6"><span class="num">6</span>StackSets — 多帳號 × 多區域部署</h2>
+<p><strong>StackSets</strong> = 用一個 Operation,一次過喺<strong>多個帳號 × 多個 Region</strong> 部署同一套基建。治管大規模環境嘅神器。</p>
+
+<h3>6.1 架構概念</h3>
+<div class="flow">Administration Account
+└── StackSet (template)
+    ├── Stack Instance → Account A × ap-southeast-1
+    ├── Stack Instance → Account B × ap-southeast-1
+    ├── Stack Instance → Account A × us-east-1
+    └── Stack Instance → Account B × us-east-1</div>
+<ul>
+  <li>每個「帳號 × 區域」組合係一個 <strong>Stack Instance</strong></li>
+</ul>
+
+<h3>6.2 權限模型(必記)</h3>
+<ul>
+  <li>跨帳號需要兩個角色:
+    <ul>
+      <li><strong>Administration Role</strong>(喺 admin 帳號,俾 StackSet assume)</li>
+      <li><strong>Execution Role</strong>(喺每個 target 帳號,俾 admin role 去 assume)</li>
+    </ul>
+  </li>
+  <li>利用 Organizations 可以自動信任 + 部署</li>
+</ul>
+
+<h3>6.3 兩種類型</h3>
+<table>
+  <tr><th></th><th>Service-managed</th><th>Self-managed</th></tr>
+  <tr><td>帳號管理</td><td>直接配 Organizations,新帳號<strong>自動加入</strong></td><td>手動指定 target accounts</td></tr>
+  <tr><td>適用場景</td><td>推薦(有 Organizations)</td><td>冇 Organizations / 要精準控制</td></tr>
+</table>
+
+<div class="callout key"><h4>✅ 重要釐清:單一帳號 × 多 region 要用 StackSet 嗎?</h4>
+<b>唔一定要。</b>StackSet 嘅核心價值係「跨<strong>帳號</strong>」一次過管。<br>
+淨係「單一帳號 × 多 region」:寫一個 template,喺每個 region 各 deploy 一次(<code>--region us-east-1</code> / <code>--region ap-southeast-1</code>)就得,簡單直接唔使玩 role 依賴。StackSet 用喺呢度係 overkill。<br>
+<br>
+<b>考試判斷</b>:見到「多帳號跨 region 一次過部署」→ <strong>StackSet</strong>;淨係「多 region」冇提多帳號 → 普通 stack 分開 deploy。
+</div>
+
+<!-- ================= S7 ================= -->
+<h2 id="s7"><span class="num">7</span>Route 53 Resolver — Inbound / Outbound</h2>
+<p><strong>Route 53 Resolver</strong> 係處理「VPC ↔ 外面」DNS 互通嘅中間人,三大件:Inbound Endpoint、Outbound Endpoint、Resolver Rules。</p>
+
+<h3>7.1 Inbound Resolver(on-prem → 查 VPC 內 DNS)</h3>
+<div class="flow">on-prem DNS client ──(query)──▶ [Inbound Endpoint ENI] ──▶ VPC 內 DNS</div>
+<ul>
+  <li>讓 on-premise 嘅 DNS resolver 查你 VPC 內部嘅 <strong>Private Hosted Zone</strong>(例如 <code>example.internal</code> 嘅 RDS / EC2 private DNS name)</li>
+  <li>係一個 ENI 附喺 VPC 子網;<strong>至少開 2 個 subnet</strong> 先高可用</li>
+  <li>用 <strong>Security Group</strong> 限制邊啲 on-prem 可以 query</li>
+</ul>
+
+<h3>7.2 Outbound Resolver(VPC 內 → 查外面 DNS)</h3>
+<div class="flow">VPC 內 instance ──(query)──▶ [Outbound Endpoint] ──▶ on-prem / 自訂 DNS</div>
+<ul>
+  <li>VPC 入面嘅資源想 resolve on-prem 先知嘅域名(例如 <code>corp.internal</code>)</li>
+  <li>配 <strong>Resolver Rules</strong> 決定邊啲 domain forward 去邊個 DNS</li>
+</ul>
+
+<h3>7.3 對比</h3>
+<table>
+  <tr><th></th><th>Inbound</th><th>Outbound</th></tr>
+  <tr><td>方向</td><td>on-prem → 入 VPC</td><td>VPC → 出外面</td></tr>
+  <tr><td>解決問題</td><td>on-prem 查唔到 VPC internal DNS</td><td>VPC 查唔到 on-prem DNS</td></tr>
+  <tr><td>例子</td><td>on-prem connect RDS private name</td><td>EC2 call API 用 <code>corp.internal</code> name</td></tr>
+  <tr><td>形態</td><td>VPC 內 ENI + SG</td><td>VPC 內 ENI + SG + forwarding rules</td></tr>
+</table>
+<p><strong>最常見場景</strong>:Hybrid DNS 互通(兩個 endpoint 一齊建做雙向)、DR / 多 region 私有 DNS 互通(配合 VPC Peering / Transit Gateway)。</p>
+
+<!-- ================= S8 ================= -->
+<h2 id="s8"><span class="num">8</span>CloudFront Functions — 邊緣超輕量運算</h2>
+<p><strong>CloudFront Functions</strong> 係喺 CloudFront edge 上面行嘅<strong>輕量 JavaScript(ES5/ES6 子集)</strong>,用嚟做 request/response 嘅輕改寫。</p>
+
+<h3>8.1 兩個掛鉤點</h3>
+<ul>
+  <li><strong>Viewer Request</strong> — user request 到達 edge 時</li>
+  <li><strong>Viewer Response</strong> — edge 準備好 response 揼返俾 user 前</li>
+</ul>
+
+<h3>8.2 特性</h3>
+<ul>
+  <li><strong>&lt;1ms 延遲</strong>,幾百萬 request 都唔會爆</li>
+  <li>超平:每百萬 request ~US$0.10(Lambda@Edge 貴好多)</li>
+  <li>儲存喺 edge,<strong>冇 network / IO 存取</strong>(純 CPU + header/URL 改動)</li>
+  <li>分 <strong>DEVELOPMENT</strong>(測試)同 <strong>LIVE</strong>(正式)兩個階段</li>
+</ul>
+
+<h3>8.3 常用用途</h3>
+<ul>
+  <li>URL 改寫 / 重定向</li>
+  <li>Header 修改(CORS、cache-control)</li>
+  <li>JWT / Token 存在性檢查(viewer request 攔截)</li>
+  <li>Geo / Device 分流(睇 Country header)</li>
+</ul>
+
+<h3>8.4 CloudFront Functions vs Lambda@Edge</h3>
+<table>
+  <tr><th></th><th>CloudFront Functions</th><th>Lambda@Edge</th></tr>
+  <tr><td>語言</td><td>JS 子集(ES5)</td><td>Node / Python 等全語系</td></tr>
+  <tr><td>事件點</td><td>得 Viewer Request / Response</td><td>Viewer + Origin(更多)</td></tr>
+  <tr><td>能力</td><td>極輕量,冇 IO/DB</td><td>可 IO、DB、動態生成</td></tr>
+  <tr><td>延遲</td><td>幾 ms</td><td>較大</td></tr>
+  <tr><td>成本</td><td>平好多</td><td>貴</td></tr>
+</table>
+
+<div class="callout exam"><h4>📝 考試判斷</h4>
+只要 <strong>Viewer 層輕 transform</strong>(改 header、redirect、token check)→ <strong>CloudFront Functions</strong>。<br>
+要 <strong>Origin-level 事件 / IO / DB / 大 payload 邏輯</strong> → <strong>Lambda@Edge</strong>。
+</div>
+
+<!-- ================= S9 ================= -->
+<h2 id="s9"><span class="num">9</span>AWS Backup — 每日備份 + 加密 EBS</h2>
+
+<h3>9.1 建立每日備份 Plan</h3>
+<pre><code># 1. 開 Backup Vault
+aws backup create-backup-vault --backup-vault-name my-vault
+
+# 2. 建 Backup Plan,set 每日 schedule + lifecycle
+aws backup create-backup-plan --backup-plan '{
+  "BackupPlanName": "daily-ec2",
+  "Rules": [{
+    "RuleName": "DailyRule",
+    "TargetBackupVaultName": "my-vault",
+    "ScheduleExpression": "cron(0 2 * * ? *)",
+    "StartWindowMinutes": 60,
+    "CompletionWindowMinutes": 120,
+    "Lifecycle": { "DeleteAfterDays": 30, "MoveToColdStorageAfterDays": 7 }
+  }]
+}'
+
+# 3. IAM role + tag-based 指派資源(例如 tag: Backup=Daily)</code></pre>
+
+<h3>9.2 加密 EBS 嘅處理(重點)</h3>
+<ul>
+  <li><strong>AWS Backup 會自動做加密備份</strong>,唔使自己額外搞</li>
+  <li>預設<b>用返原本 EBS 部嗰個 KMS key</b> 加密備份</li>
+  <li>但如果 <strong>Backup Vault 有指定自己嘅 KMS key</strong>,會 <strong>override 用 vault 個 key</strong></li>
+</ul>
+
+<h3>9.3 注意位</h3>
+<ul>
+  <li>Cross-region / cross-account copy:用 target 嗰邊嘅 KMS key 重新加密,key 要先喺嗰邊存在</li>
+  <li>Restore 出嚟嘅 EBS 可揀原 key 或改 key</li>
+  <li><strong>KMS key 唔好亂刪</strong> — 刪咗就 restore 唔到!</li>
+  <li>Cross-account 備份要 set 好 KMS key policy / grant</li>
+  <li>自己管嘅 <strong>Customer Managed Key (CMK)</strong> 比 default <code>aws/ebs</code> key 更穩陣、可控</li>
+</ul>
+
+<div class="callout key"><h4>✅ 建議架構</h4>
+CMK 加密 Backup Vault → EC2 tag(<code>Backup:Daily</code>)自動入 plan → Lifecycle 控制成本(Cold Storage + DeleteAfterDays)→ cross-region copy 用 KMS key。新 instance 加 tag 即自動備份,唔使手動 update plan。
+</div>
+
+<!-- ================= S10 ================= -->
+<h2 id="s10"><span class="num">10</span>IGW vs NAT Gateway — 出網兩條路</h2>
+
+<h3>10.1 一句分清楚</h3>
+<ul>
+  <li><strong>Internet Gateway (IGW)</strong> = 全雙工,可以<strong>出入</strong>兩邊都通,俾 public subnet 直接上網 + 外網連入</li>
+  <li><strong>NAT Gateway (NATGW)</strong> = <strong>只出唔入</strong>,俾 private subnet 主動出網,但外網入唔到嚟</li>
+</ul>
+
+<h3>10.2 Internet Gateway</h3>
+<ul>
+  <li>VPC-level 資源,<strong>免費</strong></li>
+  <li>要做安全過濾靠 SG / NACL(IGW 本身冇 filtering)</li>
+  <li>要 instance 上網:subnet route table 有 <code>0.0.0.0/0 → igw-xxx</code> + instance 有 <strong>public IP</strong> + SG 允許出站</li>
+  <li>冇 public IP 嘅 instance 就算有 route 都出入唔到</li>
+</ul>
+
+<h3>10.3 NAT Gateway</h3>
+<ul>
+  <li><strong>托管服務</strong>,有 <strong>Elastic IP</strong>,按 <strong>小時 + 流量</strong> 收費</li>
+  <li>放喺 <strong>public subnet</strong>;private subnet 用 route <code>0.0.0.0/0 → nat-xxx</code></li>
+  <li><strong>只撐 outbound</strong>:private instance 冇 public IP 都出到網,但外網唔可以主動連入</li>
+  <li><strong>高可用</strong>:NATGW 綁死一個 AZ;多 AZ 嘅話每個 AZ 各自放一個,否則嗰個 AZ 冧機就斷網</li>
+</ul>
+
+<h3>10.4 對比表</h3>
+<table>
+  <tr><th></th><th>Internet Gateway</th><th>NAT Gateway</th></tr>
+  <tr><td>用途</td><td>public subnet 出入互聯網</td><td>private subnet 只出網</td></tr>
+  <tr><td>方向</td><td>出入(in/out)</td><td>只出(outbound)</td></tr>
+  <tr><td>收費</td><td>免費</td><td>EIP + 小時 + 流量</td></tr>
+  <tr><td>放置</td><td>VPC</td><td>public subnet</td></tr>
+  <tr><td>要 public IP?</td><td>係</td><td>唔使(private instance)</td></tr>
+  <tr><td>外網入嚟</td><td>✅ 可以</td><td>❌ 唔得</td></tr>
+</table>
+
+<div class="callout exam"><h4>📝 考試場景</h4>
+EC2 要裝 package / call API 但唔想暴露 → private subnet + <strong>NAT Gateway</strong>。<br>
+Web server / ALB 要接受外網請求 → public subnet + <strong>IGW</strong>。<br>
+多 AZ 高可用 → 每個 AZ 一個 NATGW。
+</div>
+
+<!-- ================= S11 ================= -->
+<h2 id="s11"><span class="num">11</span>Security Group vs NACL — 兩層防線</h2>
+
+<h3>11.1 一句分清楚</h3>
+<ul>
+  <li><strong>SG = Instance / ENI 級</strong>防火牆:<strong>有狀態 (stateful)</strong></li>
+  <li><strong>NACL = Subnet 邊界</strong>防火牆:<strong>無狀態 (stateless)</strong></li>
+</ul>
+
+<h3>11.2 Security Group</h3>
+<ul>
+  <li><strong>有狀態</strong>:出咗去嘅 request,response 自動 allow,唔使自己寫 inbound return rule</li>
+  <li>預設 <strong>Deny all</strong>,只可以寫 <strong>Allow</strong>(冇得寫 Deny)</li>
+  <li>可 attach 多部 instance;instance 可掛多個 SG(並集生效)</li>
+  <li>Rule 冇 order,全部一齊 evaluate</li>
+  <li><strong>SG reference</strong>:可以引用另一個 SG ID 而唔使寫死 IP(好好用)</li>
+</ul>
+
+<h3>11.3 Network ACL</h3>
+<ul>
+  <li><strong>無狀態</strong>:inbound 同 outbound 要<strong>分開寫</strong>,漏寫 return rule 就唔通 ← 最常見考試坑</li>
+  <li>預設 <strong>Allow all</strong>;可以寫 <strong>Allow 同 Deny</strong></li>
+  <li><strong>有優先次序</strong>:由 number 細嘅 rule 開始,第一條 hit 就採用(precedence)</li>
+  <li>Attach 到 <strong>subnet</strong></li>
+  <li>好處:即時 block IP(黑名單),好啱做 DDoS 防護第一層</li>
+</ul>
+
+<h3>11.4 對比表</h3>
+<table>
+  <tr><th></th><th>Security Group</th><th>Network ACL</th></tr>
+  <tr><td>層級</td><td>Instance / ENI</td><td>Subnet</td></tr>
+  <tr><td>狀態</td><td><strong>Stateless? 唔係,Stateful</strong></td><td><strong>Stateless</strong></td></tr>
+  <tr><td>Allow / Deny</td><td>只 Allow</td><td>Allow + Deny</td></tr>
+  <tr><td>Rule 順序</td><td>冇 order</td><td>有 number 優先</td></tr>
+  <tr><td>預設</td><td>Deny all</td><td>Allow all</td></tr>
+</table>
+
+<div class="callout trap"><h4>⚠️ 考試陷阱</h4>
+「返回流量被擋」→ 一定係 <strong>NACL</strong> 寫漏 outbound rule(SG 唔會犯呢個錯)。<br>
+「即時 block IP 做黑名單」→ <strong>NACL</strong>。<br>
+實戰組合:SG 做 instance 層精細控制,<strong>NACL 做 subnet 層粗粒度關閘</strong>;兩者都要 allow 先放行。
+</div>
+
+<!-- ================= S12 ================= -->
+<h2 id="s12"><span class="num">12</span>AWS Config vs CloudTrail vs SCP — 三兄弟</h2>
+
+<h3>12.1 一句分清楚</h3>
+<ul>
+  <li><strong>AWS Config</strong> = 睇「而家環境符唔符合規矩」:資源 inventory + 合規檢查 + 變更歷史</li>
+  <li><strong>CloudTrail</strong> = 睇「邊個喺幾時做咗啲咩」:API 動作日誌</li>
+  <li><strong>SCP</strong> = 唔係睇,係<strong>管</strong>:喺 Organizations 層面限制成員帳號「做得到啲咩」</li>
+</ul>
+
+<h3>12.2 AWS Config(狀態 / 合規)</h3>
+<ul>
+  <li>記錄全部資源組態(instance type、tag、SG rules、bucket policy…)+ 變更歷史(Config Timeline)</li>
+  <li>用 Managed Rules / 自訂 Lambda rule 自動檢查:例如「所有 S3 都要加密」「EC2 要有 tag」「EBS 要 encrypt」</li>
+  <li>配合 Config Timeline 可以重構「某資源喺某時間係咩樣」→ 事後調查神器</li>
+</ul>
+
+<h3>12.3 CloudTrail(動作 / 誰做了什麼)</h3>
+<ul>
+  <li>記錄每個 AWS API call:<strong>邊個、幾時、咩 action、對邊個資源、來源 IP</strong></li>
+  <li>Event history 免費 90 日;要長期保留就開 <strong>Trail → S3 / CloudWatch</strong></li>
+  <li>用嚟:forensics、「誰刪咗個 bucket」、合規 audit</li>
+</ul>
+
+<h3>12.4 SCP(限權 / 治理)</h3>
+<ul>
+  <li>掛喺 Organizations 嘅 OU / 帳號層級</li>
+  <li><strong>唔 grant 權限</strong>,只 allow + deny;白名單思維</li>
+  <li>例子:deny <code>ec2:StopInstances</code> 喺 production OU;限制 region;deny root 登入</li>
+  <li>即使 IAM policy allow,SCP deny 就係 deny</li>
+</ul>
+
+<h3>12.5 對比</h3>
+<table>
+  <tr><th></th><th>做啲咩</th><th>類型</th><th>層級</th></tr>
+  <tr><td><strong>CloudTrail</strong></td><td>記錄 API 動作(邊個做咗咩)</td><td>監察</td><td>Account</td></tr>
+  <tr><td><strong>AWS Config</strong></td><td>資源狀態 + 合規檢查</td><td>監察</td><td>Resource</td></tr>
+  <tr><td><strong>SCP</strong></td><td>限制成員帳號能力</td><td>治理/限制</td><td>Organizations OU</td></tr>
+</table>
+
+<div class="callout trap"><h4>⚠️ 判斷口訣</h4>
+「刪咗 S3 bucket 係邊個做」→ <strong>CloudTrail</strong>(講動作/事件)。<br>
+「環境合唔合規、有冇 public bucket、有冇 encrypt」→ <strong>AWS Config</strong>(講狀態/規則)。<br>
+「限制某 OU 唔准開某服務 / root login」→ <strong>SCP</strong>(講限制/deny)。<br>
+詳細到 IAM user 層嘅權限 → <strong>IAM policy</strong>,唔係 SCP。
+</div>
+
+<!-- ================= S13 ================= -->
+<h2 id="s13"><span class="num">13</span>三劍合璧 — Config + CloudTrail + GuardDuty</h2>
+<p>三樣一齊用先係完整嘅「安全監察 + 合規 + 異常偵測」方案:</p>
+
+<h3>13.1 各司其職</h3>
+<table>
+  <tr><th>服務</th><th>做咩</th><th>專攻</th></tr>
+  <tr><td><strong>CloudTrail</strong></td><td>記錄所有 API 動作</td><td>事件 / 動作日誌</td></tr>
+  <tr><td><strong>AWS Config</strong></td><td>資源狀態 + 合規</td><td>環境狀態 / 合規</td></tr>
+  <tr><td><strong>GuardDuty</strong></td><td>智能偵測威脅異常</td><td>異常 + 入侵</td></tr>
+</table>
+<blockquote>口訣:<strong>CloudTrail 記「動作」,Config 記「狀態」,GuardDuty 記「壞嘢」。</strong></blockquote>
+
+<h3>13.2 成套做法</h3>
+<ol>
+  <li><strong>中央集中</strong>:三個都輸出到中央 Security / Log Archive 帳號(CloudTrail → S3 長期保留)</li>
+  <li><strong>聚合</strong>:GuardDuty findings + Config 不合規 → 自動聚合上 <strong>Security Hub</strong></li>
+  <li><strong>告警 / 自動補救</strong>:Security Hub + EventBridge → SNS / Lambda 告警;Config <strong>Remediation</strong>(SSM Automation)自動修正不合規資源</li>
+  <li><strong>事後調查</strong>:GuardDuty 話你邊個異常 → CloudTrail 循返痕跡 → Config 睇事發時資源狀態 → 完整 timeline</li>
+</ol>
+
+<div class="flow">所有帳號 ── CloudTrail / Config / GuardDuty ──▶ 中央 Security/Log Archive 帳號
+                                                          │
+                                             Security Hub(聚合 findings + 合規)
+                                                          │
+                                        EventBridge ─┬─ SNS(告警)
+                                                     └─ Lambda(自動補救)</div>
+
+<div class="callout exam"><h4>📝 高頻組合題</h4>
+① GuardDuty 偵測異常 → 背後其實<strong>靠 CloudTrail 供應嘅 API 活動數據</strong>。<br>
+② 檢查「encrypted / public bucket」→ <strong>Config</strong>;GuardDuty 係睇「陌生 IP 爆破、挖礦、port scan」呢類異常。<br>
+③ 三樣都要<strong>開晒先有用</strong>:CloudTrail 全 region + multi-account;Config 全 region + 揀好 rules;GuardDuty per account 開。<br>
+④ 常見 finding type:<code>UnauthorizedAccess:EC2/TorClient</code>、<code>CryptoCurrency:EC2/BitcoinTool</code>。
+</div>
+
+<footer>
+  <p>📖 本筆記由 <strong>Hermes Agent</strong> 整理 — Alfred 嘅 AWS Solutions Architect 備考系列 · 2026-08-27</p>
+  <p>內容基於官方文件與實戰經驗,僅供學習用途。</p>
+</footer>
+
+</div>
+</body>
+</html>
