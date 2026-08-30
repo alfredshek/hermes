@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AWS Solutions Architect 學習筆記 — 33 個核心概念詳解 | Blog</title>
+<title>AWS Solutions Architect 學習筆記 — 17 個核心概念詳解 | Blog</title>
 <style>
   :root{
     --bg:#0f172a; --panel:#1e293b; --panel2:#273449; --fg:#e2e8f0; --muted:#94a3b8;
@@ -61,11 +61,11 @@
 <div class="wrap">
 
 <header class="hero">
-  <h1>☁️ AWS Solutions Architect 學習筆記<br>從零到一嘅 13 個核心主題</h1>
+  <h1>☁️ AWS Solutions Architect 學習筆記<br>從零到一嘅 17 個核心主題</h1>
   <p>由 Hermes 同 Alfred 嘅溫習對話整理而成 — 涵蓋治理、網絡、安全、容器與無伺服器架構</p>
   <div class="meta">
-    <span>📅 2026-08-27</span>
-    <span>📚 13 個主題</span>
+    <span>📅 2026-08-27(更新)</span>
+    <span>📚 17 個主題</span>
     <span>🎯 目標: AWS Solutions Architect 認證</span>
     <span>🤖 協作: Hermes Agent × Alfred</span>
   </div>
@@ -87,6 +87,10 @@
     <li><a href="#s11">Security Group vs NACL — 兩層防線</a></li>
     <li><a href="#s12">AWS Config vs CloudTrail vs SCP — 三兄弟</a></li>
     <li><a href="#s13">三劍合璧 — Config + CloudTrail + GuardDuty</a></li>
+    <li><a href="#s14">CloudFormation 卡住 / Timeout 排查</a></li>
+    <li><a href="#s15">AWS Storage Gateway — 混合雲儲存</a></li>
+    <li><a href="#s16">EC2 可以用 Storage Gateway 嗎?</a></li>
+    <li><a href="#s17">Secrets Manager vs SSM Parameter Store</a></li>
   </ol>
 </div>
 
@@ -629,6 +633,111 @@ Web server / ALB 要接受外網請求 → public subnet + <strong>IGW</strong>�
 ② 檢查「encrypted / public bucket」→ <strong>Config</strong>;GuardDuty 係睇「陌生 IP 爆破、挖礦、port scan」呢類異常。<br>
 ③ 三樣都要<strong>開晒先有用</strong>:CloudTrail 全 region + multi-account;Config 全 region + 揀好 rules;GuardDuty per account 開。<br>
 ④ 常見 finding type:<code>UnauthorizedAccess:EC2/TorClient</code>、<code>CryptoCurrency:EC2/BitcoinTool</code>。
+</div>
+
+<!-- ================= S14 ================= -->
+<h2 id="s14"><span class="num">14</span>CloudFormation 卡住 / Timeout 排查</h2>
+<p>Stack 卡喺 <code>CREATE_IN_PROGRESS</code> / <code>UPDATE_IN_PROGRESS</code> 好耐繼而 timeout,通常唔係即時報錯,而係「靜靜咁等緊啲嘢」。必做第一步:<strong>睇 Stack Events</strong>。</p>
+<pre><code>aws cloudformation describe-stack-events --stack-name my-stack \
+  --query "StackEvents[?ResourceStatus=='CREATE_FAILED'||ResourceStatus=='UPDATE_FAILED']"</code></pre>
+<ul>
+  <li>搵「卡住嗰個資源」+ 佢嘅 <strong>Status reason</strong>,真相九成喺度</li>
+</ul>
+
+<h3>14.1 最常見原因(由熱門排起)</h3>
+<table>
+  <tr><th>原因</th><th>點解會卡</th><th>點查</th></tr>
+  <tr><td><strong>CreationPolicy / WaitCondition + cfn-signal</strong></td><td>EC2 冇送「報平安」signal,CFN 一路等到 timeout</td><td><code>/var/log/cloud-init-output.log</code>、<code>/var/log/cfn-init.log</code>;user data script 有冇 crash</td></tr>
+  <tr><td><strong>ASG + ELB health check 唔過</strong></td><td>instance 一直 unhealthy,等唔到 MinInService</td><td>Target group health check path/port</td></tr>
+  <tr><td><strong>Custom Resource(Lambda)timeout</strong></td><td>Lambda 冇喺限定時間內 send response 俾 CFN</td><td>Lambda timeout 設定 + CloudWatch Logs</td></tr>
+  <tr><td><strong>IAM / Service Role 權限不足</strong></td><td>冇權限建資源(偶爾拖到 timeout 先現形)</td><td>Event 有冇 <code>AccessDenied / not authorized</code></td></tr>
+  <tr><td><strong>配額 / 依賴卡住</strong></td><td>EIP 配額爆、Subnet 冇位、Nested Stack child 卡死</td><td>檢查配額、child stack 狀態</td></tr>
+</table>
+
+<div class="callout exam"><h4>📝 考試最愛問</h4>
+「EC2 建嗰陣 stack 卡喺 CREATE_IN_PROGRESS 然後 timeout」→ 十之八九係 <strong>cfn-signal 未送到</strong>(CreationPolicy/WaitCondition)。答案方向:檢查 user data / cfn-init script、加長 timeout、確保 signal 送達。
+</div>
+
+<!-- ================= S15 ================= -->
+<h2 id="s15"><span class="num">15</span>AWS Storage Gateway — 混合雲儲存</h2>
+<p><strong>Storage Gateway</strong> = 連接「on-premises ↔ 雲」嘅儲存橋樑:本地照用標準協定(<strong>SMB / NFS / iSCSI / VTL</strong>),底層數據其實存喺 AWS。<strong>本地睇落似網絡磁碟,實際儲喺雲。</strong></p>
+
+<h3>15.1 三種 Gateway</h3>
+<table>
+  <tr><th>類型</th><th>協定</th><th>雲端底層</th><th>用途</th></tr>
+  <tr><td><strong>File Gateway</strong></td><td>NFS / SMB</td><td>S3(每份檔案 = 一個 object)</td><td>檔案伺服器上雲、data lake 入口</td></tr>
+  <tr><td><strong>Volume Gateway — Stored</strong></td><td>iSCSI</td><td>S3 + EBS snapshot(成個 dataset 喺本地,異步備份)</td><td>本地大容量 + 雲備份</td></tr>
+  <tr><td><strong>Volume Gateway — Cached</strong></td><td>iSCSI</td><td>S3 + EBS snapshot(數據喺雲,本地得 cache)</td><td>慳本地空間</td></tr>
+  <tr><td><strong>Tape Gateway</strong></td><td>iSCSI(VTL 虛擬磁帶庫)</td><td>S3 / S3 Glacier</td><td>備份歸檔(Veeam、NetBackup)</td></tr>
+  <tr><td>(+) FSx File Gateway</td><td>SMB</td><td>Amazon FSx for Windows</td><td>本地快取嘅 FSx 存取</td></tr>
+</table>
+
+<h3>15.2 部署形態</h3>
+<ul>
+  <li>虛擬機:<strong>VMware ESXi / Hyper-V / KVM</strong></li>
+  <li><strong>Storage Gateway Hardware Appliance</strong>:實體機,俾冇 virtualization 嘅 site</li>
+</ul>
+
+<div class="callout exam"><h4>📝 考試選場景</h4>
+① on-prem file server 上雲但唔想改 SMB/NFS → <strong>File Gateway</strong>。<br>
+② 完整 dataset 要喺本地 + 異步備份上雲 → <strong>Volume Gateway(Stored)</strong>。<br>
+③ 本地空間有限,熱數據快、冷數據上雲 → <strong>Volume Gateway(Cached)</strong>。<br>
+④ tape backup 軟件無痛轉 S3/Glacier → <strong>Tape Gateway</strong>。
+</div>
+
+<!-- ================= S16 ================= -->
+<h2 id="s16"><span class="num">16</span>EC2 可以用 Storage Gateway 嗎?</h2>
+<p><strong>EC2 自己嘅硬盤用 EBS,唔需要 Storage Gateway</strong> —— 後者係為 on-premises 設計。但有三種情況會扯上關係:</p>
+<ul>
+  <li><strong>Gateway 本身行喺 EC2</strong>:AWS 提供 Storage Gateway AMI,可以直接開 EC2 instance 做 gateway(測試 / 雲端 file gateway pattern 常見)</li>
+  <li><strong>EC2 mount File Gateway 嘅 share</strong>:可行但好少用 —— EC2 直接 S3 SDK / EFS 更簡單</li>
+  <li><strong>備份 target</strong>:EC2 嘅備份軟件寫入 Tape Gateway VTL → S3/Glacier</li>
+</ul>
+<table>
+  <tr><th>EC2 儲存需求</th><th>應該用</th></tr>
+  <tr><td>系統盤 / 區塊存儲</td><td><strong>EBS</strong></td></tr>
+  <tr><td>共享檔案系統</td><td><strong>EFS</strong>(Linux)/ <strong>FSx</strong>(Windows)</td></tr>
+  <tr><td>大容量物件儲存</td><td><strong>S3</strong></td></tr>
+  <tr><td>高吞吐暫存</td><td>Instance Store / EBS io2</td></tr>
+  <tr><td>Hybrid 橋樑</td><td>Storage Gateway(通常配 on-prem)</td></tr>
+</table>
+<div class="callout trap"><h4>⚠️ 考試判斷</h4>
+「EC2 用 Storage Gateway 代替 EBS」係<strong>錯誤選項</strong>。Storage Gateway 係 hybrid(雲+本地)架構用;純雲環境唔需要佢。
+</div>
+
+<!-- ================= S17 ================= -->
+<h2 id="s17"><span class="num">17</span>Secrets Manager vs SSM Parameter Store</h2>
+<p><strong>Secrets Manager = 為「會流動嘅 secrets」設計(自動輪換);Parameter Store = 輕量「設定 + secrets」雜物櫃(基本免費)</strong>。</p>
+
+<h3>17.1 Secrets Manager</h3>
+<ul>
+  <li><strong>自動 Rotation(輪換)</strong>:Lambda + 內建 rotation,原生支援 <strong>RDS / Redshift / DocumentDB</strong> 等 → 招牌功能</li>
+  <li><strong>Multi-Region replica</strong>:secret 一鍵同步多 region</li>
+  <li><strong>CloudTrail 記錄到 secret 級</strong> + 刪除有 <strong>7-30 日 recovery window</strong></li>
+  <li>收費:每個 secret ~$0.4/月 + API call;上限 <strong>64 KB</strong></li>
+</ul>
+
+<h3>17.2 SSM Parameter Store</h3>
+<ul>
+  <li>係 <strong>AWS Systems Manager</strong> 嘅功能,唔係獨立服務</li>
+  <li>String / StringList / <strong>SecureString(KMS 加密)</strong></li>
+  <li><strong>分層路徑</strong>:<code>/prod/rds/password</code>、<code>/dev/rds/password</code>,按 path 管理</li>
+  <li><strong>Standard 免費</strong>(4KB);Advanced(8KB、policy)先收費</li>
+  <li><strong>冇內建 rotation</strong>(要自己 Lambda + EventBridge);冇 recovery window</li>
+</ul>
+
+<h3>17.3 對比 + 選擇口訣</h3>
+<table>
+  <tr><th></th><th>Secrets Manager</th><th>Parameter Store</th></tr>
+  <tr><td>自動 rotation</td><td>✅ 內建</td><td>❌ 自己搞</td></tr>
+  <tr><td>收費</td><td>💵 按 secret + API</td><td>✅ Standard 免費</td></tr>
+  <tr><td>最大 size</td><td>64 KB</td><td>4KB / 8KB(Advanced)</td></tr>
+  <tr><td>多 region 同步</td><td>✅</td><td>❌</td></tr>
+  <tr><td>刪除恢復</td><td>✅ 7-30 日</td><td>❌</td></tr>
+  <tr><td>分層路徑</td><td>❌</td><td>✅</td></tr>
+</table>
+<div class="callout key"><h4>✅ 口訣</h4>
+「要自動輪換 DB 密碼」→ <strong>Secrets Manager</strong>。「要免費存環境設定 / AMI ID / 細 secrets」→ <strong>Parameter Store</strong>。「跨 region 同步 / 怕誤刪 / 要 audit」→ <strong>Secrets Manager</strong>。兩者都用 KMS 加密(SecureString / secrets 內容)。
 </div>
 
 <footer>
