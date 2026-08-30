@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevOps 學習筆記 — 17 個核心概念詳解 | Blog</title>
+<style>
+  :root{
+    --bg:#0f172a; --panel:#1e293b; --panel2:#273449; --fg:#e2e8f0; --muted:#94a3b8;
+    --accent:#38bdf8; --accent2:#a78bfa; --ok:#4ade80; --warn:#fbbf24; --bad:#f87171;
+    --border:#334155; --code:#0b1120;
+  }
+  *{box-sizing:border-box}
+  html{background-color:#0f172a}
+  body{margin:0;font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+       background:#0f172a;background:var(--bg);color:#e2e8f0;color:var(--fg);line-height:1.75;font-size:16px}
+  .wrap{max-width:900px;margin:0 auto;padding:32px 20px 80px}
+  header.hero{background:linear-gradient(135deg,#0ea5e9 0%,#6366f1 55%,#a855f7 100%);
+       border-radius:20px;padding:40px 36px;color:#fff;margin-bottom:36px;
+       box-shadow:0 10px 40px rgba(56,189,248,.25)}
+  header.hero h1{margin:0 0 8px;font-size:2.1rem;line-height:1.3;letter-spacing:.5px}
+  header.hero p{margin:0;opacity:.92;font-size:1.05rem}
+  .meta{display:flex;gap:14px;flex-wrap:wrap;margin-top:18px;font-size:.85rem}
+  .meta span{background:rgba(255,255,255,.16);padding:4px 12px;border-radius:999px;backdrop-filter:blur(4px)}
+  h2{font-size:1.55rem;color:var(--accent);margin:52px 0 14px;padding-bottom:8px;border-bottom:2px solid var(--border)}
+  h2 .num{display:inline-block;background:var(--accent);color:#0f172a;border-radius:8px;
+       font-size:1rem;width:32px;height:32px;line-height:32px;text-align:center;margin-right:10px;font-weight:700}
+  h3{font-size:1.15rem;color:var(--accent2);margin:28px 0 10px}
+  p{margin:10px 0}
+  ul,ol{margin:8px 0 16px;padding-left:26px}
+  li{margin:6px 0}
+  strong{color:#fff}
+  code{background:var(--code);border:1px solid var(--border);border-radius:6px;padding:2px 7px;
+       font-family:"SF Mono","Menlo",monospace;font-size:.86em;color:#7dd3fc}
+  pre{background:var(--code);border:1px solid var(--border);border-radius:12px;padding:16px 18px;
+      overflow-x:auto;font-family:"SF Mono","Menlo",monospace;font-size:.86rem;line-height:1.6;color:#a5f3fc}
+  pre code{background:none;border:none;padding:0;color:inherit}
+  table{width:100%;border-collapse:collapse;margin:14px 0 20px;font-size:.92rem;background:var(--panel);border-radius:10px;overflow:hidden}
+  th{background:var(--panel2);color:#fff;text-align:left;padding:10px 14px;font-weight:600;border-bottom:2px solid var(--border)}
+  td{padding:9px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  .callout{border-radius:12px;padding:14px 18px;margin:18px 0;border-left:5px solid;font-size:.95rem}
+  .callout.exam{border-color:var(--warn);background:rgba(251,191,36,.08)}
+  .callout.key{border-color:var(--ok);background:rgba(74,222,128,.08)}
+  .callout.trap{border-color:var(--bad);background:rgba(248,113,113,.08)}
+  .callout h4{margin:0 0 8px;font-size:1rem}
+  .callout.exam h4{color:var(--warn)} .callout.key h4{color:var(--ok)} .callout.trap h4{color:var(--bad)}
+  .toc{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px 26px;margin-bottom:8px}
+  .toc h3{margin-top:0}
+  .toc a{color:var(--accent);text-decoration:none}
+  .toc a:hover{text-decoration:underline}
+  .toc ol{margin:0;columns:2;column-gap:40px}
+  .toc li{margin:5px 0;font-size:.93rem;break-inside:avoid}
+  .flow{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px 18px;
+        font-family:"SF Mono","Menlo",monospace;font-size:.85rem;white-space:pre;overflow-x:auto;color:#c4b5fd;margin:12px 0}
+  footer{margin-top:64px;padding-top:20px;border-top:2px solid var(--border);color:var(--muted);font-size:.85rem;text-align:center}
+  @media(max-width:640px){ .toc ol{columns:1} header.hero h1{font-size:1.6rem} }
+  .btop{display:inline-block;margin:20px 0 6px;color:var(--accent);text-decoration:none;
+       font-size:.88rem;border:1px solid var(--border);padding:6px 16px;border-radius:999px;
+       background:var(--panel);transition:.15s}
+  .btop:hover{border-color:var(--accent);background:var(--panel2)}
+</style>
+</head>
+<body id="top" style="background-color:#0f172a;color:#e2e8f0">
+<div class="wrap">
+
+<header class="hero">
+  <h1>⚙️ DevOps 學習筆記<br>從零到一嘅 17 個核心主題</h1>
+  <p>由 Hermes 同 Alfred 整理 — 涵蓋 CI/CD、容器、Kubernetes、IaC、監控、GitOps 與 SRE</p>
+  <div class="meta">
+    <span>📅 2026-08-30</span>
+    <span>📚 17 個主題</span>
+    <span>🎯 領域: DevOps / SRE</span>
+    <span>🤖 協作: Hermes Agent × Alfred</span>
+  </div>
+</header>
+
+<div class="toc">
+  <h3>📑 目錄</h3>
+  <ol>
+    <li><a href="#s1">CI/CD 核心概念 — 持續整合與交付</a></li>
+    <li><a href="#s2">GitHub Actions — Pipeline as Code</a></li>
+    <li><a href="#s3">Jenkins — 經典 CI 伺服器</a></li>
+    <li><a href="#s4">Docker 基礎 — Image 與 Container</a></li>
+    <li><a href="#s5">Kubernetes 基礎 — 核心物件</a></li>
+    <li><a href="#s6">K8s 部署策略 — Rolling 到 Canary</a></li>
+    <li><a href="#s7">Helm — K8s 套件管理</a></li>
+    <li><a href="#s8">Terraform — 基礎設施即代碼</a></li>
+    <li><a href="#s9">Ansible — 配置管理</a></li>
+    <li><a href="#s10">AWS DevOps 服務總覽</a></li>
+    <li><a href="#s11">監控與可觀測性 — SLO/SLI</a></li>
+    <li><a href="#s12">日誌與追蹤實務</a></li>
+    <li><a href="#s13">GitOps — Git 係唯一真相</a></li>
+    <li><a href="#s14">Secrets 管理</a></li>
+    <li><a href="#s15">DevSecOps — 安全左移</a></li>
+    <li><a href="#s16">SRE 概念 — 用工程做營運</a></li>
+    <li><a href="#s17">12-Factor App — 雲原生設計原則</a></li>
+  </ol>
+</div>
+
+<!-- ================= S1 ================= -->
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s1"><span class="num">1</span>CI/CD 核心概念 — 持續整合與交付</h2>
+<p><strong>CI/CD 係 DevOps 嘅引擎</strong>:用自動化將「寫 code」到「上線」嘅過程標準化,令每次變更都快速、可重複、可驗證。</p>
+
+<h3>1.1 CI 與 CD 嘅分別</h3>
+<table>
+  <tr><th></th><th>CI(持續整合)</th><th>CD(持續交付 / 部署)</th></tr>
+  <tr><td>做啲咩</td><td>每次 commit 自動 <strong>build + test</strong></td><td>自動 <strong>deploy</strong> 到環境(甚至生產)</td></tr>
+  <tr><td>目標</td><td>問題早發現,唔好堆到 release 先爆</td><td>任何 commit 都可以安全上線</td></tr>
+  <tr><td>產出</td><td>可驗證嘅 build / artifact</td><td>已部署 + 已驗證嘅環境</td></tr>
+</table>
+
+<h3>1.2 Pipeline 典型階段</h3>
+<div class="flow">Source → Build → Test → (Artifact) → Deploy → (Verify / Post-deploy)
+ │          │        │              │
+ │          │        └─ unit / integration / e2e
+ │          └─ compile + container image
+ └─ git push / PR merge 觸發</div>
+<ul>
+  <li><strong>Artifact 要 immutable</strong>:每個 build 有唯一版本號,之後唔改 — 先可以精準回滾</li>
+  <li><strong>Verify 階段</strong>(smoke test / health check / canary analysis)係 CD 嘅靈魂,冇 verify 嘅 deploy 等於盲賭</li>
+</ul>
+
+<h3>1.3 分支策略</h3>
+<ul>
+  <li><strong>Trunk-based</strong>:短命 feature branch,一日內 merge 返 main → CI 首選,配合 feature flag</li>
+  <li><strong>GitFlow</strong>:develop / release / hotfix 多層分支 → 大型 release 週期、嚴謹發布流程用</li>
+</ul>
+<div class="callout trap"><h4>⚠️ 常見陷阱</h4>
+「build 咗好耐,到 release 前一日先發現整合錯」= CI 冇做好。正確做法係每次 push 都跑,壞咗即刻知、即刻修。
+</div>
+
+<!-- ================= S2 ================= -->
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s2"><span class="num">2</span>GitHub Actions — Pipeline as Code</h2>
+<p><strong>GitHub Actions 將 CI/CD 直接嵌入 GitHub</strong>:workflow 係 YAML 檔案,放喺 repo 入面,版本化、可 review、可重用。</p>
+
+<h3>2.1 Workflow 基本結構</h3>
+<ul>
+  <li>位置:<code>.github/workflows/</code>,一個 YAML = 一個 workflow</li>
+  <li>Trigger 靠 <strong>events</strong>:<code>push</code> / <code>pull_request</code> / <code>schedule</code> / <code>workflow_dispatch</code>(手動)等</li>
+  <li><strong>Runner</strong>:GitHub-hosted(ubuntu / windows / macos,有月用量上限)vs <strong>self-hosted</strong>(自己機器,可食 cache、慳錢,但要自己維護 + 有安全風險)</li>
+</ul>
+
+<h3>2.2 關鍵語法</h3>
+<table>
+  <tr><th>關鍵詞</th><th>作用</th></tr>
+  <tr><td><code>uses</code></td><td>引用現成 action(如 <code>actions/checkout@v4</code>)</td></tr>
+  <tr><td><code>run</code></td><td>直接行 shell 指令</td></tr>
+  <tr><td><code>needs</code></td><td>job 之間嘅依賴(排先後)</td></tr>
+  <tr><td><code>matrix</code></td><td>一個 job 多版本並行(如 Node 18/20/22)</td></tr>
+  <tr><td><code>concurrency</code></td><td>防止同一個 workflow 重複跑(新 push 殺舊 job)</td></tr>
+  <tr><td><code>if</code> / <code>continue-on-error</code></td><td>條件執行 / 容錯</td></tr>
+</table>
+
+<h3>2.3 Secrets 處理</h3>
+<ul>
+  <li>用 <code>${{ secrets.XXX }}</code>,設定放 repo / org settings,<strong>唔好硬編碼喺 YAML</strong></li>
+</ul>
+<div class="callout trap"><h4>⚠️ Fork PR 陷阱</h4>
+<code>pull_request</code> 事件嘅 workflow 預設<strong>唔會</strong>收到 secrets(fork 可以改 workflow 偷 secret)。要畀 fork PR 用 secrets 就要 <code>pull_request_target</code> — 但嗰個係喺 base branch 環境跑,有 <strong>code injection</strong> 風險,要極小心。
+</div>
+
+<!-- ================= S3 ================= -->
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s3"><span class="num">3</span>Jenkins — 經典 CI 伺服器</h2>
+<p><strong>Jenkins 係自托管 CI 嘅老大哥</strong>:自己裝、自己維護,plugin 生態超龐大,好多大型企業 legacy pipeline 都係佢。</p>
+
+<h3>3.1 架構</h3>
+<ul>
+  <li><strong>Master / Controller</strong>:排 job、管設定、派工作</li>
+  <li><strong>Agents</strong>:真正執行 build / test 嘅機器,可以 scale out</li>
+  <li>Pipeline as Code 用 <strong>Jenkinsfile</strong>:Declarative(易讀、結構化)vs Scripted(靈活、似 Groovy code)</li>
+</ul>
+
+<h3>3.2 vs GitHub Actions</h3>
+<table>
+  <tr><th></th><th>Jenkins</th><th>GitHub Actions</th></tr>
+  <tr><td>托管</td><td>自己 server</td><td>GitHub 托管(或 self-hosted)</td></tr>
+  <tr><td>設定</td><td>UI + Jenkinsfile</td><td>YAML 喺 repo</td></tr>
+  <tr><td>生態</td><td>~1800 個 plugin,乜都有</td><td>Marketplace + 社群 action</td></tr>
+  <tr><td>維護成本</td><td>高(upgrade / plugin 相容)</td><td>低</td></tr>
+  <tr><td>整合</td><td>要 plugin 先連到 GitHub</td><td>原生深度整合</td></tr>
+</table>
+<div class="callout trap"><h4>⚠️ 注意</h4>
+Jenkins <strong>Master 單點故障</strong> → 要 controller 備份 + agents 分散;plugin 升級前一定要喺 test 環境試,plugin 撞 plugin 係 Jenkins 最大死因。
+</div>
+
+<!-- ================= S4 ================= -->
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s4"><span class="num">4</span>Docker 基礎 — Image 與 Container</h2>
+<p><strong>Docker 令「喺我部機行到」變成「喺邊度都行到」</strong>:包埋 runtime 環境,開發、測試、生產一致。</p>
+
+<h3>4.1 Image vs Container</h3>
+<ul>
+  <li><strong>Image</strong> = 唯讀模板,一層層疊起(每行 Dockerfile = 一層,有 cache)</li>
+  <li><strong>Container</strong> = image 嘅執行實例,runtime 加一層 writable layer</li>
+</ul>
+
+<h3>4.2 Dockerfile 重點</h3>
+<div class="flow">FROM node:20-alpine        ← base image(越細越好)
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci                  ← 先 copy 依賴清單再裝 → 層 cache 命中率高
+COPY . .
+EXPOSE 3000
+CMD ["node", "server.js"]</div>
+<ul>
+  <li><strong>Multi-stage build</strong>:第一 stage 有 compiler 負責 build,最後 stage 淨係 copy artifact 出嚟 → image 由 1GB 變 100MB</li>
+  <li>Layer 順序要諗:<code>COPY</code> 嘅檔案愈少變,愈早放 → cache 命中愈高</li>
+</ul>
+
+<h3>4.3 持久化與網絡</h3>
+<ul>
+  <li><strong>Volume</strong>(docker 管理,推薦)/ <strong>Bind mount</strong>(直接 host 路徑,開發用)</li>
+  <li>網絡:bridge(預設,container 互連)/ host / none</li>
+  <li><code>docker compose</code>:一條 YAML 起 multi-container(service / network / volume 全包)</li>
+  <li>Registry:Docker Hub / ECR / GHCR</li>
+</ul>
+<div class="callout trap"><h4>⚠️ 陷阱</h4>
+Container 重啟之後,冇寫入 volume 嘅資料<strong>會消失</strong> — state 一定要出嚟(volume / DB)。另外 image 要<strong>掃描漏洞 + 簽名</strong>(見 S15)。
+</div>
+
+<!-- ================= S5 ================= -->
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s5"><span class="num">5</span>Kubernetes 基礎 — 核心物件</h2>
+<p><strong>K8s = 容器編排器</strong>:自動管理 container 嘅部署、scale、自我修復。</p>
+
+<h3>5.1 兩層架構</h3>
+<div class="flow">Control Plane                      Worker Nodes
+├── API Server (所有操作入口)      ├── kubelet (管 Pod)
+├── etcd (狀態儲存)                ├── kube-proxy (網絡規則)
+├── Scheduler (排 Pod 去邊)        └── container runtime (Docker/containerd)
+└── Controller Manager (修正 drift)</div>
+
+<h3>5.2 核心物件</h3>
+<table>
+  <tr><th>物件</th><th>作用</th></tr>
+  <tr><td><strong>Pod</strong></td><td>最小部署單位,1+ container 共享網絡同 storage</td></tr>
+  <tr><td><strong>Deployment</strong></td><td>管 ReplicaSet → 管 rollout / 回滾</td></tr>
+  <tr><td><strong>Service</strong></td><td>穩定入口:ClusterIP(內部)/ NodePort / LoadBalancer</td></tr>
+  <tr><td><strong>Ingress</strong></td><td>L7 路由(hostname / path → service)</td></tr>
+  <tr><td><strong>ConfigMap / Secret</strong></td><td>設定(非機密)/ 機密(base64 唔係加密!)</td></tr>
+  <tr><td><strong>Namespace</strong></td><td>邏輯隔離</td></tr>
+  <tr><td><strong>RBAC</strong></td><td>Role / ClusterRole + Binding 控制權限</td></tr>
+</table>
+
+<h3>5.3 Probes 與自動 scale</h3>
+<ul>
+  <li><strong>liveness</strong>:container 死咗 → 重啟</li>
+  <li><strong>readiness</strong>:未 ready → 唔派 traffic(rolling update 靠佢)</li>
+  <li><strong>startup</strong>:慢啟動保護(唔好俾 liveness 喺啟動期誤殺)</li>
+  <li><strong>HPA</strong>:CPU / memory / 自訂 metric 自動增減 Pod</li>
+</ul>
+<div class="callout trap"><h4>⚠️ 陷阱</h4>
+Pod 係 <strong>ephemeral</strong>,state 要放 volume / PVC;Secret 唔好放 ConfigMap 或者 commit 落 git。
+</div>
+
+<!-- ================= S6 ================= -->
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s6"><span class="num">6</span>K8s 部署策略 — Rolling 到 Canary</h2>
+<p><strong>揀部署策略 = 喺「速度」同「風險」之間揀</strong>。</p>
+
+<h3>6.1 五種策略對比</h3>
+<table>
+  <tr><th>策略</th><th>運作</th><th>Downtime</th><th>風險</th><th>適用</th></tr>
+  <tr><td><strong>RollingUpdate</strong></td><td>逐個換 Pod</td><td>無</td><td>中(冇版本並存)</td><td>預設,日常</td></tr>
+  <tr><td><strong>Recreate</strong></td><td>停晒再起</td><td>有</td><td>高</td><td>簡單環境 / 可接受停機</td></tr>
+  <tr><td><strong>Blue-Green</strong></td><td>兩套環境,一刀切 traffic</td><td>無</td><td>低(回滾即刻)</td><td>要即時回滾</td></tr>
+  <tr><td><strong>Canary</strong></td><td>5% → 漸升</td><td>無</td><td>最低</td><td>高風險 release</td></tr>
+  <tr><td><strong>A/B</strong></td><td>按 header / 用戶分流</td><td>無</td><td>低</td><td>測試功能、配合 service mesh</td></tr>
+</table>
+<div class="callout key"><h4>✅ 回滾</h4>
+<code>kubectl rollout undo deployment/xxx</code> 即刻回上一版。Canary 一定要 monitor 埋 error rate 先升百分比,唔好死衝 100%。
+</div>
+
+<!-- ================= S7 ================= -->
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s7"><span class="num">7</span>Helm — K8s 套件管理</h2>
+<p><strong>Helm = K8s 嘅「套件管理器」</strong>:將成個 app 嘅 K8s 資源打包成可重用、可參數化嘅 Chart。</p>
+
+<h3>7.1 Chart 結構</h3>
+<ul>
+  <li><code>Chart.yaml</code>(metadata)+ <code>values.yaml</code>(預設值)+ <code>templates/</code>(Go template 產生 YAML)</li>
+  <li>指令:<code>helm install</code> / <code>upgrade</code> / <code>rollback</code> / <code>uninstall</code></li>
+  <li><code>helm template</code> 本地 render 驗證;<code>helm lint</code> 檢查格式</li>
+  <li>Chart 可以放 OCI registry(ECR / GHCR)</li>
+</ul>
+
+<h3>7.2 Values 覆蓋層級(由高到低)</h3>
+<div class="flow">helm upgrade -f my-values.yaml --set image.tag=v2 my-app ./chart
+                    │                        │
+                    └─ -f file ＞ --set flag ＞ values.yaml 預設</div>
+<div class="callout trap"><h4>⚠️ 注意</h4>
+<code>helm upgrade</code> 前用 <code>helm diff</code> plugin 睇清楚改咗啲咩;要自動回滾就加 <code>--atomic</code>(失敗自動 rollback)。
+</div>
+
+<!-- ================= S8 ================= -->
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s8"><span class="num">8</span>Terraform — 基礎設施即代碼</h2>
+<p><strong>Terraform 用 HCL 描述「想要嘅狀態」</strong>,然後自動幫你建立 / 修改 / 刪除資源,多雲通殺。</p>
+
+<h3>8.1 工作流程</h3>
+<div class="flow">terraform init   ← 裝 provider
+terraform plan   ← 對比 state + 實際,預覽改動(免費睇)
+terraform apply  ← 執行改動
+terraform destroy ← 拆走所有資源</div>
+<ul>
+  <li><strong>State 檔案</strong>係命根:記錄「我哋管緊咩資源」— 冇咗 state = 唔知邊個資源係自己嘅</li>
+  <li><strong>Modules</strong> 重用邏輯;<strong>Workspaces</strong> / directory-per-env 做環境隔離</li>
+</ul>
+
+<h3>8.2 團隊使用鐵律</h3>
+<ul>
+  <li><strong>Remote state</strong>(S3 + DynamoDB lock / Terraform Cloud)→ 唔 lock 會互相 overwrite</li>
+  <li><strong>唔好 commit state 落 git</strong>(可能有 secrets,仲會撞 lock)</li>
+  <li>唔好手改 state / 手動改雲端資源 → 會 <strong>drift</strong>(實際 vs state 唔啱)</li>
+  <li>接管現有資源要用 <code>terraform import</code>,唔好「撞名重建」</li>
+</ul>
+
+<h3>8.3 vs CloudFormation</h3>
+<table>
+  <tr><th></th><th>Terraform</th><th>CloudFormation</th></tr>
+  <tr><td>雲支援</td><td>多雲(AWS/Azure/GCP/…)</td><td>淨係 AWS</td></tr>
+  <tr><td>State</td><td>✅ 有 state 檔案</td><td>❌ 冇(靠 stack)</td></tr>
+  <tr><td>生態</td><td>Community provider 海量</td><td>AWS 原生整合深</td></tr>
+  <tr><td>語言</td><td>HCL</td><td>YAML / JSON</td></tr>
+</table>
+
+<!-- ================= S9 ================= -->
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s9"><span class="num">9</span>Ansible — 配置管理</h2>
+<p><strong>Ansible = 用 SSH 直接推設定嘅配置管理工具</strong>,Agentless 係佢最大賣點。</p>
+
+<h3>9.1 點運作</h3>
+<ul>
+  <li><strong>Agentless</strong>:經 SSH push,目標機唔使裝 agent(對比 Puppet / Chef 要 agent + pull)</li>
+  <li>YAML playbook:<strong>Inventory</strong>(hosts)→ <strong>Playbook</strong> → <strong>Tasks</strong> → <strong>Modules</strong></li>
+  <li><strong>冪等(idempotent)</strong>:task 重跑一百次,結果一樣 — 先可以放心自動化</li>
+  <li>Handlers:task 狀態 changed 先觸發(例如改咗 config 先重啟 service);Jinja2 template 做動態設定</li>
+</ul>
+
+<h3>9.2 vs Terraform(好多人撈亂)</h3>
+<table>
+  <tr><th></th><th>Terraform</th><th>Ansible</th></tr>
+  <tr><td>定位</td><td><strong>資源編排</strong>(建 / 管 infra 生命週期)</td><td><strong>配置管理</strong>(逐台執行動作)</td></tr>
+  <tr><td>模式</td><td>聲明式 desired state</td><td>逐 task 執行(有序)</td></tr>
+  <tr><td>典型</td><td>起 VPC / EC2 / RDS</td><td>裝 package、寫 config、起 service</td></tr>
+</table>
+<div class="callout key"><h4>✅ 黃金組合</h4>
+Terraform 起 infra → Ansible 配置 OS 同 app — 兩者一齊用係業界標準做法。
+</div>
+
+<!-- ================= S10 ================= -->
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s10"><span class="num">10</span>AWS DevOps 服務總覽</h2>
+<p><strong>AWS 有一套完整嘅原生 DevOps 服務</strong>,同第三方工具(如 Jenkins / GitHub Actions)互相競爭,視乎你幾想「鎖喺 AWS 生態」。</p>
+
+<h3>10.1 服務清單</h3>
+<table>
+  <tr><th>服務</th><th>作用</th></tr>
+  <tr><td><strong>CodePipeline</strong></td><td>CI/CD 編排(Source → Build → Deploy → Approval)</td></tr>
+  <tr><td><strong>CodeBuild</strong></td><td>托管 build,免 server,按用量收費</td></tr>
+  <tr><td><strong>CodeDeploy</strong></td><td>部署到 EC2 / On-prem / Lambda / ECS,支援藍綠</td></tr>
+  <tr><td><strong>CodeCommit</strong></td><td>托管 Git(而家新客一般建議用 GitHub/GitLab 或 CodeCatalyst)</td></tr>
+  <tr><td><strong>CloudFormation</strong></td><td>IaC,聲明式模板</td></tr>
+  <tr><td><strong>CDK</strong></td><td>用 TypeScript/Python 寫 code → 生成 CloudFormation</td></tr>
+  <tr><td><strong>SAM</strong></td><td>Serverless 簡化版(建喺 CFN 之上)</td></tr>
+</table>
+
+<h3>10.2 部署平台揀邊個</h3>
+<ul>
+  <li><strong>Elastic Beanstalk</strong>:PaaS,自動管容量 / health,最簡單</li>
+  <li><strong>ECS</strong>:container 平台,<strong>Fargate</strong> 免管 node</li>
+  <li><strong>EKS</strong>:K8s,最靈活但要自己管 control plane 成本</li>
+  <li>Lambda:zip 或 container image(最大 10GB)部署</li>
+</ul>
+<div class="callout trap"><h4>⚠️ 注意</h4>
+CodePipeline 一個 stage 完成後唔可以「回頭」— 例如 approval 之後想返轉頭做嘢,要拆成新 stage。
+</div>
+
+<!-- ================= S11 ================= -->
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s11"><span class="num">11</span>監控與可觀測性 — SLO/SLI</h2>
+<p><strong>可觀測性(Observability)三支柱</strong>:Metrics、Logs、Traces — 三樣齊晒先可以完整理解系統。</p>
+
+<h3>11.1 三支柱</h3>
+<table>
+  <tr><th>支柱</th><th>內容</th><th>代表工具</th></tr>
+  <tr><td><strong>Metrics</strong></td><td>數值趨勢(CPU、latency、error rate)</td><td>Prometheus / CloudWatch</td></tr>
+  <tr><td><strong>Logs</strong></td><td>事件明細(邊個 request、咩錯誤)</td><td>ELK / Loki / CloudWatch Logs</td></tr>
+  <tr><td><strong>Traces</strong></td><td>請求跨服務鏈路</td><td>Jaeger / X-Ray / OpenTelemetry</td></tr>
+</table>
+<ul>
+  <li><strong>Prometheus</strong>:pull 模式抓 metric + PromQL + Alertmanager</li>
+  <li><strong>Grafana</strong>:dashboard,一個接晒所有 data source</li>
+  <li><strong>CloudWatch</strong>:AWS 原生,alarm → SNS 通知</li>
+</ul>
+
+<h3>11.2 SLO / SLI / SLA</h3>
+<ul>
+  <li><strong>SLI</strong>:實際量度指標(例如「過去 30 日可用性 99.95%」)</li>
+  <li><strong>SLO</strong>:你訂嘅目標(例如「季度可用性 ≥ 99.9%」)</li>
+  <li><strong>SLA</strong>:對客合約(通常比 SLO 鬆,預留緩衝)</li>
+  <li><strong>Error Budget</strong> = 1 − SLO:容錯額度,用晒就唔准 release — 將「幾時可以冒險」變成量化決策</li>
+</ul>
+<div class="callout trap"><h4>⚠️ 警報疲勞</h4>
+Alert 要 <strong>actionable</strong>:收到「DB latency 高」但唔知點做 = noise。好 alert 應該對應 SLO 或業務影響,唔係咩都 alert。
+</div>
+
+<!-- ================= S12 ================= -->
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s12"><span class="num">12</span>日誌與追蹤實務</h2>
+<p><strong>分散式系統最怕「逐個 log 檔搵」</strong> — 正確做法係集中式日誌管線。</p>
+
+<h3>12.1 日誌管線</h3>
+<div class="flow">App (寫 stdout)
+  → Agent (Fluentd / Filebeat / OTel Collector)
+    → 集中儲存 (Elasticsearch / Loki / CloudWatch Logs)
+      → 查詢 + Dashboard (Kibana / Grafana)</div>
+<ul>
+  <li><strong>ELK</strong>:Elasticsearch + Logstash + Kibana — 功能強、成本高</li>
+  <li><strong>Loki</strong>:只 index label 唔 index 內容 — 慳好多錢,Grafana 原生整合</li>
+  <li><strong>Correlation</strong>:log 加 <code>request_id</code> / <code>trace_id</code> → 先可以串起成條請求鏈</li>
+</ul>
+<div class="callout trap"><h4>⚠️ 兩大禁忌</h4>
+① 唔好寫本地檔案慢慢收 — 直接寫 stdout 俾 agent 收。② 唔好 log 機密(密碼 / token / PII) — 中央日誌係攻擊者金礦。
+</div>
+
+<!-- ================= S13 ================= -->
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s13"><span class="num">13</span>GitOps — Git 係唯一真相</h2>
+<p><strong>GitOps 將 Git 變成整個系統嘅單一真相來源</strong>:cluster 嘅實際狀態會自動向 Git 收斂,一切變更都係 PR。</p>
+
+<h3>13.1 核心原則</h3>
+<ul>
+  <li>Git 係 desired state;controller 不斷對比 Git vs cluster,唔啱就拉返齊(<strong>drift 自動修正</strong>)</li>
+  <li>所有變更 = 開 PR → review → merge → 自動 sync → <strong>audit trail 完整</strong></li>
+  <li>回滾 = <code>git revert</code>;唔使再派 kubectl 權限俾人</li>
+</ul>
+
+<h3>13.2 兩大工具</h3>
+<table>
+  <tr><th></th><th>Argo CD</th><th>Flux</th></tr>
+  <tr><td>定位</td><td>App 級 sync,UI 好用</td><td>Controller 級,自動 reconciliation</td></tr>
+  <tr><td>特點</td><td>Multi-cluster 支援好</td><td>GitOps Toolkit 系列,無 Git 都可以(OCI)</td></tr>
+</table>
+<div class="callout trap"><h4>⚠️ Secrets 點算</h4>
+Secrets 唔可以明文入 Git → 用 <strong>Sealed Secrets</strong>(加密後可 commit)或 <strong>External Secrets Operator</strong>(連 AWS Secrets Manager / Vault,同步入 K8s Secret)。
+</div>
+
+<!-- ================= S14 ================= -->
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s14"><span class="num">14</span>Secrets 管理</h2>
+<p><strong>Secrets(密碼、token、API key)係安全最脆弱一環</strong> — 因為開發者永遠想偷懶放喺 code 度。</p>
+
+<h3>14.1 主要方案</h3>
+<table>
+  <tr><th>方案</th><th>特點</th><th>幾時用</th></tr>
+  <tr><td><strong>AWS Secrets Manager</strong></td><td>自動 rotation、跨 region、收費</td><td>AWS 上要自動輪換 DB 密碼</td></tr>
+  <tr><td><strong>SSM Parameter Store</strong></td><td>免費、分層 path、冇 rotation</td><td>輕量設定 / 細 secrets</td></tr>
+  <tr><td><strong>HashiCorp Vault</strong></td><td>動態 secrets、多雲、encryption-as-a-service</td><td>多雲 / 複雜權限環境</td></tr>
+  <tr><td><strong>Sealed Secrets</strong></td><td>Git 可存加密 secret</td><td>GitOps repo</td></tr>
+  <tr><td><strong>SOPS</strong></td><td>檔案級加密(配 KMS / PGP)</td><td>YAML / 設定檔加密</td></tr>
+</table>
+
+<h3>14.2 鐵律</h3>
+<ul>
+  <li><strong>唔好</strong>入 git / container image / env 明文</li>
+  <li><strong>Rotation 要自動</strong>;存取要最小權限</li>
+  <li>K8s 用 <strong>External Secrets Operator</strong> 由 Vault / Secrets Manager 同步入 cluster,唔好手動 copy</li>
+</ul>
+
+<!-- ================= S15 ================= -->
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s15"><span class="num">15</span>DevSecOps — 安全左移</h2>
+<p><strong>DevSecOps = 將安全由「release 前檢查」變成「由第一行 code 開始」</strong>。</p>
+
+<h3>15.1 掃描類型</h3>
+<table>
+  <tr><th>類型</th><th>掃咩</th><th>代表工具</th></tr>
+  <tr><td><strong>SAST</strong></td><td>靜態掃 source code(唔使跑)</td><td>Semgrep / SonarQube</td></tr>
+  <tr><td><strong>DAST</strong></td><td>動態掃運行中嘅 app</td><td>OWASP ZAP</td></tr>
+  <tr><td><strong>SCA</strong></td><td>依賴庫漏洞</td><td>Dependabot / Trivy</td></tr>
+  <tr><td><strong>Image 掃描</strong></td><td>容器 image 漏洞</td><td>Trivy / Grype</td></tr>
+</table>
+
+<h3>15.2 供應鏈安全</h3>
+<ul>
+  <li><strong>簽名</strong>:cosign / Sigstore — 證明 image 邊個出、冇被改</li>
+  <li><strong>SBOM</strong>(cyclonedx / spdx):軟件物料清單,出事先知邊個組件要補</li>
+  <li>IAM 最小權限 + pipeline secrets 隔離 + artifact checksum 防篡改</li>
+</ul>
+<div class="callout trap"><h4>⚠️ 常見錯</h4>
+掃描淨係 release 前做一次 = 太遲。要入 CI,每個 PR 都掃;漏洞政策(CVSS 門檻,例如 ≥ 7 先 block)要一早定死。
+</div>
+
+<!-- ================= S16 ================= -->
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s16"><span class="num">16</span>SRE 概念 — 用工程做營運</h2>
+<p><strong>SRE(Site Reliability Engineering)= 用軟件工程方法解決營運問題</strong>,Google 起源,而家係 DevOps 嘅進化版。</p>
+
+<h3>16.1 核心概念</h3>
+<ul>
+  <li><strong>Toil</strong>:手動、重複、可自動化嘅營運工作 → 要持續量化 + 壓低</li>
+  <li><strong>Error Budget</strong>:用 SLO 反推容錯額度 → 容許「有預算」嘅 release 風險</li>
+  <li><strong>On-call</strong>:告警 → 分診 → 修復 / 升級;runbook 要寫好,新人跟得住</li>
+  <li><strong>Postmortem(blameless)</strong>:重大事故檢討唔怪人,淨係搵系統點改先唔會再發生</li>
+</ul>
+
+<h3>16.2 四個黃金訊號</h3>
+<table>
+  <tr><th>訊號</th><th>問嘅問題</th></tr>
+  <tr><td><strong>Latency</strong></td><td>反應幾快?有冇慢 request 拖垮?</td></tr>
+  <tr><td><strong>Traffic</strong></td><td>需求幾大?(QPS / 用戶數)</td></tr>
+  <tr><td><strong>Errors</strong></td><td>失敗率幾高?(4xx / 5xx / timeout)</td></tr>
+  <tr><td><strong>Saturation</strong></td><td>系統有幾「滿」?(CPU / 佇列深度)</td></tr>
+</table>
+<div class="callout key"><h4>✅ 口訣</h4>
+冇 SLO 嘅系統冇辦法判斷「壞得幾嚴重」;有 error budget 先可以科學咁決定「呢次 release 搏唔搏」。
+</div>
+
+<!-- ================= S17 ================= -->
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s17"><span class="num">17</span>12-Factor App — 雲原生設計原則</h2>
+<p><strong>12-Factor 係 Heroku 提出嘅 SaaS app 設計原則</strong>,而家係雲原生開發嘅共同語言 — 跟住做,app 先可以喺現代平台順滑運行同 scale。</p>
+
+<h3>17.1 十二條原則速覽</h3>
+<table>
+  <tr><th>#</th><th>原則</th><th>重點</th></tr>
+  <tr><td>1</td><td><strong>Codebase</strong></td><td>一份 code,多個環境(dev/staging/prod 都係同一份)</td></tr>
+  <tr><td>2</td><td><strong>Dependencies</strong></td><td>顯式宣告,唔靠系統隱藏套件</td></tr>
+  <tr><td>3</td><td><strong>Config</strong></td><td>設定放環境變數,唔好入 code</td></tr>
+  <tr><td>4</td><td><strong>Backing services</strong></td><td>DB / queue 當可替換資源,唔好寫死</td></tr>
+  <tr><td>5</td><td><strong>Build-release-run</strong></td><td>三個階段分開,release 不可變</td></tr>
+  <tr><td>6</td><td><strong>Stateless process</strong></td><td>Process 冇本地狀態,state 放外部服務</td></tr>
+  <tr><td>7</td><td><strong>Port binding</strong></td><td>App 自己聽 port,唔靠嵌入 server</td></tr>
+  <tr><td>8</td><td><strong>Concurrency</strong></td><td>用 process 模型 scale(唔係 thread 硬撑)</td></tr>
+  <tr><td>9</td><td><strong>Disposability</strong></td><td>快起快停,graceful shutdown</td></tr>
+  <tr><td>10</td><td><strong>Dev-prod parity</strong></td><td>開發 / 生產環境愈似愈好</td></tr>
+  <tr><td>11</td><td><strong>Logs</strong></td><td>Log 當 event stream,寫 stdout</td></tr>
+  <tr><td>12</td><td><strong>Admin tasks</strong></td><td>一次性 script 同 app code 一齊管</td></tr>
+</table>
+<div class="callout exam"><h4>🎯 最常考</h4>
+原則 6(Stateless):session 要放 Redis / DB,<strong>process 本身要 stateless</strong> 先可以水平 scale — 加多幾隻 instance 都唔會撞 state。
+</div>
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<footer>
+  <p>📖 本筆記由 <strong>Hermes Agent</strong> 整理 — Alfred 嘅 DevOps 學習系列 · 2026-08-30</p>
+  <p>內容基於官方文件與實戰經驗,僅供學習用途。</p>
+</footer>
+
+</div>
+</body>
+</html>
