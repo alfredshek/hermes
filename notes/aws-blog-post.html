@@ -855,6 +855,61 @@ Web server / ALB 要接受外網請求 → public subnet + <strong>IGW</strong>�
 <strong>EFS</strong> = AWS 自家 Linux NFS,通用、簡單、auto-scaling。<strong>FSx</strong> = 四款特化檔案系統(Windows / Lustre / OpenZFS / ONTAP),要 AD、HPC、企業 NAS 功能先揀佢。
 </div>
 
+<h3>19.4 FSx for Windows 深入</h3>
+<table>
+  <tr><th>功能</th><th>有咩用</th></tr>
+  <tr><td><strong>SMB 3.0 / 3.1.1</strong></td><td>Windows 原生協定,支援 <strong>SMB Multichannel</strong>(多路徑加速)</td></tr>
+  <tr><td><strong>VSS Shadow Copies</strong></td><td>用戶自己「還原上一版」,唔使 IT 出手</td></tr>
+  <tr><td><strong>DFS Namespaces / Replication</strong></td><td>分散式檔案名空間 + 複製</td></tr>
+  <tr><td><strong>NTFS ACLs + Quotas</strong></td><td>精細權限 + 容量配額</td></tr>
+  <tr><td><strong>AD 整合</strong></td><td>Kerberos 認證、AD 用戶 / 群組權限</td></tr>
+</table>
+<ul>
+  <li><strong>部署選項</strong>:<strong>Single-AZ</strong>(平,測試用)vs <strong>Multi-AZ</strong>(跨 AZ 自動 failover,生產必用)</li>
+  <li><strong>Storage</strong>:SSD(低延遲)/ HDD(慳錢,throughput-optimized)</li>
+  <li><strong>Backup</strong>:每日自動備份 + 手動 snapshot,支援 <strong>VSS-consistent</strong>(應用一致)</li>
+</ul>
+
+<h3>19.5 同 AD 做 Integration(重點)</h3>
+<ul>
+  <li><strong>支援邊啲 AD?</strong>
+    <ul>
+      <li><strong>AWS Managed Microsoft AD</strong>(Directory Service 起)—— 最簡單,直接揀</li>
+      <li>自家 on-prem AD / 其它 AD —— 用 <strong>AD Connector</strong> 或 VPN / Direct Connect 打通</li>
+    </ul>
+  </li>
+  <li><strong>點 join(流程)</strong>:建立 FSx 時揀 Active Directory → FSx 用 service account / delegated admin 加入 domain → 變成 domain member → 喺 AD 開 users/groups → 設 share 權限 + NTFS ACLs</li>
+  <li><strong>用戶點存取</strong>:EC2(已 join AD)或 on-prem 機(VPN/DX)用 <strong>AD 帳號</strong>經 SMB mount → <strong>Kerberos 認證</strong> → NTFS ACL 檢查;權限跟 AD group 走</li>
+</ul>
+<table>
+  <tr><th></th><th><strong>AD 授權模式</strong>(default)</th><th><strong>IAM 授權模式</strong></th></tr>
+  <tr><td>控制粒度</td><td><strong>NTFS ACL 精細</strong>(folder 級)</td><td>share 級粗粒度</td></tr>
+  <tr><td>用戶身份</td><td>AD users / groups</td><td>IAM roles / users</td></tr>
+  <tr><td>幾時用</td><td>Windows 應用、要 ACL</td><td>簡單、用 IAM 身份</td></tr>
+  <tr><td>認證</td><td>Kerberos</td><td>IAM</td></tr>
+</table>
+<ul>
+  <li><strong>Security</strong>:傳輸 <strong>SMB 3.0 加密</strong>、靜態 <strong>KMS</strong> 加密、<strong>Security Group</strong> 限存取;FSx 喺 VPC 內唔好開 public</li>
+</ul>
+
+<h3>19.6 家族同 AD 嘅關係</h3>
+<table>
+  <tr><th>FSx 類型</th><th>接 AD?</th><th>詳情</th></tr>
+  <tr><td><strong>FSx for Windows</strong></td><td>✅ 深度整合</td><td>SMB + Kerberos + NTFS ACL</td></tr>
+  <tr><td><strong>FSx for NetApp ONTAP</strong></td><td>✅ 支援</td><td><strong>SMB 用 AD/Kerberos</strong>;NFS 可用 LDAP</td></tr>
+  <tr><td><strong>FSx for OpenZFS</strong></td><td>⚠️ 部分</td><td>NFSv4 支援 <strong>LDAP/Kerberos</strong>;冇 SMB</td></tr>
+  <tr><td><strong>FSx for Lustre</strong></td><td>❌ 唔關事</td><td>POSIX + IAM(連 S3 用 IAM role),HPC 場景</td></tr>
+</table>
+
+<div class="callout exam"><h4>📝 FSx 考試陷阱</h4>
+① Windows 應用 + AD 用戶 + SMB → <strong>FSx for Windows</strong>(配 <strong>AWS Managed Microsoft AD</strong>)。<br>
+② 要 VSS / DFS / NTFS ACL → FSx for Windows。<br>
+③ <strong>精細權限</strong> → <strong>AD 授權模式</strong>;用 IAM 控制 → IAM 授權模式。<br>
+④ 生產高可用 → <strong>Multi-AZ</strong>。<br>
+⑤ HPC 高吞吐 → <strong>Lustre</strong>(唔好揀 FSx for Windows!)。<br>
+⑥ on-prem AD → <strong>AD Connector</strong> 或 VPN/DX 打通。
+</div>
+
 <a class="btop" href="#top">⬆ 回到最頂</a>
 
 <footer>
