@@ -2,22 +2,43 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Hermes 輸出庫 — Alfred 嘅 HTML 網頁</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, "PingFang HK", sans-serif; background: #f3f4f8; color: #1a1a2e; padding: 40px 20px; display: flex; justify-content: center; }
   .wrap { max-width: 640px; width: 100%; }
   h1 { font-size: 1.8rem; margin-bottom: 6px; }
-  p.sub { color: #6b7280; margin-bottom: 28px; }
-  h2 { margin: 28px 0 12px; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.85rem; color: #4b5563; }
+  p.sub { color: #6b7280; margin-bottom: 24px; }
+
+  .searchbox {
+    display: flex; align-items: center; gap: 10px;
+    background: #fff; border-radius: 14px; padding: 12px 16px;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.06); margin-bottom: 12px;
+    border: 1px solid #e5e7eb;
+  }
+  .searchbox:focus-within { box-shadow: 0 0 0 3px rgba(88,101,242,0.15); border-color: #5865F2; }
+  .searchbox .ico { font-size: 18px; }
+  .searchbox input {
+    flex: 1; border: none; outline: none; font-size: 16px; font-family: inherit;
+    background: transparent; color: inherit;
+  }
+  .searchbox .clear { border: none; background: #e5e7eb; color: #4b5563; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; font-size: 12px; line-height: 1; display: none; }
+  .searchbox .clear.visible { display: inline-block; }
+
+  .results .res-count { font-size: 0.85rem; color: #6b7280; margin: 4px 0 12px; }
   a.card { display: block; background: #fff; border-radius: 16px; padding: 18px 22px; margin-bottom: 14px; text-decoration: none; color: inherit; box-shadow: 0 1px 8px rgba(0,0,0,0.05); }
   a.card:hover { box-shadow: 0 2px 14px rgba(0,0,0,0.1); }
   a.card .t { font-weight: 700; font-size: 1.05rem; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
   a.card .d { color: #6b7280; font-size: 0.88rem; }
+  a.card .snippet { color: #6b7280; font-size: 0.82rem; margin-top: 8px; line-height: 1.6; }
+  a.card .snippet mark { background: #fef08a; color: inherit; border-radius: 2px; padding: 0 2px; }
+
+  h2 { margin: 28px 0 12px; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.85rem; color: #4b5563; }
   .tag { display: inline-block; font-size: 0.72rem; background: #eef0ff; color: #5865F2; padding: 2px 8px; border-radius: 999px; font-weight: 600; }
   .tag.mag { background: #fef3c7; color: #d97706; }
   .tag.blog { background: #f0fdf4; color: #059669; }
+  .no-result { text-align: center; color: #6b7280; padding: 40px 0; }
 </style>
 </head>
 <body>
@@ -25,17 +46,127 @@
   <h1>🗂️ Hermes 輸出庫</h1>
   <p class="sub">Alfred × Hermes Agent —— 所有 HTML 出品收錄</p>
 
-  <h2>🧒 Eli5 圖解</h2>
-  <a class="card" href="eli5/vpn_eli5.html"><span class="t">🔒 VPN 係咩? <span class="tag">ELI5</span></span><span class="d">秘密隧道——5 歲都明</span></a>
-  <a class="card" href="eli5/probiotics_eli5.html"><span class="t">🥛 益生菌係咩? <span class="tag">ELI5</span></span><span class="d">肚入面嘅好菌兵仔</span></a>
-  <a class="card" href="eli5/discordbot_eli5.html"><span class="t">🤖 Discord Bot 係點運作? <span class="tag">ELI5</span></span><span class="d">一個機械人。兩隻耳仔。一本筆記簿。</span></a>
-  <a class="card" href="eli5/css_eli5.html"><span class="t">🎨 CSS 係咩? <span class="tag">ELI5</span></span><span class="d">HTML 係間屋骨架, CSS 係油油</span></a>
-  <a class="card" href="eli5/k8s_eli5.html"><span class="t">🚢 K8s 係咩? <span class="tag">ELI5</span></span><span class="d">貨櫃碼頭嘅總指揮</span></a>
-  <a class="card" href="eli5/landingzone_eli5.html"><span class="t">🏗️ AWS Landing Zone 係咩? <span class="tag">ELI5</span></span><span class="d">起樓之前打好嘅地基</span></a>
+  <div class="searchbox">
+    <span class="ico">🔍</span>
+    <input type="text" id="q" placeholder="搜尋所有頁面… 例如: VPN、K8s、Guardrails、貨櫃" autocomplete="off">
+    <button class="clear" id="clearBtn" aria-label="清除">✕</button>
+  </div>
 
-  <h2>📝 Notes 筆記 / 文章</h2>
-  <a class="card" href="notes/landingzone_blog.html"><span class="t">📰 AWS Landing Zone 完全指南 <span class="tag blog">Blog</span></span><span class="d">詳細長文: 多帳號治理完整解構</span></a>
-  <a class="card" href="notes/aws-blog-post.html"><span class="t">☁️ AWS Solutions Architect 學習筆記 <span class="tag blog">Blog</span></span><span class="d">13 個主題: 治理、網絡、安全、容器、Serverless 齊晒</span></a>
+  <div class="results" id="results"></div>
+  <div id="browse" style="display:none">
+    <h2>🧒 Eli5 圖解</h2>
+    <a class="card" href="eli5/vpn_eli5.html"><span class="t">🔒 VPN 係咩? <span class="tag">ELI5</span></span><span class="d">秘密隧道——5 歲都明</span></a>
+    <a class="card" href="eli5/probiotics_eli5.html"><span class="t">🥛 益生菌係咩? <span class="tag">ELI5</span></span><span class="d">肚入面嘅好菌兵仔</span></a>
+    <a class="card" href="eli5/discordbot_eli5.html"><span class="t">🤖 Discord Bot 係點運作? <span class="tag">ELI5</span></span><span class="d">一個機械人。兩隻耳仔。一本筆記簿。</span></a>
+    <a class="card" href="eli5/css_eli5.html"><span class="t">🎨 CSS 係咩? <span class="tag">ELI5</span></span><span class="d">HTML 係間屋骨架, CSS 係油油</span></a>
+    <a class="card" href="eli5/k8s_eli5.html"><span class="t">🚢 K8s 係咩? <span class="tag">ELI5</span></span><span class="d">貨櫃碼頭嘅總指揮</span></a>
+    <a class="card" href="eli5/landingzone_eli5.html"><span class="t">🏗️ AWS Landing Zone 係咩? <span class="tag">ELI5</span></span><span class="d">起樓之前打好嘅地基</span></a>
+
+    <h2>📝 Notes 筆記 / 文章</h2>
+    <a class="card" href="notes/landingzone_blog.html"><span class="t">📰 AWS Landing Zone 完全指南 <span class="tag blog">Blog</span></span><span class="d">詳細長文: 多帳號治理完整解構</span></a>
+    <a class="card" href="notes/aws-blog-post.html"><span class="t">☁️ AWS Solutions Architect 學習筆記 <span class="tag blog">Blog</span></span><span class="d">17 個核心概念詳解</span></a>
+  </div>
 </div>
+
+<script>
+const qInput = document.getElementById('q');
+const clearBtn = document.getElementById('clearBtn');
+const resultsDiv = document.getElementById('results');
+const browseDiv = document.getElementById('browse');
+
+let INDEX = null;
+
+async function loadIndex() {
+  try {
+    const res = await fetch('search-index.json', { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    INDEX = await res.json();
+    console.log('Search index loaded:', INDEX.pages.length, 'pages');
+  } catch (e) {
+    resultsDiv.innerHTML = '<div class="no-result">⚠️ 搜尋索引載入失敗 — ' + e.message + '</div>';
+  }
+}
+
+// Simple CJK-friendly highlight: split query into tokens, find matches
+function escapeHtml(s) {
+  const div = document.createElement('div');
+  div.textContent = s;
+  return div.innerHTML;
+}
+
+function highlight(text, tokens) {
+  let out = escapeHtml(text);
+  for (const t of tokens) {
+    if (t.length < 2) continue;
+    const re = new RegExp('(' + t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+    out = out.replace(re, '<mark>$1</mark>');
+  }
+  return out;
+}
+
+function snippetAround(text, tokens) {
+  const lower = text.toLowerCase();
+  let first = -1;
+  for (const t of tokens) {
+    const idx = lower.indexOf(t.toLowerCase());
+    if (idx >= 0 && (first === -1 || idx < first)) first = idx;
+  }
+  if (first === -1) return text.slice(0, 200) + (text.length > 200 ? '…' : '');
+  const start = Math.max(0, first - 60);
+  const end = Math.min(text.length, first + 140);
+  return (start > 0 ? '…' : '') + text.slice(start, end) + (end < text.length ? '…' : '');
+}
+
+function doSearch(query) {
+  const q = query.trim();
+  if (!q) {
+    resultsDiv.innerHTML = '';
+    browseDiv.style.display = '';
+    clearBtn.classList.remove('visible');
+    return;
+  }
+  clearBtn.classList.add('visible');
+  browseDiv.style.display = 'none';
+
+  const tokens = q.toLowerCase().split(/\s+/).filter(Boolean);
+  if (!INDEX) { resultsDiv.innerHTML = '<div class="no-result">⏳ 索引載入中…</div>'; return; }
+
+  const matches = [];
+  for (const p of INDEX.pages) {
+    const hay = (p.title + ' ' + p.h1 + ' ' + p.text).toLowerCase();
+    const hitTokens = tokens.filter(t => hay.includes(t));
+    if (hitTokens.length > 0) {
+      // rank: more tokens hit = better; title hit first
+      let score = hitTokens.length * 10;
+      if (tokens.some(t => p.title.toLowerCase().includes(t))) score += 50;
+      if (tokens.some(t => p.h1.toLowerCase().includes(t))) score += 30;
+      matches.push({ page: p, score, hitTokens });
+    }
+  }
+  matches.sort((a, b) => b.score - a.score);
+
+  if (matches.length === 0) {
+    resultsDiv.innerHTML = '<div class="no-result">😕 搵唔到「' + escapeHtml(q) + '」相關嘅內容</div>';
+    return;
+  }
+
+  let html = '<div class="res-count">🔎 搵到 ' + matches.length + ' 個結果</div>';
+  for (const m of matches) {
+    const p = m.page;
+    const tagLabel = p.category === 'eli5' ? '<span class="tag">ELI5</span>' : '<span class="tag blog">Blog</span>';
+    html += '<a class="card" href="' + p.path + '">' +
+      '<span class="t">' + highlight(p.h1, m.hitTokens) + ' ' + tagLabel + '</span>' +
+      '<span class="d">' + escapeHtml(p.title) + '</span>' +
+      '<span class="snippet">' + highlight(snippetAround(p.text, m.hitTokens), m.hitTokens) + '</span>' +
+      '</a>';
+  }
+  resultsDiv.innerHTML = html;
+}
+
+qInput.addEventListener('input', () => doSearch(qInput.value));
+clearBtn.addEventListener('click', () => { qInput.value = ''; doSearch(''); qInput.focus(); });
+
+loadIndex();
+</script>
 </body>
 </html>
