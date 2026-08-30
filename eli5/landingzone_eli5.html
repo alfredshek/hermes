@@ -2,167 +2,134 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AWS Landing Zone 係咩？</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AWS Landing Zone 係咩? — ELI5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { height: auto; overflow-x: hidden; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang HK", "Microsoft JhengHei", sans-serif;
-    background: #f3f4f8; color: #1a1a2e; padding: 16px 12px;
-    display: flex; flex-direction: column; align-items: center;
-    min-height: 100vh;
+  :root {
+    --black: #171717; --gray-600: #4d4d4d; --gray-500: #666666; --gray-400: #808080;
+    --gray-100: #ebebeb; --gray-50: #fafafa;
+    --accent: #ff9900; --accent-dark: #c2410c; --accent-light: #fff7ed;
+    --green: #0a9d5c; --green-light: #ecfdf3; --red: #e5484d; --red-light: #fef2f2; --amber: #d97706; --amber-light: #fffbeb;
   }
-  .wrap { max-width: 660px; width: 100%; padding: 0 4px; margin: auto; }
-  h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 4px; }
-  .intro { font-size: 0.95rem; color: #5b5b82; margin-bottom: 14px; line-height: 1.4; }
-  .card { background: #fff; border-radius: 20px; padding: 22px 26px; margin-bottom: 14px; box-shadow: 0 1px 8px rgba(0,0,0,0.04); }
-  .step-num { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 10px; background: #ff9900; color: #fff; font-weight: 800; font-size: 1.1rem; }
-  .step-title { font-size: 1.15rem; font-weight: 800; margin: 5px 0 0 0; }
-  .step-desc { font-size: 0.9rem; color: #5b5b82; line-height: 1.5; margin-top: 3px; }
-  svg { width: 100%; margin: 10px 0; display: block; overflow: visible; }
-  .tag { display: inline-block; background: #fff7ed; color: #c2410c; padding: 4px 12px; border-radius: 999px; font-size: 0.85rem; margin: 3px 5px 0 0; font-weight: 600; }
-  .summary { background: #ff9900; color: #fff; border-radius: 20px; padding: 22px 26px; text-align: center; }
-  .summary p { font-size: 1.1rem; font-weight: 700; line-height: 1.5; }
-
-  .card, .summary, svg, h1, .intro { break-inside: avoid; page-break-inside: avoid; }
-  .wrap { page-break-inside: avoid; break-inside: avoid; page-break-before: avoid; page-break-after: avoid; }
-  @page { size: auto; margin: 6mm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    background: #ffffff; color: var(--black); -webkit-font-smoothing: antialiased; line-height: 1.56;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 40px 24px 64px; }
+  @supports (padding-top: env(safe-area-inset-top)) or (padding-top: constant(safe-area-inset-top)) {
+    .wrap { padding-top: calc(24px + env(safe-area-inset-top)); padding-bottom: calc(48px + env(safe-area-inset-bottom)); }
+  }
+  .eyebrow {
+    font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12px; font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 10px;
+  }
+  .eyebrow::before { content: ''; width: 24px; height: 2px; background: var(--accent); display: inline-block; }
+  h1 { font-size: clamp(38px, 7vw, 54px); font-weight: 600; letter-spacing: -2.4px; line-height: 1.06; margin-bottom: 14px; }
+  h1 .dot { color: var(--accent); }
+  .lede { font-size: 17px; font-weight: 400; color: var(--gray-600); line-height: 1.7; max-width: 580px; margin-bottom: 36px; }
+  .lede b { color: var(--black); font-weight: 500; }
+  .step-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 16px; }
+  .step-num { font-family: 'Geist Mono', ui-monospace, monospace; font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); white-space: nowrap; }
+  .step-num::after { content: ' /'; opacity: 0.6; }
+  .step-title { font-size: 23px; font-weight: 600; letter-spacing: -0.9px; line-height: 1.3; }
+  .card {
+    background: #ffffff;
+    box-shadow: rgba(0,0,0,0.08) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 2px, rgba(0,0,0,0.04) 0px 8px 8px -8px, #fafafa 0px 0px 0px 1px;
+    border-radius: 10px; padding: 24px 28px; margin-bottom: 24px;
+  }
+  .card p.step-desc { font-size: 15px; color: var(--gray-600); line-height: 1.7; max-width: 60ch; margin-bottom: 14px; }
+  .card p.step-desc b { color: var(--black); font-weight: 500; }
+  .card p.step-desc code { font-family: 'Geist Mono', ui-monospace, monospace; font-size: 0.85em; background: var(--gray-50); box-shadow: rgba(0,0,0,0.08) 0px 0px 0px 1px; padding: 1px 6px; border-radius: 4px; }
+  .flow { display: flex; flex-wrap: wrap; align-items: stretch; gap: 10px; margin-top: 14px; }
+  .f-step {
+    flex: 1 1 130px; min-width: 120px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 4px; padding: 16px 10px 14px; border-radius: 12px;
+    font-family: 'Geist', sans-serif; position: relative;
+  }
+  .f-step .f-ico { font-size: 22px; line-height: 1; }
+  .f-step .f-title { font-size: 14px; font-weight: 600; color: inherit; white-space: nowrap; }
+  .f-step .f-tag { font-family: 'Geist Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.05em; opacity: 0.85; white-space: nowrap; }
+  .f-dead  { background: var(--red-light); border: 1.5px solid var(--red); color: #b91c1c; }
+  .f-detect{ background: var(--accent-light); border: 1.5px solid var(--accent); color: var(--accent-dark); }
+  .f-new   { background: var(--green-light); border: 1.5px solid var(--green); color: #047857; }
+  .f-scale { background: var(--amber-light); border: 1.5px solid var(--amber); color: #b45309; }
+  .f-arrow { align-self: center; font-size: 18px; color: #808080; line-height: 1; padding: 0 2px; flex: 0 0 auto; }
+  @media (max-width: 560px) {
+    .flow { gap: 8px; }
+    .f-step { flex: 1 1 42%; min-width: 0; padding: 14px 6px 12px; }
+    .f-step .f-title { font-size: 13px; white-space: normal; text-align: center; }
+    .f-step .f-tag { font-size: 9px; }
+    .f-arrow { display: none; }
+    .f-step::before { content: attr(data-n); position: absolute; top: 5px; left: 8px; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 10px; font-weight: 500; color: inherit; opacity: 0.55; }
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 2px; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; background: var(--gray-50); box-shadow: rgba(0,0,0,0.08) 0px 0px 0px 1px; color: var(--black); border-radius: 9999px; padding: 6px 14px; }
+  .chip .c-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .summary { margin-top: 28px; background: var(--black); color: #fff; border-radius: 12px; padding: 26px 30px; }
+  .summary .sum-label { font-family: 'Geist Mono', ui-monospace, monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: #8a8f98; margin-bottom: 10px; }
+  .summary p { font-size: 20px; font-weight: 500; letter-spacing: -0.3px; line-height: 1.5; }
+  .summary p b { color: #fbbf24; font-weight: 600; }
+  .card, .summary, h1, .eyebrow, .lede, .flow { break-inside: avoid; page-break-inside: avoid; }
+  .wrap { page-break-inside: avoid; }
   @media print {
-    body { background: #fff; padding: 6px; height: auto; overflow: visible; }
-    .wrap { zoom: 0.78; transform-origin: top center; }
-    .card { box-shadow: none; border: 1px solid #e5e7eb; }
+    body { background: #fff; }
+    .wrap { padding: 16px; zoom: 0.85; transform-origin: top center; }
+    .card { box-shadow: rgba(0,0,0,0.15) 0px 0px 0px 1px; }
     .summary { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
-</style>
+  @media (max-width: 560px) {
+    .wrap { padding: 24px 14px 48px; }
+    .card { padding: 18px; }
+    .step-title { font-size: 19px; letter-spacing: -0.5px; }
+    .summary { padding: 20px; }
+    .summary p { font-size: 18px; }
+  }</style>
 </head>
 <body>
 <div class="wrap">
+<div class="eyebrow">ELI5 · 5 分鐘睇明</div>
+<h1>Landing Zone =<br>起樓前<b class="dot">打好地基</b>。</h1>
+<p class="lede">Landing Zone 就係「起樓之前打好嘅地基」——唔係一嚟就起 App,而係先整好<b>馬路、水電、圍欄、保安室</b>,確保之後點起都唔會亂。</p>
 
-  <h1>AWS Landing Zone 係咩？</h1>
-  <p class="intro">Landing Zone 就係「起樓之前打好嘅地基同基建」。唔係一嚟就起樓(app)，而係先整好馬路、水電、圍欄、保安室——確保安全、有秩序、唔會亂。</p>
-
-  <!-- Step 1 -->
   <div class="card">
-    <span class="step-num">1</span>
-    <p class="step-title">一塊空地。有人想亂起樓。你要先規劃。</p>
-    <p class="step-desc">公司開始用 AWS，如果冇人管，每個 team 各自開 account、各自起嘢，好快就會亂晒籠——安全漏洞、重複使費、冇人知邊個做緊咩。Landing Zone 就係一開始就幫你「劃好地皮、定好規則」。</p>
-    <svg viewBox="0 0 600 140" fill="none">
-      <!-- Chaos: scattered buildings -->
-      <rect x="15" y="20" width="55" height="40" rx="6" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4 3"/>
-      <text x="42" y="38" text-anchor="middle" font-size="10" fill="#ef4444" font-weight="700">亂!</text>
-      <text x="42" y="52" text-anchor="middle" font-size="8" fill="#6b7280">冇人管</text>
-
-      <rect x="85" y="50" width="45" height="35" rx="6" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4 3"/>
-      <text x="107" y="72" text-anchor="middle" font-size="9" fill="#ef4444" font-weight="700">亂!</text>
-
-      <rect x="145" y="15" width="50" height="45" rx="6" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4 3"/>
-      <text x="170" y="42" text-anchor="middle" font-size="9" fill="#ef4444" font-weight="700">亂!</text>
-
-      <text x="240" y="55" text-anchor="middle" font-size="28">→</text>
-
-      <!-- Ordered: Landing Zone -->
-      <rect x="280" y="10" width="300" height="120" rx="16" fill="#fff7ed" stroke="#ff9900" stroke-width="2.5"/>
-      <text x="430" y="30" text-anchor="middle" font-size="12" font-weight="800" fill="#ff9900">Landing Zone 規劃好</text>
-
-      <!-- Buildings with labels -->
-      <rect x="298" y="50" width="55" height="35" rx="8" fill="#fff" stroke="#ff9900" stroke-width="2"/>
-      <text x="325" y="72" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a2e">開發</text>
-
-      <rect x="365" y="50" width="55" height="35" rx="8" fill="#fff" stroke="#ff9900" stroke-width="2"/>
-      <text x="392" y="72" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a2e">測試</text>
-
-      <rect x="432" y="50" width="55" height="35" rx="8" fill="#fff" stroke="#ff9900" stroke-width="2"/>
-      <text x="459" y="72" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a2e">生產</text>
-
-      <rect x="298" y="95" width="55" height="22" rx="8" fill="#ff9900" opacity="0.15" stroke="#ff9900" stroke-width="1"/>
-      <text x="325" y="110" text-anchor="middle" font-size="8" fill="#ff9900" font-weight="700">🔒 保安</text>
-
-      <rect x="365" y="95" width="55" height="22" rx="8" fill="#ff9900" opacity="0.15" stroke="#ff9900" stroke-width="1"/>
-      <text x="392" y="110" text-anchor="middle" font-size="8" fill="#ff9900" font-weight="700">📋 審計</text>
-
-      <rect x="432" y="95" width="55" height="22" rx="8" fill="#ff9900" opacity="0.15" stroke="#ff9900" stroke-width="1"/>
-      <text x="459" y="110" text-anchor="middle" font-size="8" fill="#ff9900" font-weight="700">🌐 網絡</text>
-    </svg>
+    <div class="step-head"><span class="step-num">01</span><span class="step-title">一塊空地。唔規劃就亂起,實出事。</span></div>
+    <p class="step-desc">公司開始用 AWS,如果一開始<b>冇人規劃</b>——每個 Team 自己開 Account、各自起嘢,好快就<b>安全漏洞、重複使費、冇人知邊個做緊咩</b>。</p>
+    <div class="flow">
+      <div class="f-step f-dead" data-n="1"><span class="f-ico">🏚️</span><span class="f-title">亂咁起</span><span class="f-tag">NO PLAN</span></div>
+      <span class="f-arrow">→</span>
+      <div class="f-step f-detect" data-n="2"><span class="f-ico">🗺️</span><span class="f-title">劃好地皮</span><span class="f-tag">LANDING ZONE</span></div>
+      <span class="f-arrow">→</span>
+      <div class="f-step f-new" data-n="3"><span class="f-ico">🏙️</span><span class="f-title">有秩序起樓</span><span class="f-tag">GOVERNED</span></div>
+    </div>
   </div>
-
-  <!-- Step 2 -->
   <div class="card">
-    <span class="step-num">2</span>
-    <p class="step-title">入大廈要拍卡。每個 team 有自己嗰層。</p>
-    <p class="step-desc">Landing Zone 會幫你分好：「開發 team 用呢個 account、財務 team 用嗰個 account、生產環境鎖死唔准亂改」。每個人有自己嘅鎖匙（IAM），只可以去自己嗰層，唔會搞到人哋嗰度。</p>
-    <svg viewBox="0 0 600 115" fill="none">
-      <!-- Building -->
-      <rect x="20" y="15" width="180" height="90" rx="12" fill="#fff7ed" stroke="#ff9900" stroke-width="2"/>
-      <text x="110" y="35" text-anchor="middle" font-size="11" font-weight="800" fill="#ff9900">🏢 公司 AWS</text>
-
-      <rect x="35" y="48" width="70" height="25" rx="6" fill="#fff" stroke="#ff9900" stroke-width="1.5"/>
-      <text x="70" y="65" text-anchor="middle" font-size="9" font-weight="700" fill="#1a1a2e">開發 account</text>
-
-      <rect x="115" y="48" width="70" height="25" rx="6" fill="#fff" stroke="#ff9900" stroke-width="1.5"/>
-      <text x="150" y="65" text-anchor="middle" font-size="9" font-weight="700" fill="#1a1a2e">測試 account</text>
-
-      <rect x="35" y="78" width="70" height="22" rx="6" fill="#ff9900" opacity="0.12" stroke="#ff9900" stroke-width="1.5"/>
-      <text x="70" y="93" text-anchor="middle" font-size="8" fill="#c2410c" font-weight="700">🔒 生產 account</text>
-
-      <!-- Key cards -->
-      <rect x="230" y="35" width="70" height="65" rx="12" fill="#e8eeff" stroke="#326ce5" stroke-width="1.5"/>
-      <text x="265" y="58" text-anchor="middle" font-size="18">🪪</text>
-      <text x="265" y="76" text-anchor="middle" font-size="9" font-weight="700" fill="#326ce5">IAM 鎖匙</text>
-      <text x="265" y="90" text-anchor="middle" font-size="8" fill="#6b7280">每人一張</text>
-
-      <!-- Arrow key → building -->
-      <path d="M300 50 Q320 40 340 50" stroke="#326ce5" stroke-width="2" fill="none" marker-end="url(#akz1)"/>
-      <defs><marker id="akz1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#326ce5"/></marker></defs>
-
-      <!-- Security guard -->
-      <rect x="340" y="35" width="70" height="65" rx="12" fill="#f0fdf4" stroke="#10b981" stroke-width="1.5"/>
-      <text x="375" y="58" text-anchor="middle" font-size="18">🛡️</text>
-      <text x="375" y="76" text-anchor="middle" font-size="9" font-weight="700" fill="#059669">Guardrails</text>
-      <text x="375" y="90" text-anchor="middle" font-size="8" fill="#6b7280">自動攔截</text>
-
-      <!-- CCTV -->
-      <rect x="430" y="35" width="70" height="65" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
-      <text x="465" y="58" text-anchor="middle" font-size="18">📹</text>
-      <text x="465" y="76" text-anchor="middle" font-size="9" font-weight="700" fill="#d97706">Logging</text>
-      <text x="465" y="90" text-anchor="middle" font-size="8" fill="#6b7280">全部記錄</text>
-
-      <text x="530" y="55" text-anchor="middle" font-size="10" fill="#6b7280">邊個入過</text>
-      <text x="530" y="68" text-anchor="middle" font-size="10" fill="#6b7280">做過咩</text>
-      <text x="530" y="81" text-anchor="middle" font-size="10" fill="#6b7280">全部知</text>
-    </svg>
+    <div class="step-head"><span class="step-num">02</span><span class="step-title">入大廈要拍卡。每個 Team 有自己嗰層。</span></div>
+    <p class="step-desc"><b>開發用一個 Account、測試用一個、生產鎖死</b>。每個人用 IAM 攞鎖匙,只可以去自己獲授權嗰層——<b>就算被 hack 都闖唔入其他層</b>。</p>
+    <div class="flow">
+      <div class="f-step f-detect" data-n="1"><span class="f-ico">🪪</span><span class="f-title">每人一張卡</span><span class="f-tag">IAM KEY</span></div>
+      <span class="f-arrow">→</span>
+      <div class="f-step f-new" data-n="2"><span class="f-ico">🏢</span><span class="f-title">分層 Account</span><span class="f-tag">DEV · TEST · PROD</span></div>
+      <span class="f-arrow">→</span>
+      <div class="f-step f-scale" data-n="3"><span class="f-ico">🔒</span><span class="f-title">保安守得住</span><span class="f-tag">SEGREGATED</span></div>
+    </div>
   </div>
-
-  <!-- Step 3 -->
   <div class="card">
-    <span class="step-num">3</span>
-    <p class="step-title">有新 team 要入嚟？跟住個 blueprint 就得。</p>
-    <p class="step-desc">Landing Zone 最勁嘅係：唔係一次性。以後有新 project、新 team，只要跟住同一個 blueprint 開 account，就自動有齊保安、網絡、審計——唔使每次都重新搞過。</p>
-    <svg viewBox="0 0 600 75" fill="none">
-      <rect x="10" y="10" width="500" height="55" rx="14" fill="#fff7ed" stroke="#ff9900" stroke-width="2"/>
-      <text x="40" y="32" text-anchor="middle" font-size="16">📋</text>
-      <text x="100" y="32" font-size="11" font-weight="700" fill="#ff9900">Blueprint 模板</text>
-      <text x="220" y="32" font-size="22">→</text>
-      <text x="255" y="32" font-size="16">🪄</text>
-      <text x="340" y="32" font-size="11" font-weight="700" fill="#059669">一撳就開新 account</text>
-      <text x="455" y="33" font-size="10" fill="#6b7280">保安自動跟埋</text>
-    </svg>
+    <div class="step-head"><span class="step-num">03</span><span class="step-title">新 Team 想入嚟?跟 blueprint 就得。</span></div>
+    <p class="step-desc">Landing Zone 最勁:唔係一次性。以後<b>任何新 Project,只要跟同一條 Blueprint 開 Account</b>,保安、網絡、審計自動跟埋,<b>幾分鐘就搞掂</b>。</p>
+    <div class="flow">
+      <div class="f-step f-detect" data-n="1"><span class="f-ico">📋</span><span class="f-title">Blueprint 模板</span><span class="f-tag">TEMPLATE</span></div>
+      <span class="f-arrow">→</span>
+      <div class="f-step f-new" data-n="2"><span class="f-ico">⚡</span><span class="f-title">一撳開 Account</span><span class="f-tag">AUTOMATED</span></div>
+      <span class="f-arrow">→</span>
+      <div class="f-step f-scale" data-n="3"><span class="f-ico">🎉</span><span class="f-title">即用即安全</span><span class="f-tag">READY</span></div>
+    </div>
   </div>
-
-  <!-- Tags -->
-  <div class="card" style="padding: 12px 26px;">
-    <span class="tag">🏢 多 account 管理</span>
-    <span class="tag">🪪 IAM 身份控制</span>
-    <span class="tag">🌐 網絡分割</span>
-    <span class="tag">🛡️ 安全護欄</span>
-    <span class="tag">📹 全部記錄</span>
-    <span class="tag">💰 成本控制</span>
-  </div>
-
-  <div class="summary">
-    <p>AWS Landing Zone 就係起樓之前打好嘅地基，<br>包埋圍欄、鎖匙、CCTV——以後任何人想入嚟起嘢，跟 blueprint 就得。</p>
-  </div>
-
+<div class="card" style="padding:16px 28px;"><div class="chips"><span class="chip"><span class="c-dot" style="background:#ff9900"></span>多 Account 管理</span><span class="chip"><span class="c-dot" style="background:#0a72ef"></span>IAM 身份控制</span><span class="chip"><span class="c-dot" style="background:#0a9d5c"></span>Guardrails</span><span class="chip"><span class="c-dot" style="background:#e5484d"></span>全部記錄</span><span class="chip"><span class="c-dot" style="background:#d97706"></span>成本控制</span></div></div>
+<div class="summary"><div class="sum-label">一句總結</div><p>AWS Landing Zone 就係<b>起樓之前打好嘅地基</b>——圍欄、鎖匙、CCTV 一次過起好,之後任何人入嚟跟 blueprint 就得。</p></div>
 </div>
 </body>
 </html>

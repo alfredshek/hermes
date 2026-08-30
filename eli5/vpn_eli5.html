@@ -2,92 +2,129 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VPN 係咩? — 5歲講法</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>VPN 係咩? — ELI5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+  :root {
+    --black: #171717; --gray-600: #4d4d4d; --gray-500: #666666; --gray-400: #808080;
+    --gray-100: #ebebeb; --gray-50: #fafafa;
+    --accent: #0a72ef; --accent-dark: #0057c2; --accent-light: #ebf1ff;
+    --green: #0a9d5c; --green-light: #ecfdf3; --red: #e5484d; --red-light: #fef2f2; --amber: #d97706; --amber-light: #fffbeb;
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: "PingFang HK", "Microsoft JhengHei", sans-serif; background: #0f172a; color: #f1f5f9; padding: 24px 14px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-  .wrap { max-width: 640px; width: 100%; margin: auto; }
-  h1 { font-size: 2.4rem; text-align: center; margin-bottom: 8px; background: linear-gradient(90deg,#38bdf8,#a78bfa); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-  .sub { text-align: center; color: #94a3b8; font-size: 1.1rem; margin-bottom: 32px; }
-  .card { background: #1e293b; border-radius: 20px; padding: 28px; margin-bottom: 28px; border: 1px solid #334155; }
-  .card.gist { background: linear-gradient(135deg,#1e3a5f,#312e81); border: 1px solid #4f46e5; }
-  .big { font-size: 1.5rem; line-height: 1.6; text-align: center; } .big b { color: #38bdf8; font-size: 2rem; display: block; margin-bottom: 6px; }
-  .step { display: flex; gap: 18px; align-items: flex-start; margin-bottom: 22px; }
-  .num { min-width: 42px; height: 42px; border-radius: 50%; background: #4f46e5; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.3rem; color:#fff; }
-  .step h3 { margin-bottom: 4px; font-size: 1.2rem; color: #38bdf8; }
-  .step p { color: #cbd5e1; line-height: 1.6; }
-  svg { width: 100%; margin: 8px 0; display: block; }
-  h2 { font-size: 1.4rem; margin-bottom: 14px; color:#a5b4fc;}
-  .why { color:#fda4af; }
-  .chip { display:inline-block; background:#334155; padding:6px 12px; border-radius:999px; margin:4px 6px 0 0; font-size:1rem;}
-</style>
+  body {
+    font-family: 'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    background: #ffffff; color: var(--black); -webkit-font-smoothing: antialiased; line-height: 1.56;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 40px 24px 64px; }
+  @supports (padding-top: env(safe-area-inset-top)) or (padding-top: constant(safe-area-inset-top)) {
+    .wrap { padding-top: calc(24px + env(safe-area-inset-top)); padding-bottom: calc(48px + env(safe-area-inset-bottom)); }
+  }
+  .eyebrow {
+    font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12px; font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 10px;
+  }
+  .eyebrow::before { content: ''; width: 24px; height: 2px; background: var(--accent); display: inline-block; }
+  h1 { font-size: clamp(38px, 7vw, 54px); font-weight: 600; letter-spacing: -2.4px; line-height: 1.06; margin-bottom: 14px; }
+  h1 .dot { color: var(--accent); }
+  .lede { font-size: 17px; font-weight: 400; color: var(--gray-600); line-height: 1.7; max-width: 580px; margin-bottom: 36px; }
+  .lede b { color: var(--black); font-weight: 500; }
+  .step-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 16px; }
+  .step-num { font-family: 'Geist Mono', ui-monospace, monospace; font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); white-space: nowrap; }
+  .step-num::after { content: ' /'; opacity: 0.6; }
+  .step-title { font-size: 23px; font-weight: 600; letter-spacing: -0.9px; line-height: 1.3; }
+  .card {
+    background: #ffffff;
+    box-shadow: rgba(0,0,0,0.08) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 2px, rgba(0,0,0,0.04) 0px 8px 8px -8px, #fafafa 0px 0px 0px 1px;
+    border-radius: 10px; padding: 24px 28px; margin-bottom: 24px;
+  }
+  .card p.step-desc { font-size: 15px; color: var(--gray-600); line-height: 1.7; max-width: 60ch; margin-bottom: 14px; }
+  .card p.step-desc b { color: var(--black); font-weight: 500; }
+  .card p.step-desc code { font-family: 'Geist Mono', ui-monospace, monospace; font-size: 0.85em; background: var(--gray-50); box-shadow: rgba(0,0,0,0.08) 0px 0px 0px 1px; padding: 1px 6px; border-radius: 4px; }
+  .flow { display: flex; flex-wrap: wrap; align-items: stretch; gap: 10px; margin-top: 14px; }
+  .f-step {
+    flex: 1 1 130px; min-width: 120px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 4px; padding: 16px 10px 14px; border-radius: 12px;
+    font-family: 'Geist', sans-serif; position: relative;
+  }
+  .f-step .f-ico { font-size: 22px; line-height: 1; }
+  .f-step .f-title { font-size: 14px; font-weight: 600; color: inherit; white-space: nowrap; }
+  .f-step .f-tag { font-family: 'Geist Mono', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.05em; opacity: 0.85; white-space: nowrap; }
+  .f-dead  { background: var(--red-light); border: 1.5px solid var(--red); color: #b91c1c; }
+  .f-detect{ background: var(--accent-light); border: 1.5px solid var(--accent); color: var(--accent-dark); }
+  .f-new   { background: var(--green-light); border: 1.5px solid var(--green); color: #047857; }
+  .f-scale { background: var(--amber-light); border: 1.5px solid var(--amber); color: #b45309; }
+  .f-arrow { align-self: center; font-size: 18px; color: #808080; line-height: 1; padding: 0 2px; flex: 0 0 auto; }
+  @media (max-width: 560px) {
+    .flow { gap: 8px; }
+    .f-step { flex: 1 1 42%; min-width: 0; padding: 14px 6px 12px; }
+    .f-step .f-title { font-size: 13px; white-space: normal; text-align: center; }
+    .f-step .f-tag { font-size: 9px; }
+    .f-arrow { display: none; }
+    .f-step::before { content: attr(data-n); position: absolute; top: 5px; left: 8px; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 10px; font-weight: 500; color: inherit; opacity: 0.55; }
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 2px; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; background: var(--gray-50); box-shadow: rgba(0,0,0,0.08) 0px 0px 0px 1px; color: var(--black); border-radius: 9999px; padding: 6px 14px; }
+  .chip .c-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .summary { margin-top: 28px; background: var(--black); color: #fff; border-radius: 12px; padding: 26px 30px; }
+  .summary .sum-label { font-family: 'Geist Mono', ui-monospace, monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: #8a8f98; margin-bottom: 10px; }
+  .summary p { font-size: 20px; font-weight: 500; letter-spacing: -0.3px; line-height: 1.5; }
+  .summary p b { color: #7cb8ff; font-weight: 600; }
+  .card, .summary, h1, .eyebrow, .lede, .flow { break-inside: avoid; page-break-inside: avoid; }
+  .wrap { page-break-inside: avoid; }
+  @media print {
+    body { background: #fff; }
+    .wrap { padding: 16px; zoom: 0.85; transform-origin: top center; }
+    .card { box-shadow: rgba(0,0,0,0.15) 0px 0px 0px 1px; }
+    .summary { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+  @media (max-width: 560px) {
+    .wrap { padding: 24px 14px 48px; }
+    .card { padding: 18px; }
+    .step-title { font-size: 19px; letter-spacing: -0.5px; }
+    .summary { padding: 20px; }
+    .summary p { font-size: 18px; }
+  }</style>
 </head>
 <body>
 <div class="wrap">
-  <h1>VPN 係咩?</h1>
-  <div class="sub">用 5 歲小朋友都明嘅方法講</div>
+<div class="eyebrow">ELI5 · 5 分鐘睇明</div>
+<h1>VPN = 一條<br><b class="dot">秘密隧道</b>。</h1>
+<p class="lede">VPN 全名 Virtual Private Network——你上網嘅資料經一條<b>加密隧道</b>送去另一個地址。人哋見你入隧道,但永遠睇唔到入面做咩。</p>
 
-  <!-- GIST -->
-  <div class="card gist big">
-    <b>VPN = 秘密隧道</b>
-    幫你喺屋企上網嘅時候,唔會俾出面啲人睇到你做緊咩。<br>
-    「出發」→「隧道」→「秘密到埗」
-  </div>
-
-  <!-- DIAGRAM -->
   <div class="card">
-    <h2>🔎 係咁樣運作嘅</h2>
-    <svg viewBox="0 0 560 200" fill="none">
-      <!-- house -->
-      <rect x="30" y="70" width="70" height="90" fill="#475569" rx="8"/>
-      <polygon points="30,70 65,35 100,70" fill="#94a3b8"/>
-      <text x="65" y="125" font-size="14" fill="#fff" text-anchor="middle">你</text>
-      <text x="65" y="145" font-size="11" fill="#cbd5e1" text-anchor="middle">屋企</text>
-
-      <!-- tunnel -->
-      <path d="M100 115 Q180 60 260 115 Q340 170 420 115 L420 105 Q340 160 260 105 Q180 50 100 105 Z" fill="url(#tg)" opacity="0.9"/>
-      <defs><linearGradient id="tg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4f46e5"/><stop offset="1" stop-color="#38bdf8"/></linearGradient></defs>
-      <text x="260" y="105" font-size="13" fill="#fff" text-anchor="middle" font-weight="700">🔒 秘密隧道</text>
-      <text x="260" y="128" font-size="11" fill="#c7d2fe" text-anchor="middle" font-weight="600">加密鎖住</text>
-
-      <!-- world -->
-      <circle cx="470" cy="115" r="40" fill="#38bdf8" opacity="0.25"/>
-      <circle cx="470" cy="115" r="12" fill="#38bdf8"/>
-      <text x="470" y="175" font-size="12" fill="#cbd5e1" text-anchor="middle">對面網站</text>
-      <text x="470" y="192" font-size="11" fill="#64748b" text-anchor="middle">以為你喺隧道尾出嚟</text>
-
-      <!-- snoopers -->
-      <text x="65" y="40" font-size="12" fill="#f87171" text-anchor="middle">👀 隻眼望唔穿隧道</text>
-      <path d="M120 70 V40 M240 70 V40 M380 70 V40" stroke="#f87171" stroke-width="2" stroke-dasharray="4 4" opacity="0.5"/>
-      <text x="470" y="40" font-size="11" fill="#64748b" text-anchor="middle">😲 見到你由邊度出嚟</text>
-    </svg>
-    <p>加鎖(加密)咗嘅資料,喺街上面啲人睇唔到。</p>
-  </div>
-
-  <!-- STEPS -->
-  <div class="card">
-    <h2>三步睇明</h2>
-    <div class="step"><div class="num">1</div><div><h3>原本嘅行法</h3><p>你直咁上去網站,哋個網絡商(ISP)同網站都知你係邊、去咗邊。</p></div></div>
-    <div class="step"><div class="num">2</div><div><h3>入咗秘密隧道</h3><p>VPN 將你嘅上網嘢用密碼鎖住,再扮成係「另一個國家嘅人」出嚟行。</p></div></div>
-    <div class="step"><div class="num">3</div><div><h3>出嚟係假地址</h3><p>網站以為你喺隧道尾嗰個國家,所以睇唔到你真正位置。</p></div></div>
-  </div>
-
-  <!-- WHY -->
-  <div class="card">
-    <h2>💡 點解要佢?</h2>
-    <div style="margin-top:6px">
-      <span class="chip">🛡️ 保護私隱</span>
-      <span class="chip">☕ 公共 Wi-Fi 安心啲</span>
-      <span class="chip">🌍 跨區用嘢 (當你喺台灣/日本)</span>
-      <span class="chip">🔓 解鎖地區限制內容</span>
+    <div class="step-head"><span class="step-num">01</span><span class="step-title">一條大馬路。好多窗口。你想靜靜哋行。</span></div>
+    <p class="step-desc">唔用 VPN 上網,就好似喺一條大馬路行——沿路每個窗口(ISP、網站、黑客)都望到你<b>去咗邊、做緊咩</b>。你想有啲私隱,點算好?</p>
+    <div class="flow">
+      <div class="f-step f-dead" data-n="1"><span class="f-ico">🏠</span><span class="f-title">你部機上網</span><span class="f-tag">EXPOSED</span></div>
+      <span class="f-arrow">→</span>
+      <div class="f-step f-detect" data-n="2"><span class="f-ico">👀</span><span class="f-title">啲人睇到你</span><span class="f-tag">SNOOPERS</span></div>
+      <span class="f-arrow">→</span>
+      <div class="f-step f-new" data-n="3"><span class="f-ico">🛡️</span><span class="f-title">VPN 出手!</span><span class="f-tag">ENCRYPTED</span></div>
+      <span class="f-arrow">→</span>
+      <div class="f-step f-scale" data-n="4"><span class="f-ico">🌍</span><span class="f-title">唔知你邊個</span><span class="f-tag">PRIVATE</span></div>
     </div>
   </div>
-
-  <div class="card" style="text-align:center;background:#312e81">
-    <p style="color:#a5b4fc;font-size:1.2rem">✅ 一句總結</p>
-    <p style="font-size:1.3rem;margin-top:6px">VPN 就係喺你同網站之間,挖條 <b style="color:#38bdf8">加咗鎖嘅秘密隧道</b >,等你行得安全、又冇人知你邊。</p>
+  <div class="card">
+    <div class="step-head"><span class="step-num">02</span><span class="step-title">VPN = 一條秘密隧道</span></div>
+    <p class="step-desc"><b>VPN 將你啲上網資料全部加密</b>(鎖入密碼箱),再由一條隧道送去「隧道出口」——個出口可以喺第二個國家。<b>出面啲人只見到你入隧道,睇唔到入面做咩。</b></p>
+    <div class="flow">
+      <div class="f-step f-detect" data-n="1"><span class="f-ico">🔐</span><span class="f-title">資料加密</span><span class="f-tag">ENCRYPT</span></div>
+      <span class="f-arrow">→</span>
+      <div class="f-step f-new" data-n="2"><span class="f-ico">🚇</span><span class="f-title">行秘密隧道</span><span class="f-tag">TUNNEL</span></div>
+      <span class="f-arrow">→</span>
+      <div class="f-step f-scale" data-n="3"><span class="f-ico">📍</span><span class="f-title">假地址出嚟</span><span class="f-tag">SPOOFED</span></div>
+    </div>
   </div>
+  <div class="card">
+    <div class="step-head"><span class="step-num">03</span><span class="step-title">點解要用佢?</span></div>
+    <p class="step-desc">私隱唔單止係「秘密」,仲係<b>安全感</b>——尤其你去旅行、用咖啡店 WiFi 嗰陣,賊仔最鍾意喺公共網絡等你。</p>
+  </div>
+<div class="card" style="padding:16px 28px;"><div class="chips"><span class="chip"><span class="c-dot" style="background:#0a72ef"></span>私隱</span><span class="chip"><span class="c-dot" style="background:#0a9d5c"></span>公共 WiFi 安全</span><span class="chip"><span class="c-dot" style="background:#d97706"></span>跨區睇嘢</span><span class="chip"><span class="c-dot" style="background:#e5484d"></span>防黑客</span></div></div>
+<div class="summary"><div class="sum-label">一句總結</div><p>VPN 就係<b>一條加密嘅秘密隧道</b>——你行入去,出嚟係另一個地址。人哋見到你入去,但永遠睇唔到入面做咩。</p></div>
 </div>
 </body>
 </html>
