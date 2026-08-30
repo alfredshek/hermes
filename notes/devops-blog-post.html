@@ -236,7 +236,60 @@ CMD ["node", "server.js"]</div>
   <li>Layer 順序要諗:<code>COPY</code> 嘅檔案愈少變,愈早放 → cache 命中愈高</li>
 </ul>
 
-<h3>4.3 持久化與網絡</h3>
+<h3>4.3 Dockerfile Best Practices</h3>
+<h4>4.3.1 揀細 base image</h4>
+<table>
+  <tr><th>Base</th><th>大細</th><th>用途</th></tr>
+  <tr><td><code>alpine</code></td><td>~5MB</td><td>最細,但要注意 musl 相容問題</td></tr>
+  <tr><td><code>slim</code>(如 node:20-slim)</td><td>~50-80MB</td><td>Debian 底,相容性最好,最常用</td></tr>
+  <tr><td><code>distroless</code></td><td>極細</td><td>生產用,冇 shell / 冇 package manager(安全但難 debug)</td></tr>
+</table>
+<ul>
+  <li><strong>咪用 <code>latest</code> tag</strong>:每次 build 都可能唔同 base → build 唔可重現。用固定版本 + digest:<code>node:20-alpine@sha256:…</code></li>
+</ul>
+<h4>4.3.2 Multi-stage build(最重要嘅技巧)</h4>
+<div class="flow"># Stage 1: build(有 compiler + 全部依賴)
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# Stage 2: runtime(淨係要 build 出嚟嘅 artifact)
+FROM node:20-alpine
+WORKDIR /app
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+USER node
+CMD ["node", "dist/server.js"]</div>
+<p>compiler、source code、build tool 全部<strong>唔會入最終 image</strong> → 又細又少攻擊面。</p>
+<h4>4.3.3 Layer 順序 = cache 命中率</h4>
+<ul>
+  <li>先 <code>COPY package*.json</code> → 再 <code>RUN npm ci</code> → <strong>最後</strong>先 <code>COPY . .</code>:改 code 唔使重新裝依賴</li>
+  <li>RUN 指令用 <code>&amp;&amp;</code> 串埋 + 清 cache:<code>apt-get update &amp;&amp; apt-get install -y curl &amp;&amp; rm -rf /var/lib/apt/lists/*</code></li>
+</ul>
+<h4>4.3.4 安全 practices</h4>
+<table>
+  <tr><th>Practice</th><th>點做</th></tr>
+  <tr><td><strong>唔好用 root 行</strong></td><td><code>USER node</code> / 自建 user — 被攻破都冇 root 權限</td></tr>
+  <tr><td><strong>.dockerignore</strong></td><td>排除 node_modules / .git / .env — 快之餘防止 secrets 入 build context</td></tr>
+  <tr><td><strong>Secrets 唔好寫死</strong></td><td>用 BuildKit secret mount(<code>RUN --mount=type=secret</code>)或 build args,唔好 <code>ENV PASSWORD=***</code></td></tr>
+  <tr><td><strong>掃描 + 簽名</strong></td><td>CI 入面 Trivy 掃漏洞 + cosign 簽名(見 1.2.1)</td></tr>
+  <tr><td><strong>COPY 唔好亂用 ADD</strong></td><td>ADD 會自動解 tar / 拉 remote URL,行為估唔到 — 淨係用 COPY 最穩陣</td></tr>
+</table>
+<h4>4.3.5 其他細節</h4>
+<ul>
+  <li><strong>ENTRYPOINT vs CMD</strong>:ENTRYPOINT = 主要指令,CMD = 預設參數 — 用 ENTRYPOINT 先唔會俾人 <code>docker run image ls</code> 覆蓋</li>
+  <li><strong>HEALTHCHECK</strong>:寫好 health check,編排器先識自動重啟死咗嘅 container</li>
+  <li><strong>LABEL</strong>:加 metadata(版本 / maintainer / git commit)</li>
+  <li><strong>EXPOSE 純粹係文件</strong>:唔會真係開 port,實際要 -p / K8s Service</li>
+</ul>
+<div class="callout trap"><h4>⚠️ 最常見嘅錯</h4>
+① 用 <code>latest</code> → build 唔可重現。② 先 COPY 晒成個 repo 先裝依賴 → cache 永遠唔中。③ 用 root 行 app → 被 hack 等於成部機淪陷。④ Secret 寫死喺 image → 睇 image 歷史就見到。⑤ 單一巨型 image → node_modules + compiler + source 全塞埋。
+</div>
+
+<h3>4.4 持久化與網絡</h3>
 <ul>
   <li><strong>Volume</strong>(docker 管理,推薦)/ <strong>Bind mount</strong>(直接 host 路徑,開發用)</li>
   <li>網絡:bridge(預設,container 互連)/ host / none</li>
@@ -244,7 +297,7 @@ CMD ["node", "server.js"]</div>
   <li>Registry:Docker Hub / ECR / GHCR</li>
 </ul>
 <div class="callout trap"><h4>⚠️ 陷阱</h4>
-Container 重啟之後,冇寫入 volume 嘅資料<strong>會消失</strong> — state 一定要出嚟(volume / DB)。另外 image 要<strong>掃描漏洞 + 簽名</strong>(見 S15)。
+Container 重啟之後,冇寫入 volume 嘅資料<strong>會消失</strong> — state 一定要出嚟(volume / DB)。另外 image 要<strong>掃描漏洞 + 簽名</strong>(見 1.2.1)。
 </div>
 
 <!-- ================= S5 ================= -->
