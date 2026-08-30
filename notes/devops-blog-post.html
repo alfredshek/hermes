@@ -110,16 +110,32 @@
   <tr><td>產出</td><td>可驗證嘅 build / artifact</td><td>已部署 + 已驗證嘅環境</td></tr>
 </table>
 
-<h3>1.2 Pipeline 典型階段</h3>
+<h3>1.2 Pipeline 典型階段 — 每個階段掃咩?</h3>
 <div class="flow">Source → Build → Test → (Artifact) → Deploy → (Verify / Post-deploy)
- │          │        │              │
- │          │        └─ unit / integration / e2e
- │          └─ compile + container image
- └─ git push / PR merge 觸發</div>
+ │          │        │              │          │
+ │          │        │              │          └─ runtime 持續掃描 + 監控
+ │          │        │              └─ gate: CVSS 門檻 + 簽名驗證
+ │          │        └─ DAST(掃運行中 app)
+ │          └─ Image 掃描 + SBOM + 簽名
+ └─ SAST + Secret 掃描 + SCA(依賴漏洞)
+觸發: git push / PR merge</div>
 <ul>
   <li><strong>Artifact 要 immutable</strong>:每個 build 有唯一版本號,之後唔改 — 先可以精準回滾</li>
   <li><strong>Verify 階段</strong>(smoke test / health check / canary analysis)係 CD 嘅靈魂,冇 verify 嘅 deploy 等於盲賭</li>
 </ul>
+
+<h4>1.2.1 Scanning 明確加喺邊(DevSecOps 分層)</h4>
+<table>
+  <tr><th>Pipeline 階段</th><th>加咩 scanning</th><th>代表工具</th></tr>
+  <tr><td><strong>Source / Commit</strong></td><td>SAST(掃 source code)+ Secret 掃描(密碼有冇入 code)+ SCA(依賴庫漏洞)</td><td>Semgrep / gitleaks / Dependabot</td></tr>
+  <tr><td><strong>Build</strong></td><td>Image 掃描 + SBOM 生成 + image 簽名</td><td>Trivy / Grype / cosign</td></tr>
+  <tr><td><strong>Test / Staging</strong></td><td>DAST(對運行中嘅 app 掃)</td><td>OWASP ZAP</td></tr>
+  <tr><td><strong>Deploy 前(gate)</strong></td><td>政策門檻:CVSS ≥ 7 自動 block + 簽名驗證</td><td>OPA / Kyverno</td></tr>
+  <tr><td><strong>Deploy 後(Runtime)</strong></td><td>持續掃描 + 異常行為偵測</td><td>AWS Inspector / Falco</td></tr>
+</table>
+<div class="callout key"><h4>✅ 原則</h4>
+每個 PR 都掃(唔係 release 前先掃一次);掃描結果要 <strong>gate</strong>(高危自動 block),唔好淨係出一份冇人睇嘅 report。
+</div>
 
 <h3>1.3 分支策略</h3>
 <ul>
@@ -131,14 +147,7 @@
 </div>
 
 <h3>1.4 DevSecOps — 將安全左移入 CI/CD</h3>
-<p><strong>DevSecOps = 將安全由「release 前檢查」變成「由第一行 code 開始」</strong> — 掃描要入 CI,每個 PR 都跑,唔係 release 前先做一次。</p>
-<table>
-  <tr><th>掃描類型</th><th>掃咩</th><th>代表工具</th></tr>
-  <tr><td><strong>SAST</strong></td><td>靜態掃 source code(唔使跑)</td><td>Semgrep / SonarQube</td></tr>
-  <tr><td><strong>DAST</strong></td><td>動態掃運行中嘅 app</td><td>OWASP ZAP</td></tr>
-  <tr><td><strong>SCA</strong></td><td>依賴庫漏洞</td><td>Dependabot / Trivy</td></tr>
-  <tr><td><strong>Image 掃描</strong></td><td>容器 image 漏洞</td><td>Trivy / Grype</td></tr>
-</table>
+<p><strong>DevSecOps = 將安全由「release 前檢查」變成「由第一行 code 開始」</strong> — 掃描要入 CI,每個 PR 都跑,唔係 release 前先做一次。<strong>每個階段掃咩、用咩工具,見上面 1.2.1 嘅位置表。</strong></p>
 <ul>
   <li><strong>供應鏈安全</strong>:image 簽名(cosign / Sigstore)、SBOM(cyclonedx,組件清單)、artifact checksum 防篡改</li>
   <li>IAM 最小權限 + pipeline secrets 隔離;漏洞政策(CVSS 門檻,例如 ≥ 7 先 block)要一早定死</li>
