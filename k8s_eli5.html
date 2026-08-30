@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K8s 係咩？</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; overflow-x: hidden; overflow-y: hidden; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang HK", "Microsoft JhengHei", sans-serif;
+    background: #f3f4f8; color: #1a1a2e; padding: 16px 12px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 660px; width: 100%; padding: 0 4px; }
+  h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 4px; }
+  .intro { font-size: 0.95rem; color: #5b5b82; margin-bottom: 14px; line-height: 1.4; }
+  .card { background: #fff; border-radius: 20px; padding: 22px 26px; margin-bottom: 14px; box-shadow: 0 1px 8px rgba(0,0,0,0.04); }
+  .step-num { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 10px; background: #326ce5; color: #fff; font-weight: 800; font-size: 1.1rem; }
+  .step-title { font-size: 1.15rem; font-weight: 800; margin: 5px 0 0 0; }
+  .step-desc { font-size: 0.9rem; color: #5b5b82; line-height: 1.5; margin-top: 3px; }
+  svg { width: 100%; margin: 10px 0; display: block; overflow: visible; }
+  .tag { display: inline-block; background: #e8eeff; color: #326ce5; padding: 4px 12px; border-radius: 999px; font-size: 0.85rem; margin: 3px 5px 0 0; font-weight: 600; }
+  .summary { background: #326ce5; color: #fff; border-radius: 20px; padding: 22px 26px; text-align: center; }
+  .summary p { font-size: 1.1rem; font-weight: 700; line-height: 1.5; }
+
+  .card, .summary, svg, h1, .intro { break-inside: avoid; page-break-inside: avoid; }
+  .wrap { page-break-inside: avoid; break-inside: avoid; page-break-before: avoid; page-break-after: avoid; }
+  @page { size: auto; margin: 6mm; }
+  @media print {
+    body { background: #fff; padding: 6px; height: auto; overflow: visible; }
+    .wrap { zoom: 0.78; transform-origin: top center; }
+    .card { box-shadow: none; border: 1px solid #e5e7eb; }
+    .summary { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>K8s 係咩？</h1>
+  <p class="intro">K8s 全名 Kubernetes，係一個「貨櫃碼頭嘅總指揮」。佢幫你管住幾百個 app，決定邊個放喺邊部機、邊個唔郁得就換過個新嘅。</p>
+
+  <!-- Step 1 -->
+  <div class="card">
+    <span class="step-num">1</span>
+    <p class="step-title">一個碼頭。幾百個貨櫃。一個總指揮。</p>
+    <p class="step-desc">想像你有一個超大貨櫃碼頭，上面有幾百個貨櫃(app)，幾十艘船(伺服器)。冇人指揮嘅話會亂晒籠——邊個櫃放邊艘船？邊個櫃爛咗要換？K8s 就係嗰個總指揮。</p>
+    <svg viewBox="0 0 600 140" fill="none">
+      <!-- K8s tower -->
+      <rect x="240" y="8" width="120" height="50" rx="12" fill="#326ce5"/>
+      <text x="300" y="30" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">K8s 指揮塔</text>
+      <text x="300" y="48" text-anchor="middle" font-size="10" fill="#bfdbfe">總指揮</text>
+
+      <!-- Ships (servers) -->
+      <rect x="30" y="80" width="90" height="50" rx="12" fill="#e8eeff" stroke="#326ce5" stroke-width="2"/>
+      <text x="75" y="108" text-anchor="middle" font-size="20">🖥️</text>
+      <text x="75" y="125" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a2e">Server A</text>
+
+      <rect x="145" y="80" width="90" height="50" rx="12" fill="#e8eeff" stroke="#326ce5" stroke-width="2"/>
+      <text x="190" y="108" text-anchor="middle" font-size="20">🖥️</text>
+      <text x="190" y="125" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a2e">Server B</text>
+
+      <rect x="260" y="80" width="90" height="50" rx="12" fill="#e8eeff" stroke="#326ce5" stroke-width="2"/>
+      <text x="305" y="108" text-anchor="middle" font-size="20">🖥️</text>
+      <text x="305" y="125" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a2e">Server C</text>
+
+      <rect x="375" y="80" width="90" height="50" rx="12" fill="#e8eeff" stroke="#326ce5" stroke-width="2"/>
+      <text x="420" y="108" text-anchor="middle" font-size="20">🖥️</text>
+      <text x="420" y="125" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a2e">Server D</text>
+
+      <!-- Containers on ships -->
+      <rect x="42" y="68" width="16" height="14" rx="3" fill="#f59e0b" opacity="0.8"/>
+      <rect x="62" y="68" width="16" height="14" rx="3" fill="#10b981" opacity="0.8"/>
+      <rect x="157" y="68" width="16" height="14" rx="3" fill="#f59e0b" opacity="0.8"/>
+      <rect x="272" y="68" width="16" height="14" rx="3" fill="#10b981" opacity="0.8"/>
+      <rect x="387" y="68" width="16" height="14" rx="3" fill="#f59e0b" opacity="0.8"/>
+
+      <!-- Command lines -->
+      <line x1="300" y1="58" x2="75" y2="80" stroke="#326ce5" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <line x1="300" y1="58" x2="190" y2="80" stroke="#326ce5" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <line x1="300" y1="58" x2="305" y2="80" stroke="#326ce5" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <line x1="300" y1="58" x2="420" y2="80" stroke="#326ce5" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+      <text x="550" y="108" text-anchor="middle" font-size="12" fill="#6b7280">📦 = app</text>
+      <text x="550" y="125" text-anchor="middle" font-size="12" fill="#6b7280">🖥️ = 伺服器</text>
+    </svg>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="card">
+    <span class="step-num">2</span>
+    <p class="step-title">貨櫃爛咗？即刻換個新嘅，唔使煩。</p>
+    <p class="step-desc">如果一個 app 死咗（貨櫃爛咗），K8s 會即刻 detect 到，然後自動喺另一部機開過個新嘅。你瞓緊覺佢都自己搞掂，唔使人手救。</p>
+    <svg viewBox="0 0 600 110" fill="none">
+      <!-- Broken container -->
+      <rect x="30" y="25" width="80" height="65" rx="12" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+      <rect x="42" y="42" width="20" height="18" rx="4" fill="#fca5a5"/>
+      <text x="52" y="55" text-anchor="middle" font-size="11">💔</text>
+      <text x="70" y="78" text-anchor="middle" font-size="10" font-weight="700" fill="#ef4444">App 死咗</text>
+      <text x="70" y="92" text-anchor="middle" font-size="8" fill="#6b7280">😱</text>
+
+      <!-- K8s detects -->
+      <rect x="145" y="25" width="80" height="65" rx="12" fill="#326ce5"/>
+      <text x="185" y="48" text-anchor="middle" font-size="22">👀</text>
+      <text x="185" y="68" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">K8s 睇到!</text>
+      <text x="185" y="84" text-anchor="middle" font-size="9" fill="#bfdbfe">自動救</text>
+
+      <!-- Arrow -->
+      <path d="M110 57 Q128 45 145 57" stroke="#326ce5" stroke-width="2" fill="none" marker-end="url(#ak1)"/>
+      <defs><marker id="ak1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#326ce5"/></marker></defs>
+
+      <!-- New container -->
+      <rect x="260" y="25" width="80" height="65" rx="12" fill="#f0fdf4" stroke="#10b981" stroke-width="2"/>
+      <rect x="272" y="42" width="20" height="18" rx="4" fill="#86efac"/>
+      <text x="282" y="55" text-anchor="middle" font-size="11">✨</text>
+      <text x="300" y="78" text-anchor="middle" font-size="10" font-weight="700" fill="#059669">新 App 開好</text>
+      <text x="300" y="92" text-anchor="middle" font-size="8" fill="#6b7280">😊 搞掂</text>
+
+      <!-- Arrow 2 -->
+      <path d="M225 57 Q242 45 260 57" stroke="#10b981" stroke-width="2" fill="none" marker-end="url(#ak2)"/>
+      <defs><marker id="ak2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#10b981"/></marker></defs>
+
+      <!-- Scale up -->
+      <rect x="380" y="25" width="80" height="65" rx="12" fill="#e8eeff" stroke="#326ce5" stroke-width="2"/>
+      <text x="420" y="48" text-anchor="middle" font-size="22">📈</text>
+      <text x="420" y="68" text-anchor="middle" font-size="10" font-weight="700" fill="#326ce5">流量大咗?</text>
+      <text x="420" y="84" text-anchor="middle" font-size="9" fill="#6b7280">自動加 app</text>
+
+      <path d="M340 57 Q360 45 380 57" stroke="#326ce5" stroke-width="2" fill="none" marker-end="url(#ak3)"/>
+      <defs><marker id="ak3" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#326ce5"/></marker></defs>
+    </svg>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="card">
+    <span class="step-num">3</span>
+    <p class="step-title">幾百個 app 一齊行，K8s 一個掣搞掂。</p>
+    <p class="step-desc">以前要逐部機手動裝 app、手動救、手動擴容。而家 K8s 一個指令就搞掂曬：邊個 app 放邊部機、開幾多份、邊個死咗要換——全部自動。</p>
+    <svg viewBox="0 0 600 70" fill="none">
+      <rect x="20" y="10" width="500" height="50" rx="14" fill="#e8eeff" stroke="#326ce5" stroke-width="2"/>
+      <text x="50" y="32" text-anchor="middle" font-size="16">👨‍💻</text>
+      <text x="120" y="32" font-size="11" font-weight="700" fill="#326ce5">你：「我要 10 個 app」</text>
+      <text x="280" y="32" font-size="22">→</text>
+      <text x="320" y="32" font-size="16">⚡</text>
+      <text x="390" y="33" font-size="11" font-weight="700" fill="#059669">K8s：「搞掂!」</text>
+      <text x="450" y="33" font-size="10" fill="#6b7280">幾秒搞掂</text>
+    </svg>
+  </div>
+
+  <!-- Tags -->
+  <div class="card" style="padding: 12px 26px;">
+    <span class="tag">📦 管 app</span>
+    <span class="tag">🔄 自動重啟</span>
+    <span class="tag">📈 自動擴容</span>
+    <span class="tag">⚖️ 負載均衡</span>
+    <span class="tag">🔐 秘密管理</span>
+    <span class="tag">🛠️ 自動修復</span>
+  </div>
+
+  <div class="summary">
+    <p>K8s 就係一個貨櫃碼頭嘅總指揮，<br>你話要幾多個 app，佢幫你擺好、睇實、爛咗自動換——全部自動。</p>
+  </div>
+
+</div>
+</body>
+</html>

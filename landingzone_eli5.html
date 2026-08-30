@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AWS Landing Zone 係咩？</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; overflow-x: hidden; overflow-y: hidden; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang HK", "Microsoft JhengHei", sans-serif;
+    background: #f3f4f8; color: #1a1a2e; padding: 16px 12px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 660px; width: 100%; padding: 0 4px; }
+  h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 4px; }
+  .intro { font-size: 0.95rem; color: #5b5b82; margin-bottom: 14px; line-height: 1.4; }
+  .card { background: #fff; border-radius: 20px; padding: 22px 26px; margin-bottom: 14px; box-shadow: 0 1px 8px rgba(0,0,0,0.04); }
+  .step-num { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 10px; background: #ff9900; color: #fff; font-weight: 800; font-size: 1.1rem; }
+  .step-title { font-size: 1.15rem; font-weight: 800; margin: 5px 0 0 0; }
+  .step-desc { font-size: 0.9rem; color: #5b5b82; line-height: 1.5; margin-top: 3px; }
+  svg { width: 100%; margin: 10px 0; display: block; overflow: visible; }
+  .tag { display: inline-block; background: #fff7ed; color: #c2410c; padding: 4px 12px; border-radius: 999px; font-size: 0.85rem; margin: 3px 5px 0 0; font-weight: 600; }
+  .summary { background: #ff9900; color: #fff; border-radius: 20px; padding: 22px 26px; text-align: center; }
+  .summary p { font-size: 1.1rem; font-weight: 700; line-height: 1.5; }
+
+  .card, .summary, svg, h1, .intro { break-inside: avoid; page-break-inside: avoid; }
+  .wrap { page-break-inside: avoid; break-inside: avoid; page-break-before: avoid; page-break-after: avoid; }
+  @page { size: auto; margin: 6mm; }
+  @media print {
+    body { background: #fff; padding: 6px; height: auto; overflow: visible; }
+    .wrap { zoom: 0.78; transform-origin: top center; }
+    .card { box-shadow: none; border: 1px solid #e5e7eb; }
+    .summary { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>AWS Landing Zone 係咩？</h1>
+  <p class="intro">Landing Zone 就係「起樓之前打好嘅地基同基建」。唔係一嚟就起樓(app)，而係先整好馬路、水電、圍欄、保安室——確保安全、有秩序、唔會亂。</p>
+
+  <!-- Step 1 -->
+  <div class="card">
+    <span class="step-num">1</span>
+    <p class="step-title">一塊空地。有人想亂起樓。你要先規劃。</p>
+    <p class="step-desc">公司開始用 AWS，如果冇人管，每個 team 各自開 account、各自起嘢，好快就會亂晒籠——安全漏洞、重複使費、冇人知邊個做緊咩。Landing Zone 就係一開始就幫你「劃好地皮、定好規則」。</p>
+    <svg viewBox="0 0 600 140" fill="none">
+      <!-- Chaos: scattered buildings -->
+      <rect x="15" y="20" width="55" height="40" rx="6" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <text x="42" y="38" text-anchor="middle" font-size="10" fill="#ef4444" font-weight="700">亂!</text>
+      <text x="42" y="52" text-anchor="middle" font-size="8" fill="#6b7280">冇人管</text>
+
+      <rect x="85" y="50" width="45" height="35" rx="6" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <text x="107" y="72" text-anchor="middle" font-size="9" fill="#ef4444" font-weight="700">亂!</text>
+
+      <rect x="145" y="15" width="50" height="45" rx="6" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <text x="170" y="42" text-anchor="middle" font-size="9" fill="#ef4444" font-weight="700">亂!</text>
+
+      <text x="240" y="55" text-anchor="middle" font-size="28">→</text>
+
+      <!-- Ordered: Landing Zone -->
+      <rect x="280" y="10" width="300" height="120" rx="16" fill="#fff7ed" stroke="#ff9900" stroke-width="2.5"/>
+      <text x="430" y="30" text-anchor="middle" font-size="12" font-weight="800" fill="#ff9900">Landing Zone 規劃好</text>
+
+      <!-- Buildings with labels -->
+      <rect x="298" y="50" width="55" height="35" rx="8" fill="#fff" stroke="#ff9900" stroke-width="2"/>
+      <text x="325" y="72" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a2e">開發</text>
+
+      <rect x="365" y="50" width="55" height="35" rx="8" fill="#fff" stroke="#ff9900" stroke-width="2"/>
+      <text x="392" y="72" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a2e">測試</text>
+
+      <rect x="432" y="50" width="55" height="35" rx="8" fill="#fff" stroke="#ff9900" stroke-width="2"/>
+      <text x="459" y="72" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1a2e">生產</text>
+
+      <rect x="298" y="95" width="55" height="22" rx="8" fill="#ff9900" opacity="0.15" stroke="#ff9900" stroke-width="1"/>
+      <text x="325" y="110" text-anchor="middle" font-size="8" fill="#ff9900" font-weight="700">🔒 保安</text>
+
+      <rect x="365" y="95" width="55" height="22" rx="8" fill="#ff9900" opacity="0.15" stroke="#ff9900" stroke-width="1"/>
+      <text x="392" y="110" text-anchor="middle" font-size="8" fill="#ff9900" font-weight="700">📋 審計</text>
+
+      <rect x="432" y="95" width="55" height="22" rx="8" fill="#ff9900" opacity="0.15" stroke="#ff9900" stroke-width="1"/>
+      <text x="459" y="110" text-anchor="middle" font-size="8" fill="#ff9900" font-weight="700">🌐 網絡</text>
+    </svg>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="card">
+    <span class="step-num">2</span>
+    <p class="step-title">入大廈要拍卡。每個 team 有自己嗰層。</p>
+    <p class="step-desc">Landing Zone 會幫你分好：「開發 team 用呢個 account、財務 team 用嗰個 account、生產環境鎖死唔准亂改」。每個人有自己嘅鎖匙（IAM），只可以去自己嗰層，唔會搞到人哋嗰度。</p>
+    <svg viewBox="0 0 600 115" fill="none">
+      <!-- Building -->
+      <rect x="20" y="15" width="180" height="90" rx="12" fill="#fff7ed" stroke="#ff9900" stroke-width="2"/>
+      <text x="110" y="35" text-anchor="middle" font-size="11" font-weight="800" fill="#ff9900">🏢 公司 AWS</text>
+
+      <rect x="35" y="48" width="70" height="25" rx="6" fill="#fff" stroke="#ff9900" stroke-width="1.5"/>
+      <text x="70" y="65" text-anchor="middle" font-size="9" font-weight="700" fill="#1a1a2e">開發 account</text>
+
+      <rect x="115" y="48" width="70" height="25" rx="6" fill="#fff" stroke="#ff9900" stroke-width="1.5"/>
+      <text x="150" y="65" text-anchor="middle" font-size="9" font-weight="700" fill="#1a1a2e">測試 account</text>
+
+      <rect x="35" y="78" width="70" height="22" rx="6" fill="#ff9900" opacity="0.12" stroke="#ff9900" stroke-width="1.5"/>
+      <text x="70" y="93" text-anchor="middle" font-size="8" fill="#c2410c" font-weight="700">🔒 生產 account</text>
+
+      <!-- Key cards -->
+      <rect x="230" y="35" width="70" height="65" rx="12" fill="#e8eeff" stroke="#326ce5" stroke-width="1.5"/>
+      <text x="265" y="58" text-anchor="middle" font-size="18">🪪</text>
+      <text x="265" y="76" text-anchor="middle" font-size="9" font-weight="700" fill="#326ce5">IAM 鎖匙</text>
+      <text x="265" y="90" text-anchor="middle" font-size="8" fill="#6b7280">每人一張</text>
+
+      <!-- Arrow key → building -->
+      <path d="M300 50 Q320 40 340 50" stroke="#326ce5" stroke-width="2" fill="none" marker-end="url(#akz1)"/>
+      <defs><marker id="akz1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#326ce5"/></marker></defs>
+
+      <!-- Security guard -->
+      <rect x="340" y="35" width="70" height="65" rx="12" fill="#f0fdf4" stroke="#10b981" stroke-width="1.5"/>
+      <text x="375" y="58" text-anchor="middle" font-size="18">🛡️</text>
+      <text x="375" y="76" text-anchor="middle" font-size="9" font-weight="700" fill="#059669">Guardrails</text>
+      <text x="375" y="90" text-anchor="middle" font-size="8" fill="#6b7280">自動攔截</text>
+
+      <!-- CCTV -->
+      <rect x="430" y="35" width="70" height="65" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+      <text x="465" y="58" text-anchor="middle" font-size="18">📹</text>
+      <text x="465" y="76" text-anchor="middle" font-size="9" font-weight="700" fill="#d97706">Logging</text>
+      <text x="465" y="90" text-anchor="middle" font-size="8" fill="#6b7280">全部記錄</text>
+
+      <text x="530" y="55" text-anchor="middle" font-size="10" fill="#6b7280">邊個入過</text>
+      <text x="530" y="68" text-anchor="middle" font-size="10" fill="#6b7280">做過咩</text>
+      <text x="530" y="81" text-anchor="middle" font-size="10" fill="#6b7280">全部知</text>
+    </svg>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="card">
+    <span class="step-num">3</span>
+    <p class="step-title">有新 team 要入嚟？跟住個 blueprint 就得。</p>
+    <p class="step-desc">Landing Zone 最勁嘅係：唔係一次性。以後有新 project、新 team，只要跟住同一個 blueprint 開 account，就自動有齊保安、網絡、審計——唔使每次都重新搞過。</p>
+    <svg viewBox="0 0 600 75" fill="none">
+      <rect x="10" y="10" width="500" height="55" rx="14" fill="#fff7ed" stroke="#ff9900" stroke-width="2"/>
+      <text x="40" y="32" text-anchor="middle" font-size="16">📋</text>
+      <text x="100" y="32" font-size="11" font-weight="700" fill="#ff9900">Blueprint 模板</text>
+      <text x="220" y="32" font-size="22">→</text>
+      <text x="255" y="32" font-size="16">🪄</text>
+      <text x="340" y="32" font-size="11" font-weight="700" fill="#059669">一撳就開新 account</text>
+      <text x="455" y="33" font-size="10" fill="#6b7280">保安自動跟埋</text>
+    </svg>
+  </div>
+
+  <!-- Tags -->
+  <div class="card" style="padding: 12px 26px;">
+    <span class="tag">🏢 多 account 管理</span>
+    <span class="tag">🪪 IAM 身份控制</span>
+    <span class="tag">🌐 網絡分割</span>
+    <span class="tag">🛡️ 安全護欄</span>
+    <span class="tag">📹 全部記錄</span>
+    <span class="tag">💰 成本控制</span>
+  </div>
+
+  <div class="summary">
+    <p>AWS Landing Zone 就係起樓之前打好嘅地基，<br>包埋圍欄、鎖匙、CCTV——以後任何人想入嚟起嘢，跟 blueprint 就得。</p>
+  </div>
+
+</div>
+</body>
+</html>

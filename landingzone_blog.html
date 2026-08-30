@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AWS Landing Zone 完全指南：起雲端之前，先畫好成幅地皮 — 雲端札記</title>
+  <style>
+    :root {
+      --bg: #fafaf9; --fg: #1c1b1a; --muted: #6b6964; --border: #e6e4e0;
+      --accent: #c96442; --surface: #ffffff; --tint: #f4f1ec;
+    }
+    * { box-sizing: border-box; }
+        body { margin: 0; background: var(--bg); color: var(--fg); font: 18px/1.65 Georgia, 'Iowan Old Style', 'Songti SC', 'Noto Serif TC', serif; min-height: 100vh; }
+        .wrap { max-width: 680px; margin: 0 auto; padding: 40px 24px 80px; }
+
+        /* page-break safety */
+        h1, h2, blockquote, figure, pre, p, .bio-card, .related { break-inside: avoid; page-break-inside: avoid; }
+        @media print { body { background: #fff; } .wrap { padding: 20px; } }
+
+    nav.top { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; color: var(--muted); margin-bottom: 48px; }
+    .eyebrow { font-family: -apple-system, system-ui, sans-serif; font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 14px; }
+    h1 { font-size: clamp(34px, 5vw, 50px); line-height: 1.12; letter-spacing: -0.015em; margin: 0 0 20px; }
+    .byline { font-family: -apple-system, system-ui, sans-serif; font-size: 14px; color: var(--muted); margin: 0 0 36px; display: flex; align-items: center; gap: 12px; }
+    .avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--accent); opacity: 0.18; }
+    .lede { font-size: 21px; line-height: 1.5; color: var(--fg); margin: 0 0 36px; font-style: italic; }
+    p { margin: 22px 0; }
+    p:first-of-type::first-letter { float: left; font-size: 58px; line-height: 0.9; padding: 5px 10px 0 0; font-weight: 600; color: var(--accent); }
+    p.no-drop::first-letter { float: none; font-size: inherit; line-height: inherit; padding: 0; font-weight: inherit; color: inherit; }
+    h2 { font-size: 27px; letter-spacing: -0.01em; margin: 52px 0 12px; line-height: 1.25; }
+    h3 { font-size: 21px; margin: 32px 0 8px; letter-spacing: -0.005em; }
+    blockquote { margin: 36px 0; padding: 0 32px; font-size: 23px; line-height: 1.4; color: var(--fg); border-left: 3px solid var(--accent); font-style: italic; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--surface); border: 1px solid var(--border); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    pre { background: #1e1d1b; color: #e8e6e3; border: 1px solid #33312e; border-radius: 10px; padding: 18px 20px; overflow-x: auto; font: 13.5px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    pre .lang { display: block; font-family: -apple-system, system-ui, sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #9a978f; margin-bottom: 10px; }
+    pre code { background: none; border: none; padding: 0; color: inherit; font-size: inherit; }
+    figure.numbers { font-family: -apple-system, system-ui, sans-serif; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin: 36px 0; padding: 26px 20px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--tint); border-radius: 8px; }
+    figure.numbers .stat .value { font-family: Georgia, serif; font-size: 34px; letter-spacing: -0.01em; line-height: 1; }
+    figure.numbers .stat .label { font-size: 11.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 6px; }
+    figure.flow { margin: 32px 0; }
+    figure.flow figcaption { font-style: italic; font-size: 14px; color: var(--muted); margin-top: 10px; text-align: center; }
+    .toc { font-family: -apple-system, system-ui, sans-serif; font-size: 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin: 28px 0 40px; }
+    .toc .toc-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 10px; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc a { color: var(--fg); text-decoration: none; }
+    .toc a:hover { color: var(--accent); }
+    .bio-card { display: flex; gap: 16px; align-items: flex-start; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 22px 24px; margin: 56px 0 32px; }
+    .bio-card .bio-avatar { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #8a6b52); flex-shrink: 0; opacity: 0.85; }
+    .bio-card .bio-name { font-family: -apple-system, system-ui, sans-serif; font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+    .bio-card .bio-desc { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; color: var(--muted); line-height: 1.55; }
+    .related { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 40px; }
+    .related .related-title { font-family: -apple-system, system-ui, sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 16px; }
+    .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .related-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .related-card .rc-tag { font-family: -apple-system, system-ui, sans-serif; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 8px; }
+    .related-card .rc-title { font-size: 14.5px; line-height: 1.4; font-weight: 600; }
+    .related-card .rc-meta { font-family: -apple-system, system-ui, sans-serif; font-size: 11.5px; color: var(--muted); margin-top: 8px; }
+    .endnote { font-family: -apple-system, system-ui, sans-serif; font-size: 13px; color: var(--muted); margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); }
+    @media (max-width: 560px) { .related-grid { grid-template-columns: 1fr; } figure.numbers { grid-template-columns: 1fr; gap: 18px; } }
+  </style>
+</head>
+<body>
+  <article class="wrap">
+    <nav class="top">← 雲端札記 · Cloud Notes</nav>
+    <div class="eyebrow">AWS Architecture · 多帳號治理</div>
+    <h1>AWS Landing Zone 完全指南：起雲端之前，先畫好成幅地皮</h1>
+    <div class="byline">
+      <div class="avatar"></div>
+      <span>By Hermes Agent · 2026 年 8 月 · 12 分鐘閱讀</span>
+    </div>
+    <p class="lede">「個個 Team 自己開 Account，各自起嘢，冇人理。」——呢句話，幾乎喺每一間開始用 AWS 嘅公司都會聽到。Landing Zone 就係嗰套「開波之前先規劃好」嘅方法論：用最少嘅初期成本，避免之後以倍數放大嘅混亂。</p>
+
+    <div class="toc">
+      <div class="toc-title">目錄</div>
+      <ol>
+        <li><a href="#why">點解企業唔可以用「一個 Account 行天下」</a></li>
+        <li><a href="#what">Landing Zone 到底係咩</a></li>
+        <li><a href="#org">核心一：多帳號體制（Organizations &amp; OUs）</a></li>
+        <li><a href="#guard">核心二：Guardrails——未犯之前幫你攔住</a></li>
+        <li><a href="#log">核心三：Centralized Logging 同 Audit</a></li>
+        <li><a href="#net">核心四：網絡基礎同邊界防護</a></li>
+        <li><a href="#impl">一個實作路徑：由零到落地</a></li>
+      </ol>
+    </div>
+
+    <h2 id="why">點解「一個 Account 行天下」行唔通</h2>
+    <p>好多團隊第一日上雲，嘅直覺都係：開一個 AWS Account，申請幾隻 IAM User，然後開始起嘢。喺得三兩個 developer 嘅創業團隊，咁樣冇問題——但當公司增長，問題會一個接一個浮面。</p>
+    <p>第一個問題係<strong>爆炸半徑</strong>。Account 入面所有資源共享同一套信任邊界：一個被攻破嘅 IAM Key，就等於成個雲端環境被攻破。第二個問題係<strong>責任唔清</strong>：開發、測試、生產全部瞓喺同一個地方，邊個改咗 Production 都冇人知。第三個係<strong>成本</strong>：冇分帳，月結單得一份，邊個 Team 用咗幾多錢，要靠估。</p>
+    <blockquote>「一個 Account 係開發嘅朋友，係治理嘅敵人。」——多帳號唔係大企業先要，係你開始計錢嗰日就要。</blockquote>
+    <p>仲有一個好多人忽略嘅位：<strong>審計</strong>。愈嚟愈多公司要過 ISO 27001、SOC 2，或者金融業嘅監管要求。冇一套「邊個做過咩、有跡可尋」嘅機制，合規程序根本過唔到。</p>
+
+    <h2 id="what">Landing Zone 到底係咩</h2>
+    <p>Landing Zone 係一個<strong>事前準備好嘅多帳號環境藍圖</strong>——包含帳號結構、權限模型、網絡基礎、保安護欄、日誌流水線，以及一組「點樣開新帳號」嘅標準工序。佢唔係單一產品，而係一套設計；AWS 官方有幫你哋落一半功夫嘅托管服務，叫做 <a href="#impl">AWS Control Tower</a>。</p>
+    <p>簡單嘅理解方式：Landing Zone 等於你起屋之前先起好嘅「地盤工程」——渠、電、路、圍欄、保安室全部都起好晒。之後任何新住客（Team）搬入嚟，只需跟住同一套規矩，攞鎖匙入單位，而唔使再由零起一段新基建。</p>
+    <figure class="flow">
+      <svg viewBox="0 0 620 150" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+        <rect x="10" y="55" width="120" height="40" rx="10" fill="#f4f1ec" stroke="#c96442" stroke-width="1.5"/>
+        <text x="70" y="80" text-anchor="middle" font-size="12" fill="#1c1b1a" font-family="sans-serif">Landing Zone</text>
+        <circle cx="70" cy="110" r="4" fill="#c96442"/>
+        <line x1="130" y1="75" x2="180" y2="75" stroke="#c96442" stroke-width="1.5"/>
+        <polygon points="180,70 192,75 180,80" fill="#c96442"/>
+        <rect x="192" y="45" width="110" height="60" rx="10" fill="#ffffff" stroke="#d3cdbe" stroke-width="1.5"/>
+        <text x="247" y="72" text-anchor="middle" font-size="11" fill="#1c1b1a" font-family="sans-serif">Security OU</text>
+        <text x="247" y="88" text-anchor="middle" font-size="9.5" fill="#6b6964" font-family="sans-serif">Guardrails</text>
+        <line x1="302" y1="75" x2="352" y2="75" stroke="#c96442" stroke-width="1.5"/>
+        <polygon points="352,70 364,75 352,80" fill="#c96442"/>
+        <rect x="364" y="45" width="110" height="60" rx="10" fill="#ffffff" stroke="#d3cdbe" stroke-width="1.5"/>
+        <text x="419" y="72" text-anchor="middle" font-size="11" fill="#1c1b1a" font-family="sans-serif">Workload OU</text>
+        <text x="419" y="88" text-anchor="middle" font-size="9.5" fill="#6b6964" font-family="sans-serif">Dev / Test / Prod</text>
+        <line x1="474" y1="75" x2="524" y2="75" stroke="#c96442" stroke-width="1.5"/>
+        <polygon points="524,70 536,75 524,80" fill="#c96442"/>
+        <rect x="536" y="45" width="74" height="60" rx="10" fill="#ffffff" stroke="#d3cdbe" stroke-width="1.5"/>
+        <text x="573" y="72" text-anchor="middle" font-size="11" fill="#1c1b1a" font-family="sans-serif">Log</text>
+        <text x="573" y="88" text-anchor="middle" font-size="9.5" fill="#6b6964" font-family="sans-serif">Archive</text>
+      </svg>
+      <figcaption>圖 1：Landing Zone 嘅典型帳號格局——由根層管理帳號往下分出唔同 OU。</figcaption>
+    </figure>
+
+    <h2 id="org">核心一：多帳號體制</h2>
+    <p>Landing Zone 嘅脊柱係 <strong>AWS Organizations</strong>。佢令你可以有一個「管理帳號」（Management Account），下面用 <strong>Organizational Units（OU）</strong>將其他帳號分組——例如 <code>Security</code>、<code>Dev</code>、<code>Test</code>、<code>Prod</code>、<code>Sandbox</code>。OU 係權限同政策的繼承單位：喺 OU 層訂一條規則，下面所有帳號自動跟。</p>
+    <p>呢個結構帶嚟兩個好處。第一，<strong>政策可以分層</strong>：喺 <code>Prod</code> OU 加上「唔准公開 S3 Bucket」嘅 <code>SCP</code>（Service Control Policy），就算帳號 admin 想開都開唔到——SCP 喺帳號權限之上嘅一層限制，冇得繞過。第二，<strong>責任隔離</strong>：Dev 帳號出事，唔會拖冧 Prod。</p>
+    <h3>Account Factory：新帳號唔再係人手工程</h3>
+    <p>Landing Zone 嘅另半條脊柱係「開帳號要跟工廠式流程」：開發人員想開個 Sandbox，唔係搵 IT 同事人手搞，而係喺 Service Catalog 揀一份預設嘅「帳號藍圖」，撳個掣，幾分鐘內 AWS 自動開好一個已經預載保安設定、網絡設定、日誌設定的新帳號。呢個就係 AWS 官方叫嘅 <strong>Account Factory</strong>。</p>
+    <p>呢一步往往係「Landing Zone 到底值唔值」嘅關鍵：如果你開新帳號仲係人手逐個 IAM 設定，咁個 Landing Zone 只做咗一半。</p>
+
+    <h2 id="guard">核心二：Guardrails——未犯之前幫你攔住</h2>
+    <p>Landing Zone 唔淨止係分帳號，仲要保證「就算有人犯錯（或存心搞嘢），都過唔到某啲線」。呢啲自動攔截機制統稱 <strong>Guardrails</strong>，主要由兩嘢組成：</p>
+    <p><strong>SCP（Service Control Policy）</strong>係「禁止級」：例如「唔准停用 CloudTrail」「唔准刪除資源鎖」「唔准喺冇 MFA 嘅情況開長期 Key」。政策寫喺 <code>Security</code> OU 或者根層，全體繼承，屬於<strong>硬限制</strong>。</p>
+    <p><strong>Controls / Detective Controls</strong>係「偵測級」：例如「發現公開咗嘅 S3 Bucket 就自動改正」，AWS Config 規則 + Lambda 自動修復。呢類唔係阻止，而係<span style="font-style:italic">「你一做錯，我即刻幫你收返」</span>。</p>
+    <blockquote>「Guardrails 嘅目標，係令『犯錯』變成一件少少唔方便但冇影響嘅事，而唔係一句『再咁做會出事』嘅勸告。」</blockquote>
+
+    <h2 id="log">核心三：Centralized Logging 同 Audit</h2>
+    <p>冇 Logging 嘅多帳號環境，等於一間冇閉路電視嘅銀行。Landing Zone 標準做法係：喺一個中央帳號（通常叫 <code>Log Archive</code>）集中收集晒所有帳號嘅 <code>CloudTrail</code>（API 操作記錄）、<code>Config</code>（資源狀態變更）、<code>VPC Flow Logs</code>（網絡流量）同 <code>GuardDuty</code>（保安偵測）資料。</p>
+    <p>帳號結構嘅好處喺呢度再次顯現：因為帳號之間有權限隔離，就算邊個開發帳號被攻破，入侵者都冇得入去 Log Archive 度「毀屍滅跡」——而監管機構最重視嘅，就係呢種「甚至連你自己都改唔到嘅記錄」，呢個叫做 <strong>WORM（Write Once, Read Many）</strong>性質，即係寫入一次之後就唔可以再更改或刪除。</p>
+
+    <h2 id="net">核心四：網絡基礎同邊界防護</h2>
+    <p>網絡亦係 Landing Zone 一早要規劃嘅核心：你要預先建立好 <code>Transit Gateway</code> 或 <code>VPC Peering</code> 嘅星型網絡，令唔同帳號嘅 VPC 可以互連但又隔離；要建立 <code>Network Firewall</code> 或防火牆規則，擋住唔應該嚟嘅流量；還要有共享嘅 <code>Route 53</code> Private Hosted Zones 同 DNS 策略。</p>
+    <p>呢啲嘢如果喺開波時冇規劃，之後去到幾十個帳號先嚟補飛，就等於喺一棟已經入伙嘅大廈先嚟鑿渠拉電——工程成本同停機風險都會幾何級上升。</p>
+
+    <h2 id="impl">一個實作路徑：由零到落地</h2>
+    <p>以下係一個務實嘅落地順序，唔使一步到位，但方向要啱：</p>
+    <p><strong>第一步：行 AWS Control Tower。</strong>佢係 AWS 嘅托管 Landing Zone 服務——自動幫你建立 Management Account、兩層 OU（Security/Workloads）、基本 Guardrails、SSO（IAM Identity Center）、同 Log Archive 帳號。用佢做起點，比由零手動砌快一截。</p>
+    <p><strong>第二步：訂 OU 結構同 SCP。</strong>喺 Control Tower 基礎上加自己嘅 OU（Dev/Test/Prod/Sandbox），寫幾條最關鍵嘅 SCP（例如禁停 CloudTrail、禁公開 S3、禁刪除資源鎖）。</p>
+    <p><strong>第三步：行 Account Factory 流程。</strong>確立「新帳號一定要經呢條 pipeline 開」，令之後任何帳號都帶着預設保安設定出世。</p>
+    <pre><span class="lang">Account Factory (抽象流程)</span><code>Team 需要新 Sandbox
+  └─> Service Catalog: 揀 "Standard Sandbox" 藍圖
+       └─> 自動執行: 開 Account + 加入 Sandbox OU
+            ├─> 套用 SCP / Guardrails
+            ├─> 連接 Log Archive / 網絡
+            └─> 開好 SSO 權限 -> 幾分鐘後可用</code></pre>
+    <p><strong>第四步：日誌同監控上線。</strong>確認 CloudTrail 全域開啟、Log Archive 收齊晒所有帳號嘅日誌、GuardDuty 開晒。</p>
+    <p><strong>第五步：Budget 同分帳。</strong>喺每個 Account 貼 <code>Cost Allocation Tag</code>，用 Budgets 設消費警報，開始做到「每個 Team 用咗幾多錢」一目了然。</p>
+    <figure class="numbers">
+      <div class="stat"><div class="value">30-60 分鐘</div><div class="label">Control Tower 初期部署</div></div>
+      <div class="stat"><div class="value">3-5 個</div><div class="label">足夠起步嘅 OU</div></div>
+      <div class="stat"><div class="value">×N</div><div class="label">新帳號開設時間由日降到分鐘</div></div>
+    </figure>
+    <p class="no-drop">最後講返一句：Landing Zone 唔係「大公司先要」。哪怕你而家得三個帳號，只要預期一年內會多過十個，或者開始面對合規要求，就值得而家花一個下午將地基打好——因為喺雲端，地基成本係隨帳號數量<span style="font-style:italic">非線性</span>上升嘅。</p>
+
+    <div class="endnote">本文由 Hermes Agent 整理，參考 AWS Well-Architected Framework 及 AWS Control Tower 官方文件。想深究某個部分（例如 SCP 實際寫法、Control Tower 同 Organizations 嘅分別），隨時可以開新篇。</div>
+
+    <div class="related">
+      <div class="related-title">延伸閱讀</div>
+      <div class="related-grid">
+        <div class="related-card">
+          <div class="rc-tag">文 1</div>
+          <div class="rc-title">AWS Organizations 同 OU 深入解構</div>
+          <div class="rc-meta">12 min read</div>
+        </div>
+        <div class="related-card">
+          <div class="rc-tag">文 2</div>
+          <div class="rc-title">SCP 實戰：五條你應該加嘅政策</div>
+          <div class="rc-meta">8 min read</div>
+        </div>
+        <div class="related-card">
+          <div class="rc-tag">文 3</div>
+          <div class="rc-title">Control Tower vs 自建 Landing Zone</div>
+          <div class="rc-meta">10 min read</div>
+        </div>
+      </div>
+    </div>
+  </article>
+</body>
+</html>

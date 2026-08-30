@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VPN 係咩? — 5歲講法</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "PingFang HK", "Microsoft JhengHei", sans-serif; background: #0f172a; color: #f1f5f9; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; }
+  .wrap { max-width: 640px; width: 100%; }
+  h1 { font-size: 2.4rem; text-align: center; margin-bottom: 8px; background: linear-gradient(90deg,#38bdf8,#a78bfa); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .sub { text-align: center; color: #94a3b8; font-size: 1.1rem; margin-bottom: 32px; }
+  .card { background: #1e293b; border-radius: 20px; padding: 28px; margin-bottom: 28px; border: 1px solid #334155; }
+  .card.gist { background: linear-gradient(135deg,#1e3a5f,#312e81); border: 1px solid #4f46e5; }
+  .big { font-size: 1.5rem; line-height: 1.6; text-align: center; } .big b { color: #38bdf8; font-size: 2rem; display: block; margin-bottom: 6px; }
+  .step { display: flex; gap: 18px; align-items: flex-start; margin-bottom: 22px; }
+  .num { min-width: 42px; height: 42px; border-radius: 50%; background: #4f46e5; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.3rem; color:#fff; }
+  .step h3 { margin-bottom: 4px; font-size: 1.2rem; color: #38bdf8; }
+  .step p { color: #cbd5e1; line-height: 1.6; }
+  svg { width: 100%; margin: 8px 0; display: block; }
+  h2 { font-size: 1.4rem; margin-bottom: 14px; color:#a5b4fc;}
+  .why { color:#fda4af; }
+  .chip { display:inline-block; background:#334155; padding:6px 12px; border-radius:999px; margin:4px 6px 0 0; font-size:1rem;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>VPN 係咩?</h1>
+  <div class="sub">用 5 歲小朋友都明嘅方法講</div>
+
+  <!-- GIST -->
+  <div class="card gist big">
+    <b>VPN = 秘密隧道</b>
+    幫你喺屋企上網嘅時候,唔會俾出面啲人睇到你做緊咩。<br>
+    「出發」→「隧道」→「秘密到埗」
+  </div>
+
+  <!-- DIAGRAM -->
+  <div class="card">
+    <h2>🔎 係咁樣運作嘅</h2>
+    <svg viewBox="0 0 560 200" fill="none">
+      <!-- house -->
+      <rect x="30" y="70" width="70" height="90" fill="#475569" rx="8"/>
+      <polygon points="30,70 65,35 100,70" fill="#94a3b8"/>
+      <text x="65" y="125" font-size="14" fill="#fff" text-anchor="middle">你</text>
+      <text x="65" y="145" font-size="11" fill="#cbd5e1" text-anchor="middle">屋企</text>
+
+      <!-- tunnel -->
+      <path d="M100 115 Q180 60 260 115 Q340 170 420 115 L420 105 Q340 160 260 105 Q180 50 100 105 Z" fill="url(#tg)" opacity="0.9"/>
+      <defs><linearGradient id="tg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4f46e5"/><stop offset="1" stop-color="#38bdf8"/></linearGradient></defs>
+      <text x="260" y="105" font-size="13" fill="#fff" text-anchor="middle" font-weight="700">🔒 秘密隧道</text>
+      <text x="260" y="128" font-size="11" fill="#c7d2fe" text-anchor="middle" font-weight="600">加密鎖住</text>
+
+      <!-- world -->
+      <circle cx="470" cy="115" r="40" fill="#38bdf8" opacity="0.25"/>
+      <circle cx="470" cy="115" r="12" fill="#38bdf8"/>
+      <text x="470" y="175" font-size="12" fill="#cbd5e1" text-anchor="middle">對面網站</text>
+      <text x="470" y="192" font-size="11" fill="#64748b" text-anchor="middle">以為你喺隧道尾出嚟</text>
+
+      <!-- snoopers -->
+      <text x="65" y="40" font-size="12" fill="#f87171" text-anchor="middle">👀 隻眼望唔穿隧道</text>
+      <path d="M120 70 V40 M240 70 V40 M380 70 V40" stroke="#f87171" stroke-width="2" stroke-dasharray="4 4" opacity="0.5"/>
+      <text x="470" y="40" font-size="11" fill="#64748b" text-anchor="middle">😲 見到你由邊度出嚟</text>
+    </svg>
+    <p>加鎖(加密)咗嘅資料,喺街上面啲人睇唔到。</p>
+  </div>
+
+  <!-- STEPS -->
+  <div class="card">
+    <h2>三步睇明</h2>
+    <div class="step"><div class="num">1</div><div><h3>原本嘅行法</h3><p>你直咁上去網站,哋個網絡商(ISP)同網站都知你係邊、去咗邊。</p></div></div>
+    <div class="step"><div class="num">2</div><div><h3>入咗秘密隧道</h3><p>VPN 將你嘅上網嘢用密碼鎖住,再扮成係「另一個國家嘅人」出嚟行。</p></div></div>
+    <div class="step"><div class="num">3</div><div><h3>出嚟係假地址</h3><p>網站以為你喺隧道尾嗰個國家,所以睇唔到你真正位置。</p></div></div>
+  </div>
+
+  <!-- WHY -->
+  <div class="card">
+    <h2>💡 點解要佢?</h2>
+    <div style="margin-top:6px">
+      <span class="chip">🛡️ 保護私隱</span>
+      <span class="chip">☕ 公共 Wi-Fi 安心啲</span>
+      <span class="chip">🌍 跨區用嘢 (當你喺台灣/日本)</span>
+      <span class="chip">🔓 解鎖地區限制內容</span>
+    </div>
+  </div>
+
+  <div class="card" style="text-align:center;background:#312e81">
+    <p style="color:#a5b4fc;font-size:1.2rem">✅ 一句總結</p>
+    <p style="font-size:1.3rem;margin-top:6px">VPN 就係喺你同網站之間,挖條 <b style="color:#38bdf8">加咗鎖嘅秘密隧道</b >,等你行得安全、又冇人知你邊。</p>
+  </div>
+</div>
+</body>
+</html>
