@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AWS Solutions Architect 學習筆記 — 19 個核心概念詳解 | Blog</title>
+<title>AWS Solutions Architect 學習筆記 — 20 個核心概念詳解 | Blog</title>
 <style>
   :root{
     --bg:#0f172a; --panel:#1e293b; --panel2:#273449; --fg:#e2e8f0; --muted:#94a3b8;
@@ -65,11 +65,11 @@
 <div class="wrap">
 
 <header class="hero">
-  <h1>☁️ AWS Solutions Architect 學習筆記<br>從零到一嘅 19 個核心主題</h1>
+  <h1>☁️ AWS Solutions Architect 學習筆記<br>從零到一嘅 20 個核心主題</h1>
   <p>由 Hermes 同 Alfred 嘅溫習對話整理而成 — 涵蓋治理、網絡、安全、容器與無伺服器架構</p>
   <div class="meta">
     <span>📅 2026-08-27(更新)</span>
-    <span>📚 19 個主題</span>
+    <span>📚 20 個主題</span>
     <span>🎯 目標: AWS Solutions Architect 認證</span>
     <span>🤖 協作: Hermes Agent × Alfred</span>
   </div>
@@ -97,6 +97,7 @@
     <li><a href="#s17">Secrets Manager vs SSM Parameter Store</a></li>
     <li><a href="#s18">AWS DataSync — 數據搬運工</a></li>
     <li><a href="#s19">Amazon FSx — 托管檔案系統家族</a></li>
+    <li><a href="#s20">AWS Directory Service — AD 三兄弟</a></li>
   </ol>
 </div>
 
@@ -908,6 +909,70 @@ Web server / ALB 要接受外網請求 → public subnet + <strong>IGW</strong>�
 ④ 生產高可用 → <strong>Multi-AZ</strong>。<br>
 ⑤ HPC 高吞吐 → <strong>Lustre</strong>(唔好揀 FSx for Windows!)。<br>
 ⑥ on-prem AD → <strong>AD Connector</strong> 或 VPN/DX 打通。
+</div>
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
+
+<!-- ================= S20 ================= -->
+<h2 id="s20"><span class="num">20</span>AWS Directory Service — AD 三兄弟</h2>
+<p>一句分清楚:</p>
+<ul>
+  <li><strong>Managed Microsoft AD</strong> = AWS 幫你起一個<strong>真正嘅 AD domain controller</strong>(自己有一套)</li>
+  <li><strong>AD Connector</strong> = <strong>唔起 AD</strong>,淨係「轉接器」連返你 on-prem 嘅 AD</li>
+  <li><strong>Simple AD</strong> = <strong>輕量獨立</strong> AD(Linux 用 Samba),功能少啲</li>
+</ul>
+
+<h3>20.1 AWS Managed Microsoft AD</h3>
+<ul>
+  <li>AWS 托管一對 <strong>Microsoft AD domain controllers</strong>(至少 2 個 AZ,高可用)</li>
+  <li>真 Microsoft AD:<strong>Kerberos、NTLM、LDAP、Group Policy、trust relationships、FSMO</strong></li>
+  <li>可同 on-prem AD 做 <strong>one-way / two-way forest trust</strong></li>
+  <li>內建 <strong>SSO + MFA</strong>(配 IAM Identity Center);按小時收費</li>
+  <li>適合:<strong>冇自己 AD</strong> / 想喺雲上起正式 AD + Group Policy / trust</li>
+</ul>
+
+<h3>20.2 AD Connector</h3>
+<ul>
+  <li><strong>唔起 domain controller</strong>,淨係 proxy / gateway 指向 on-prem AD</li>
+  <li>on-prem AD 係<strong>唯一權威</strong>;AWS 資源(EC2 join domain、FSx、WorkSpaces)經 connector 認證</li>
+  <li><strong>冇</strong> Group Policy / trust / MFA 呢啲 AD server 功能</li>
+  <li>適合:<strong>已經有 on-prem AD</strong>,想 AWS 資源直接用返,唔想複製</li>
+</ul>
+
+<h3>20.3 Simple AD</h3>
+<ul>
+  <li>用 <strong>Samba 4</strong> 起嘅輕量目錄(唔係真 Microsoft AD)</li>
+  <li>支援基本 LDAP、Kerberos、user/group;GPO 有限度</li>
+  <li><strong>唔支援</strong>:trust relationships、完整 AD 管理工具</li>
+  <li>最平(Small 500 users / Large 5,000 users);適合<strong>測試 / 細規模</strong>,唔好做 production</li>
+</ul>
+
+<h3>20.4 對比表</h3>
+<table>
+  <tr><th></th><th>Managed Microsoft AD</th><th>AD Connector</th><th>Simple AD</th></tr>
+  <tr><td>本質</td><td>真 Microsoft AD(托管 DC)</td><td><strong>轉接器</strong>(連 on-prem)</td><td>Samba 輕量 AD</td></tr>
+  <tr><td>有冇自己 DC</td><td>✅ 有(2+ AZ)</td><td>❌ 冇</td><td>✅ 有(輕量)</td></tr>
+  <tr><td>要 on-prem AD?</td><td>唔使(可 trust)</td><td><strong>要</strong>(先有用)</td><td>唔使</td></tr>
+  <tr><td>Group Policy</td><td>✅</td><td>❌</td><td>⚠️ 有限</td></tr>
+  <tr><td>Trust</td><td>✅ one/two-way</td><td>❌</td><td>❌</td></tr>
+  <tr><td>MFA / SSO</td><td>✅ 內建</td><td>❌</td><td>❌</td></tr>
+  <tr><td>價錢</td><td>最貴</td><td>中等</td><td>最平</td></tr>
+  <tr><td>適合</td><td>雲上正式 AD</td><td>已有 on-prem AD</td><td>測試 / 細規模</td></tr>
+</table>
+
+<div class="callout exam"><h4>📝 考試場景</h4>
+① 公司<strong>已有 on-prem AD</strong>,想 AWS 資源用返嗰啲帳號 → <strong>AD Connector</strong>。<br>
+② <strong>冇 AD</strong>,想雲上正式 Microsoft AD(Group Policy / trust)→ <strong>Managed Microsoft AD</strong>。<br>
+③ <strong>測試環境</strong>要平嘅 AD 兼容目錄 → <strong>Simple AD</strong>。<br>
+④ FSx for Windows join domain → 配 <strong>Managed Microsoft AD</strong>(雲內)或 <strong>AD Connector</strong>(on-prem)。<br>
+⑤ 要 <strong>one-way trust</strong> 單一登入 → Managed Microsoft AD(trust 只有佢支援)。
+</div>
+
+<div class="callout trap"><h4>⚠️ 陷阱</h4>
+① AD Connector 唔係 directory 本身 —— 冇咗 on-prem AD 就冇嘢可用。<br>
+② Simple AD 唔支援 trust / 完整 GPO,唔好見「AD」就以為乜都得。<br>
+③ Managed Microsoft AD 按小時收費,長期行要計成本。<br>
+④ 全部喺 VPC 內起,出唔到 public。
 </div>
 
 <a class="btop" href="#top">⬆ 回到最頂</a>
