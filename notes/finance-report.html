@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>財經週報 · Tesla / Nokia / Marvell / SpaceX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#08090a; --panel:#0f1011; --surface:#191a1b; --hover:#28282c;
+    --txt:#f7f8f8; --txt2:#d0d6e0; --txt3:#8a8f98; --txt4:#62666d;
+    --brand:#5e6ad2; --accent:#7170ff; --accent-h:#828fff;
+    --green:#10b981;
+    --bd:rgba(255,255,255,.08); --bds:rgba(255,255,255,.05);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--bg); color:var(--txt2);
+    font-family:'Inter','PingFang TC','Microsoft JhengHei',system-ui,-apple-system,sans-serif;
+    font-feature-settings:'cv01','ss03';
+    min-height:100vh; line-height:1.85; -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+    background:radial-gradient(900px 420px at 85% -10%, rgba(94,106,210,.10), transparent 60%);
+  }
+  .wrap{position:relative; z-index:1; max-width:960px; margin:0 auto; padding:0 22px 90px;}
+  .mono{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;}
+  .dim{color:var(--txt4);}
+
+  /* Top toolbar */
+  .topbar{
+    position:sticky; top:0; z-index:20; display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+    background:rgba(8,9,10,.86); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--bds); padding:11px 0; margin-bottom:6px;
+  }
+  .brand{display:flex; align-items:center; gap:9px; margin-right:auto;}
+  .brand .mark{width:15px; height:15px; border-radius:4px;
+    background:linear-gradient(135deg,var(--brand),var(--accent)); box-shadow:0 0 14px rgba(113,112,255,.45);}
+  .brandname{font-size:14px; font-weight:600; letter-spacing:-.2px; color:var(--txt);}
+  .brandname .m{color:var(--txt4); font-weight:500;}
+  .tools{display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+  .searchbox{position:relative;}
+  .searchbox input{
+    width:250px; padding:7px 30px 7px 12px; font-size:13px; color:var(--txt);
+    background:rgba(255,255,255,.02); border:1px solid var(--bd); border-radius:6px; outline:none;
+    font-family:'Inter','PingFang TC',sans-serif; transition:border-color .15s, width .2s;
+  }
+  .searchbox input::placeholder{color:var(--txt4);}
+  .searchbox input:focus{border-color:rgba(113,112,255,.65); width:300px;
+    box-shadow:0 0 0 3px rgba(94,106,210,.18);}
+  .searchbox kbd{
+    position:absolute; right:8px; top:50%; transform:translateY(-50%);
+    font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--txt4);
+    border:1px solid var(--bd); border-radius:4px; padding:1px 5px; background:rgba(255,255,255,.03);
+  }
+  .ghost{
+    padding:7px 10px; font-size:12px; color:var(--txt2); background:rgba(255,255,255,.03);
+    border:1px solid var(--bd); border-radius:6px; cursor:pointer; outline:none;
+    font-family:'JetBrains Mono',monospace; appearance:none;
+    background-image:linear-gradient(45deg,transparent 50%,var(--txt4) 50%),linear-gradient(135deg,var(--txt4) 50%,transparent 50%);
+    background-position:calc(100% - 14px) 55%,calc(100% - 9px) 55%; background-size:5px 5px; background-repeat:no-repeat;
+    padding-right:26px;
+  }
+  .ghost:hover{color:var(--txt);}
+  .btn{
+    padding:7px 12px; font-size:11px; font-weight:500; letter-spacing:.06em; cursor:pointer;
+    color:var(--txt2); background:rgba(255,255,255,.03); border:1px solid var(--bd);
+    border-radius:6px; font-family:'JetBrains Mono',monospace; transition:.15s;
+  }
+  .btn:hover:not(:disabled){color:var(--txt); background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.14);}
+  .btn:disabled{opacity:.3; cursor:default;}
+  .btn.status{border-color:rgba(16,185,129,.45); color:var(--green);}
+  .btn.status:hover:not(:disabled){background:rgba(16,185,129,.08); border-color:rgba(16,185,129,.7);}
+
+  /* Hero */
+  header.hero{padding:44px 0 26px;}
+  .kicker{
+    font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--txt4); font-weight:500;
+  }
+  .kicker.acc{color:var(--accent);}
+  h1{
+    font-size:34px; font-weight:500; letter-spacing:-1.1px; line-height:1.16;
+    color:var(--txt); margin:12px 0 10px;
+  }
+  h1 .cn{font-weight:400; color:var(--txt3);}
+  .sub{font-size:15px; color:var(--txt3); letter-spacing:-.15px; line-height:1.8;}
+
+  /* Stats */
+  .stats{
+    display:flex; margin-bottom:26px; background:rgba(255,255,255,.02);
+    border:1px solid var(--bd); border-radius:12px; overflow:hidden;
+  }
+  .stat{flex:1; padding:16px 14px; text-align:center; border-left:1px solid var(--bds);}
+  .stat:first-child{border-left:none;}
+  .stat b{display:block; font-size:24px; font-weight:500; letter-spacing:-.6px; color:var(--txt); font-family:'Inter',sans-serif;}
+  .stat span{font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--txt4);}
+
+  /* Cards */
+  .card{background:rgba(255,255,255,.02); border:1px solid var(--bd); border-radius:12px;}
+  .lead{padding:26px 28px; margin-bottom:22px;}
+  .lead .kicker{margin-bottom:12px;}
+  .headline{
+    font-size:22px; font-weight:500; letter-spacing:-.4px; line-height:1.7; color:var(--txt); margin-bottom:14px;
+  }
+  .wkinfo{display:flex; align-items:center; gap:12px; flex-wrap:wrap; font-size:12px; color:var(--txt4);}
+  .pill{
+    font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:600; letter-spacing:.1em;
+    color:var(--green); border:1px solid rgba(16,185,129,.45); border-radius:9999px; padding:2px 10px;
+  }
+  section.sec{padding:24px 26px 14px; margin-bottom:18px; transition:background .15s;}
+  section.sec:hover{background:rgba(255,255,255,.035);}
+  .sechead{display:flex; align-items:flex-start; gap:14px; margin-bottom:8px;}
+  .secno{
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--txt4); font-weight:500;
+    background:rgba(113,112,255,.12); border:1px solid rgba(113,112,255,.25);
+    border-radius:5px; padding:2px 8px; margin-top:2px; white-space:nowrap;
+  }
+  .sectitle .kicker{display:block; margin-bottom:4px;}
+  .sectitle h3{font-size:18px; font-weight:600; letter-spacing:-.3px; color:var(--txt);}
+  ul.items{list-style:none; margin-top:12px;}
+  ul.items > li{
+    padding:18px 2px 17px; font-size:15px; color:var(--txt2); line-height:1.9;
+    border-bottom:1px solid var(--bds);
+  }
+  html.anim ul.items > li{
+    animation:rise .5s ease-out both; animation-delay:calc(var(--i,0) * 50ms);
+  }
+  ul.items > li:last-child{border-bottom:none;}
+  ul.items strong{font-weight:600; color:var(--txt);}
+  .pts{list-style:none; margin:10px 0 4px; padding:0;}
+  .pts li{
+    font-size:13.5px; color:var(--txt3); line-height:1.85; padding:3.5px 0 3.5px 18px; position:relative;
+  }
+  .pts li::before{
+    content:"—"; position:absolute; left:2px; color:var(--accent); opacity:.75;
+  }
+  .pts strong{color:var(--txt2);}
+  .links{display:inline; margin-left:8px;}
+  .lnk{
+    font-size:12.5px; font-weight:500; color:var(--accent); text-decoration:none; margin-right:10px;
+    transition:color .15s;
+  }
+  .lnk:hover{color:var(--accent-h);}
+  .note{
+    margin-top:9px; font-size:13.5px; font-style:italic; color:var(--txt3);
+    border-left:2px solid rgba(113,112,255,.35); padding-left:12px; line-height:1.85;
+  }
+  mark{background:rgba(113,112,255,.22); color:#fff; border-radius:3px; padding:0 2px;}
+
+  /* Search view */
+  .searchmeta{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--txt3); margin-bottom:14px;}
+  .searchmeta b{color:var(--accent); font-weight:600;}
+  .resgroup{margin-bottom:22px;}
+  .resgroup h4{
+    font-size:15.5px; font-weight:600; letter-spacing:-.3px; color:var(--txt);
+    display:flex; align-items:baseline; gap:10px; margin-bottom:6px;
+  }
+  .resgroup h4 .cnt{font-family:'JetBrains Mono',monospace; font-size:10.5px; font-weight:500; color:var(--green);}
+  .empty{text-align:center; color:var(--txt3); padding:70px 0; font-size:14px;}
+
+  footer{
+    margin-top:36px; border-top:1px solid var(--bds); padding-top:16px;
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--txt4);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px;
+  }
+
+  @keyframes rise{from{opacity:0; transform:translateY(7px);} to{opacity:1; transform:none;}}
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+  @media (max-width:700px){
+    h1{font-size:31px;} .headline{font-size:19px;} .wrap{padding:0 14px 70px;}
+    .stats{flex-wrap:wrap;} .stat{flex:1 1 45%; border-left:none; border-top:1px solid var(--bds);}
+    .searchbox input, .searchbox input:focus{width:150px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="topbar">
+    <div class="brand"><span class="mark"></span><span class="brandname">週報 <span class="m">/ WEEKLY DIGEST</span></span></div>
+    <div class="tools">
+      <div class="searchbox">
+        <input id="q" type="search" placeholder="搜尋全部週報… TSLA / Cybercab / Starship / AI-RAN" autocomplete="off">
+        <kbd>/</kbd>
+      </div>
+      <select id="weekSel" class="ghost" aria-label="選擇星期"></select>
+      <button id="homeW" class="btn status" title="跳去最新一期">LATEST</button>
+      <button id="prevW" class="btn" title="上一個星期">←</button>
+      <button id="nextW" class="btn" title="下一個星期">→</button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="kicker">ALFRED'S WEEKLY FINANCE DIGEST · EACH MONDAY</div>
+    <h1>Tesla · Nokia · Marvell · SpaceX <span class="cn">財經週報</span></h1>
+    <p class="sub">每週重點財經新聞與趨勢 · Tesla(TSLA)、Nokia(NOK)、Marvell(MRVL)、SpaceX(私人公司)· 由 Hermes 自動彙整 · 日期選擇 + 全文搜尋 · 預設顯示最新一期</p>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><b id="totalWeeks">0</b><span>已收錄期數</span></div>
+    <div class="stat"><b id="latestLabel">—</b><span>最新一期</span></div>
+    <div class="stat"><b id="weekItems">0</b><span>本週條目</span></div>
+    <div class="stat"><b id="updatedAt">—</b><span>最後更新</span></div>
+  </div>
+
+  <div id="view-main"><div class="lead card"><div class="kicker acc">本期頭條 · THIS WEEK</div><h2 class="headline">本週四間公司各有戲碼:<strong>Tesla 股價單日跌 6%</strong> — Cybercab 更新令人失望之餘,NHTSA 仲展開 audit query,加上 FSD 被證實捲入致命車禍調查;Marvell 就相反,<strong>業績後彈 7%</strong> 而家高位回落 3 成嘅股價,NVIDIA 收購 Hugging Face 帶旺 AI 晶片板塊;Nokia 就主力「起基建」— 沙特 R&amp;D 中心開幕、NVIDIA 仲宣佈投資 10 億美元賭 AI-RAN;<strong>SpaceX 繼續飛行工廠模式</strong>,今年第 80 次 Starlink 任務升空,Starship 仲遞交咗史上首次真正軌道任務嘅 FCC 申請。</h2><div class="wkinfo"><span class="mono">第 1 期</span><span class="pill">LATEST</span><span class="mono dim">2026-09-01 — 09-08</span></div></div><section class="card sec"><div class="sechead"><span class="secno">01</span><div class="sectitle"><span class="kicker acc">TESLA · E-MOBILITY / ENERGY (NASDAQ: TSLA)</span><h3>Tesla 特斯拉</h3></div></div><ul class="items"><li style="--i:0"><strong>TSLA 股價 9/4 單日跌約 6%</strong>:市場期待已久嘅 <strong>Cybercab 更新未達預期</strong>(&#39;underwhelms&#39; 係 CNBC 原字),同日 <strong>NHTSA(美國國家公路交通安全管理局)對 Tesla 啟動咗「audit query」</strong>。收市報 $354.08(−5.92%),盤後再微跌至 $352.89。<span class="links"><a class="lnk" href="https://www.cnbc.com/2026/09/04/teslas-stock-drops-as-cybercab-update-underwhelms-nhtsa-probe.html" target="_blank" rel="noopener">CNBC 報導</a></span><ul class="pts"><li>9/4 收市 $354.08,單日 −5.92%;市值約 $1.41 萬億</li><li>NHTSA「audit query」係正式調查前嘅資訊索取程序,涉及 FSD/自動駕駛</li><li>Cybercab 喺 Austin 已開始營運,但今次更新被評「冇驚喜」,市場想睇更明確嘅 robotaxi 路線圖</li></ul><div class="note">Tesla 嘅估值全部建基於「自動駕駛變現」預期 — 任何監管動作或者產品延遲,股價反應都會好大。</div></li><li style="--i:1"><strong>FSD 捲入致命車禍調查</strong>:9/1 有分析指出,Tesla 已經向聯邦監管機構確認,Batavia, Illinois 一宗 <strong>Model Y 左轉同 Dodge pickup 相撞、乘客身亡</strong>嘅意外中,<strong>FSD 當時係「verified engaged」</strong>。案件細節(軟件版本、實際狀況)仍然保密,調查進行緊。<span class="links"><a class="lnk" href="https://www.gurufocus.com/news/9062355/tsla-looks-69-overvalued-on-gf-value-as-of-september-2026" target="_blank" rel="noopener">GuruFocus 估值分析</a></span><ul class="pts"><li>GuruFocus 當日數據:TSLA 報 $356.78,GF Value(內涵估值)$333.70,即高估約 6.9%</li><li>TTM P/E 高達 330 倍,遠超 5 年 median 嘅 107 倍 — 增長預期極滿</li><li>另一邊廂:GF Score 89/100;過去 12 個月 insiders 淨買入 $10 億(賣出僅 $1.2 億)</li></ul><div class="note">呢類事故本身未必即時有法律責任,但會累積成監管同輿論壓力,長時間蠶蝕「自動駕駛最安全」嘅敘事。</div></li><li style="--i:2"><strong>Q2 2026 業績回顧(7 月底已公佈,作為基本盤)</strong>:生產超過 <strong>45 萬部車</strong>、交付超過 <strong>48 萬部</strong>,能源儲存部署 <strong>13.5 GWh</strong>。季度業績 7/22 發佈,係公司目前最新嘅完整財務數據。<span class="links"><a class="lnk" href="https://ir.tesla.com/press" target="_blank" rel="noopener">Tesla IR Press</a></span><ul class="pts"><li>交付 48 萬+ vs 生產 45 萬+,庫存消化持續</li><li>Energy storage 13.5 GWh 係關鍵增長引擎,估值模型入面佔比愈嚟愈重</li><li>下一個里程碑:Q3 deliveries 數據(10 月初)</li></ul><div class="note">Tesla 嘅故事已經唔係「賣車」咁簡單 — energy + robotaxi + AI 先係支撐 300 幾倍 P/E 嘅三大支柱。</div></li><li style="--i:3"><strong>市場背景:歐洲需求轉弱 + robotaxi 起步</strong>:Yahoo Finance 綜合分析指出,Tesla 最近喺 Austin 推出 Cybercab 係自動駕駛運輸嘅重要一步,但<strong>歐洲銷售數據參差</strong>,加上 NHTSA 調查,投資者態度轉趨審慎。<span class="links"><a class="lnk" href="https://finance.yahoo.com/quote/TSLA/press-releases/" target="_blank" rel="noopener">Yahoo Finance TSLA</a></span><ul class="pts"><li>Austin Cybercab(robotaxi)正式營運,但未有規模化數字</li><li>歐洲市場需求疲弱,部分國家 EV 補貼退坡</li><li>短期股價催化劑:FSD 監管進展、Q3 交付、10 月能源日/機器人相關活動</li></ul><div class="note">而家 TSLA 嘅交易邏輯係「事件驅動」— 每一單新聞(事故、調查、發佈)都會直接寫入股價。</div></li></ul></section><section class="card sec"><div class="sechead"><span class="secno">02</span><div class="sectitle"><span class="kicker acc">NOKIA · NETWORKS / AI-RAN (NYSE: NOK)</span><h3>Nokia 諾基亞</h3></div></div><ul class="items"><li style="--i:0"><strong>NVIDIA 宣佈投資 Nokia 10 億美元</strong>,加速 <strong>AI-RAN</strong> 創新,並主導 5G 到 6G 嘅過渡 — 係本週 Nokia 最大嘅戰略新聞。NVIDIA 呢注落得重:AI-RAN(用 AI 處理無線接入網絡)被視為電訊基建下一波大改造。<span class="links"><a class="lnk" href="https://www.nokia.com/newsroom/nokia-partners-with-nvidia/" target="_blank" rel="noopener">Nokia 官方新聞</a></span><ul class="pts"><li>NVIDIA 注資 $10 億入 Nokia,投 AI-RAN + 5G→6G 路線</li><li>結合 NVIDIA 算力同 Nokia 電訊專利,目標係「AI 原生」嘅流動網絡</li><li>NOK 股價一年升幅達 135.8%(Zacks 統計)</li></ul><div class="note">AI-RAN 將「電訊設備公司」重新包裝成「AI 基建公司」— 呢個估值 re-rating 係 NOK 一年升一倍幾嘅主因。</div></li><li style="--i:1"><strong>Nokia 喺沙特阿拉伯開設新 R&amp;D 中心(9/1)</strong>,主題係加速 <strong>AI 驅動嘅網絡自動化</strong>;9/3 再宣佈同 <strong>BeeHealthy</strong> 合作,將「網絡身份驗證」引入數碼醫療。<span class="links"><a class="lnk" href="https://www.nokia.com/newsroom/en-us/" target="_blank" rel="noopener">Nokia Newsroom</a></span><ul class="pts"><li>沙特 R&amp;D 中心:AI-powered network automation,配合沙特「Vision 2030」數碼轉型</li><li>BeeHealthy 合作:網絡層驗證身份,做數碼醫療嘅安全基建</li><li>中東係 Nokia 重點擴張市場(主權基建投資潮)</li></ul><div class="note">設備商而家唔淨止賣基站,仲賣「網絡即平台」嘅增值服務 — 沙特項目正正係呢個故事。</div></li><li style="--i:2"><strong>9/8 Nokia「Home of Radio」喺芬蘭 Oulu 開幕</strong>,芬蘭總統 Alexander Stubb 同政府官員、客戶、夥伴一齊出席 — 係 Nokia 喺無線技術老家嘅里程碑式設施,未來 AI-RAN 同 6G 研發主力基地。<span class="links"><a class="lnk" href="https://www.nokia.com/newsroom/nokia-home-of-radio-in-oulu/" target="_blank" rel="noopener">Nokia Oulu 新聞</a></span><ul class="pts"><li>Oulu 係 Nokia 無線研發嘅發源地,新 campus 整合 5G/6G + AI-RAN 研發</li><li>國家級重視:總統出席開幕</li><li>配合 ASIC(自研晶片)策略,減少對第三方供應鏈依賴</li></ul><div class="note">硬件層面睇,Nokia 想由「電訊設備商」升級做「AI-RAN 平台商」— 呢個 campus 係硬件證據。</div></li><li style="--i:3"><strong>基本盤數據</strong>:Nokia 嘅 <strong>AI &amp; Cloud 部門銷售喺 Q2 2026 倍翻</strong>,訂單流入達 <strong>28 億歐元</strong>;分析員預計 2026 全年盈利增長 <strong>25%</strong>。不過本週開頭 NOK 一度急挫 <strong>20%+</strong>(YouTube 分析標題用「Crashed」),反映升咗一年之後,市場對高位估值分歧好大。<span class="links"><a class="lnk" href="https://www.zacks.com/stock/news/2983372/nokia-stock-increases-1358-in-a-year-should-you-invest" target="_blank" rel="noopener">Zacks 分析</a><a class="lnk" href="https://finance.yahoo.com/news/could-nokia-reach-10-2026-173800488.html" target="_blank" rel="noopener">Yahoo 目標價分析</a></span><ul class="pts"><li>AI &amp; Cloud 銷售按年翻倍、訂單 €2.8B — 光纖容量同時擴張</li><li>年內高位大幅回吐:有分析問「$10 目標價 2026 內係咪到」,同時有人話係買入機會</li><li>Sell-side 共識:2026 盈利 +25%,主要靠 AI-RAN 同光纖</li></ul><div class="note">NOK 係「轉型成功但估值已反映」嘅典型 — 升 135% 之後嘅 20% 回調,考驗你信唔信 AI-RAN 長故事。</div></li></ul></section><section class="card sec"><div class="sechead"><span class="secno">03</span><div class="sectitle"><span class="kicker acc">MARVELL · AI SILICON (NASDAQ: MRVL)</span><h3>Marvell 邁威爾</h3></div></div><ul class="items"><li style="--i:0"><strong>MRVL 9/4 單日彈升 7%</strong> 至 $223.67(盤中高位),直接觸發係 <strong>NVIDIA 確認以 $129 億收購 Hugging Face</strong>,成個 AI 晶片板塊受惠;Marvell 特別有理由彈 — <strong>NVIDIA 已經持有佢 20 億美元股權</strong>,雙方仲有正式嘅 silicon photonics 合作關係。<span class="links"><a class="lnk" href="https://coincentral.com/marvell-mrvl-stock-surges-7-as-nvidia-goes-all-in-on-open-source-ai" target="_blank" rel="noopener">CoinCentral 分析</a></span><ul class="pts"><li>9/4 收 $223.55(前收市 $208.83,+7%);成交量 2,080 萬股,低過平均但方向明確</li><li>NVIDIA 持 Marvell $2B 股權 + silicon photonics(光互連)戰略合作</li><li>更早一週 9/1 左右曾因高估值成長股回調 premarket −4% — 波動極大</li></ul><div class="note">MRVL 而家係「NVIDIA 光互連概念 + 自研晶片供應商」雙主題,AI 板塊任何風吹草動都直接影響佢。</div></li><li style="--i:1"><strong>Q2 FY2027 業績(8/27)破紀錄</strong>:收入 <strong>$27.39 億(+37% YoY)</strong>,超指引 $3,900 萬;其中 <strong>Data Center 收入 $21.7 億(+46%),佔總收入 79%</strong>;調整後 EPS $0.94(+40%);<strong>調整後營運邊際 36.6%</strong>、營運收入首次突破 <strong>$10 億</strong>。CEO Matt Murphy 形容 AI 相關訂單「exceptionally robust」。<span class="links"><a class="lnk" href="https://rocketnews.com/2026/09/marvells-mrvl-data-center-machine-keeps-rewriting-its-own-forecast" target="_blank" rel="noopener">RocketNews 業績分析</a></span><ul class="pts"><li>營運現金流 $6.055 億;net margin 27.93%、ROE 13.57%</li><li>Q2 數字 vs 預期:revenue beat $2.71B 預期、EPS beat $0.93 預期</li><li>2T 交換機產品線今年 scale-out switching 收入預期翻倍以上</li></ul><div class="note">基本面冇問題 — 問題係股價已經跑太前,8/27 業績公布後第二朝 pre-market 照樣跌 7.9%,「利好出貨」。</div></li><li style="--i:2"><strong>連續第二季上調全年指引</strong>:FY2027 收入預期上調至 <strong>~$120 億</strong>(原 $115 億),FY2028 上調至 <strong>~$180 億</strong>(加 $15 億,即再 +50%)。Q3 指引約 <strong>$31.5 億(+50% YoY)</strong>,其中 Data Center 預計 <strong>+75%</strong>。<span class="links"><a class="lnk" href="https://benzinga.com/markets/tech/26/09/61545214/whats-going-on-with-marvell-technology-stock-tuesday-4" target="_blank" rel="noopener">Benzinga 報導</a></span><ul class="pts"><li>FY2027 ~$12B(≈+45%)、FY2028 ~$18B(≈+50%)— 兩年連續上調</li><li>Q3 guide $3.15B ±5%,超分析員 $3.03B 預期</li><li>但 Q3 FY27 non-GAAP gross margin 指引 57.5–58.5%,比 Q2 58.9% 微跌 — custom silicon 拉低毛利</li></ul><div class="note">收入爆升但毛利受 custom 業務拉低 — 呢個 trade-off 就係市場對 MRVL 最大嘅分歧位。</div></li><li style="--i:3"><strong>併購組合 + Google 大單</strong>:近期收購 <strong>Celestial AI</strong>(Photonic Fabric — 跨大型計算域連接處理器同共享記憶體,預期 FY2028 Q4 達 $5 億年化收入、再一年後翻倍到 $10 億)、<strong>Polariton</strong>(3.2T+ 光學器件)同 <strong>XConn</strong>(PCIe/CXL 交換)。<strong>Google 認股權協議</strong>可買入最多 5,900 萬股(行使價 $206.58),潛在為 Marvell 帶嚟到 FY2033 嘅 <strong>$1,200 億收入</strong>。<span class="links"><a class="lnk" href="https://coincentral.com/marvell-mrvl-stock-surges-7-as-nvidia-goes-all-in-on-open-source-ai" target="_blank" rel="noopener">CoinCentral 詳情</a></span><ul class="pts"><li>Celestial AI Photonic Fabric:$500M annualized(FY28 Q4)→ $1B(再一年)</li><li>Google warrant:59M 股 @ $206.58;分析指協議覆蓋 ~$120B 潛在採購到 2033</li><li>聯想:Microsoft Maia、AWS Trainium、Google custom silicon 陸續 ramp</li></ul><div class="note">「光互連 + 自研晶片周邊」係 Marvell 喺 NVIDIA 生態內最穩嘅護城河 — 但 dilution 同客戶集中風險要計。</div></li><li style="--i:4"><strong>估值與分析員取態</strong>:MRVL 一年回報 <strong>+235.9%</strong>($62.18 → $208.83),6 月一度見歷史高位 $329.88 之後回落 29–36%。分析員 consensus 係 <strong>Buy</strong>,平均目標價 <strong>$296.35</strong>;不過 10 月初 <strong>Investor Day</strong> 先係下一個催化劑 — 市場等緊管理層更新 FY2029 框架。<span class="links"><a class="lnk" href="https://trefis.com/articles/614423/marvell-stock-had-a-huge-year-and-still-sits-well-below-its-high/2026-09-04" target="_blank" rel="noopener">Trefis 分析</a><a class="lnk" href="https://investing.com/news/stock-market-news/marvell-stock-is-down-36-from-recent-alltime-highs-can-it-get-its-mojo-back-93CH-4889558" target="_blank" rel="noopener">Investing.com 分析</a></span><ul class="pts"><li>目標價參考:Jefferies $325、B. Riley $315、KeyBanc $300、Craig-Hallum $300、Wolfe $280、TD Cowen $245(Hold)</li><li>估值:市值 ~$1,870–2,210 億;P/S ~20x、NTM P/E ~41x(5 月至今都係呢個範圍)</li><li>關鍵位:週線支持 $189.87 守住就維持長線升勢;RSI 6 週超賣反彈</li></ul><div class="note">InvestingPro Fair Value 模型反而警示 −33% downside(~$168)— 高估值股兩邊都有道理,睇你信唔信 $18B 指引。</div></li></ul></section><section class="card sec"><div class="sechead"><span class="secno">04</span><div class="sectitle"><span class="kicker acc">SPACEX · LAUNCH / STARLINK (PRIVATE)</span><h3>SpaceX 太空探索</h3></div></div><ul class="items"><li style="--i:0"><strong>SpaceX 完成 2026 年第 80 次 Starlink 任務(9/5)</strong>:Falcon 9 由 Vandenberg SLC-4E 升空,部署 <strong>27 粒 Starlink 衞星</strong>(Starlink 15-24)。今個星期可謂「飛行工廠」式運作 — 9/1 同 9/2 先後由西岸發射 Starlink 15-23。<span class="links"><a class="lnk" href="https://spaceflightnow.com/2026/09/05/live-coverage-spacex-to-launch-80th-starlink-mission-of-2026" target="_blank" rel="noopener">Spaceflight Now 報導</a></span><ul class="pts"><li>9/5 第 80 次 Starlink 任務;9 月有望達成第 700 次 Falcon 9 任務(歷史累計)</li><li>9/1 Starlink 15-23:Booster B1063 第 35 次飛行,turnaround 29 日,OCISLY 無人船回收</li><li>今年正賽道:8/19 已達年度第 100 次任務,大部份係 Starlink</li></ul><div class="note">節奏上 SpaceX 而家係「一日一枝火箭」嘅工業化運作 — 呢個先係 Starlink 商業模式可以 stand-alone 嘅根本。</div></li><li style="--i:1"><strong>Starship Flight 14 遞交 FCC 申請,首次真正軌道任務</strong>:之前所有 Starship 飛行(包括 7/24 Flight 13 印度洋落海)都係 suborbital 弧線;Flight 14 計劃搭載約 <strong>20 粒 Starlink V3 衞星</strong>入 operational orbit,每粒下載容量約 <strong>1 Tbps</strong>。<span class="links"><a class="lnk" href="https://keeptrack.space/x-report/spacex-brief-2026-09-02" target="_blank" rel="noopener">Keeptrack.space 報告</a></span><ul class="pts"><li>FCC filing 揭示:首次 orbital insertion profile 而非 suborbital 亞軌道</li><li>Starlink V3:單粒 ~1 Tbps downlink,係 V2 嘅大升級</li><li>星座現況:12,881 發射、11,093 在軌、11,078 正常運作</li></ul><div class="note">Starship 一旦成功放衞星,Starlink 就唔再受 Falcon 9 載荷限制 — 星座規模同成本結構會再跳一級。</div></li><li style="--i:2"><strong>發射里程碑回顧</strong>:8/19 SpaceX 完成 2026 年第 100 次任務(Starlink 24 粒);8/29 用 <strong>Falcon Heavy 發射 NASA Roman Space Telescope</strong>(&#39;next great observatory&#39;)。今年 3 次非 Falcon 9 任務:Falcon Heavy ×1、Starship suborbital ×2。<span class="links"><a class="lnk" href="https://www.space.com/space-exploration/launches-spacecraft/spacex-100-launches-2026-starlink-group-17-50-launch" target="_blank" rel="noopener">Space.com 報導</a></span><ul class="pts"><li>100th mission of 2026(8/19);700th Falcon 9 累計進入 9 月視線</li><li>Roman Space Telescope:NASA 級旗艦任務,由 Falcon Heavy 執行</li><li>Falcon 9 派生出雙發射日(double header)常態化</li></ul><div class="note">政府任務(NASA)+ 商業星座(Starlink)雙引擎 — SpaceX 收入結構愈嚟愈穩,估值故事(傳聞 3,500 億+美元)有實際現金流支撐。</div></li><li style="--i:3"><strong>私人公司角度留意</strong>:Starship 下一次發射計劃 9 月內進行,並嘗試 <strong>陸地接住(catch)回收</strong>(Reuters 8/5);呢啲里程碑直接影響 Starlink 擴容同火星計畫路線圖。SpaceX 未上市,相關投資機會主要經二手市場(tender offer)或供應鏈公司(e.g. 火箭/衞星零件、半導體)。<span class="links"><a class="lnk" href="https://www.reuters.com/business/aerospace-defense/spacex-plans-next-starship-launch-soon-this-month-catching-it-land-2026-08-05" target="_blank" rel="noopener">Reuters 報導</a></span><ul class="pts"><li>Catch 回收係「快速重用」最後一塊拼圖 — 成功會大幅降低成本</li><li>Starlink V3 + Starship 組合:未來 6G / 衛星直連手機(Direct-to-Cell)都係潛在收入</li><li>每星期數次發射 = 對供應鏈(發動機、複合材料、晶片)持續需求</li></ul><div class="note">直接買唔到 SpaceX,但 MRVL、Nokia 呢類供應商都係「SpaceX 基建側寫」— 睇財經週報要識交叉借力。</div></li></ul></section></div>
+  <div id="view-search" style="display:none"></div>
+
+  <footer>
+    <span>HERMES WEEKLY RESEARCH</span>
+    <span>GOOGLE DRIVE /HERMES + GITHUB PAGES · 每週一自動更新</span>
+  </footer>
+</div>
+
+<script>
+const DATA = {"title": "財經週報 · Tesla / Nokia / Marvell / SpaceX", "weeks": [{"id": "2026-09-08", "label": "2026-09-01 — 09-08", "week_no": 1, "summary": "本週四間公司各有戲碼:**Tesla 股價單日跌 6%** — Cybercab 更新令人失望之餘,NHTSA 仲展開 audit query,加上 FSD 被證實捲入致命車禍調查;Marvell 就相反,**業績後彈 7%** 而家高位回落 3 成嘅股價,NVIDIA 收購 Hugging Face 帶旺 AI 晶片板塊;Nokia 就主力「起基建」— 沙特 R&D 中心開幕、NVIDIA 仲宣佈投資 10 億美元賭 AI-RAN;**SpaceX 繼續飛行工廠模式**,今年第 80 次 Starlink 任務升空,Starship 仲遞交咗史上首次真正軌道任務嘅 FCC 申請。", "sections": [{"key": "tesla", "title": "Tesla 特斯拉", "items": [{"text": "**TSLA 股價 9/4 單日跌約 6%**:市場期待已久嘅 **Cybercab 更新未達預期**('underwhelms' 係 CNBC 原字),同日 **NHTSA(美國國家公路交通安全管理局)對 Tesla 啟動咗「audit query」**。收市報 $354.08(−5.92%),盤後再微跌至 $352.89。", "points": ["9/4 收市 $354.08,單日 −5.92%;市值約 $1.41 萬億", "NHTSA「audit query」係正式調查前嘅資訊索取程序,涉及 FSD/自動駕駛", "Cybercab 喺 Austin 已開始營運,但今次更新被評「冇驚喜」,市場想睇更明確嘅 robotaxi 路線圖"], "note": "Tesla 嘅估值全部建基於「自動駕駛變現」預期 — 任何監管動作或者產品延遲,股價反應都會好大。", "links": [{"label": "CNBC 報導", "url": "https://www.cnbc.com/2026/09/04/teslas-stock-drops-as-cybercab-update-underwhelms-nhtsa-probe.html"}]}, {"text": "**FSD 捲入致命車禍調查**:9/1 有分析指出,Tesla 已經向聯邦監管機構確認,Batavia, Illinois 一宗 **Model Y 左轉同 Dodge pickup 相撞、乘客身亡**嘅意外中,**FSD 當時係「verified engaged」**。案件細節(軟件版本、實際狀況)仍然保密,調查進行緊。", "points": ["GuruFocus 當日數據:TSLA 報 $356.78,GF Value(內涵估值)$333.70,即高估約 6.9%", "TTM P/E 高達 330 倍,遠超 5 年 median 嘅 107 倍 — 增長預期極滿", "另一邊廂:GF Score 89/100;過去 12 個月 insiders 淨買入 $10 億(賣出僅 $1.2 億)"], "note": "呢類事故本身未必即時有法律責任,但會累積成監管同輿論壓力,長時間蠶蝕「自動駕駛最安全」嘅敘事。", "links": [{"label": "GuruFocus 估值分析", "url": "https://www.gurufocus.com/news/9062355/tsla-looks-69-overvalued-on-gf-value-as-of-september-2026"}]}, {"text": "**Q2 2026 業績回顧(7 月底已公佈,作為基本盤)**:生產超過 **45 萬部車**、交付超過 **48 萬部**,能源儲存部署 **13.5 GWh**。季度業績 7/22 發佈,係公司目前最新嘅完整財務數據。", "points": ["交付 48 萬+ vs 生產 45 萬+,庫存消化持續", "Energy storage 13.5 GWh 係關鍵增長引擎,估值模型入面佔比愈嚟愈重", "下一個里程碑:Q3 deliveries 數據(10 月初)"], "note": "Tesla 嘅故事已經唔係「賣車」咁簡單 — energy + robotaxi + AI 先係支撐 300 幾倍 P/E 嘅三大支柱。", "links": [{"label": "Tesla IR Press", "url": "https://ir.tesla.com/press"}]}, {"text": "**市場背景:歐洲需求轉弱 + robotaxi 起步**:Yahoo Finance 綜合分析指出,Tesla 最近喺 Austin 推出 Cybercab 係自動駕駛運輸嘅重要一步,但**歐洲銷售數據參差**,加上 NHTSA 調查,投資者態度轉趨審慎。", "points": ["Austin Cybercab(robotaxi)正式營運,但未有規模化數字", "歐洲市場需求疲弱,部分國家 EV 補貼退坡", "短期股價催化劑:FSD 監管進展、Q3 交付、10 月能源日/機器人相關活動"], "note": "而家 TSLA 嘅交易邏輯係「事件驅動」— 每一單新聞(事故、調查、發佈)都會直接寫入股價。", "links": [{"label": "Yahoo Finance TSLA", "url": "https://finance.yahoo.com/quote/TSLA/press-releases/"}]}]}, {"key": "nokia", "title": "Nokia 諾基亞", "items": [{"text": "**NVIDIA 宣佈投資 Nokia 10 億美元**,加速 **AI-RAN** 創新,並主導 5G 到 6G 嘅過渡 — 係本週 Nokia 最大嘅戰略新聞。NVIDIA 呢注落得重:AI-RAN(用 AI 處理無線接入網絡)被視為電訊基建下一波大改造。", "points": ["NVIDIA 注資 $10 億入 Nokia,投 AI-RAN + 5G→6G 路線", "結合 NVIDIA 算力同 Nokia 電訊專利,目標係「AI 原生」嘅流動網絡", "NOK 股價一年升幅達 135.8%(Zacks 統計)"], "note": "AI-RAN 將「電訊設備公司」重新包裝成「AI 基建公司」— 呢個估值 re-rating 係 NOK 一年升一倍幾嘅主因。", "links": [{"label": "Nokia 官方新聞", "url": "https://www.nokia.com/newsroom/nokia-partners-with-nvidia/"}]}, {"text": "**Nokia 喺沙特阿拉伯開設新 R&D 中心(9/1)**,主題係加速 **AI 驅動嘅網絡自動化**;9/3 再宣佈同 **BeeHealthy** 合作,將「網絡身份驗證」引入數碼醫療。", "points": ["沙特 R&D 中心:AI-powered network automation,配合沙特「Vision 2030」數碼轉型", "BeeHealthy 合作:網絡層驗證身份,做數碼醫療嘅安全基建", "中東係 Nokia 重點擴張市場(主權基建投資潮)"], "note": "設備商而家唔淨止賣基站,仲賣「網絡即平台」嘅增值服務 — 沙特項目正正係呢個故事。", "links": [{"label": "Nokia Newsroom", "url": "https://www.nokia.com/newsroom/en-us/"}]}, {"text": "**9/8 Nokia「Home of Radio」喺芬蘭 Oulu 開幕**,芬蘭總統 Alexander Stubb 同政府官員、客戶、夥伴一齊出席 — 係 Nokia 喺無線技術老家嘅里程碑式設施,未來 AI-RAN 同 6G 研發主力基地。", "points": ["Oulu 係 Nokia 無線研發嘅發源地,新 campus 整合 5G/6G + AI-RAN 研發", "國家級重視:總統出席開幕", "配合 ASIC(自研晶片)策略,減少對第三方供應鏈依賴"], "note": "硬件層面睇,Nokia 想由「電訊設備商」升級做「AI-RAN 平台商」— 呢個 campus 係硬件證據。", "links": [{"label": "Nokia Oulu 新聞", "url": "https://www.nokia.com/newsroom/nokia-home-of-radio-in-oulu/"}]}, {"text": "**基本盤數據**:Nokia 嘅 **AI & Cloud 部門銷售喺 Q2 2026 倍翻**,訂單流入達 **28 億歐元**;分析員預計 2026 全年盈利增長 **25%**。不過本週開頭 NOK 一度急挫 **20%+**(YouTube 分析標題用「Crashed」),反映升咗一年之後,市場對高位估值分歧好大。", "points": ["AI & Cloud 銷售按年翻倍、訂單 €2.8B — 光纖容量同時擴張", "年內高位大幅回吐:有分析問「$10 目標價 2026 內係咪到」,同時有人話係買入機會", "Sell-side 共識:2026 盈利 +25%,主要靠 AI-RAN 同光纖"], "note": "NOK 係「轉型成功但估值已反映」嘅典型 — 升 135% 之後嘅 20% 回調,考驗你信唔信 AI-RAN 長故事。", "links": [{"label": "Zacks 分析", "url": "https://www.zacks.com/stock/news/2983372/nokia-stock-increases-1358-in-a-year-should-you-invest"}, {"label": "Yahoo 目標價分析", "url": "https://finance.yahoo.com/news/could-nokia-reach-10-2026-173800488.html"}]}]}, {"key": "mrvl", "title": "Marvell 邁威爾", "items": [{"text": "**MRVL 9/4 單日彈升 7%** 至 $223.67(盤中高位),直接觸發係 **NVIDIA 確認以 $129 億收購 Hugging Face**,成個 AI 晶片板塊受惠;Marvell 特別有理由彈 — **NVIDIA 已經持有佢 20 億美元股權**,雙方仲有正式嘅 silicon photonics 合作關係。", "points": ["9/4 收 $223.55(前收市 $208.83,+7%);成交量 2,080 萬股,低過平均但方向明確", "NVIDIA 持 Marvell $2B 股權 + silicon photonics(光互連)戰略合作", "更早一週 9/1 左右曾因高估值成長股回調 premarket −4% — 波動極大"], "note": "MRVL 而家係「NVIDIA 光互連概念 + 自研晶片供應商」雙主題,AI 板塊任何風吹草動都直接影響佢。", "links": [{"label": "CoinCentral 分析", "url": "https://coincentral.com/marvell-mrvl-stock-surges-7-as-nvidia-goes-all-in-on-open-source-ai"}]}, {"text": "**Q2 FY2027 業績(8/27)破紀錄**:收入 **$27.39 億(+37% YoY)**,超指引 $3,900 萬;其中 **Data Center 收入 $21.7 億(+46%),佔總收入 79%**;調整後 EPS $0.94(+40%);**調整後營運邊際 36.6%**、營運收入首次突破 **$10 億**。CEO Matt Murphy 形容 AI 相關訂單「exceptionally robust」。", "points": ["營運現金流 $6.055 億;net margin 27.93%、ROE 13.57%", "Q2 數字 vs 預期:revenue beat $2.71B 預期、EPS beat $0.93 預期", "2T 交換機產品線今年 scale-out switching 收入預期翻倍以上"], "note": "基本面冇問題 — 問題係股價已經跑太前,8/27 業績公布後第二朝 pre-market 照樣跌 7.9%,「利好出貨」。", "links": [{"label": "RocketNews 業績分析", "url": "https://rocketnews.com/2026/09/marvells-mrvl-data-center-machine-keeps-rewriting-its-own-forecast"}]}, {"text": "**連續第二季上調全年指引**:FY2027 收入預期上調至 **~$120 億**(原 $115 億),FY2028 上調至 **~$180 億**(加 $15 億,即再 +50%)。Q3 指引約 **$31.5 億(+50% YoY)**,其中 Data Center 預計 **+75%**。", "points": ["FY2027 ~$12B(≈+45%)、FY2028 ~$18B(≈+50%)— 兩年連續上調", "Q3 guide $3.15B ±5%,超分析員 $3.03B 預期", "但 Q3 FY27 non-GAAP gross margin 指引 57.5–58.5%,比 Q2 58.9% 微跌 — custom silicon 拉低毛利"], "note": "收入爆升但毛利受 custom 業務拉低 — 呢個 trade-off 就係市場對 MRVL 最大嘅分歧位。", "links": [{"label": "Benzinga 報導", "url": "https://benzinga.com/markets/tech/26/09/61545214/whats-going-on-with-marvell-technology-stock-tuesday-4"}]}, {"text": "**併購組合 + Google 大單**:近期收購 **Celestial AI**(Photonic Fabric — 跨大型計算域連接處理器同共享記憶體,預期 FY2028 Q4 達 $5 億年化收入、再一年後翻倍到 $10 億)、**Polariton**(3.2T+ 光學器件)同 **XConn**(PCIe/CXL 交換)。**Google 認股權協議**可買入最多 5,900 萬股(行使價 $206.58),潛在為 Marvell 帶嚟到 FY2033 嘅 **$1,200 億收入**。", "points": ["Celestial AI Photonic Fabric:$500M annualized(FY28 Q4)→ $1B(再一年)", "Google warrant:59M 股 @ $206.58;分析指協議覆蓋 ~$120B 潛在採購到 2033", "聯想:Microsoft Maia、AWS Trainium、Google custom silicon 陸續 ramp"], "note": "「光互連 + 自研晶片周邊」係 Marvell 喺 NVIDIA 生態內最穩嘅護城河 — 但 dilution 同客戶集中風險要計。", "links": [{"label": "CoinCentral 詳情", "url": "https://coincentral.com/marvell-mrvl-stock-surges-7-as-nvidia-goes-all-in-on-open-source-ai"}]}, {"text": "**估值與分析員取態**:MRVL 一年回報 **+235.9%**($62.18 → $208.83),6 月一度見歷史高位 $329.88 之後回落 29–36%。分析員 consensus 係 **Buy**,平均目標價 **$296.35**;不過 10 月初 **Investor Day** 先係下一個催化劑 — 市場等緊管理層更新 FY2029 框架。", "points": ["目標價參考:Jefferies $325、B. Riley $315、KeyBanc $300、Craig-Hallum $300、Wolfe $280、TD Cowen $245(Hold)", "估值:市值 ~$1,870–2,210 億;P/S ~20x、NTM P/E ~41x(5 月至今都係呢個範圍)", "關鍵位:週線支持 $189.87 守住就維持長線升勢;RSI 6 週超賣反彈"], "note": "InvestingPro Fair Value 模型反而警示 −33% downside(~$168)— 高估值股兩邊都有道理,睇你信唔信 $18B 指引。", "links": [{"label": "Trefis 分析", "url": "https://trefis.com/articles/614423/marvell-stock-had-a-huge-year-and-still-sits-well-below-its-high/2026-09-04"}, {"label": "Investing.com 分析", "url": "https://investing.com/news/stock-market-news/marvell-stock-is-down-36-from-recent-alltime-highs-can-it-get-its-mojo-back-93CH-4889558"}]}]}, {"key": "spacex", "title": "SpaceX 太空探索", "items": [{"text": "**SpaceX 完成 2026 年第 80 次 Starlink 任務(9/5)**:Falcon 9 由 Vandenberg SLC-4E 升空,部署 **27 粒 Starlink 衞星**(Starlink 15-24)。今個星期可謂「飛行工廠」式運作 — 9/1 同 9/2 先後由西岸發射 Starlink 15-23。", "points": ["9/5 第 80 次 Starlink 任務;9 月有望達成第 700 次 Falcon 9 任務(歷史累計)", "9/1 Starlink 15-23:Booster B1063 第 35 次飛行,turnaround 29 日,OCISLY 無人船回收", "今年正賽道:8/19 已達年度第 100 次任務,大部份係 Starlink"], "note": "節奏上 SpaceX 而家係「一日一枝火箭」嘅工業化運作 — 呢個先係 Starlink 商業模式可以 stand-alone 嘅根本。", "links": [{"label": "Spaceflight Now 報導", "url": "https://spaceflightnow.com/2026/09/05/live-coverage-spacex-to-launch-80th-starlink-mission-of-2026"}]}, {"text": "**Starship Flight 14 遞交 FCC 申請,首次真正軌道任務**:之前所有 Starship 飛行(包括 7/24 Flight 13 印度洋落海)都係 suborbital 弧線;Flight 14 計劃搭載約 **20 粒 Starlink V3 衞星**入 operational orbit,每粒下載容量約 **1 Tbps**。", "points": ["FCC filing 揭示:首次 orbital insertion profile 而非 suborbital 亞軌道", "Starlink V3:單粒 ~1 Tbps downlink,係 V2 嘅大升級", "星座現況:12,881 發射、11,093 在軌、11,078 正常運作"], "note": "Starship 一旦成功放衞星,Starlink 就唔再受 Falcon 9 載荷限制 — 星座規模同成本結構會再跳一級。", "links": [{"label": "Keeptrack.space 報告", "url": "https://keeptrack.space/x-report/spacex-brief-2026-09-02"}]}, {"text": "**發射里程碑回顧**:8/19 SpaceX 完成 2026 年第 100 次任務(Starlink 24 粒);8/29 用 **Falcon Heavy 發射 NASA Roman Space Telescope**('next great observatory')。今年 3 次非 Falcon 9 任務:Falcon Heavy ×1、Starship suborbital ×2。", "points": ["100th mission of 2026(8/19);700th Falcon 9 累計進入 9 月視線", "Roman Space Telescope:NASA 級旗艦任務,由 Falcon Heavy 執行", "Falcon 9 派生出雙發射日(double header)常態化"], "note": "政府任務(NASA)+ 商業星座(Starlink)雙引擎 — SpaceX 收入結構愈嚟愈穩,估值故事(傳聞 3,500 億+美元)有實際現金流支撐。", "links": [{"label": "Space.com 報導", "url": "https://www.space.com/space-exploration/launches-spacecraft/spacex-100-launches-2026-starlink-group-17-50-launch"}]}, {"text": "**私人公司角度留意**:Starship 下一次發射計劃 9 月內進行,並嘗試 **陸地接住(catch)回收**(Reuters 8/5);呢啲里程碑直接影響 Starlink 擴容同火星計畫路線圖。SpaceX 未上市,相關投資機會主要經二手市場(tender offer)或供應鏈公司(e.g. 火箭/衞星零件、半導體)。", "points": ["Catch 回收係「快速重用」最後一塊拼圖 — 成功會大幅降低成本", "Starlink V3 + Starship 組合:未來 6G / 衛星直連手機(Direct-to-Cell)都係潛在收入", "每星期數次發射 = 對供應鏈(發動機、複合材料、晶片)持續需求"], "note": "直接買唔到 SpaceX,但 MRVL、Nokia 呢類供應商都係「SpaceX 基建側寫」— 睇財經週報要識交叉借力。", "links": [{"label": "Reuters 報導", "url": "https://www.reuters.com/business/aerospace-defense/spacex-plans-next-starship-launch-soon-this-month-catching-it-land-2026-08-05"}]}]}]}], "updated_at": "2026-09-08 18:48"};
+const weeks = DATA.weeks.slice().sort((a,b) => b.id.localeCompare(a.id));
+const latestId = weeks.length ? weeks[0].id : null;
+const SECTION_META = {
+  k8s:    {kicker:"KUBERNETES / CLOUD NATIVE", title:"Kubernetes / 雲原生"},
+  devops: {kicker:"DEVOPS TOOLCHAIN",          title:"DevOps 工具鏈"},
+  ai:     {kicker:"AI / LLM",                 title:"AI / LLM 技術發展"},
+};
+let curIdx = 0;
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function rich(t){ return esc(t).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>'); }
+function hlText(t, q){
+  if(!q) return rich(t);
+  const safe = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return rich(t).replace(new RegExp('(' + safe + ')', 'ig'), '<mark>$1</mark>');
+}
+function linksHtml(item){
+  if(!item.links || !item.links.length) return '';
+  return '<span class="links">' + item.links.map(l =>
+    '<a class="lnk" href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.label) + '</a>'
+  ).join('') + '</span>';
+}
+function itemHtml(item, q, i){
+  const note = item.note ? '<div class="note">' + rich(item.note) + '</div>' : '';
+  const pts = (item.points || []).map(p => '<li>' + hlText(p, q) + '</li>').join('');
+  const ptsHtml = pts ? '<ul class="pts">' + pts + '</ul>' : '';
+  return '<li style="--i:' + i + '">' + hlText(item.text, q) + linksHtml(item) + ptsHtml + note + '</li>';
+}
+
+function renderWeek(i, skipScroll){
+  curIdx = i;
+  const w = weeks[i];
+  $('weekSel').value = w.id;
+  $('prevW').disabled = i <= 0;
+  $('nextW').disabled = i >= weeks.length - 1;
+  const secs = (w.sections || []).map((s, idx) => {
+    const meta = SECTION_META[s.key] || {kicker:"SECTION", title:s.title};
+    const items = (s.items || []).map((it, j) => itemHtml(it, "", j)).join('');
+    return '<section class="card sec">' +
+      '<div class="sechead"><span class="secno">' + String(idx+1).padStart(2,'0') + '</span>' +
+      '<div class="sectitle"><span class="kicker acc">' + esc(meta.kicker) + '</span>' +
+      '<h3>' + esc(s.title || meta.title) + '</h3></div></div>' +
+      '<ul class="items">' + items + '</ul></section>';
+  }).join('');
+  const latest = w.id === latestId ? '<span class="pill">LATEST</span>' : '';
+  const wkinfo = '<span class="mono">第 ' + (w.week_no || '—') + ' 期</span>' + latest +
+    '<span class="mono dim">' + esc(w.label || w.id) + '</span>';
+  $('view-main').innerHTML =
+    '<div class="lead card"><div class="kicker acc">本期頭條 · THIS WEEK</div>' +
+    '<h2 class="headline">' + rich(w.summary || "") + '</h2>' +
+    '<div class="wkinfo">' + wkinfo + '</div></div>' + secs;
+  $('view-main').style.display = '';
+  $('view-search').style.display = 'none';
+  if(!skipScroll) window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function doSearch(){
+  const q = ($('q').value || '').trim();
+  if(!q){ renderWeek(0); return; }
+  const re = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+  let hits = 0;
+  const groups = [];
+  for(const w of weeks){
+    const secResults = [];
+    (w.sections || []).forEach(s => {
+      const items = (s.items || []).filter(it =>
+        re.test(it.text) || re.test(it.note || '') || (it.points || []).some(p => re.test(p)) || (it.links || []).some(l => re.test(l.label))
+      );
+      if(items.length) secResults.push({title: s.title, key: s.key, items});
+    });
+    if(secResults.length){
+      const rendered = secResults.map(sr => {
+        const meta = SECTION_META[sr.key] || {kicker:"SECTION"};
+        return '<section class="card sec" style="margin-bottom:10px">' +
+          '<div class="sechead">' +
+          '<div class="sectitle"><span class="kicker acc">' + esc(meta.kicker) + '</span>' +
+          '<h3>' + esc(sr.title) + '</h3></div></div>' +
+          '<ul class="items">' + sr.items.map((it, j) => itemHtml(it, q, j)).join('') + '</ul></section>';
+      }).join('');
+      groups.push('<div class="resgroup"><h4>' + esc(w.label) + (w.id === latestId ? ' · LATEST' : '') +
+        '<span class="cnt">' + secResults.reduce((n, sr) => n + sr.items.length, 0) + ' ITEMS</span></h4>' + rendered + '</div>');
+      hits += secResults.reduce((n, sr) => n + sr.items.length, 0);
+    }
+  }
+  $('view-main').style.display = 'none';
+  $('view-search').style.display = '';
+  $('view-search').innerHTML = groups.length
+    ? '<div class="searchmeta">SEARCH · 「' + esc(q) + '」 共 <b>' + hits + '</b> 項 · <b>' + groups.length + '</b> 期</div>' + groups.join('')
+    : '<div class="empty">搵唔到同「' + esc(q) + '」有關嘅內容。<br><span class="dim">試下 TSLA · Cybercab · Starship · AI-RAN</span></div>';
+}
+
+function init(){
+  document.documentElement.classList.add('anim');
+  $('totalWeeks').textContent = weeks.length;
+  $('latestLabel').textContent = weeks[0] ? weeks[0].label : '—';
+  $('weekItems').textContent = weeks[0]
+    ? (weeks[0].sections || []).reduce((n, s) => n + (s.items || []).length, 0) : '0';
+  $('updatedAt').textContent = DATA.updated_at || '—';
+  const opts = weeks.map(w =>
+    '<option value="' + esc(w.id) + '">' + esc(w.label) + (w.week_no ? ' · 第 ' + w.week_no + ' 期' : '') +
+    (w.id === latestId ? ' · LATEST' : '') + '</option>'
+  ).join('');
+  $('weekSel').innerHTML = opts;
+  $('weekSel').addEventListener('change', e => {
+    const idx = weeks.findIndex(w => w.id === e.target.value);
+    if(idx >= 0){ $('q').value = ''; renderWeek(idx); }
+  });
+  $('homeW').addEventListener('click', () => { $('q').value = ''; renderWeek(0); });
+  $('prevW').addEventListener('click', () => { if(curIdx > 0) renderWeek(curIdx - 1); });
+  $('nextW').addEventListener('click', () => { if(curIdx < weeks.length - 1) renderWeek(curIdx + 1); });
+  $('q').addEventListener('input', doSearch);
+  document.addEventListener('keydown', e => {
+    if(e.key === '/' && document.activeElement !== $('q')){ e.preventDefault(); $('q').focus(); }
+  });
+  renderWeek(0, true);
+}
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
