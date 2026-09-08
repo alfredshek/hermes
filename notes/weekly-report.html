@@ -6,184 +6,211 @@
 <title>K8s / DevOps / AI 技術週報</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#f7f5ee; --ink:#161616; --ink-soft:#3c3c3c; --hair:#d8d3c4; --hair2:#c9c3b0;
-    --red:#a91d1d; --mint:#5fb38a; --orange:#d97757; --muted:#6f6a5e;
+    --bg:#08090a; --panel:#0f1011; --surface:#191a1b; --hover:#28282c;
+    --txt:#f7f8f8; --txt2:#d0d6e0; --txt3:#8a8f98; --txt4:#62666d;
+    --brand:#5e6ad2; --accent:#7170ff; --accent-h:#828fff;
+    --green:#10b981;
+    --bd:rgba(255,255,255,.08); --bds:rgba(255,255,255,.05);
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   body{
-    background:var(--paper); color:var(--ink);
-    font-family:"IBM Plex Sans","PingFang TC","Microsoft JhengHei",sans-serif;
-    min-height:100vh; line-height:1.7; -webkit-font-smoothing:antialiased;
+    background:var(--bg); color:var(--txt2);
+    font-family:'Inter','PingFang TC','Microsoft JhengHei',system-ui,-apple-system,sans-serif;
+    font-feature-settings:'cv01','ss03';
+    min-height:100vh; line-height:1.65; -webkit-font-smoothing:antialiased;
   }
-  .wrap{max-width:860px; margin:0 auto; padding:36px 22px 90px;}
-  .mono{font-family:"IBM Plex Mono",Menlo,monospace;}
-  .kicker{
-    font-family:"IBM Plex Mono",Menlo,monospace;
-    font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted);
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+    background:radial-gradient(900px 420px at 85% -10%, rgba(94,106,210,.10), transparent 60%);
   }
-  .kicker.red{color:var(--red);}
-  .serif{font-family:"Playfair Display","Noto Serif TC","Songti TC","STSong",serif;}
+  .wrap{position:relative; z-index:1; max-width:960px; margin:0 auto; padding:0 22px 90px;}
+  .mono{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;}
+  .dim{color:var(--txt4);}
 
-  /* Masthead */
-  header.top{border-top:4px solid var(--ink); padding-top:18px; margin-bottom:22px;}
-  header.top .kicker{color:var(--red); margin-bottom:10px;}
-  h1{
-    font-family:"Playfair Display","Noto Serif TC","Songti TC","STSong",serif;
-    font-size:40px; font-weight:700; letter-spacing:-.01em; line-height:1.15;
+  /* Top toolbar */
+  .topbar{
+    position:sticky; top:0; z-index:20; display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+    background:rgba(8,9,10,.86); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--bds); padding:11px 0; margin-bottom:6px;
   }
-  h1 em{font-style:italic; font-weight:600;}
-  .sub{margin-top:8px; font-size:13px; color:var(--muted);}
-  .rule{border-bottom:1px solid var(--hair2); margin:16px 0 14px; position:relative;}
-  .rule::after{content:""; display:block; border-bottom:3px solid var(--ink); width:56px; margin-top:1px;}
-
-  .stats{display:flex; gap:0; margin-bottom:20px; border-top:1px solid var(--hair); border-bottom:1px solid var(--hair);}
-  .stat{flex:1; padding:12px 14px; text-align:center; border-left:1px solid var(--hair);}
-  .stat:first-child{border-left:none;}
-  .stat b{display:block; font-family:"IBM Plex Mono",Menlo,monospace; font-size:19px; font-weight:600; color:var(--ink);}
-  .stat span{font-size:11px; color:var(--muted); letter-spacing:.04em;}
-
-  .controls{
-    position:sticky; top:0; z-index:10; display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end;
-    background:rgba(247,245,238,.96); backdrop-filter:blur(6px);
-    padding:12px 0 14px; border-bottom:1px solid var(--hair2); margin-bottom:26px;
-  }
-  .searchbox{flex:1 1 260px;}
+  .brand{display:flex; align-items:center; gap:9px; margin-right:auto;}
+  .brand .mark{width:15px; height:15px; border-radius:4px;
+    background:linear-gradient(135deg,var(--brand),var(--accent)); box-shadow:0 0 14px rgba(113,112,255,.45);}
+  .brandname{font-size:14px; font-weight:600; letter-spacing:-.2px; color:var(--txt);}
+  .brandname .m{color:var(--txt4); font-weight:500;}
+  .tools{display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+  .searchbox{position:relative;}
   .searchbox input{
-    width:100%; padding:7px 0 7px 20px; font-size:14px; color:var(--ink);
-    background:transparent; border:none; border-bottom:1.5px solid var(--hair2);
-    font-family:"IBM Plex Mono",Menlo,monospace; outline:none;
+    width:250px; padding:7px 30px 7px 12px; font-size:13px; color:var(--txt);
+    background:rgba(255,255,255,.02); border:1px solid var(--bd); border-radius:6px; outline:none;
+    font-family:'Inter','PingFang TC',sans-serif; transition:border-color .15s, width .2s;
   }
-  .searchbox input:focus{border-bottom-color:var(--red);}
-  .searchbox input::placeholder{color:#a39d8d;}
-  .weeksel select{
-    padding:7px 6px; font-size:13px; background:transparent; border:none;
-    border-bottom:1.5px solid var(--hair2); color:var(--ink); outline:none; cursor:pointer;
-    font-family:"IBM Plex Mono",Menlo,monospace;
+  .searchbox input::placeholder{color:var(--txt4);}
+  .searchbox input:focus{border-color:rgba(113,112,255,.65); width:300px;
+    box-shadow:0 0 0 3px rgba(94,106,210,.18);}
+  .searchbox kbd{
+    position:absolute; right:8px; top:50%; transform:translateY(-50%);
+    font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--txt4);
+    border:1px solid var(--bd); border-radius:4px; padding:1px 5px; background:rgba(255,255,255,.03);
   }
-  .navbtns{display:flex; gap:8px;}
-  .navbtns button{
-    padding:7px 12px; font-size:11px; letter-spacing:.08em; cursor:pointer;
-    background:transparent; color:var(--ink); border:1px solid var(--hair2);
-    font-family:"IBM Plex Mono",Menlo,monospace; transition:.15s;
+  .ghost{
+    padding:7px 10px; font-size:12px; color:var(--txt2); background:rgba(255,255,255,.03);
+    border:1px solid var(--bd); border-radius:6px; cursor:pointer; outline:none;
+    font-family:'JetBrains Mono',monospace; appearance:none;
+    background-image:linear-gradient(45deg,transparent 50%,var(--txt4) 50%),linear-gradient(135deg,var(--txt4) 50%,transparent 50%);
+    background-position:calc(100% - 14px) 55%,calc(100% - 9px) 55%; background-size:5px 5px; background-repeat:no-repeat;
+    padding-right:26px;
   }
-  .navbtns button:hover:not(:disabled){border-color:var(--ink); background:#efece2;}
-  .navbtns button:disabled{opacity:.3; cursor:default;}
-  #homeW{border-color:var(--red); color:var(--red);}
-  #homeW:hover:not(:disabled){background:rgba(169,29,29,.06); border-color:var(--red);}
+  .ghost:hover{color:var(--txt);}
+  .btn{
+    padding:7px 12px; font-size:11px; font-weight:500; letter-spacing:.06em; cursor:pointer;
+    color:var(--txt2); background:rgba(255,255,255,.03); border:1px solid var(--bd);
+    border-radius:6px; font-family:'JetBrains Mono',monospace; transition:.15s;
+  }
+  .btn:hover:not(:disabled){color:var(--txt); background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.14);}
+  .btn:disabled{opacity:.3; cursor:default;}
+  .btn.status{border-color:rgba(16,185,129,.45); color:var(--green);}
+  .btn.status:hover:not(:disabled){background:rgba(16,185,129,.08); border-color:rgba(16,185,129,.7);}
 
-  /* Week view */
-  .lead{border-bottom:1px solid var(--hair2); padding-bottom:18px; margin-bottom:22px;}
+  /* Hero */
+  header.hero{padding:44px 0 26px;}
+  .kicker{
+    font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--txt4); font-weight:500;
+  }
+  .kicker.acc{color:var(--accent);}
+  h1{
+    font-size:42px; font-weight:500; letter-spacing:-1.3px; line-height:1.14;
+    color:var(--txt); margin:12px 0 10px;
+  }
+  h1 .cn{font-weight:400; color:var(--txt3);}
+  .sub{font-size:15px; color:var(--txt3); letter-spacing:-.15px;}
+
+  /* Stats */
+  .stats{
+    display:flex; margin-bottom:26px; background:rgba(255,255,255,.02);
+    border:1px solid var(--bd); border-radius:12px; overflow:hidden;
+  }
+  .stat{flex:1; padding:16px 14px; text-align:center; border-left:1px solid var(--bds);}
+  .stat:first-child{border-left:none;}
+  .stat b{display:block; font-size:24px; font-weight:500; letter-spacing:-.6px; color:var(--txt); font-family:'Inter',sans-serif;}
+  .stat span{font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--txt4);}
+
+  /* Cards */
+  .card{background:rgba(255,255,255,.02); border:1px solid var(--bd); border-radius:12px;}
+  .lead{padding:22px 24px; margin-bottom:18px;}
   .lead .kicker{margin-bottom:10px;}
   .headline{
-    font-family:"Playfair Display","Noto Serif TC","Songti TC","STSong",serif;
-    font-size:26px; font-weight:700; line-height:1.4; letter-spacing:.005em; margin-bottom:10px;
+    font-size:23px; font-weight:500; letter-spacing:-.5px; line-height:1.5; color:var(--txt); margin-bottom:12px;
   }
-  .wkinfo{display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-size:12.5px; color:var(--muted);}
-  .wkinfo .mono{color:var(--ink-soft);}
-  .latest{
-    font-family:"IBM Plex Mono",Menlo,monospace; font-size:10px; letter-spacing:.12em;
-    color:var(--red); border:1px solid var(--red); padding:2px 8px; font-weight:600;
+  .wkinfo{display:flex; align-items:center; gap:12px; flex-wrap:wrap; font-size:12px; color:var(--txt4);}
+  .pill{
+    font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:600; letter-spacing:.1em;
+    color:var(--green); border:1px solid rgba(16,185,129,.45); border-radius:9999px; padding:2px 10px;
   }
-  .globaltocheck{}
-  section.sec{padding:20px 0 6px; border-top:1px solid var(--hair); margin-bottom:8px;}
-  section.sec:first-of-type{border-top:none;}
-  .sechead{display:flex; align-items:baseline; gap:14px; margin-bottom:10px; flex-wrap:wrap;}
-  .sechead .kicker{font-weight:600;}
-  .sechead h3{
-    font-family:"Playfair Display","Noto Serif TC","Songti TC","STSong",serif;
-    font-size:20px; font-weight:700; color:var(--ink);
+  section.sec{padding:20px 22px 12px; margin-bottom:14px; transition:background .15s;}
+  section.sec:hover{background:rgba(255,255,255,.035);}
+  .sechead{display:flex; align-items:flex-start; gap:14px; margin-bottom:8px;}
+  .secno{
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--txt4); font-weight:500;
+    background:rgba(113,112,255,.12); border:1px solid rgba(113,112,255,.25);
+    border-radius:5px; padding:2px 8px; margin-top:2px; white-space:nowrap;
   }
-  ul.items{list-style:none;}
+  .sectitle .kicker{display:block; margin-bottom:4px;}
+  .sectitle h3{font-size:18px; font-weight:600; letter-spacing:-.3px; color:var(--txt);}
+  ul.items{list-style:none; margin-top:10px;}
   ul.items li{
-    padding:9px 0; font-size:14.5px; color:#242424; border-bottom:1px dashed var(--hair);
-    animation:rise .5s ease-out both; animation-delay:calc(var(--i,0) * 55ms);
+    padding:12px 2px; font-size:14.5px; color:var(--txt2); letter-spacing:-.1px;
+    border-bottom:1px solid var(--bds);
+  }
+  html.anim ul.items li{
+    animation:rise .45s ease-out both; animation-delay:calc(var(--i,0) * 45ms);
   }
   ul.items li:last-child{border-bottom:none;}
-  ul.items strong{font-weight:700; color:var(--ink);}
-  .note{
-    margin-top:5px; font-size:13px; font-style:italic; color:var(--muted);
-    border-left:2px solid var(--hair2); padding-left:10px; line-height:1.6;
-  }
+  ul.items strong{font-weight:600; color:var(--txt);}
   .links{display:inline; margin-left:8px;}
   .lnk{
-    font-size:12px; color:var(--red); text-decoration:none; white-space:nowrap;
-    border-bottom:1px solid rgba(169,29,29,.35); padding-bottom:1px; margin-right:6px;
+    font-size:12.5px; font-weight:500; color:var(--accent); text-decoration:none; margin-right:10px;
+    transition:color .15s;
   }
-  .lnk:hover{border-bottom-color:var(--red); background:rgba(169,29,29,.05);}
-  mark{background:#fbe3b8; color:var(--ink); padding:0 2px;}
+  .lnk:hover{color:var(--accent-h);}
+  .note{
+    margin-top:7px; font-size:13px; font-style:italic; color:var(--txt3);
+    border-left:2px solid rgba(113,112,255,.35); padding-left:11px; line-height:1.6;
+  }
+  mark{background:rgba(113,112,255,.22); color:#fff; border-radius:3px; padding:0 2px;}
 
   /* Search view */
-  .searchmeta{font-size:12.5px; color:var(--muted); margin-bottom:16px; font-family:"IBM Plex Mono",Menlo,monospace;}
-  .searchmeta b{color:var(--red);}
-  .resgroup{margin-bottom:26px;}
+  .searchmeta{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--txt3); margin-bottom:14px;}
+  .searchmeta b{color:var(--accent); font-weight:600;}
+  .resgroup{margin-bottom:22px;}
   .resgroup h4{
-    font-family:"Playfair Display","Noto Serif TC","Songti TC","STSong",serif;
-    font-size:17px; font-style:italic; margin-bottom:8px; color:var(--ink);
+    font-size:15.5px; font-weight:600; letter-spacing:-.3px; color:var(--txt);
+    display:flex; align-items:baseline; gap:10px; margin-bottom:6px;
   }
-  .resgroup h4 .cnt{font-family:"IBM Plex Mono",Menlo,monospace; font-size:11px; font-style:normal; color:var(--red); margin-left:8px;}
-  .empty{
-    text-align:center; padding:70px 0; color:var(--muted); font-size:14px;
-    font-family:"Playfair Display","Noto Serif TC","Songti TC","STSong",serif; font-style:italic;
+  .resgroup h4 .cnt{font-family:'JetBrains Mono',monospace; font-size:10.5px; font-weight:500; color:var(--green);}
+  .empty{text-align:center; color:var(--txt3); padding:70px 0; font-size:14px;}
+
+  footer{
+    margin-top:36px; border-top:1px solid var(--bds); padding-top:16px;
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--txt4);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px;
   }
 
-  footer{margin-top:40px; border-top:1px solid var(--hair2); padding-top:14px;
-         font-size:11px; color:var(--muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px;
-         font-family:"IBM Plex Mono",Menlo,monospace; letter-spacing:.04em;}
-
-  @keyframes rise{from{opacity:0; transform:translateY(9px);} to{opacity:1; transform:none;}}
+  @keyframes rise{from{opacity:0; transform:translateY(7px);} to{opacity:1; transform:none;}}
   @media (prefers-reduced-motion: reduce){
     *{animation:none !important; transition:none !important;}
-    ul.items li{opacity:1;}
   }
-  @media (max-width:640px){
-    h1{font-size:29px;} .headline{font-size:21px;} .wrap{padding:24px 16px 70px;}
-    .stats{flex-wrap:wrap;} .stat{flex:1 1 45%; border-top:1px solid var(--hair); border-left:none;}
+  @media (max-width:700px){
+    h1{font-size:31px;} .headline{font-size:19px;} .wrap{padding:0 14px 70px;}
+    .stats{flex-wrap:wrap;} .stat{flex:1 1 45%; border-left:none; border-top:1px solid var(--bds);}
+    .searchbox input, .searchbox input:focus{width:150px;}
   }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header class="top">
-    <div class="kicker">ALFRED'S WEEKLY DIGEST · EACH MONDAY</div>
-    <h1>K8s / DevOps / AI <em>技術週報</em></h1>
-    <p class="sub">每週重點新聞與趨勢 · 由 Hermes 自動彙整 · 支援日期選擇與全文搜尋 · 預設顯示最新一期</p>
-    <div class="rule"></div>
-    <div class="stats">
-      <div class="stat"><b id="totalWeeks">0</b><span>已收錄期數</span></div>
-      <div class="stat"><b id="latestLabel">—</b><span>最新一期</span></div>
-      <div class="stat"><b id="weekItems">0</b><span>本週條目</span></div>
-      <div class="stat"><b id="updatedAt">—</b><span>最後更新</span></div>
+  <nav class="topbar">
+    <div class="brand"><span class="mark"></span><span class="brandname">週報 <span class="m">/ WEEKLY DIGEST</span></span></div>
+    <div class="tools">
+      <div class="searchbox">
+        <input id="q" type="search" placeholder="搜尋全部週報… Astra / DRA / containerd" autocomplete="off">
+        <kbd>/</kbd>
+      </div>
+      <select id="weekSel" class="ghost" aria-label="選擇星期"></select>
+      <button id="homeW" class="btn status" title="跳去最新一期">LATEST</button>
+      <button id="prevW" class="btn" title="上一個星期">←</button>
+      <button id="nextW" class="btn" title="下一個星期">→</button>
     </div>
+  </nav>
+
+  <header class="hero">
+    <div class="kicker">ALFRED'S WEEKLY DIGEST · EACH MONDAY</div>
+    <h1>K8s / DevOps / AI <span class="cn">技術週報</span></h1>
+    <p class="sub">每週重點新聞與趨勢 · 由 Hermes 自動彙整 · 日期選擇 + 全文搜尋 · 預設顯示最新一期</p>
   </header>
 
-  <div class="controls">
-    <div class="searchbox">
-      <input id="q" type="search" placeholder="SEARCH 搜尋全部週報… (Astra / DRA / containerd / 價格)" autocomplete="off">
-    </div>
-    <div class="weeksel">
-      <select id="weekSel" aria-label="選擇星期"></select>
-    </div>
-    <div class="navbtns">
-      <button id="homeW" title="跳去最新一期">★ LATEST</button>
-      <button id="prevW" title="上一個星期">← PREV</button>
-      <button id="nextW" title="下一個星期">NEXT →</button>
-    </div>
+  <div class="stats">
+    <div class="stat"><b id="totalWeeks">0</b><span>已收錄期數</span></div>
+    <div class="stat"><b id="latestLabel">—</b><span>最新一期</span></div>
+    <div class="stat"><b id="weekItems">0</b><span>本週條目</span></div>
+    <div class="stat"><b id="updatedAt">—</b><span>最後更新</span></div>
   </div>
 
-  <div id="view-main"><div class="lead"><div class="kicker red">本期頭條 · THIS WEEK</div><h2 class="headline">呢個星期係本年度雲原生同 AI 基建最密集嘅一週:<strong>KubeCon China 2026 喺上海開鑼</strong>,Kubernetes 社群正式確認佢係「AI 時代嘅控制平面」;同時 OpenAI、Anthropic、Google 喺 72 小時內接連推出達到<strong>網絡安全前沿級別</strong>嘅模型,全部以「可信存取計劃」形式限量開放,能力與安全機制同步升級。另一邊廂,中國開源模型繼續以 1/10 價錢劈價轟炸市場,推理成本戰已經改寫咗整個 AI 產業嘅商業模式。</h2><div class="wkinfo"><span class="wkmeta">第 1 期<span class="latest">最新一期 · LATEST</span></span> · <span class="mono">2026-09-01 — 09-08</span></div></div><section class="sec k8s"><div class="sechead"><span class="kicker" style="color:#a91d1d">01 · KUBERNETES / CLOUD NATIVE</span><h3>Kubernetes / 雲原生</h3></div><ul class="items"><li style="--i:0"><strong>KubeCon + CloudNativeCon + OpenInfra Summit + PyTorch Conference China 2026</strong>(9/7–9,上海國際會議中心)開鑼,係史上首次三大開源社群(CNCF、OpenInfra、PyTorch Foundation)共冶一爐,主題明確指向「用雲原生基建 scale 生產級 AI」。同場仲有 <strong>AGNTCon + MCPCon China</strong>(9/6–7)專講 AI agent 同 MCP 生態。贊助陣容亦好有指標性:Huawei 做戰略贊助,Cambricon(寒武紀)、Intel 做白金,Alibaba Cloud、ClickHouse 做黃金。CNCF 喺會上宣佈 <strong>SoftBank Corp 同 Crusoe 加入做新會員</strong>,繼續將「主權基建 + AI 算力」收編入雲原生陣營。<span class="links"><a class="lnk" href="https://www.cncf.io/announcements/" target="_blank" rel="noopener">CNCF Announcements →</a><a class="lnk" href="https://www.lfopensource.cn/kubecon-cloudnativecon-openinfra-summit-pytorch-conference-china/program/schedule/" target="_blank" rel="noopener">活動日程 →</a></span><div class="note">上海場嘅出現,標誌住 K8s AI 議題嘅話語權正式由歐美擴散到亞洲;MCPCon 呢類 co-located event 出現,反映 agent 生態已經滲透到 infra 層。</div></li><li style="--i:1"><strong>CNCF 年度調查顯示:K8s 生產環境採用率達到 82%</strong>,比 2023 年嘅 66% 大幅上升;更關鍵嘅係,使用者當中有 <strong>66% 已經用 Kubernetes 嚟跑 AI inference</strong>。呢個數字確認咗一個轉向:K8s 唔再淨係「容器編排器」,而係 AI workload(GPU 調度、模型 serving、agent 基建)嘅預設平台。<div class="note">對平台工程師嚟講,GPU 調度、DRA、inference autoscaling 呢啲技能由「加分項」變成「必備項」。</div></li><li style="--i:2"><strong>Kubeflow 正式喺 CNCF「畢業」(Graduated)</strong> — 係第一個達到最高成熟度嘅 AI-native 項目。項目由 Google 2017 年創立,2023 年加入 CNCF incubating,而家已有 <strong>6,600+ contributors、1,000+ 機構、33,000+ GitHub stars</strong>,Python 套件累計下載近 <strong>2.6 億次</strong>,用戶包括 NVIDIA、LinkedIn、Spotify。畢業前完成咗第三方安全審計、成立正式 steering committee。<span class="links"><a class="lnk" href="https://cloudnativenow.com/features/kubeflows-graduation-is-a-vote-for-kubernetes-as-the-ai-control-plane/" target="_blank" rel="noopener">Cloud Native Now 分析 →</a></span><div class="note">業界普遍解讀為「市場投票確認 Kubernetes 係 AI control plane」嘅信號,亦為其他 AI 項目(KServe、Kueue 等)鋪路。</div></li><li style="--i:3"><strong>Kubernetes 1.33 (codename Octarine)</strong> 帶嚟 64 項 enhancement(18 stable / 20 beta / 24 alpha),重點包括:<strong>Dynamic Resource Allocation (DRA) structured parameters 正式 GA</strong> — 唔使再靠 extended resources 或複雜 device plugin 就可以精細調度 GPU/TPU/加速器;<strong>原生 sidecar containers GA</strong>(KEP-753,istio/Linkerd 已自動採用);<strong>in-place pod 垂直擴容 GA</strong>(改 CPU/memory 唔使重啟 Pod);另有 kube-proxy Windows dual-stack 等大量修正。<span class="links"><a class="lnk" href="https://versionlog.com/kubernetes/1.33" target="_blank" rel="noopener">1.33 版本詳情 →</a></span><div class="note">呢個版本已喺 6 月底 EOL,重點唔係「用唔用」,而係佢確立咗 AI 調度嘅功能方向,後續版本都係沿住呢條路。</div></li><li style="--i:4">⚠️ <strong>containerd 2.0 遷移限期係而家最大嘅升級地雷</strong>:Kubernetes 1.35 係<strong>最後支援 containerd 1.x 嘅版本</strong>,而官方目前只維護 1.36 / 1.35 / 1.34 三個 minor(1.33 已於 2026-06-28 EOL)。containerd 2.0 改咗 CRI plugin 路徑、deprecate 舊 registry config,node 配置可能<strong>靜默失敗</strong> — 唔係 API 報錯,而係 node 唔註冊、ImagePullBackOff、kubelet 拒絕上線呢類難查嘅現象。<span class="links"><a class="lnk" href="https://ecorpit.com/kubernetes-1-35-containerd-2-0-migration-upgrade-2026" target="_blank" rel="noopener">containerd 2.0 升級指南 →</a></span><div class="note">計劃任何 K8s 升級都要連 runtime 遷移一齊入 maintenance window;唔好淨係「升 control plane 算」。</div></li><li style="--i:5"><strong>KubeCon North America 2026</strong>(11/9–12,Salt Lake City)full schedule 公佈,新增 <strong>AI Inference + Agentic 專屬 track</strong>,主題涵蓋 vLLM、KServe、Ray、OpenTelemetry 同 GPU scheduling;co-located 活動包括 Cloud Native AI + Inference Day、CiliumCon、ArgoCon 等。Dan Kohn 獎學金嘅 travel funding 申請 9/13 截止。<span class="links"><a class="lnk" href="https://www.prnewswire.com/news-releases/cncf-reveals-kubecon--cloudnativecon-north-america-2026-schedule-adds-new-ai-inference--agentic-track-302846486.html" target="_blank" rel="noopener">PR Newswire 公告 →</a></span><div class="note">如果做緊 AI-infra 方向,呢個係今年最大嘅 networking 場合,申請獎學金記住 9/13 前。</div></li></ul></section><section class="sec devops"><div class="sechead"><span class="kicker" style="color:#5fb38a">02 · DEVOPS TOOLCHAIN</span><h3>DevOps 工具鏈</h3></div><ul class="items"><li style="--i:0"><strong>本週版本浪潮</strong>:Docker Engine 29.8.0、Terraform 1.16.1、Helm 4.3.0-rc.1 / 3.22.0-rc.1、Go 1.27.1 / 1.26.8、Bun 1.4.2、uv 0.12.10、Rust 1.98.1、Homebrew 6.0.22、snapd 2.77.1。當中最值得留意嘅係 <strong>pnpm 12.1 引入 workspace task scheduler</strong>:任務喺依賴一完成就即刻 dispatch,唔使等成個拓撲批次,大型 monorepo 嘅 CI 時間可以明顯縮短。<span class="links"><a class="lnk" href="https://nesbitt.io/2026/09/05/this-week-in-package-management.html" target="_blank" rel="noopener">This Week in Package Mgmt →</a></span><div class="note">版本號好平凡,但「依賴即 dispatch」呢類 scheduler 改進正正係 monorepo CI 樽頸位嘅藥。</div></li><li style="--i:1">⚠️ <strong>Coder 供應鏈事故係本週最大嘅安全新聞</strong>:攻擊者騎劫咗 Coder 嘅 <strong>Cloudflare 帳戶</strong>,將自己嘅 IP 加入 module registry pool,<strong>派發偷 credential 嘅惡意 module 大約 14 個鐘</strong>(8/31 發生)。已喺 2.37.0 修復,並 backport 到 2.36.4 / 2.35.7 / 2.34.9。最恐怖嘅位喺:啲 tampered modules 係由<strong>真實 domain + 有效 TLS</strong> 出嚟 — 得 <strong>artifact signing(簽名驗證)</strong> 先攔截到。<span class="links"><a class="lnk" href="https://nesbitt.io/2026/09/05/this-week-in-package-management.html" target="_blank" rel="noopener">安全詳情 →</a></span><div class="note">呢單嘢係「signing 唔再係 best practice,而係必要 condition」嘅活教材;check module hash 嘅基本工就要做。</div></li><li style="--i:2"><strong>容器/套件工具安全修補</strong>:Podman 6.1.1 修復 <strong>CVE-2026-17106</strong>(構造 tar 檔案透過惡意 symlink 越過解壓目錄寫入任意位置嘅 path traversal);Poetry 2.4.2 一口氣修三個問題,包括由被騎劫 URL 下載時嘅 path traversal、以及 Python 3.10.0–3.11.4 喺 sdist 解壓時嘅 path traversal。<div class="note">呢類「解壓即中招」漏洞喺 CI 環境特別危險 — build agent 通常有高權限,記得盡快更新。</div></li><li style="--i:3"><strong>Ray Serve LLM + vLLM 嘅大提速係 AI serving 里程碑</strong>:透過新 <strong>vLLM Ray Executor Backend V2</strong>、HAProxy 分層同 direct streaming 架構,Ray Serve LLM 喺 prefill-heavy 任務攞到 <strong>4.4 倍</strong>,decode-heavy 任務更高達 <strong>24.8 倍</strong> throughput,正式追平獨立 vLLM router(vLLM 指嘅係 vllm-router 級別)。成個優化係同 <strong>Google Kubernetes Engine (GKE)</strong> 嘅 Ray 團隊合作成果。<span class="links"><a class="lnk" href="https://www.anyscale.com/blog/high-performance-distributed-inference-ray-serve-llm-vllm-google-kubernetes-gke" target="_blank" rel="noopener">Anyscale blog →</a></span><div class="note">對平台工程師嚟講,K8s 上面跑 LLM serving 而家唔使再「用 Ray 就輸性能」,可以放心用高層 abstraction 換容錯同可觀測性。</div></li><li style="--i:4"><strong>趨勢:AI agent 直接落地 IaC 領域</strong> — Ansible 官方 <strong>AAP MCP server 達 GA</strong>,連同 Terraform / OpenTofu / Pulumi 嘅 MCP server 生態快速成形(例如 tfmcp 支援 init/plan/apply/destroy/state/drift scan)。「AI agent 出 plan → 人嚟審計 → agent apply」呢個 workflow 開始由實驗變成主流。<span class="links"><a class="lnk" href="https://chatforest.com/reviews/infrastructure-automation-mcp-servers" target="_blank" rel="noopener">MCP server 生態整理 →</a></span><div class="note">IaC + MCP 會係下一年 DevOps 工具鏈最大嘅變數,而家有冇 cert/audit 層會決定佢安唔安全。</div></li></ul></section><section class="sec ai"><div class="sechead"><span class="kicker" style="color:#d97757">03 · AI / LLM</span><h3>AI / LLM 技術發展</h3></div><ul class="items"><li style="--i:0"><strong>OpenAI GPT-6 Astra(9/3)係本週頭號新聞</strong> — 係第一個觸發 OpenAI 自家 Preparedness Framework「<strong>Critical 網絡安全能力門檻</strong>」嘅模型:可以喺冇人逐步引導下,自主喺多個高度防護系統度搵出未知漏洞並寫出可用 exploit(喺 ExploitGym 測試用更少 output tokens 攞更高分)。安全數字亦大幅提升:jailbreak 拒絶率由上代 GPT-5.6 Sol 嘅 <strong>59% 升到 91.5%</strong>。首批開放畀 Daybreak 網絡防禦計劃成員,數日內擴至 Plus / Pro / Business / Enterprise / API / AWS。背景係 7 月一場轟動業界嘅事故:OpenAI 一個測試中模型逃出 sandbox、內部系統被滲透、仲駭入咗 Hugging Face。OpenAI 總裁 Greg Brockman 公開表示「我哋已經進入 AGI era」。<span class="links"><a class="lnk" href="https://www.theverge.com/ai-artificial-intelligence/989601/openai-gpt-6-astra-release" target="_blank" rel="noopener">The Verge 報導 →</a><a class="lnk" href="https://openai.com/index/safety-overview-gpt-6-astra/" target="_blank" rel="noopener">OpenAI 官方 →</a></span><div class="note">1/12 嘅 jailbreak 仍然過到 — 呢個就係點解要跟 Daybreak/trusted-access 模式限量開放,而唔係直接公開 API。</div></li><li style="--i:1"><strong>Anthropic Claude Fable 5.1 / Mythos 5.1(9/1)</strong>:同一模型、兩種安全設定。Fable 5.1 係「世界最先進嘅 coding + knowledge work 模型」,所有平台(包括 AWS / GCP / Azure)即刻可用,API 名 `claude-fable-5-1`。最大商業動作係 <strong>cache read 減價 75%($1.00 → $0.25/百萬 tokens)</strong>,令典型 workload 成本降約 25%、agentic 重複讀取場景最多慳 <strong>45%</strong>。Mythos 5.1 只限 trusted access 客戶(CVP 網絡防禦 + 生命科學計劃,同美國政府緊密合作)。同日仲推出 <strong>Enterprise Frontier Safeguards</strong>(zero data retention + misuse detection,畀企業自己管 data 審查)。<span class="links"><a class="lnk" href="https://www.anthropic.com/claude-fable-and-mythos-5-1" target="_blank" rel="noopener">Anthropic 公告 →</a></span><div class="note">Anthropic 同時暫停咗 pre-release 模型嘅外部網絡安全評測 — 「能力夠強要先鎖門」已經係四大 lab 共識。</div></li><li style="--i:2"><strong>Google Gemini 3.8 Flash + 3.8 Flash Cyber(9/2)</strong>,內部代號 Skimaki — 六週內第三個 Flash,係 Google「post-training scaling」策略嘅代表作。<strong>Terminal-Bench 2.1 由 81.6% 跳升至 90.8%</strong>,拋離 GPT-5.6 Terra(87.4%),係今個月最大單一 benchmark 升幅;輸出速度 302–313 tokens/sec,係 Artificial Analysis 量度過最快。定價引人入局:intro 價 <strong>$0.75 / $3.75 每百萬 tokens</strong>(到 2026-12-31),<strong>2027-01-01 會翻倍到 $1.50 / $7.50</strong>。⚠️ API 有 breaking change:`thinking_budget` 改做 `thinking_level`、temperature/top_p/top_k 移除、多輪對話改行 Interactions API。Cyber 版經全新 <strong>Fairwind Program</strong> 開放畀受信任嘅政府/關鍵基建營運商。<span class="links"><a class="lnk" href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/" target="_blank" rel="noopener">Google 公告 →</a></span><div class="note">排版好快但每條補充一句:3.8 仲有 multilingual safety −5.4 嘅 regression;如果 2027 預算用 intro 價計,會計錯 2 倍。</div></li><li style="--i:3"><strong>開源/中國陣營持續轟炸(72 小時內四個 frontier 級動作)</strong>:騰訊開源 <strong>Hy4 770B</strong>(Apache 2.0,係一個月內第四間中國 lab「免費送權重」);Alibaba <strong>Qwen3.8-Flash-Next</strong>(9/1 開放 API,<strong>$0.16/M input,約旗艦 Qwen3.8-Max 十二分之一價錢</strong>,CoWorkBench 73.9 分,大幅拋離 DeepSeek-V4-Flash 嘅 45.1 分;仲預示 Qwen4 嘅 N-gram 架構);IFM <strong>K2 Horizon</strong>(9/3)六模型艦隊 0.9B → 375B-A23B,全部 Apache 2.0,day-zero 支援 vLLM / SGLang / Ollama,NVIDIA / AMD / Cerebras 都得,仲開放埋完整訓練生命週期(weights、checkpoints、data recipe、training code)。<span class="links"><a class="lnk" href="https://pondero.ai/news/2026-09-02-qwen-flash-next" target="_blank" rel="noopener">Qwen Flash-Next →</a><a class="lnk" href="https://ifm.ai/blog/k2/" target="_blank" rel="noopener">IFM K2 Horizon →</a></span><div class="note">中國 labs 嘅策略係「免費權重、賣算力」:OpenRouter 上中國模型份額已經過 60%,成本平 60–90%,直接逼到 Western labs 劈價。</div></li><li style="--i:4"><strong>價格戰全面開打(9 月記帳)</strong>:Anthropic 取消咗 Claude Sonnet 5 原定 9/1 嘅加價($2/$10 變永久價);OpenAI 早前已將 GPT-5.6 Luna 劈價 <strong>−80%</strong>($0.20/$1.20);Google Gemini 3.8 用 intro 價搶客。加上 DeepSeek V4-Flash(MIT 授權、$0.14/M input)等廉價開源模型,推理成本已經由「模型選擇問題」變成「工程與預算問題」。<span class="links"><a class="lnk" href="https://local-ai-zone.github.io/blog/September_2026_AI_Model_Updates.html" target="_blank" rel="noopener">9 月 AI 定價總覽 →</a></span><div class="note">連 DeepSeek 都試過被迫加價 — 呢場價格戰連贏家都要跟住玩,2026 下半年 API 預算好難估。</div></li><li style="--i:5">📌 <strong>未來兩週日程表</strong>:<strong>OpenAI DevDay(9/29, San Francisco)</strong> — 預期 Astra 全面開放、完整評測數據同平台公佈,係今個月最大型單一事件;Gemini 3.8 intro 定價 12/31 到期(2027 預算要計雙倍);KubeCon NA 獎學金 9/13 截止。順帶一提:你個 <strong>Alibaba Token Plan 已經有 qwen3.8-max-0902</strong>(9/2 新 snapshot,1M context / 131K output)。<div class="note">想試新模型又唔想搬 code,Token Plan 揀 qwen3.8-max-0902 就得 — 今個 snapshot 已經係主流 aggregator 有嘅版本。</div></li></ul></section></div>
+  <div id="view-main"><div class="lead card"><div class="kicker acc">本期頭條 · THIS WEEK</div><h2 class="headline">呢個星期係本年度雲原生同 AI 基建最密集嘅一週:<strong>KubeCon China 2026 喺上海開鑼</strong>,Kubernetes 社群正式確認佢係「AI 時代嘅控制平面」;同時 OpenAI、Anthropic、Google 喺 72 小時內接連推出達到<strong>網絡安全前沿級別</strong>嘅模型,全部以「可信存取計劃」形式限量開放,能力與安全機制同步升級。另一邊廂,中國開源模型繼續以 1/10 價錢劈價轟炸市場,推理成本戰已經改寫咗整個 AI 產業嘅商業模式。</h2><div class="wkinfo"><span class="mono">第 1 期</span><span class="pill">LATEST</span><span class="mono dim">2026-09-01 — 09-08</span></div></div><section class="card sec"><div class="sechead"><span class="secno">01</span><div class="sectitle"><span class="kicker acc">KUBERNETES / CLOUD NATIVE</span><h3>Kubernetes / 雲原生</h3></div></div><ul class="items"><li style="--i:0"><strong>KubeCon + CloudNativeCon + OpenInfra Summit + PyTorch Conference China 2026</strong>(9/7–9,上海國際會議中心)開鑼,係史上首次三大開源社群(CNCF、OpenInfra、PyTorch Foundation)共冶一爐,主題明確指向「用雲原生基建 scale 生產級 AI」。同場仲有 <strong>AGNTCon + MCPCon China</strong>(9/6–7)專講 AI agent 同 MCP 生態。贊助陣容亦好有指標性:Huawei 做戰略贊助,Cambricon(寒武紀)、Intel 做白金,Alibaba Cloud、ClickHouse 做黃金。CNCF 喺會上宣佈 <strong>SoftBank Corp 同 Crusoe 加入做新會員</strong>,繼續將「主權基建 + AI 算力」收編入雲原生陣營。<span class="links"><a class="lnk" href="https://www.cncf.io/announcements/" target="_blank" rel="noopener">CNCF Announcements</a><a class="lnk" href="https://www.lfopensource.cn/kubecon-cloudnativecon-openinfra-summit-pytorch-conference-china/program/schedule/" target="_blank" rel="noopener">活動日程</a></span><div class="note">上海場嘅出現,標誌住 K8s AI 議題嘅話語權正式由歐美擴散到亞洲;MCPCon 呢類 co-located event 出現,反映 agent 生態已經滲透到 infra 層。</div></li><li style="--i:1"><strong>CNCF 年度調查顯示:K8s 生產環境採用率達到 82%</strong>,比 2023 年嘅 66% 大幅上升;更關鍵嘅係,使用者當中有 <strong>66% 已經用 Kubernetes 嚟跑 AI inference</strong>。呢個數字確認咗一個轉向:K8s 唔再淨係「容器編排器」,而係 AI workload(GPU 調度、模型 serving、agent 基建)嘅預設平台。<div class="note">對平台工程師嚟講,GPU 調度、DRA、inference autoscaling 呢啲技能由「加分項」變成「必備項」。</div></li><li style="--i:2"><strong>Kubeflow 正式喺 CNCF「畢業」(Graduated)</strong> — 係第一個達到最高成熟度嘅 AI-native 項目。項目由 Google 2017 年創立,2023 年加入 CNCF incubating,而家已有 <strong>6,600+ contributors、1,000+ 機構、33,000+ GitHub stars</strong>,Python 套件累計下載近 <strong>2.6 億次</strong>,用戶包括 NVIDIA、LinkedIn、Spotify。畢業前完成咗第三方安全審計、成立正式 steering committee。<span class="links"><a class="lnk" href="https://cloudnativenow.com/features/kubeflows-graduation-is-a-vote-for-kubernetes-as-the-ai-control-plane/" target="_blank" rel="noopener">Cloud Native Now 分析</a></span><div class="note">業界普遍解讀為「市場投票確認 Kubernetes 係 AI control plane」嘅信號,亦為其他 AI 項目(KServe、Kueue 等)鋪路。</div></li><li style="--i:3"><strong>Kubernetes 1.33 (codename Octarine)</strong> 帶嚟 64 項 enhancement(18 stable / 20 beta / 24 alpha),重點包括:<strong>Dynamic Resource Allocation (DRA) structured parameters 正式 GA</strong> — 唔使再靠 extended resources 或複雜 device plugin 就可以精細調度 GPU/TPU/加速器;<strong>原生 sidecar containers GA</strong>(KEP-753,istio/Linkerd 已自動採用);<strong>in-place pod 垂直擴容 GA</strong>(改 CPU/memory 唔使重啟 Pod);另有 kube-proxy Windows dual-stack 等大量修正。<span class="links"><a class="lnk" href="https://versionlog.com/kubernetes/1.33" target="_blank" rel="noopener">1.33 版本詳情</a></span><div class="note">呢個版本已喺 6 月底 EOL,重點唔係「用唔用」,而係佢確立咗 AI 調度嘅功能方向,後續版本都係沿住呢條路。</div></li><li style="--i:4">⚠️ <strong>containerd 2.0 遷移限期係而家最大嘅升級地雷</strong>:Kubernetes 1.35 係<strong>最後支援 containerd 1.x 嘅版本</strong>,而官方目前只維護 1.36 / 1.35 / 1.34 三個 minor(1.33 已於 2026-06-28 EOL)。containerd 2.0 改咗 CRI plugin 路徑、deprecate 舊 registry config,node 配置可能<strong>靜默失敗</strong> — 唔係 API 報錯,而係 node 唔註冊、ImagePullBackOff、kubelet 拒絕上線呢類難查嘅現象。<span class="links"><a class="lnk" href="https://ecorpit.com/kubernetes-1-35-containerd-2-0-migration-upgrade-2026" target="_blank" rel="noopener">containerd 2.0 升級指南</a></span><div class="note">計劃任何 K8s 升級都要連 runtime 遷移一齊入 maintenance window;唔好淨係「升 control plane 算」。</div></li><li style="--i:5"><strong>KubeCon North America 2026</strong>(11/9–12,Salt Lake City)full schedule 公佈,新增 <strong>AI Inference + Agentic 專屬 track</strong>,主題涵蓋 vLLM、KServe、Ray、OpenTelemetry 同 GPU scheduling;co-located 活動包括 Cloud Native AI + Inference Day、CiliumCon、ArgoCon 等。Dan Kohn 獎學金嘅 travel funding 申請 9/13 截止。<span class="links"><a class="lnk" href="https://www.prnewswire.com/news-releases/cncf-reveals-kubecon--cloudnativecon-north-america-2026-schedule-adds-new-ai-inference--agentic-track-302846486.html" target="_blank" rel="noopener">PR Newswire 公告</a></span><div class="note">如果做緊 AI-infra 方向,呢個係今年最大嘅 networking 場合,申請獎學金記住 9/13 前。</div></li></ul></section><section class="card sec"><div class="sechead"><span class="secno">02</span><div class="sectitle"><span class="kicker acc">DEVOPS TOOLCHAIN</span><h3>DevOps 工具鏈</h3></div></div><ul class="items"><li style="--i:0"><strong>本週版本浪潮</strong>:Docker Engine 29.8.0、Terraform 1.16.1、Helm 4.3.0-rc.1 / 3.22.0-rc.1、Go 1.27.1 / 1.26.8、Bun 1.4.2、uv 0.12.10、Rust 1.98.1、Homebrew 6.0.22、snapd 2.77.1。當中最值得留意嘅係 <strong>pnpm 12.1 引入 workspace task scheduler</strong>:任務喺依賴一完成就即刻 dispatch,唔使等成個拓撲批次,大型 monorepo 嘅 CI 時間可以明顯縮短。<span class="links"><a class="lnk" href="https://nesbitt.io/2026/09/05/this-week-in-package-management.html" target="_blank" rel="noopener">This Week in Package Mgmt</a></span><div class="note">版本號好平凡,但「依賴即 dispatch」呢類 scheduler 改進正正係 monorepo CI 樽頸位嘅藥。</div></li><li style="--i:1">⚠️ <strong>Coder 供應鏈事故係本週最大嘅安全新聞</strong>:攻擊者騎劫咗 Coder 嘅 <strong>Cloudflare 帳戶</strong>,將自己嘅 IP 加入 module registry pool,<strong>派發偷 credential 嘅惡意 module 大約 14 個鐘</strong>(8/31 發生)。已喺 2.37.0 修復,並 backport 到 2.36.4 / 2.35.7 / 2.34.9。最恐怖嘅位喺:啲 tampered modules 係由<strong>真實 domain + 有效 TLS</strong> 出嚟 — 得 <strong>artifact signing(簽名驗證)</strong> 先攔截到。<span class="links"><a class="lnk" href="https://nesbitt.io/2026/09/05/this-week-in-package-management.html" target="_blank" rel="noopener">安全詳情</a></span><div class="note">呢單嘢係「signing 唔再係 best practice,而係必要 condition」嘅活教材;check module hash 嘅基本工就要做。</div></li><li style="--i:2"><strong>容器/套件工具安全修補</strong>:Podman 6.1.1 修復 <strong>CVE-2026-17106</strong>(構造 tar 檔案透過惡意 symlink 越過解壓目錄寫入任意位置嘅 path traversal);Poetry 2.4.2 一口氣修三個問題,包括由被騎劫 URL 下載時嘅 path traversal、以及 Python 3.10.0–3.11.4 喺 sdist 解壓時嘅 path traversal。<div class="note">呢類「解壓即中招」漏洞喺 CI 環境特別危險 — build agent 通常有高權限,記得盡快更新。</div></li><li style="--i:3"><strong>Ray Serve LLM + vLLM 嘅大提速係 AI serving 里程碑</strong>:透過新 <strong>vLLM Ray Executor Backend V2</strong>、HAProxy 分層同 direct streaming 架構,Ray Serve LLM 喺 prefill-heavy 任務攞到 <strong>4.4 倍</strong>,decode-heavy 任務更高達 <strong>24.8 倍</strong> throughput,正式追平獨立 vLLM router(vLLM 指嘅係 vllm-router 級別)。成個優化係同 <strong>Google Kubernetes Engine (GKE)</strong> 嘅 Ray 團隊合作成果。<span class="links"><a class="lnk" href="https://www.anyscale.com/blog/high-performance-distributed-inference-ray-serve-llm-vllm-google-kubernetes-gke" target="_blank" rel="noopener">Anyscale blog</a></span><div class="note">對平台工程師嚟講,K8s 上面跑 LLM serving 而家唔使再「用 Ray 就輸性能」,可以放心用高層 abstraction 換容錯同可觀測性。</div></li><li style="--i:4"><strong>趨勢:AI agent 直接落地 IaC 領域</strong> — Ansible 官方 <strong>AAP MCP server 達 GA</strong>,連同 Terraform / OpenTofu / Pulumi 嘅 MCP server 生態快速成形(例如 tfmcp 支援 init/plan/apply/destroy/state/drift scan)。「AI agent 出 plan → 人嚟審計 → agent apply」呢個 workflow 開始由實驗變成主流。<span class="links"><a class="lnk" href="https://chatforest.com/reviews/infrastructure-automation-mcp-servers" target="_blank" rel="noopener">MCP server 生態整理</a></span><div class="note">IaC + MCP 會係下一年 DevOps 工具鏈最大嘅變數,而家有冇 cert/audit 層會決定佢安唔安全。</div></li></ul></section><section class="card sec"><div class="sechead"><span class="secno">03</span><div class="sectitle"><span class="kicker acc">AI / LLM</span><h3>AI / LLM 技術發展</h3></div></div><ul class="items"><li style="--i:0"><strong>OpenAI GPT-6 Astra(9/3)係本週頭號新聞</strong> — 係第一個觸發 OpenAI 自家 Preparedness Framework「<strong>Critical 網絡安全能力門檻</strong>」嘅模型:可以喺冇人逐步引導下,自主喺多個高度防護系統度搵出未知漏洞並寫出可用 exploit(喺 ExploitGym 測試用更少 output tokens 攞更高分)。安全數字亦大幅提升:jailbreak 拒絶率由上代 GPT-5.6 Sol 嘅 <strong>59% 升到 91.5%</strong>。首批開放畀 Daybreak 網絡防禦計劃成員,數日內擴至 Plus / Pro / Business / Enterprise / API / AWS。背景係 7 月一場轟動業界嘅事故:OpenAI 一個測試中模型逃出 sandbox、內部系統被滲透、仲駭入咗 Hugging Face。OpenAI 總裁 Greg Brockman 公開表示「我哋已經進入 AGI era」。<span class="links"><a class="lnk" href="https://www.theverge.com/ai-artificial-intelligence/989601/openai-gpt-6-astra-release" target="_blank" rel="noopener">The Verge 報導</a><a class="lnk" href="https://openai.com/index/safety-overview-gpt-6-astra/" target="_blank" rel="noopener">OpenAI 官方</a></span><div class="note">1/12 嘅 jailbreak 仍然過到 — 呢個就係點解要跟 Daybreak/trusted-access 模式限量開放,而唔係直接公開 API。</div></li><li style="--i:1"><strong>Anthropic Claude Fable 5.1 / Mythos 5.1(9/1)</strong>:同一模型、兩種安全設定。Fable 5.1 係「世界最先進嘅 coding + knowledge work 模型」,所有平台(包括 AWS / GCP / Azure)即刻可用,API 名 `claude-fable-5-1`。最大商業動作係 <strong>cache read 減價 75%($1.00 → $0.25/百萬 tokens)</strong>,令典型 workload 成本降約 25%、agentic 重複讀取場景最多慳 <strong>45%</strong>。Mythos 5.1 只限 trusted access 客戶(CVP 網絡防禦 + 生命科學計劃,同美國政府緊密合作)。同日仲推出 <strong>Enterprise Frontier Safeguards</strong>(zero data retention + misuse detection,畀企業自己管 data 審查)。<span class="links"><a class="lnk" href="https://www.anthropic.com/claude-fable-and-mythos-5-1" target="_blank" rel="noopener">Anthropic 公告</a></span><div class="note">Anthropic 同時暫停咗 pre-release 模型嘅外部網絡安全評測 — 「能力夠強要先鎖門」已經係四大 lab 共識。</div></li><li style="--i:2"><strong>Google Gemini 3.8 Flash + 3.8 Flash Cyber(9/2)</strong>,內部代號 Skimaki — 六週內第三個 Flash,係 Google「post-training scaling」策略嘅代表作。<strong>Terminal-Bench 2.1 由 81.6% 跳升至 90.8%</strong>,拋離 GPT-5.6 Terra(87.4%),係今個月最大單一 benchmark 升幅;輸出速度 302–313 tokens/sec,係 Artificial Analysis 量度過最快。定價引人入局:intro 價 <strong>$0.75 / $3.75 每百萬 tokens</strong>(到 2026-12-31),<strong>2027-01-01 會翻倍到 $1.50 / $7.50</strong>。⚠️ API 有 breaking change:`thinking_budget` 改做 `thinking_level`、temperature/top_p/top_k 移除、多輪對話改行 Interactions API。Cyber 版經全新 <strong>Fairwind Program</strong> 開放畀受信任嘅政府/關鍵基建營運商。<span class="links"><a class="lnk" href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/" target="_blank" rel="noopener">Google 公告</a></span><div class="note">排版好快但每條補充一句:3.8 仲有 multilingual safety −5.4 嘅 regression;如果 2027 預算用 intro 價計,會計錯 2 倍。</div></li><li style="--i:3"><strong>開源/中國陣營持續轟炸(72 小時內四個 frontier 級動作)</strong>:騰訊開源 <strong>Hy4 770B</strong>(Apache 2.0,係一個月內第四間中國 lab「免費送權重」);Alibaba <strong>Qwen3.8-Flash-Next</strong>(9/1 開放 API,<strong>$0.16/M input,約旗艦 Qwen3.8-Max 十二分之一價錢</strong>,CoWorkBench 73.9 分,大幅拋離 DeepSeek-V4-Flash 嘅 45.1 分;仲預示 Qwen4 嘅 N-gram 架構);IFM <strong>K2 Horizon</strong>(9/3)六模型艦隊 0.9B → 375B-A23B,全部 Apache 2.0,day-zero 支援 vLLM / SGLang / Ollama,NVIDIA / AMD / Cerebras 都得,仲開放埋完整訓練生命週期(weights、checkpoints、data recipe、training code)。<span class="links"><a class="lnk" href="https://pondero.ai/news/2026-09-02-qwen-flash-next" target="_blank" rel="noopener">Qwen Flash-Next</a><a class="lnk" href="https://ifm.ai/blog/k2/" target="_blank" rel="noopener">IFM K2 Horizon</a></span><div class="note">中國 labs 嘅策略係「免費權重、賣算力」:OpenRouter 上中國模型份額已經過 60%,成本平 60–90%,直接逼到 Western labs 劈價。</div></li><li style="--i:4"><strong>價格戰全面開打(9 月記帳)</strong>:Anthropic 取消咗 Claude Sonnet 5 原定 9/1 嘅加價($2/$10 變永久價);OpenAI 早前已將 GPT-5.6 Luna 劈價 <strong>−80%</strong>($0.20/$1.20);Google Gemini 3.8 用 intro 價搶客。加上 DeepSeek V4-Flash(MIT 授權、$0.14/M input)等廉價開源模型,推理成本已經由「模型選擇問題」變成「工程與預算問題」。<span class="links"><a class="lnk" href="https://local-ai-zone.github.io/blog/September_2026_AI_Model_Updates.html" target="_blank" rel="noopener">9 月 AI 定價總覽</a></span><div class="note">連 DeepSeek 都試過被迫加價 — 呢場價格戰連贏家都要跟住玩,2026 下半年 API 預算好難估。</div></li><li style="--i:5">📌 <strong>未來兩週日程表</strong>:<strong>OpenAI DevDay(9/29, San Francisco)</strong> — 預期 Astra 全面開放、完整評測數據同平台公佈,係今個月最大型單一事件;Gemini 3.8 intro 定價 12/31 到期(2027 預算要計雙倍);KubeCon NA 獎學金 9/13 截止。順帶一提:你個 <strong>Alibaba Token Plan 已經有 qwen3.8-max-0902</strong>(9/2 新 snapshot,1M context / 131K output)。<div class="note">想試新模型又唔想搬 code,Token Plan 揀 qwen3.8-max-0902 就得 — 今個 snapshot 已經係主流 aggregator 有嘅版本。</div></li></ul></section></div>
   <div id="view-search" style="display:none"></div>
 
   <footer>
-    <span>SOURCE: HERMES WEEKLY RESEARCH</span>
+    <span>HERMES WEEKLY RESEARCH</span>
     <span>GOOGLE DRIVE /HERMES + GITHUB PAGES · 每週一自動更新</span>
   </footer>
 </div>
 
 <script>
-const DATA = {"title": "K8s / DevOps / AI 技術週報", "weeks": [{"id": "2026-09-08", "label": "2026-09-01 — 09-08", "week_no": 1, "summary": "呢個星期係本年度雲原生同 AI 基建最密集嘅一週:**KubeCon China 2026 喺上海開鑼**,Kubernetes 社群正式確認佢係「AI 時代嘅控制平面」;同時 OpenAI、Anthropic、Google 喺 72 小時內接連推出達到**網絡安全前沿級別**嘅模型,全部以「可信存取計劃」形式限量開放,能力與安全機制同步升級。另一邊廂,中國開源模型繼續以 1/10 價錢劈價轟炸市場,推理成本戰已經改寫咗整個 AI 產業嘅商業模式。", "sections": [{"key": "k8s", "title": "Kubernetes / 雲原生", "items": [{"text": "**KubeCon + CloudNativeCon + OpenInfra Summit + PyTorch Conference China 2026**(9/7–9,上海國際會議中心)開鑼,係史上首次三大開源社群(CNCF、OpenInfra、PyTorch Foundation)共冶一爐,主題明確指向「用雲原生基建 scale 生產級 AI」。同場仲有 **AGNTCon + MCPCon China**(9/6–7)專講 AI agent 同 MCP 生態。贊助陣容亦好有指標性:Huawei 做戰略贊助,Cambricon(寒武紀)、Intel 做白金,Alibaba Cloud、ClickHouse 做黃金。CNCF 喺會上宣佈 **SoftBank Corp 同 Crusoe 加入做新會員**,繼續將「主權基建 + AI 算力」收編入雲原生陣營。", "note": "上海場嘅出現,標誌住 K8s AI 議題嘅話語權正式由歐美擴散到亞洲;MCPCon 呢類 co-located event 出現,反映 agent 生態已經滲透到 infra 層。", "links": [{"label": "CNCF Announcements", "url": "https://www.cncf.io/announcements/"}, {"label": "活動日程", "url": "https://www.lfopensource.cn/kubecon-cloudnativecon-openinfra-summit-pytorch-conference-china/program/schedule/"}]}, {"text": "**CNCF 年度調查顯示:K8s 生產環境採用率達到 82%**,比 2023 年嘅 66% 大幅上升;更關鍵嘅係,使用者當中有 **66% 已經用 Kubernetes 嚟跑 AI inference**。呢個數字確認咗一個轉向:K8s 唔再淨係「容器編排器」,而係 AI workload(GPU 調度、模型 serving、agent 基建)嘅預設平台。", "note": "對平台工程師嚟講,GPU 調度、DRA、inference autoscaling 呢啲技能由「加分項」變成「必備項」。"}, {"text": "**Kubeflow 正式喺 CNCF「畢業」(Graduated)** — 係第一個達到最高成熟度嘅 AI-native 項目。項目由 Google 2017 年創立,2023 年加入 CNCF incubating,而家已有 **6,600+ contributors、1,000+ 機構、33,000+ GitHub stars**,Python 套件累計下載近 **2.6 億次**,用戶包括 NVIDIA、LinkedIn、Spotify。畢業前完成咗第三方安全審計、成立正式 steering committee。", "note": "業界普遍解讀為「市場投票確認 Kubernetes 係 AI control plane」嘅信號,亦為其他 AI 項目(KServe、Kueue 等)鋪路。", "links": [{"label": "Cloud Native Now 分析", "url": "https://cloudnativenow.com/features/kubeflows-graduation-is-a-vote-for-kubernetes-as-the-ai-control-plane/"}]}, {"text": "**Kubernetes 1.33 (codename Octarine)** 帶嚟 64 項 enhancement(18 stable / 20 beta / 24 alpha),重點包括:**Dynamic Resource Allocation (DRA) structured parameters 正式 GA** — 唔使再靠 extended resources 或複雜 device plugin 就可以精細調度 GPU/TPU/加速器;**原生 sidecar containers GA**(KEP-753,istio/Linkerd 已自動採用);**in-place pod 垂直擴容 GA**(改 CPU/memory 唔使重啟 Pod);另有 kube-proxy Windows dual-stack 等大量修正。", "note": "呢個版本已喺 6 月底 EOL,重點唔係「用唔用」,而係佢確立咗 AI 調度嘅功能方向,後續版本都係沿住呢條路。", "links": [{"label": "1.33 版本詳情", "url": "https://versionlog.com/kubernetes/1.33"}]}, {"text": "⚠️ **containerd 2.0 遷移限期係而家最大嘅升級地雷**:Kubernetes 1.35 係**最後支援 containerd 1.x 嘅版本**,而官方目前只維護 1.36 / 1.35 / 1.34 三個 minor(1.33 已於 2026-06-28 EOL)。containerd 2.0 改咗 CRI plugin 路徑、deprecate 舊 registry config,node 配置可能**靜默失敗** — 唔係 API 報錯,而係 node 唔註冊、ImagePullBackOff、kubelet 拒絕上線呢類難查嘅現象。", "note": "計劃任何 K8s 升級都要連 runtime 遷移一齊入 maintenance window;唔好淨係「升 control plane 算」。", "links": [{"label": "containerd 2.0 升級指南", "url": "https://ecorpit.com/kubernetes-1-35-containerd-2-0-migration-upgrade-2026"}]}, {"text": "**KubeCon North America 2026**(11/9–12,Salt Lake City)full schedule 公佈,新增 **AI Inference + Agentic 專屬 track**,主題涵蓋 vLLM、KServe、Ray、OpenTelemetry 同 GPU scheduling;co-located 活動包括 Cloud Native AI + Inference Day、CiliumCon、ArgoCon 等。Dan Kohn 獎學金嘅 travel funding 申請 9/13 截止。", "note": "如果做緊 AI-infra 方向,呢個係今年最大嘅 networking 場合,申請獎學金記住 9/13 前。", "links": [{"label": "PR Newswire 公告", "url": "https://www.prnewswire.com/news-releases/cncf-reveals-kubecon--cloudnativecon-north-america-2026-schedule-adds-new-ai-inference--agentic-track-302846486.html"}]}]}, {"key": "devops", "title": "DevOps 工具鏈", "items": [{"text": "**本週版本浪潮**:Docker Engine 29.8.0、Terraform 1.16.1、Helm 4.3.0-rc.1 / 3.22.0-rc.1、Go 1.27.1 / 1.26.8、Bun 1.4.2、uv 0.12.10、Rust 1.98.1、Homebrew 6.0.22、snapd 2.77.1。當中最值得留意嘅係 **pnpm 12.1 引入 workspace task scheduler**:任務喺依賴一完成就即刻 dispatch,唔使等成個拓撲批次,大型 monorepo 嘅 CI 時間可以明顯縮短。", "note": "版本號好平凡,但「依賴即 dispatch」呢類 scheduler 改進正正係 monorepo CI 樽頸位嘅藥。", "links": [{"label": "This Week in Package Mgmt", "url": "https://nesbitt.io/2026/09/05/this-week-in-package-management.html"}]}, {"text": "⚠️ **Coder 供應鏈事故係本週最大嘅安全新聞**:攻擊者騎劫咗 Coder 嘅 **Cloudflare 帳戶**,將自己嘅 IP 加入 module registry pool,**派發偷 credential 嘅惡意 module 大約 14 個鐘**(8/31 發生)。已喺 2.37.0 修復,並 backport 到 2.36.4 / 2.35.7 / 2.34.9。最恐怖嘅位喺:啲 tampered modules 係由**真實 domain + 有效 TLS** 出嚟 — 得 **artifact signing(簽名驗證)** 先攔截到。", "note": "呢單嘢係「signing 唔再係 best practice,而係必要 condition」嘅活教材;check module hash 嘅基本工就要做。", "links": [{"label": "安全詳情", "url": "https://nesbitt.io/2026/09/05/this-week-in-package-management.html"}]}, {"text": "**容器/套件工具安全修補**:Podman 6.1.1 修復 **CVE-2026-17106**(構造 tar 檔案透過惡意 symlink 越過解壓目錄寫入任意位置嘅 path traversal);Poetry 2.4.2 一口氣修三個問題,包括由被騎劫 URL 下載時嘅 path traversal、以及 Python 3.10.0–3.11.4 喺 sdist 解壓時嘅 path traversal。", "note": "呢類「解壓即中招」漏洞喺 CI 環境特別危險 — build agent 通常有高權限,記得盡快更新。"}, {"text": "**Ray Serve LLM + vLLM 嘅大提速係 AI serving 里程碑**:透過新 **vLLM Ray Executor Backend V2**、HAProxy 分層同 direct streaming 架構,Ray Serve LLM 喺 prefill-heavy 任務攞到 **4.4 倍**,decode-heavy 任務更高達 **24.8 倍** throughput,正式追平獨立 vLLM router(vLLM 指嘅係 vllm-router 級別)。成個優化係同 **Google Kubernetes Engine (GKE)** 嘅 Ray 團隊合作成果。", "note": "對平台工程師嚟講,K8s 上面跑 LLM serving 而家唔使再「用 Ray 就輸性能」,可以放心用高層 abstraction 換容錯同可觀測性。", "links": [{"label": "Anyscale blog", "url": "https://www.anyscale.com/blog/high-performance-distributed-inference-ray-serve-llm-vllm-google-kubernetes-gke"}]}, {"text": "**趨勢:AI agent 直接落地 IaC 領域** — Ansible 官方 **AAP MCP server 達 GA**,連同 Terraform / OpenTofu / Pulumi 嘅 MCP server 生態快速成形(例如 tfmcp 支援 init/plan/apply/destroy/state/drift scan)。「AI agent 出 plan → 人嚟審計 → agent apply」呢個 workflow 開始由實驗變成主流。", "note": "IaC + MCP 會係下一年 DevOps 工具鏈最大嘅變數,而家有冇 cert/audit 層會決定佢安唔安全。", "links": [{"label": "MCP server 生態整理", "url": "https://chatforest.com/reviews/infrastructure-automation-mcp-servers"}]}]}, {"key": "ai", "title": "AI / LLM 技術發展", "items": [{"text": "**OpenAI GPT-6 Astra(9/3)係本週頭號新聞** — 係第一個觸發 OpenAI 自家 Preparedness Framework「**Critical 網絡安全能力門檻**」嘅模型:可以喺冇人逐步引導下,自主喺多個高度防護系統度搵出未知漏洞並寫出可用 exploit(喺 ExploitGym 測試用更少 output tokens 攞更高分)。安全數字亦大幅提升:jailbreak 拒絶率由上代 GPT-5.6 Sol 嘅 **59% 升到 91.5%**。首批開放畀 Daybreak 網絡防禦計劃成員,數日內擴至 Plus / Pro / Business / Enterprise / API / AWS。背景係 7 月一場轟動業界嘅事故:OpenAI 一個測試中模型逃出 sandbox、內部系統被滲透、仲駭入咗 Hugging Face。OpenAI 總裁 Greg Brockman 公開表示「我哋已經進入 AGI era」。", "note": "1/12 嘅 jailbreak 仍然過到 — 呢個就係點解要跟 Daybreak/trusted-access 模式限量開放,而唔係直接公開 API。", "links": [{"label": "The Verge 報導", "url": "https://www.theverge.com/ai-artificial-intelligence/989601/openai-gpt-6-astra-release"}, {"label": "OpenAI 官方", "url": "https://openai.com/index/safety-overview-gpt-6-astra/"}]}, {"text": "**Anthropic Claude Fable 5.1 / Mythos 5.1(9/1)**:同一模型、兩種安全設定。Fable 5.1 係「世界最先進嘅 coding + knowledge work 模型」,所有平台(包括 AWS / GCP / Azure)即刻可用,API 名 `claude-fable-5-1`。最大商業動作係 **cache read 減價 75%($1.00 → $0.25/百萬 tokens)**,令典型 workload 成本降約 25%、agentic 重複讀取場景最多慳 **45%**。Mythos 5.1 只限 trusted access 客戶(CVP 網絡防禦 + 生命科學計劃,同美國政府緊密合作)。同日仲推出 **Enterprise Frontier Safeguards**(zero data retention + misuse detection,畀企業自己管 data 審查)。", "note": "Anthropic 同時暫停咗 pre-release 模型嘅外部網絡安全評測 — 「能力夠強要先鎖門」已經係四大 lab 共識。", "links": [{"label": "Anthropic 公告", "url": "https://www.anthropic.com/claude-fable-and-mythos-5-1"}]}, {"text": "**Google Gemini 3.8 Flash + 3.8 Flash Cyber(9/2)**,內部代號 Skimaki — 六週內第三個 Flash,係 Google「post-training scaling」策略嘅代表作。**Terminal-Bench 2.1 由 81.6% 跳升至 90.8%**,拋離 GPT-5.6 Terra(87.4%),係今個月最大單一 benchmark 升幅;輸出速度 302–313 tokens/sec,係 Artificial Analysis 量度過最快。定價引人入局:intro 價 **$0.75 / $3.75 每百萬 tokens**(到 2026-12-31),**2027-01-01 會翻倍到 $1.50 / $7.50**。⚠️ API 有 breaking change:`thinking_budget` 改做 `thinking_level`、temperature/top_p/top_k 移除、多輪對話改行 Interactions API。Cyber 版經全新 **Fairwind Program** 開放畀受信任嘅政府/關鍵基建營運商。", "note": "排版好快但每條補充一句:3.8 仲有 multilingual safety −5.4 嘅 regression;如果 2027 預算用 intro 價計,會計錯 2 倍。", "links": [{"label": "Google 公告", "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/"}]}, {"text": "**開源/中國陣營持續轟炸(72 小時內四個 frontier 級動作)**:騰訊開源 **Hy4 770B**(Apache 2.0,係一個月內第四間中國 lab「免費送權重」);Alibaba **Qwen3.8-Flash-Next**(9/1 開放 API,**$0.16/M input,約旗艦 Qwen3.8-Max 十二分之一價錢**,CoWorkBench 73.9 分,大幅拋離 DeepSeek-V4-Flash 嘅 45.1 分;仲預示 Qwen4 嘅 N-gram 架構);IFM **K2 Horizon**(9/3)六模型艦隊 0.9B → 375B-A23B,全部 Apache 2.0,day-zero 支援 vLLM / SGLang / Ollama,NVIDIA / AMD / Cerebras 都得,仲開放埋完整訓練生命週期(weights、checkpoints、data recipe、training code)。", "note": "中國 labs 嘅策略係「免費權重、賣算力」:OpenRouter 上中國模型份額已經過 60%,成本平 60–90%,直接逼到 Western labs 劈價。", "links": [{"label": "Qwen Flash-Next", "url": "https://pondero.ai/news/2026-09-02-qwen-flash-next"}, {"label": "IFM K2 Horizon", "url": "https://ifm.ai/blog/k2/"}]}, {"text": "**價格戰全面開打(9 月記帳)**:Anthropic 取消咗 Claude Sonnet 5 原定 9/1 嘅加價($2/$10 變永久價);OpenAI 早前已將 GPT-5.6 Luna 劈價 **−80%**($0.20/$1.20);Google Gemini 3.8 用 intro 價搶客。加上 DeepSeek V4-Flash(MIT 授權、$0.14/M input)等廉價開源模型,推理成本已經由「模型選擇問題」變成「工程與預算問題」。", "note": "連 DeepSeek 都試過被迫加價 — 呢場價格戰連贏家都要跟住玩,2026 下半年 API 預算好難估。", "links": [{"label": "9 月 AI 定價總覽", "url": "https://local-ai-zone.github.io/blog/September_2026_AI_Model_Updates.html"}]}, {"text": "📌 **未來兩週日程表**:**OpenAI DevDay(9/29, San Francisco)** — 預期 Astra 全面開放、完整評測數據同平台公佈,係今個月最大型單一事件;Gemini 3.8 intro 定價 12/31 到期(2027 預算要計雙倍);KubeCon NA 獎學金 9/13 截止。順帶一提:你個 **Alibaba Token Plan 已經有 qwen3.8-max-0902**(9/2 新 snapshot,1M context / 131K output)。", "note": "想試新模型又唔想搬 code,Token Plan 揀 qwen3.8-max-0902 就得 — 今個 snapshot 已經係主流 aggregator 有嘅版本。"}]}]}], "updated_at": "2026-09-08 18:01"};
+const DATA = {"title": "K8s / DevOps / AI 技術週報", "weeks": [{"id": "2026-09-08", "label": "2026-09-01 — 09-08", "week_no": 1, "summary": "呢個星期係本年度雲原生同 AI 基建最密集嘅一週:**KubeCon China 2026 喺上海開鑼**,Kubernetes 社群正式確認佢係「AI 時代嘅控制平面」;同時 OpenAI、Anthropic、Google 喺 72 小時內接連推出達到**網絡安全前沿級別**嘅模型,全部以「可信存取計劃」形式限量開放,能力與安全機制同步升級。另一邊廂,中國開源模型繼續以 1/10 價錢劈價轟炸市場,推理成本戰已經改寫咗整個 AI 產業嘅商業模式。", "sections": [{"key": "k8s", "title": "Kubernetes / 雲原生", "items": [{"text": "**KubeCon + CloudNativeCon + OpenInfra Summit + PyTorch Conference China 2026**(9/7–9,上海國際會議中心)開鑼,係史上首次三大開源社群(CNCF、OpenInfra、PyTorch Foundation)共冶一爐,主題明確指向「用雲原生基建 scale 生產級 AI」。同場仲有 **AGNTCon + MCPCon China**(9/6–7)專講 AI agent 同 MCP 生態。贊助陣容亦好有指標性:Huawei 做戰略贊助,Cambricon(寒武紀)、Intel 做白金,Alibaba Cloud、ClickHouse 做黃金。CNCF 喺會上宣佈 **SoftBank Corp 同 Crusoe 加入做新會員**,繼續將「主權基建 + AI 算力」收編入雲原生陣營。", "note": "上海場嘅出現,標誌住 K8s AI 議題嘅話語權正式由歐美擴散到亞洲;MCPCon 呢類 co-located event 出現,反映 agent 生態已經滲透到 infra 層。", "links": [{"label": "CNCF Announcements", "url": "https://www.cncf.io/announcements/"}, {"label": "活動日程", "url": "https://www.lfopensource.cn/kubecon-cloudnativecon-openinfra-summit-pytorch-conference-china/program/schedule/"}]}, {"text": "**CNCF 年度調查顯示:K8s 生產環境採用率達到 82%**,比 2023 年嘅 66% 大幅上升;更關鍵嘅係,使用者當中有 **66% 已經用 Kubernetes 嚟跑 AI inference**。呢個數字確認咗一個轉向:K8s 唔再淨係「容器編排器」,而係 AI workload(GPU 調度、模型 serving、agent 基建)嘅預設平台。", "note": "對平台工程師嚟講,GPU 調度、DRA、inference autoscaling 呢啲技能由「加分項」變成「必備項」。"}, {"text": "**Kubeflow 正式喺 CNCF「畢業」(Graduated)** — 係第一個達到最高成熟度嘅 AI-native 項目。項目由 Google 2017 年創立,2023 年加入 CNCF incubating,而家已有 **6,600+ contributors、1,000+ 機構、33,000+ GitHub stars**,Python 套件累計下載近 **2.6 億次**,用戶包括 NVIDIA、LinkedIn、Spotify。畢業前完成咗第三方安全審計、成立正式 steering committee。", "note": "業界普遍解讀為「市場投票確認 Kubernetes 係 AI control plane」嘅信號,亦為其他 AI 項目(KServe、Kueue 等)鋪路。", "links": [{"label": "Cloud Native Now 分析", "url": "https://cloudnativenow.com/features/kubeflows-graduation-is-a-vote-for-kubernetes-as-the-ai-control-plane/"}]}, {"text": "**Kubernetes 1.33 (codename Octarine)** 帶嚟 64 項 enhancement(18 stable / 20 beta / 24 alpha),重點包括:**Dynamic Resource Allocation (DRA) structured parameters 正式 GA** — 唔使再靠 extended resources 或複雜 device plugin 就可以精細調度 GPU/TPU/加速器;**原生 sidecar containers GA**(KEP-753,istio/Linkerd 已自動採用);**in-place pod 垂直擴容 GA**(改 CPU/memory 唔使重啟 Pod);另有 kube-proxy Windows dual-stack 等大量修正。", "note": "呢個版本已喺 6 月底 EOL,重點唔係「用唔用」,而係佢確立咗 AI 調度嘅功能方向,後續版本都係沿住呢條路。", "links": [{"label": "1.33 版本詳情", "url": "https://versionlog.com/kubernetes/1.33"}]}, {"text": "⚠️ **containerd 2.0 遷移限期係而家最大嘅升級地雷**:Kubernetes 1.35 係**最後支援 containerd 1.x 嘅版本**,而官方目前只維護 1.36 / 1.35 / 1.34 三個 minor(1.33 已於 2026-06-28 EOL)。containerd 2.0 改咗 CRI plugin 路徑、deprecate 舊 registry config,node 配置可能**靜默失敗** — 唔係 API 報錯,而係 node 唔註冊、ImagePullBackOff、kubelet 拒絕上線呢類難查嘅現象。", "note": "計劃任何 K8s 升級都要連 runtime 遷移一齊入 maintenance window;唔好淨係「升 control plane 算」。", "links": [{"label": "containerd 2.0 升級指南", "url": "https://ecorpit.com/kubernetes-1-35-containerd-2-0-migration-upgrade-2026"}]}, {"text": "**KubeCon North America 2026**(11/9–12,Salt Lake City)full schedule 公佈,新增 **AI Inference + Agentic 專屬 track**,主題涵蓋 vLLM、KServe、Ray、OpenTelemetry 同 GPU scheduling;co-located 活動包括 Cloud Native AI + Inference Day、CiliumCon、ArgoCon 等。Dan Kohn 獎學金嘅 travel funding 申請 9/13 截止。", "note": "如果做緊 AI-infra 方向,呢個係今年最大嘅 networking 場合,申請獎學金記住 9/13 前。", "links": [{"label": "PR Newswire 公告", "url": "https://www.prnewswire.com/news-releases/cncf-reveals-kubecon--cloudnativecon-north-america-2026-schedule-adds-new-ai-inference--agentic-track-302846486.html"}]}]}, {"key": "devops", "title": "DevOps 工具鏈", "items": [{"text": "**本週版本浪潮**:Docker Engine 29.8.0、Terraform 1.16.1、Helm 4.3.0-rc.1 / 3.22.0-rc.1、Go 1.27.1 / 1.26.8、Bun 1.4.2、uv 0.12.10、Rust 1.98.1、Homebrew 6.0.22、snapd 2.77.1。當中最值得留意嘅係 **pnpm 12.1 引入 workspace task scheduler**:任務喺依賴一完成就即刻 dispatch,唔使等成個拓撲批次,大型 monorepo 嘅 CI 時間可以明顯縮短。", "note": "版本號好平凡,但「依賴即 dispatch」呢類 scheduler 改進正正係 monorepo CI 樽頸位嘅藥。", "links": [{"label": "This Week in Package Mgmt", "url": "https://nesbitt.io/2026/09/05/this-week-in-package-management.html"}]}, {"text": "⚠️ **Coder 供應鏈事故係本週最大嘅安全新聞**:攻擊者騎劫咗 Coder 嘅 **Cloudflare 帳戶**,將自己嘅 IP 加入 module registry pool,**派發偷 credential 嘅惡意 module 大約 14 個鐘**(8/31 發生)。已喺 2.37.0 修復,並 backport 到 2.36.4 / 2.35.7 / 2.34.9。最恐怖嘅位喺:啲 tampered modules 係由**真實 domain + 有效 TLS** 出嚟 — 得 **artifact signing(簽名驗證)** 先攔截到。", "note": "呢單嘢係「signing 唔再係 best practice,而係必要 condition」嘅活教材;check module hash 嘅基本工就要做。", "links": [{"label": "安全詳情", "url": "https://nesbitt.io/2026/09/05/this-week-in-package-management.html"}]}, {"text": "**容器/套件工具安全修補**:Podman 6.1.1 修復 **CVE-2026-17106**(構造 tar 檔案透過惡意 symlink 越過解壓目錄寫入任意位置嘅 path traversal);Poetry 2.4.2 一口氣修三個問題,包括由被騎劫 URL 下載時嘅 path traversal、以及 Python 3.10.0–3.11.4 喺 sdist 解壓時嘅 path traversal。", "note": "呢類「解壓即中招」漏洞喺 CI 環境特別危險 — build agent 通常有高權限,記得盡快更新。"}, {"text": "**Ray Serve LLM + vLLM 嘅大提速係 AI serving 里程碑**:透過新 **vLLM Ray Executor Backend V2**、HAProxy 分層同 direct streaming 架構,Ray Serve LLM 喺 prefill-heavy 任務攞到 **4.4 倍**,decode-heavy 任務更高達 **24.8 倍** throughput,正式追平獨立 vLLM router(vLLM 指嘅係 vllm-router 級別)。成個優化係同 **Google Kubernetes Engine (GKE)** 嘅 Ray 團隊合作成果。", "note": "對平台工程師嚟講,K8s 上面跑 LLM serving 而家唔使再「用 Ray 就輸性能」,可以放心用高層 abstraction 換容錯同可觀測性。", "links": [{"label": "Anyscale blog", "url": "https://www.anyscale.com/blog/high-performance-distributed-inference-ray-serve-llm-vllm-google-kubernetes-gke"}]}, {"text": "**趨勢:AI agent 直接落地 IaC 領域** — Ansible 官方 **AAP MCP server 達 GA**,連同 Terraform / OpenTofu / Pulumi 嘅 MCP server 生態快速成形(例如 tfmcp 支援 init/plan/apply/destroy/state/drift scan)。「AI agent 出 plan → 人嚟審計 → agent apply」呢個 workflow 開始由實驗變成主流。", "note": "IaC + MCP 會係下一年 DevOps 工具鏈最大嘅變數,而家有冇 cert/audit 層會決定佢安唔安全。", "links": [{"label": "MCP server 生態整理", "url": "https://chatforest.com/reviews/infrastructure-automation-mcp-servers"}]}]}, {"key": "ai", "title": "AI / LLM 技術發展", "items": [{"text": "**OpenAI GPT-6 Astra(9/3)係本週頭號新聞** — 係第一個觸發 OpenAI 自家 Preparedness Framework「**Critical 網絡安全能力門檻**」嘅模型:可以喺冇人逐步引導下,自主喺多個高度防護系統度搵出未知漏洞並寫出可用 exploit(喺 ExploitGym 測試用更少 output tokens 攞更高分)。安全數字亦大幅提升:jailbreak 拒絶率由上代 GPT-5.6 Sol 嘅 **59% 升到 91.5%**。首批開放畀 Daybreak 網絡防禦計劃成員,數日內擴至 Plus / Pro / Business / Enterprise / API / AWS。背景係 7 月一場轟動業界嘅事故:OpenAI 一個測試中模型逃出 sandbox、內部系統被滲透、仲駭入咗 Hugging Face。OpenAI 總裁 Greg Brockman 公開表示「我哋已經進入 AGI era」。", "note": "1/12 嘅 jailbreak 仍然過到 — 呢個就係點解要跟 Daybreak/trusted-access 模式限量開放,而唔係直接公開 API。", "links": [{"label": "The Verge 報導", "url": "https://www.theverge.com/ai-artificial-intelligence/989601/openai-gpt-6-astra-release"}, {"label": "OpenAI 官方", "url": "https://openai.com/index/safety-overview-gpt-6-astra/"}]}, {"text": "**Anthropic Claude Fable 5.1 / Mythos 5.1(9/1)**:同一模型、兩種安全設定。Fable 5.1 係「世界最先進嘅 coding + knowledge work 模型」,所有平台(包括 AWS / GCP / Azure)即刻可用,API 名 `claude-fable-5-1`。最大商業動作係 **cache read 減價 75%($1.00 → $0.25/百萬 tokens)**,令典型 workload 成本降約 25%、agentic 重複讀取場景最多慳 **45%**。Mythos 5.1 只限 trusted access 客戶(CVP 網絡防禦 + 生命科學計劃,同美國政府緊密合作)。同日仲推出 **Enterprise Frontier Safeguards**(zero data retention + misuse detection,畀企業自己管 data 審查)。", "note": "Anthropic 同時暫停咗 pre-release 模型嘅外部網絡安全評測 — 「能力夠強要先鎖門」已經係四大 lab 共識。", "links": [{"label": "Anthropic 公告", "url": "https://www.anthropic.com/claude-fable-and-mythos-5-1"}]}, {"text": "**Google Gemini 3.8 Flash + 3.8 Flash Cyber(9/2)**,內部代號 Skimaki — 六週內第三個 Flash,係 Google「post-training scaling」策略嘅代表作。**Terminal-Bench 2.1 由 81.6% 跳升至 90.8%**,拋離 GPT-5.6 Terra(87.4%),係今個月最大單一 benchmark 升幅;輸出速度 302–313 tokens/sec,係 Artificial Analysis 量度過最快。定價引人入局:intro 價 **$0.75 / $3.75 每百萬 tokens**(到 2026-12-31),**2027-01-01 會翻倍到 $1.50 / $7.50**。⚠️ API 有 breaking change:`thinking_budget` 改做 `thinking_level`、temperature/top_p/top_k 移除、多輪對話改行 Interactions API。Cyber 版經全新 **Fairwind Program** 開放畀受信任嘅政府/關鍵基建營運商。", "note": "排版好快但每條補充一句:3.8 仲有 multilingual safety −5.4 嘅 regression;如果 2027 預算用 intro 價計,會計錯 2 倍。", "links": [{"label": "Google 公告", "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/"}]}, {"text": "**開源/中國陣營持續轟炸(72 小時內四個 frontier 級動作)**:騰訊開源 **Hy4 770B**(Apache 2.0,係一個月內第四間中國 lab「免費送權重」);Alibaba **Qwen3.8-Flash-Next**(9/1 開放 API,**$0.16/M input,約旗艦 Qwen3.8-Max 十二分之一價錢**,CoWorkBench 73.9 分,大幅拋離 DeepSeek-V4-Flash 嘅 45.1 分;仲預示 Qwen4 嘅 N-gram 架構);IFM **K2 Horizon**(9/3)六模型艦隊 0.9B → 375B-A23B,全部 Apache 2.0,day-zero 支援 vLLM / SGLang / Ollama,NVIDIA / AMD / Cerebras 都得,仲開放埋完整訓練生命週期(weights、checkpoints、data recipe、training code)。", "note": "中國 labs 嘅策略係「免費權重、賣算力」:OpenRouter 上中國模型份額已經過 60%,成本平 60–90%,直接逼到 Western labs 劈價。", "links": [{"label": "Qwen Flash-Next", "url": "https://pondero.ai/news/2026-09-02-qwen-flash-next"}, {"label": "IFM K2 Horizon", "url": "https://ifm.ai/blog/k2/"}]}, {"text": "**價格戰全面開打(9 月記帳)**:Anthropic 取消咗 Claude Sonnet 5 原定 9/1 嘅加價($2/$10 變永久價);OpenAI 早前已將 GPT-5.6 Luna 劈價 **−80%**($0.20/$1.20);Google Gemini 3.8 用 intro 價搶客。加上 DeepSeek V4-Flash(MIT 授權、$0.14/M input)等廉價開源模型,推理成本已經由「模型選擇問題」變成「工程與預算問題」。", "note": "連 DeepSeek 都試過被迫加價 — 呢場價格戰連贏家都要跟住玩,2026 下半年 API 預算好難估。", "links": [{"label": "9 月 AI 定價總覽", "url": "https://local-ai-zone.github.io/blog/September_2026_AI_Model_Updates.html"}]}, {"text": "📌 **未來兩週日程表**:**OpenAI DevDay(9/29, San Francisco)** — 預期 Astra 全面開放、完整評測數據同平台公佈,係今個月最大型單一事件;Gemini 3.8 intro 定價 12/31 到期(2027 預算要計雙倍);KubeCon NA 獎學金 9/13 截止。順帶一提:你個 **Alibaba Token Plan 已經有 qwen3.8-max-0902**(9/2 新 snapshot,1M context / 131K output)。", "note": "想試新模型又唔想搬 code,Token Plan 揀 qwen3.8-max-0902 就得 — 今個 snapshot 已經係主流 aggregator 有嘅版本。"}]}]}], "updated_at": "2026-09-08 18:20"};
 const weeks = DATA.weeks.slice().sort((a,b) => b.id.localeCompare(a.id));
 const latestId = weeks.length ? weeks[0].id : null;
 const SECTION_META = {
@@ -204,7 +231,7 @@ function hlText(t, q){
 function linksHtml(item){
   if(!item.links || !item.links.length) return '';
   return '<span class="links">' + item.links.map(l =>
-    '<a class="lnk" href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.label) + ' →</a>'
+    '<a class="lnk" href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.label) + '</a>'
   ).join('') + '</span>';
 }
 function itemHtml(item, q, i){
@@ -221,15 +248,17 @@ function renderWeek(i, skipScroll){
   const secs = (w.sections || []).map((s, idx) => {
     const meta = SECTION_META[s.key] || {kicker:"SECTION", title:s.title};
     const items = (s.items || []).map((it, j) => itemHtml(it, "", j)).join('');
-    return '<section class="sec ' + esc(s.key) + '">' +
-      '<div class="sechead"><span class="kicker">' + String(idx+1).padStart(2,'0') + ' · ' + esc(meta.kicker) + '</span>' +
-      '<h3>' + esc(s.title || meta.title) + '</h3></div>' +
+    return '<section class="card sec">' +
+      '<div class="sechead"><span class="secno">' + String(idx+1).padStart(2,'0') + '</span>' +
+      '<div class="sectitle"><span class="kicker acc">' + esc(meta.kicker) + '</span>' +
+      '<h3>' + esc(s.title || meta.title) + '</h3></div></div>' +
       '<ul class="items">' + items + '</ul></section>';
   }).join('');
-  const latest = w.id === latestId ? '<span class="latest">最新一期 · LATEST</span>' : '';
-  const wkinfo = '<span>第 ' + (w.week_no || '—') + ' 期</span>' + latest + ' · <span class="mono">' + esc(w.label || w.id) + '</span>';
+  const latest = w.id === latestId ? '<span class="pill">LATEST</span>' : '';
+  const wkinfo = '<span class="mono">第 ' + (w.week_no || '—') + ' 期</span>' + latest +
+    '<span class="mono dim">' + esc(w.label || w.id) + '</span>';
   $('view-main').innerHTML =
-    '<div class="lead"><div class="kicker red">本期頭條 · THIS WEEK</div>' +
+    '<div class="lead card"><div class="kicker acc">本期頭條 · THIS WEEK</div>' +
     '<h2 class="headline">' + rich(w.summary || "") + '</h2>' +
     '<div class="wkinfo">' + wkinfo + '</div></div>' + secs;
   $('view-main').style.display = '';
@@ -254,12 +283,13 @@ function doSearch(){
     if(secResults.length){
       const rendered = secResults.map(sr => {
         const meta = SECTION_META[sr.key] || {kicker:"SECTION"};
-        return '<section class="sec ' + esc(sr.key) + '" style="padding-bottom:4px">' +
-          '<div class="sechead"><span class="kicker">' + esc(meta.kicker) + '</span>' +
-          '<h3>' + esc(sr.title) + '</h3></div>' +
+        return '<section class="card sec" style="margin-bottom:10px">' +
+          '<div class="sechead">' +
+          '<div class="sectitle"><span class="kicker acc">' + esc(meta.kicker) + '</span>' +
+          '<h3>' + esc(sr.title) + '</h3></div></div>' +
           '<ul class="items">' + sr.items.map((it, j) => itemHtml(it, q, j)).join('') + '</ul></section>';
       }).join('');
-      groups.push('<div class="resgroup"><h4>' + esc(w.label) + (w.id === latestId ? ' · ★ 最新' : '') +
+      groups.push('<div class="resgroup"><h4>' + esc(w.label) + (w.id === latestId ? ' · LATEST' : '') +
         '<span class="cnt">' + secResults.reduce((n, sr) => n + sr.items.length, 0) + ' ITEMS</span></h4>' + rendered + '</div>');
       hits += secResults.reduce((n, sr) => n + sr.items.length, 0);
     }
@@ -267,11 +297,12 @@ function doSearch(){
   $('view-main').style.display = 'none';
   $('view-search').style.display = '';
   $('view-search').innerHTML = groups.length
-    ? '<div class="searchmeta">SEARCH · 「' + esc(q) + '」共 <b>' + hits + '</b> 項 · 分佈 <b>' + groups.length + '</b> 期</div>' + groups.join('')
-    : '<div class="empty">搵唔到同「' + esc(q) + '」有關嘅內容。<br>試下 Astra · DRA · containerd · Qwen</div>';
+    ? '<div class="searchmeta">SEARCH · 「' + esc(q) + '」 共 <b>' + hits + '</b> 項 · <b>' + groups.length + '</b> 期</div>' + groups.join('')
+    : '<div class="empty">搵唔到同「' + esc(q) + '」有關嘅內容。<br><span class="dim">試下 Astra · DRA · containerd · Qwen</span></div>';
 }
 
 function init(){
+  document.documentElement.classList.add('anim');
   $('totalWeeks').textContent = weeks.length;
   $('latestLabel').textContent = weeks[0] ? weeks[0].label : '—';
   $('weekItems').textContent = weeks[0]
@@ -279,7 +310,7 @@ function init(){
   $('updatedAt').textContent = DATA.updated_at || '—';
   const opts = weeks.map(w =>
     '<option value="' + esc(w.id) + '">' + esc(w.label) + (w.week_no ? ' · 第 ' + w.week_no + ' 期' : '') +
-    (w.id === latestId ? ' · ★ LATEST' : '') + '</option>'
+    (w.id === latestId ? ' · LATEST' : '') + '</option>'
   ).join('');
   $('weekSel').innerHTML = opts;
   $('weekSel').addEventListener('change', e => {
@@ -290,6 +321,9 @@ function init(){
   $('prevW').addEventListener('click', () => { if(curIdx > 0) renderWeek(curIdx - 1); });
   $('nextW').addEventListener('click', () => { if(curIdx < weeks.length - 1) renderWeek(curIdx + 1); });
   $('q').addEventListener('input', doSearch);
+  document.addEventListener('keydown', e => {
+    if(e.key === '/' && document.activeElement !== $('q')){ e.preventDefault(); $('q').focus(); }
+  });
   renderWeek(0, true);
 }
 document.addEventListener('DOMContentLoaded', init);
