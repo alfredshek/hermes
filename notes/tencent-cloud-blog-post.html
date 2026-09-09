@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>騰訊雲 Tencent Cloud 學習筆記 — 與 AWS 對照嘅 15 個核心主題 | Blog</title>
+<style>
+  :root{
+    --bg:#0f172a; --panel:#1e293b; --panel2:#273449; --fg:#e2e8f0; --muted:#94a3b8;
+    --accent:#38bdf8; --accent2:#a78bfa; --ok:#4ade80; --warn:#fbbf24; --bad:#f87171;
+    --border:#334155; --code:#0b1120; --tencent:#0ecd9b;
+  }
+  *{box-sizing:border-box}
+  html{background-color:#0f172a}
+  body{margin:0;font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+       background:#0f172a;background:var(--bg);color:#e2e8f0;color:var(--fg);line-height:1.75;font-size:16px}
+  .wrap{max-width:900px;margin:0 auto;padding:32px 20px 80px}
+  header.hero{background:linear-gradient(135deg,#0052d9 0%,#0a5ce8 45%,#0ecd9b 130%);
+       border-radius:20px;padding:40px 36px;color:#fff;margin-bottom:36px;
+       box-shadow:0 10px 40px rgba(14,205,155,.22);position:relative}
+  .home-btn{position:absolute;top:18px;right:18px;background:rgba(255,255,255,.16);color:#fff;
+       text-decoration:none;padding:6px 14px;border-radius:999px;font-size:.85rem;
+       backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.25);transition:.15s}
+  .home-btn:hover{background:rgba(255,255,255,.32)}
+  header.hero h1{margin:0 0 8px;font-size:2.1rem;line-height:1.3;letter-spacing:.5px}
+  header.hero p{margin:0;opacity:.92;font-size:1.05rem}
+  .meta{display:flex;gap:14px;flex-wrap:wrap;margin-top:18px;font-size:.85rem}
+  .meta span{background:rgba(255,255,255,.16);padding:4px 12px;border-radius:999px;backdrop-filter:blur(4px)}
+  h2{font-size:1.55rem;color:var(--accent);margin:52px 0 14px;padding-bottom:8px;border-bottom:2px solid var(--border)}
+  h2 .num{display:inline-block;background:var(--accent);color:#0f172a;border-radius:8px;
+       font-size:1rem;width:32px;height:32px;line-height:32px;text-align:center;margin-right:10px;font-weight:700}
+  h3{font-size:1.15rem;color:var(--accent2);margin:28px 0 10px}
+  p{margin:10px 0}
+  ul,ol{margin:8px 0 16px;padding-left:26px}
+  li{margin:6px 0}
+  strong{color:#fff}
+  code{background:var(--code);border:1px solid var(--border);border-radius:6px;padding:2px 7px;
+       font-family:"SF Mono","Menlo",monospace;font-size:.86em;color:#7dd3fc}
+  pre{background:var(--code);border:1px solid var(--border);border-radius:12px;padding:16px 18px;
+      overflow-x:auto;font-family:"SF Mono","Menlo",monospace;font-size:.86rem;line-height:1.6;color:#a5f3fc}
+  pre code{background:none;border:none;padding:0;color:inherit}
+  table{width:100%;border-collapse:collapse;margin:14px 0 20px;font-size:.92rem;background:var(--panel);border-radius:10px;overflow:hidden}
+  th{background:var(--panel2);color:#fff;text-align:left;padding:10px 14px;font-weight:600;border-bottom:2px solid var(--border)}
+  td{padding:9px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  .callout{border-radius:12px;padding:14px 18px;margin:18px 0;border-left:5px solid;font-size:.95rem}
+  .callout.exam{border-color:var(--warn);background:rgba(251,191,36,.08)}
+  .callout.key{border-color:var(--ok);background:rgba(74,222,128,.08)}
+  .callout.trap{border-color:var(--bad);background:rgba(248,113,113,.08)}
+  .callout.tc{border-color:var(--tencent);background:rgba(14,205,155,.08)}
+  .callout h4{margin:0 0 8px;font-size:1rem}
+  .callout.exam h4{color:var(--warn)} .callout.key h4{color:var(--ok)} .callout.trap h4{color:var(--bad)} .callout.tc h4{color:var(--tencent)}
+  .toc{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px 26px;margin-bottom:8px}
+  .toc h3{margin-top:0}
+  .toc a{color:var(--accent);text-decoration:none}
+  .toc a:hover{text-decoration:underline}
+  .toc ol{margin:0;columns:2;column-gap:40px}
+  .toc li{margin:5px 0;font-size:.93rem;break-inside:avoid}
+  .flow{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px 18px;
+       font-family:"SF Mono","Menlo",monospace;font-size:.85rem;white-space:pre;overflow-x:auto;color:#c4b5fd;margin:12px 0}
+  footer{margin-top:64px;padding-top:20px;border-top:2px solid var(--border);color:var(--muted);font-size:.85rem;text-align:center}
+  @media(max-width:640px){ .toc ol{columns:1} header.hero h1{font-size:1.6rem} }
+  .btop{display:inline-block;margin:20px 0 6px;color:var(--accent);text-decoration:none;
+       font-size:.88rem;border:1px solid var(--border);padding:6px 16px;border-radius:999px;
+       background:var(--panel);transition:.15s}
+  .btop:hover{border-color:var(--accent);background:var(--panel2)}
+</style>
+</head>
+<body id="top" style="background-color:#0f172a;color:#e2e8f0">
+<div class="wrap">
+
+<header class="hero">
+  <a class="home-btn" href="/hermes/">🏠 返回主頁</a>
+  <h1>💠 騰訊雲 Tencent Cloud 學習筆記<br>以 AWS 做參照嘅 15 個核心主題</h1>
+  <p>由 Hermes 同 Alfred 嘅技術對話整理 — 用 AWS 知識基礎快速掌握騰訊雲:運算、儲存、網絡、容器、無伺服器、安全與計費</p>
+  <div class="meta">
+    <span>📅 2026-09-03</span>
+    <span>📚 15 個主題</span>
+    <span>🔗 對照: AWS → 騰訊雲</span>
+    <span>🤖 協作: Hermes Agent × Alfred</span>
+  </div>
+</header>
+
+<div class="toc">
+  <h3>📑 目錄</h3>
+  <ol>
+    <li><a href="#s1">騰訊雲總覽 — 全球佈局同服務家族</a></li>
+    <li><a href="#s2">CVM 雲服務器 — EC2 嘅騰訊版</a></li>
+    <li><a href="#s3">儲存三寶 — CBS 雲硬盤 / COS 對象存儲 / CFS 文件存儲</a></li>
+    <li><a href="#s4">VPC 私有網絡 — 子網、路由、安全組</a></li>
+    <li><a href="#s5">CLB 負載均衡 — ELB 對照</a></li>
+    <li><a href="#s6">TencentDB 數據庫家族 — RDS 對照</a></li>
+    <li><a href="#s7">TKE 容器服務 — EKS 對照</a></li>
+    <li><a href="#s8">SCF 雲函數 + API 網關 — Lambda 對照</a></li>
+    <li><a href="#s9">輕量應用服務器 Lighthouse — Lightsail 對照</a></li>
+    <li><a href="#s10">CDN + EdgeOne — CloudFront 對照</a></li>
+    <li><a href="#s11">CAM 訪問管理 — IAM 對照</a></li>
+    <li><a href="#s12">安全產品線 — WAF / DDoS / SSL / KMS</a></li>
+    <li><a href="#s13">監控與審計 — 雲監控 / CLS / 雲審計</a></li>
+    <li><a href="#s14">計費模式與慳錢策略</a></li>
+    <li><a href="#s15">AWS → 騰訊雲 遷移思維總對照</a></li>
+  </ol>
+</div>
+
+<!-- ================= S1 ================= -->
+<h2 id="s1"><span class="num">1</span>騰訊雲總覽 — 全球佈局同服務家族</h2>
+<p><strong>騰訊雲(Tencent Cloud)</strong>係騰訊旗下嘅公有雲,國內三大雲之一(AWS 全球市佔第一網絡組、Alibaba Cloud 同 Tencent Cloud 並列國產頭兩位)。用開 AWS 嘅人學佢特別輕鬆,因為<strong>九成產品都係一一對應</strong>:</p>
+<table>
+  <tr><th>AWS</th><th>騰訊雲</th><th>一句分別</th></tr>
+  <tr><td>EC2</td><td><strong>CVM</strong>(雲服務器)</td><td>幾乎同款,連購買流程都似</td></tr>
+  <tr><td>S3</td><td><strong>COS</strong>(對象存儲)</td><td>概念 100% 一樣:Bucket + 對象</td></tr>
+  <tr><td>VPC / SG</td><td><strong>VPC / 安全組</strong></td><td>同名同玩法</td></tr>
+  <tr><td>ELB</td><td><strong>CLB</strong>(負載均衡)</td><td>應用型/網絡型對應 ALB/NLB</td></tr>
+  <tr><td>RDS</td><td><strong>TencentDB</strong></td><td>MySQL/Redis/TDSQL 系列</td></tr>
+  <tr><td>EKS</td><td><strong>TKE</strong>(容器服務)</td><td>都係托管 Kubernetes</td></tr>
+  <tr><td>Lambda</td><td><strong>SCF</strong>(雲函數)</td><td>同樣事件驅動計費</td></tr>
+  <tr><td>IAM</td><td><strong>CAM</strong>(訪問管理)</td><td>策略語法同 AWS Policy 幾乎一樣</td></tr>
+  <tr><td>CloudFront</td><td><strong>CDN / EdgeOne</strong></td><td>EdgeOne = CDN+WAF+DDoS 一體化</td></tr>
+  <tr><td>CloudWatch</td><td><strong>雲監控</strong></td><td>指標 + 告警 + 儀表板</td></tr>
+</table>
+
+<h3>1.1 全球地域(Region)佈局</h3>
+<ul>
+  <li><strong>國內</strong>:華南廣州、華東上海、華北北京、西南成都/重慶、南京等,每個 region 再有 2–3 個<strong>可用區(AZ)</strong></li>
+  <li><strong>國際</strong>:香港(ap-hongkong)、新加坡、東京、首爾、孟買、法蘭克福、莫斯科、聖保羅、矽谷、弗吉尼亞、多倫多等</li>
+  <li><strong>香港節點</strong>:香港用戶做 Website/App 好常用 — 時差近、唔使備案(ICP),出海首選</li>
+</ul>
+<div class="callout key"><h4>✅ 記住呢點</h4>
+<strong>備案(ICP)</strong>係大陸同香港雲嘅最大分別:國內機房綁定域名一定要 ICP 備案(要幾星期),香港/海外節點<strong>唔使</strong>。用嚟做玩下/測試,揀香港最爽。
+</div>
+
+<!-- ================= S2 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s2"><span class="num">2</span>CVM 雲服務器 — EC2 嘅騰訊版</h2>
+<p><strong>CVM(Cloud Virtual Machine)</strong>係騰訊雲嘅核心運算產品,EC2 識嘅嘢全部搬得過去。</p>
+
+<h3>2.1 實例家族(對應 AWS Instance Types)</h3>
+<table>
+  <tr><th>系列</th><th>型號前綴</th><th>用途</th><th>AWS 對照</th></tr>
+  <tr><td><strong>標準型</strong></td><td>S5 / S6</td><td>通用 workload</td><td>M5 / M6i</td></tr>
+  <tr><td><strong>計算型</strong></td><td>C5 / C6</td><td>高 CPU 比例</td><td>C5 / C6i</td></tr>
+  <tr><td><strong>內存型</strong></td><td>M5 / M6</td><td>大內存(數據庫、Cache)</td><td>R5 / R6i</td></tr>
+  <tr><td><strong>高 IO 型</strong></td><td>IT5</td><td>高隨機 IO(DB)</td><td>I3 / I4i</td></tr>
+  <tr><td><strong>GPU 型</strong></td><td>GN 系列</td><td>AI 訓練/推理、渲染</td><td>G4 / P4 系列</td></tr>
+  <tr><td><strong>裸金屬</strong></td><td>BM</td><td>高性能冇虛擬化開銷</td><td>Bare Metal</td></tr>
+</table>
+
+<h3>2.2 購買模式</h3>
+<ul>
+  <li><strong>包年包月</strong>:預付,折扣大(對應 Reserved Instance),長期穩定 workload 用</li>
+  <li><strong>按量計費</strong>:後付,秒級開/關(對應 On-Demand),彈性測試用</li>
+  <li><strong>競價實例</strong>:出價低過基準價就拎到,可隨時被回收(對應 Spot Instance)</li>
+  <li><strong>共享型實例</strong>:同物理機其他人共用 CPU,最平(部分性能唔穩定)</li>
+</ul>
+
+<h3>2.3 鏡像同登入</h3>
+<ul>
+  <li><strong>鏡像</strong>:公共鏡像(Windows / Ubuntu / CentOS / TencentOS)、自定義鏡像(對應 AMI)、共享鏡像</li>
+  <li><strong>登入</strong>:密碼或 SSH Key;建議 Key,同 AWS 一樣</li>
+  <li><strong>安全組</strong>:實例層防火牆,控制入/出流量 — 同 AWS SG 一樣 stateful</li>
+</ul>
+
+<div class="callout exam"><h4>📝 實戰位</h4>
+① 開機揀好<strong>地域+可用區</strong>,之後好難搬(要整鏡像先得)。② 數據盤同系統盤分開,系統盤方便重裝。③ 按量實例<strong>唔記得關</strong>會一路扣錢 — 開「定時回收」或預算告警。
+</div>
+
+<!-- ================= S3 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s3"><span class="num">3</span>儲存三寶 — CBS / COS / CFS</h2>
+
+<h3>3.1 CBS 雲硬盤(對應 EBS)</h3>
+<ul>
+  <li>掛喺 CVM 上用嘅<strong>塊儲存</strong>,同 EBS 一模一樣嘅角色</li>
+  <li>類型:高性能雲硬盤(HDD)、SSD 雲硬盤、<strong>增強型 SSD</strong>(對應 gp3/io2)、極速型 SSD</li>
+  <li><strong>快照(Snapshot)</strong>:增量備份,可以整新盤 / 跨 AZ 複製 — 對應 EBS Snapshot</li>
+  <li>可以擴容(要停機或熱擴容睇類型),唔可以縮細</li>
+</ul>
+
+<h3>3.2 COS 對象存儲(對應 S3)</h3>
+<p>概念同 S3 幾乎逐粒字對應:</p>
+<table>
+  <tr><th>S3</th><th>COS</th></tr>
+  <tr><td>Bucket</td><td><strong>存儲桶</strong>(名稱全球唯一)</td></tr>
+  <tr><td>Object / Key</td><td><strong>對象 / 對象鍵</strong></td></tr>
+  <tr><td>Region</td><td><strong>所屬地域</strong></td></tr>
+  <tr><td>S3 Standard / IA / Glacier</td><td><strong>標準 / 低頻 / 歸檔</strong>存儲類型</td></tr>
+  <tr><td>Lifecycle Rule</td><td><strong>生命周期規則</strong>(轉低頻→歸檔→刪除)</td></tr>
+  <tr><td>版本控制</td><td><strong>版本控制</strong>(防誤刪)</td></tr>
+  <tr><td>CORS</td><td><strong>跨域規則 CORS</strong></td></tr>
+  <tr><td>S3 + CloudFront</td><td><strong>COS + CDN</strong>(靜態網站一體化)</td></tr>
+</table>
+<p>仲有一個 AWS 冇咁平易嘅: <strong>CI(數據處理)</strong> — COS 直接接圖片壓縮、水印、轉碼,唔使自己開伺服器。</p>
+
+<h3>3.3 CFS 文件存儲(對應 EFS)</h3>
+<ul>
+  <li><strong>NFS/CIFS 協議</strong>共享文件系統,多部 CVM 同時掛載 — 對應 EFS/FSx</li>
+  <li>場景:共享目錄、WordPress 上傳檔、內容管理系統</li>
+</ul>
+
+<div class="callout key"><h4>✅ 揀儲存快思</h4>
+<strong>系統/數據盤 = CBS;海量檔/靜態資源 = COS;多機共享文件 = CFS;備份 = CBS 快照 + COS 生命周期。</strong>審計場景要「不可變」就用 COS 對象鎖(Object Lock,對應 S3 Glacier Vault Lock 思想)。
+</div>
+
+<!-- ================= S4 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s4"><span class="num">4</span>VPC 私有網絡 — 子網、路由、安全組</h2>
+<p>騰訊雲 VPC 同 AWS VPC 係同一套思想,而且<strong>安全組同網絡 ACL 都係同名同款</strong>。</p>
+
+<h3>4.1 核心元件</h3>
+<table>
+  <tr><th>元件</th><th>用途</th><th>AWS 對照</th></tr>
+  <tr><td><strong>VPC</strong></td><td>私有網段(CIDR),例如 10.0.0.0/16</td><td>VPC</td></tr>
+  <tr><td><strong>子網</strong></td><td>按可用區切網段</td><td>Subnet</td></tr>
+  <tr><td><strong>路由表</strong></td><td>控制流量去邊(IGW/NAT/對等)</td><td>Route Table</td></tr>
+  <tr><td><strong>安全組</strong></td><td>實例級防火牆,<strong>stateful</strong>(記得返流量)</td><td>Security Group</td></tr>
+  <tr><td><strong>網絡 ACL</strong></td><td>子網級防火牆,<strong>stateless</strong></td><td>NACL</td></tr>
+  <tr><td><strong>NAT 網關</strong></td><td>私有子網出去上網,唔俾人入</td><td>NAT Gateway</td></tr>
+  <tr><td><strong>對等連接</strong></td><td>兩個 VPC 相通</td><td>VPC Peering</td></tr>
+  <tr><td><strong>雲聯網 CCN</strong></td><td>多 VPC/IDC 互聯網格</td><td>Transit Gateway</td></tr>
+</table>
+
+<h3>4.2 出網方式三兄弟(同 AWS 一樣)</h3>
+<ul>
+  <li><strong>公網 IP + 安全組</strong>:直接有公網,最簡單</li>
+  <li><strong>NAT 網關</strong>:私有實例出街,外面入唔到 — 對應 NAT Gateway</li>
+  <li><strong>CLB + 後端私有實例</strong>:流量經負載均衡,後端全私有 — 最 recommended 架構</li>
+</ul>
+
+<div class="callout trap"><h4>⚠️ 同 AWS 一個唔同位:公網 IP</h4>
+AWS 熄機再開(Stop/Start)EC2,公網 IP 會換;騰訊雲按量實例一樣會換,但<strong>包年包月實例個公網 IP 通常係固定跟住部機</strong>(開「彈性公網 IP EIP」就保證唔會甩)。甩咗要 EIP — 記住呢個詞。
+</div>
+
+<!-- ================= S5 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s5"><span class="num">5</span>CLB 負載均衡 — ELB 對照</h2>
+<p><strong>CLB(Cloud Load Balancer)</strong>有兩大類,直接對應 AWS ELB 家族:</p>
+<table>
+  <tr><th>騰訊雲</th><th>AWS</th><th>層級</th><th>用途</th></tr>
+  <tr><td><strong>應用型 CLB</strong></td><td>ALB</td><td>七層 HTTP/HTTPS</td><td>按 Host/Path 路由、WebSocket、SSL 卸載</td></tr>
+  <tr><td><strong>網絡型 CLB</strong></td><td>NLB</td><td>四層 TCP/UDP</td><td>高吞吐、長連接、遊戲伺服器</td></tr>
+</table>
+
+<h3>5.1 功能 checklist</h3>
+<ul>
+  <li><strong>健康檢查</strong>:HTTP/TCP 探測後端,死機自動踢走 — 同 ALB 一樣</li>
+  <li><strong>會話保持</strong>:七層用 cookie,四層用源 IP — 同 AWS 一樣</li>
+  <li><strong>SSL 卸載</strong>:憑證放 CLB,後端行 HTTP — 慳後端 CPU</li>
+  <li><strong>跨可用區</strong>:默認跨 AZ 容災,同 ALB 一樣</li>
+  <li><strong>訪問日誌</strong>:開咗會寫入 CLS(對應 ALB Access Log → S3)</li>
+</ul>
+
+<!-- ================= S6 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s6"><span class="num">6</span>TencentDB 數據庫家族 — RDS 對照</h2>
+<p>「TencentDB」係一個家族名,下面好多款,認清楚邊個打邊個:</p>
+<table>
+  <tr><th>產品</th><th>係咩</th><th>AWS 對照</th></tr>
+  <tr><td><strong>TencentDB for MySQL</strong></td><td>托管 MySQL:主備、只讀實例、自動備份</td><td>RDS for MySQL</td></tr>
+  <tr><td><strong>TencentDB for Redis</strong></td><td>托管 Redis:集群版、緩存</td><td>ElastiCache for Redis</td></tr>
+  <tr><td><strong>TDSQL</strong></td><td>分佈式數據庫:水平拆分、強一致</td><td>Aurora / Aurora Serverless</td></tr>
+  <tr><td><strong>TcaplusDB</strong></td><td>NoSQL 鍵值,遊戲道具/存檔</td><td>DynamoDB(遊戲場景專用)</td></tr>
+  <tr><td><strong>CTSDB</strong></td><td>時序數據庫(監控指標)</td><td>Timestream</td></tr>
+  <tr><td><strong>ES</strong></td><td>托管 Elasticsearch</td><td>OpenSearch Service</td></tr>
+</table>
+
+<h3>6.1 MySQL 版核心概念(考你 RDS 知識)</h3>
+<ul>
+  <li><strong>主備架構</strong>:一主一備(異地備份加「災備實例」跨地域)</li>
+  <li><strong>只讀實例</strong>:讀多寫少場景橫向擴展,對應 RDS Read Replica</li>
+  <li><strong>自動備份 + binlog</strong>:可以按時間點回滾(Point-in-Time Recovery)</li>
+  <li><strong>連接方式</strong>:內網地址(推薦)或公網地址(要開白名單)</li>
+  <li><strong>白名單</strong>:等於 RDS Security Group,冇加你連唔到 — 三不五時就係呢度卡住人</li>
+</ul>
+
+<div class="callout exam"><h4>📝 記住嘅位</h4>
+① 連唔上 DB = 檢查<strong>白名單</strong> + 安全組 + 內外網地址。② 唔好喺公網暴露 DB,要接都經 <strong>CLB / 代理 / VPN</strong>。③ Redis 用嚟做 cache 就得,唔好當唯一 data store。
+</div>
+
+<!-- ================= S7 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s7"><span class="num">7</span>TKE 容器服務 — EKS 對照</h2>
+<p><strong>TKE(Tencent Kubernetes Engine)</strong>係托管 Kubernetes,同 EKS 一樣由雲端管 Control Plane,你管 Node。</p>
+
+<h3>7.1 同 EKS 嘅對照</h3>
+<table>
+  <tr><th>EKS</th><th>TKE</th></tr>
+  <tr><td>Control Plane 托管</td><td><strong>Master 托管</strong>(可選「獨立集群」自己管 Master)</td></tr>
+  <tr><td>Node Group</td><td><strong>節點池</strong>(Node Pool,同一個配置一批節點)</td></tr>
+  <tr><td>HPA / CA</td><td><strong>HPA + 集群自動擴縮容</strong>(CA 對應)</td></tr>
+  <tr><td>ECR 鏡像倉庫</td><td><strong>TCR(Tencent Container Registry)</strong>,支援 Docker Hub 代理</td></tr>
+  <tr><td>kubectl</td><td><strong>一樣用 kubectl</strong>,憑證由控制台/tkecli 攞</td></tr>
+  <tr><td>Fargate</td><td><strong>Serverless 集群(EKS Serverless)</strong> — 唔使 Node</td></tr>
+</table>
+
+<h3>7.2 實戰貼士</h3>
+<ul>
+  <li>Pod 要出網:Node 有公網 IP、NAT、或者用 <strong>NAT 網關</strong> — 同 EKS 一樣嘅煩惱</li>
+  <li>Persistent Volume:<code>CBS CSI</code> 動態供應(對應 EBS CSI),或 <code>CFS</code> 做 ReadWriteMany</li>
+  <li>鏡像拉唔到(國內網絡):開 <strong>TCR 內網加速</strong>,或 Node 設 HTTPS 代理</li>
+  <li>升級先睇 <strong>PDB + 節點排空</strong> — 同 EKS upgrade 嘅規矩一模一樣(唔好跳版本!)</li>
+</ul>
+
+<!-- ================= S8 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s8"><span class="num">8</span>SCF 雲函數 + API 網關 — Lambda 對照</h2>
+<p><strong>SCF(Serverless Cloud Function)</strong>就係騰訊版 Lambda,事件驅動、用幾多計幾多、唔使理伺服器。</p>
+
+<h3>8.1 對照表</h3>
+<table>
+  <tr><th>Lambda</th><th>SCF</th></tr>
+  <tr><td>函數 + 觸發器</td><td><strong>函數 + 觸發器</strong>(事件源)</td></tr>
+  <tr><td>API Gateway 觸發</td><td><strong>API 網關觸發</strong>(RESTful 入口)</td></tr>
+  <tr><td>S3 事件觸發</td><td><strong>COS 事件觸發</strong>(上傳檔即跑處理)</td></tr>
+  <tr><td>CloudWatch Events 定時</td><td><strong>定時觸發</strong>(Cron)</td></tr>
+  <tr><td>記憶體計費(GB-sec)</td><td><strong>按 GB-s 計費</strong>,一樣思想</td></tr>
+  <tr><td>冷啟動</td><td><strong>冷啟動</strong>一樣存在,熱函數慳時間</td></tr>
+</table>
+
+<h3>8.2 典型用法</h3>
+<ul>
+  <li>圖片上 COS → 觸發 SCF → 自動壓縮/加浮水印 → 寫返 COS(對應 S3 + Lambda 縮圖)</li>
+  <li>定時任務:報表產生、數據清洗、健康檢查 ping</li>
+  <li>Webhook 接收(IM / 支付回調) + 做後續處理</li>
+  <li>API 網關做認證、限流、版本管理 — 一體化 serverless backend</li>
+</ul>
+
+<div class="callout key"><h4>✅ 一句</h4>
+<strong>「上傳即處理、定時即跑、API 即入口」</strong>— 記住呢三句式,就知幾時用 SCF。
+</div>
+
+<!-- ================= S9 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s9"><span class="num">9</span>輕量應用服務器 Lighthouse — Lightsail 對照</h2>
+<p><strong>輕量應用服務器(Lighthouse)</strong>係騰訊雲嘅「傻瓜 VPS」,同 AWS Lightsail 定位一模一樣:唔使識 VPC/安全組/子網,一拳起個站。</p>
+<ul>
+  <li><strong>套餐制</strong>:CPU/記憶體/流量/帶寬全家桶固定價,冇複雜計費</li>
+  <li><strong>一鍵應用鏡像</strong>:WordPress、Discuz!、LNMP、Docker、遊戲伺服器一鍵起</li>
+  <li><strong>內置防火牆</strong>規則簡單(開放 Port 就係咁簡單)</li>
+  <li><strong>香港區熱門</strong>:唔使備案、低延遲,個人網站/玩下項目首選</li>
+  <li>對象存儲、CDN、負載均衡都有對應「輕量」版</li>
+</ul>
+<div class="callout exam"><h4>📝 何時用</h4>
+<strong>寫 Blog / 個人項目 / 試嘢 → Lighthouse;正式生產架構、要 VPC 控制 → CVM + CLB + TencentDB。</strong>呢個分界同 Lightsail vs EC2 完全一樣。
+</div>
+
+<!-- ================= S10 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s10"><span class="num">10</span>CDN + EdgeOne — CloudFront 對照</h2>
+
+<h3>10.1 CDN(內容分發網絡)</h3>
+<p>傳統 CDN:源站(CVM/COS)駁 CDN,全網節點快取,用戶就近攞。核心操作:</p>
+<ul>
+  <li><strong>緩存刷新 / 預熱</strong>:更新咗檔案要刷新節點(對應 CloudFront Invalidation)</li>
+  <li><strong>HTTPS</strong>:免費 DV 證書一鍵部署到 CDN</li>
+  <li><strong>回源</strong>:源站地址(COS 域名或 server IP)/ 回源 Host 設定</li>
+  <li><strong>節點覆蓋</strong>:國內 + 海外節點,全球一體化加速</li>
+</ul>
+
+<h3>10.2 EdgeOne — 新世代融合版</h3>
+<p><strong>EdgeOne</strong>係騰訊雲「CDN + WAF + DDoS + Bot 防護 + 邊緣計算」一體化產品,對應 AWS 要 CloudFront + Shield + WAF + Lambda@Edge 四件夾埋先做到嘅效果。用「一站接入」:DNS 指過去,安全+加速+代碼全部邊緣處理。</p>
+<div class="callout tc"><h4>💠 騰訊特色位</h4>
+EdgeOne 有 <strong>邊緣函數(Edge Functions)</strong> — 概念 = CloudFront Functions / Lambda@Edge:喺邊緣節點跑輕量代碼(改 header、跳轉、A/B)。識 CloudFront Functions 嘅人即場上手。
+</div>
+
+<!-- ================= S11 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s11"><span class="num">11</span>CAM 訪問管理 — IAM 對照</h2>
+<p><strong>CAM(Cloud Access Management)</strong>係騰訊雲嘅 IAM,而且<strong>策略語法同 AWS IAM Policy 幾乎一樣</strong>(JSON,Action/Resource/Effect),學過 IAM 即刻睇得明。</p>
+
+<h3>11.1 對照表</h3>
+<table>
+  <tr><th>AWS IAM</th><th>CAM</th></tr>
+  <tr><td>Root User</td><td><strong>主帳號</strong></td></tr>
+  <tr><td>IAM User</td><td><strong>子用戶</strong>(可選開控制台登入 + API 密鑰)</td></tr>
+  <tr><td>User Group</td><td><strong>用戶組</strong></td></tr>
+  <tr><td>Managed Policy</td><td><strong>預設策略</strong>(QcloudCVMReadOnlyAccess 等)</td></tr>
+  <tr><td>Inline Policy</td><td><strong>自定義策略</strong>(JSON)</td></tr>
+  <tr><td>IAM Role</td><td><strong>角色</strong>(跨帳號 / 服務角色)</td></tr>
+  <tr><td>STS AssumeRole</td><td><strong>STS 臨時憑證</strong>(GetFederationToken 等)</td></tr>
+  <tr><td>MFA</td><td><strong>登錄保護(MFA)</strong></td></tr>
+  <tr><td>Access Key</td><td><strong>API 密鑰</strong>(SecretId / SecretKey)</td></tr>
+</table>
+
+<h3>11.2 同 AWS 策略嘅對照(一眼明)</h3>
+<pre><code>// AWS
+{ "Effect":"Allow", "Action":"s3:GetObject", "Resource":"arn:aws:s3:::bucket/*" }
+
+// CAM(結構一模一樣)
+{ "version":"2.0",
+  "statement":[ { "effect":"allow",
+    "action":["cos:GetObject"],
+    "resource":["qcs::cos:ap-guangzhou:uin/10000:examplebucket-1250000000/*"] } ] }</code></pre>
+<p>見到 <code>qcs</code>(騰訊雲資源描述)就係對應 AWS 嘅 <code>arn</code>。</p>
+
+<div class="callout trap"><h4>⚠️ 安全貼士</h4>
+① SecretKey 千祈唔好 commit 入 Git / 放前端 — 出咗事去 CAM 密鑰管理即刻禁用+重新生成。② 子用戶開 <strong>MFA</strong>。③ 用「角色 + 臨時憑證」取代長命密鑰,同 AWS 教學一模一樣。
+</div>
+
+<!-- ================= S12 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s12"><span class="num">12</span>安全產品線 — WAF / DDoS / SSL / KMS</h2>
+<table>
+  <tr><th>產品</th><th>係咩</th><th>AWS 對照</th></tr>
+  <tr><td><strong>Web 應用防火牆 WAF</strong></td><td>防 SQL injection、XSS、CC 攻擊;攔截規則 + 白名單</td><td>AWS WAF</td></tr>
+  <tr><td><strong>DDoS 高防(BGP 高防 / 高防 IP)</strong></td><td>大流量 DDoS 清洗,最高 T 級防護;高防 IP 隨時指過去</td><td>AWS Shield Advanced</td></tr>
+  <tr><td><strong>SSL 證書</strong></td><td>免費 DV(單域名/泛域名)+ 付費 OV/EV;一鍵部署 CDN/CLB</td><td>ACM(免費)</td></tr>
+  <tr><td><strong>KMS 密鑰管理</strong></td><td>托管加密密鑰,COS/CBS/DB 加密用</td><td>AWS KMS</td></tr>
+  <tr><td><strong>雲防火牆 CFW</strong></td><td>VPC/邊界統一防火牆策略(集中管控)</td><td>AWS Network Firewall</td></tr>
+  <tr><td><strong>等保</strong></td><td>國內「網絡安全等級保護」合規</td><td>(無直接對應,本地法規)</td></tr>
+</table>
+<div class="callout key"><h4>✅ 部署次序建議</h4>
+接入順序: <strong>DNS(DNSPod) → EdgeOne/CDN(帶 WAF+DDoS) → CLB → 後端 CVM/Security Group → DB 白名單</strong>。每一層都係防線,唔好淨係靠安全組。
+</div>
+
+<!-- ================= S13 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s13"><span class="num">13</span>監控與審計 — 雲監控 / CLS / 雲審計</h2>
+<table>
+  <tr><th>產品</th><th>用途</th><th>AWS 對照</th></tr>
+  <tr><td><strong>雲監控</strong></td><td>CPU/記憶體/帶寬指標 + 告警 + 儀表板 + 自定義指標</td><td>CloudWatch</td></tr>
+  <tr><td><strong>CLS 日誌服務</strong></td><td>集中收日誌,全文檢索、告警、投遞 COS</td><td>CloudWatch Logs</td></tr>
+  <tr><td><strong>雲審計(CloudAudit)</strong></td><td>記錄 API 操作(邊個、幾時、做咗咩)</td><td>CloudTrail</td></tr>
+  <tr><td><strong>雲撥測</strong></td><td>全國/全球節點探測網站可用性 + 效能</td><td>CloudWatch Synthetics</td></tr>
+  <tr><td><strong>訪問管理 CAM 操作記錄</strong></td><td>密鑰/登入異常審計</td><td>IAM Access Analyzer(粗對)</td></tr>
+</table>
+
+<h3>13.1 實戰做法</h3>
+<ul>
+  <li>開 <strong>雲監控告警</strong>:CPU > 80% × 5 分鐘、磁碟使用率、帶寬突發 → 微信/郵件/短信通知</li>
+  <li>開 <strong>雲審計</strong>:出事可以睇「邊個刪咗個 bucket / 改咗邊部機」</li>
+  <li><strong>CLS</strong> 收晒唔同產品日誌(CLB 訪問日誌、SCF 函數日誌),一個入口查</li>
+  <li>告警閾值唔好太敏感,否則噪音大到無人理(告警疲勞)</li>
+</ul>
+
+<!-- ================= S14 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s14"><span class="num">14</span>計費模式與慳錢策略</h2>
+
+<h3>14.1 三種核心計費模式</h3>
+<table>
+  <tr><th>模式</th><th>點計</th><th>啱用</th></tr>
+  <tr><td><strong>包年包月</strong></td><td>一次過俾,月租制,折扣大(1年/3年/5年)</td><td>穩定生產環境</td></tr>
+  <tr><td><strong>按量計費</strong></td><td>按秒/小時扣,彈性開關</td><td>測試、彈性擴展</td></tr>
+  <tr><td><strong>競價實例</strong></td><td>市場價浮動,平好多,但可回收</td><td>無狀態批次任務、CI</td></tr>
+</table>
+
+<h3>14.2 慳錢 checklist(同 AWS 慳錢思路一樣)</h3>
+<ul>
+  <li><strong>唔用就關</strong>:按量機夜晚/週末關,記得設定時回收</li>
+  <li><strong>長期用就包年</strong>:3 年包一般最抵</li>
+  <li><strong>流量留意</strong>:公網流量(帶寬)按量計費可以好快,睇清楚「按帶寬」定「按流量」</li>
+  <li><strong>COS 用生命周期</strong>:舊檔自動轉低頻/歸檔,慳 50–70%</li>
+  <li><strong>快照唔好囤</strong>:舊快照定期刪,淨係留增量鏈</li>
+  <li><strong>代金券/新人優惠</strong>:新用戶有唔少體驗金,測試環境啱用</li>
+</ul>
+<div class="callout trap"><h4>⚠️ 最常見燒錢位</h4>
+① 開咗部 GPU 機/大記憶體機唔記得關。② 按流量計費冇設上限,被 DDoS/狂拉流量燒爆。③ 快照同鏡像囤積。④ 以為「按量 = 平」,長開 24/7 嘅機其實包年平 60%+。
+</div>
+
+<!-- ================= S15 ================= -->
+
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s15"><span class="num">15</span>AWS → 騰訊雲 遷移思維總對照</h2>
+<p>最後用一張大表收返晒,AWS 學嘅嘢點樣搬字過紙:</p>
+<table>
+  <tr><th>AWS</th><th>騰訊雲</th><th>遷移要點</th></tr>
+  <tr><td>EC2</td><td>CVM</td><td>整自定義鏡像 → 傳到新環境還原</td></tr>
+  <tr><td>EBS</td><td>CBS</td><td>快照 → 新磁碟;規格對應列好</td></tr>
+  <tr><td>S3</td><td>COS</td><td><code>coscmd</code>/API 對拷;注意地域同 storage class</td></tr>
+  <tr><td>RDS MySQL</td><td>TencentDB MySQL</td><td>DTS(數據傳輸服務)全量+增量同步,近乎零停機 — 對應 AWS DMS</td></tr>
+  <tr><td>ELB</td><td>CLB</td><td>Listener/規則重設;健康檢查互換</td></tr>
+  <tr><td>EKS</td><td>TKE</td><td>yaml 幾乎照用;kubectl 唔使改</td></tr>
+  <tr><td>Lambda</td><td>SCF</td><td>Runtime 同觸發器對應;事件格式要改</td></tr>
+  <tr><td>IAM Policy</td><td>CAM 策略</td><td>JSON 語法照搬,ARN → qcs 改寫</td></tr>
+  <tr><td>CloudFront</td><td>CDN/EdgeOne</td><td>域名 CNAME 指過去,SSL 重新部署</td></tr>
+  <tr><td>Route 53</td><td>DNSPod</td><td>騰訊旗下 DNS,解析管理遷移</td></tr>
+  <tr><td>CloudWatch</td><td>雲監控</td><td>指標/告警規則重構</td></tr>
+  <tr><td>CloudTrail</td><td>雲審計</td><td>開咗就有,補返歷史操作</td></tr>
+</table>
+
+<h3>15.1 遷移鐵律</h3>
+<ol>
+  <li><strong>先小後大</strong>:開發環境試走一次先郁生產</li>
+  <li><strong>數據先行</strong>:DB 用 DTS 做雙向同步/演練,確認數據一致先切流量</li>
+  <li><strong>域名留後路</strong>:DNS TTL 調低,預留回滾時間</li>
+  <li><strong>監控同步開</strong>:遷移嗰日實時睇住告警</li>
+  <li><strong>計費對清楚</strong>:兩邊報價表擺埋一齊計,唔好估</li>
+</ol>
+
+<div class="callout key"><h4>✅ 最後一句</h4>
+<strong>騰訊雲唔係「另一個雲」,係「同一套雲端思維嘅另一個實現」。</strong>識 AWS 嘅人去騰訊雲,八成時間係「搵返對應產品」,唔係重新學 — 呢份筆記就係嗰張對照地圖。
+</div>
+
+<footer>
+  📚 騰訊雲學習筆記 ｜ 由 Hermes Agent × Alfred 整理 ｜ 對照 AWS 語境,快速上手 ｜ 2026-09-03
+</footer>
+</div>
+</body>
+</html>
