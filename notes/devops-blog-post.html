@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DevOps 學習筆記 — 16 個核心概念詳解 | Blog</title>
+<title>DevOps 學習筆記 — 17 個核心概念詳解 | Blog</title>
 <style>
   :root{
     --bg:#0f172a; --panel:#1e293b; --panel2:#273449; --fg:#e2e8f0; --muted:#94a3b8;
@@ -70,11 +70,11 @@
 
 <header class="hero">
   <a class="home-btn" href="/hermes/">🏠 返回主頁</a>
-  <h1>⚙️ DevOps 學習筆記<br>從零到一嘅 16 個核心主題</h1>
+  <h1>⚙️ DevOps 學習筆記<br>從零到一嘅 17 個核心主題</h1>
   <p>由 Hermes 同 Alfred 整理 — 涵蓋 CI/CD、容器、Kubernetes、IaC、監控、GitOps 與 SRE</p>
   <div class="meta">
     <span>📅 2026-08-30</span>
-    <span>📚 16 個主題</span>
+    <span>📚 17 個主題</span>
     <span>🎯 領域: DevOps / SRE</span>
     <span>🤖 協作: Hermes Agent × Alfred</span>
   </div>
@@ -99,6 +99,7 @@
     <li><a href="#s14">Secrets 管理</a></li>
     <li><a href="#s15">SRE 概念 — 用工程做營運</a></li>
     <li><a href="#s16">12-Factor App — 雲原生設計原則</a></li>
+    <li><a href="#s17">Admission Control &amp; Webhook — 含 1.36 改動</a></li>
   </ol>
 </div>
 
@@ -606,6 +607,61 @@ Secrets 唔可以明文入 Git → 用 <strong>Sealed Secrets</strong>(加密後
 </table>
 <div class="callout exam"><h4>🎯 最常考</h4>
 原則 6(Stateless):session 要放 Redis / DB,<strong>process 本身要 stateless</strong> 先可以水平 scale — 加多幾隻 instance 都唔會撞 state。
+</div>
+
+<!-- ================= S17 ================= -->
+<a class="btop" href="#top">⬆ 回到最頂</a>
+<h2 id="s17"><span class="num">17</span>Admission Control &amp; Webhook — 含 1.36 改動</h2>
+<p><strong>Admission Control 係 API server 收到請求之後、儲存之前嘅「守門人」</strong>:可以改(request mutation)或者擋(request validation)。Webhook 係其中一種實作方式,但而家(CEL policy)唔一定要 webhook 都做到。</p>
+
+<h3>17.1 Admission 流程</h3>
+<div class="flow">請求 → 認證/授權 → MUTATING admission(改物件)→ 內建 validate + VALIDATING admission(擋請求)→ 儲存
+                              │                                            │
+                              └─ mutating webhook / MutatingAdmissionPolicy  └─ validating webhook / ValidatingAdmissionPolicy</div>
+<ul>
+  <li><strong>Mutating</strong> 先行,可以改物件(補 default、inject sidecar);<strong>Validating</strong> 最後行,可能因為政策拒絕個請求。</li>
+  <li>Webhook = 外部 HTTP 服務,透過 <code>MutatingWebhookConfiguration</code> / <code>ValidatingWebhookConfiguration</code> 註冊;要管理 deployment + TLS cert + 監控。</li>
+  <li>CEP:而家可以用 <strong>ValidatingAdmissionPolicy</strong>(1.30 GA)同 <strong>MutatingAdmissionPolicy</strong>(1.36 GA)— CEL 寫喺 API server 內執行,唔使外部服務。</li>
+</ul>
+
+<h3>17.2 K8s 1.36(Haru,2026-04-22)對 webhook 嘅最大改動:MutatingAdmissionPolicy GA</h3>
+<p>官方定位係 <strong>「native, high-performance alternative to traditional webhooks」</strong> — 用 CEL 喺 API server 直接定義 mutation,取代好多 mutating webhook 用例。</p>
+<table>
+  <tr><th>對比</th><th>傳統 Mutating Webhook</th><th>MutatingAdmissionPolicy(CEL)</th></tr>
+  <tr><td>執行位置</td><td>外部 HTTP 服務</td><td>API server 內建,CEL 執行</td></tr>
+  <tr><td>要管理嘅嘢</td><td>deployment + TLS cert + 監控 + 升級</td><td>一個 K8s object(YAML)</td></tr>
+  <tr><td>Latency</td><td>每次 admission 多一跳網絡</td><td>本地執行,快好多</td></tr>
+  <tr><td>風險</td><td>webhook pod 死 = 整個 admission 受影響</td><td>冇呢個 failure point</td></tr>
+  <tr><td>版本管理</td><td>跟 service 走</td><td>Declarative、versioned 政策</td></tr>
+</table>
+<p>典型用例:sidecar injection、label defaulting、resource limit defaults。範例:</p>
+<div class="flow">apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingAdmissionPolicy
+metadata:
+  name: inject-proxy-env
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+    - apiGroups: [""]
+      apiVersions: ["v1"]
+      operations: ["CREATE"]
+      resources: ["pods"]
+  mutations: ...</div>
+
+<h3>17.3 配套改動:Manifest-based admission control config(Alpha)</h3>
+<ul>
+  <li>Admission controller 設定由 command-line flags / 分開 config 檔 → <strong>用 manifest 聲明式管理</strong>(好似其他 K8s object)。</li>
+  <li>Versioned + declarative → 減少 config drift 同升級手動錯誤;更易 audit + 自動化。</li>
+</ul>
+
+<h3>17.4 Validating 嗰邊 + 影響</h3>
+<ul>
+  <li><strong>ValidatingAdmissionPolicy</strong> 之前已 GA(1.30),係 validating webhook 嘅 CEL 替代;1.36 冇大改。傳統 webhook <strong>冇被移除</strong>,只係有咗新選擇。</li>
+  <li>EKS 已支援 1.36(2026-06-02 起)。</li>
+</ul>
+<div class="callout trap"><h4>⚠️ 遷移建議</h4>
+① 簡單 mutating webhook(純 defaulting / label / injection)→ 諗遷移去 <strong>MutatingAdmissionPolicy</strong>,慳返成個 service + cert 管理。② 有外部依賴嘅 webhook(查 LDAP、call cloud API、複雜補丁)→ 繼續用傳統方式,CEL policy 取代唔到。
 </div>
 
 <a class="btop" href="#top">⬆ 回到最頂</a>
