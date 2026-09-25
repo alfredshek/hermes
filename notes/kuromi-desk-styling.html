@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>教員室工作位佈置提案 · Kuromi × Anna Sui 輕奢紫</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#120e18;
+    --panel:rgba(255,255,255,.045);
+    --panel2:rgba(255,255,255,.075);
+    --line:rgba(255,255,255,.10);
+    --text:#ece7f2;
+    --muted:#a89fba;
+    --purple:#8f6cbd;
+    --purple-deep:#5d3f86;
+    --lilac:#c3a6e0;
+    --rose:#dfae9e;
+    --gold:#c9a06b;
+    --pink:#f0a8c4;
+    --paper:#f2ede4;
+    --ink:#1a1520;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:auto;overflow-x:hidden;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1100px 520px at 12% -6%, rgba(143,108,189,.20), transparent 62%),
+      radial-gradient(900px 460px at 92% 6%, rgba(223,174,158,.10), transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+    font-weight:400;
+    line-height:1.85;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:860px;margin:0 auto;padding:30px 20px 90px;}
+
+  /* ---------- masthead ---------- */
+  .masthead{
+    border:1px solid var(--line);
+    border-radius:20px;
+    background:linear-gradient(150deg,rgba(143,108,189,.20),rgba(255,255,255,.03) 52%,rgba(223,174,158,.10));
+    padding:34px 30px 30px;
+    position:relative;
+    overflow:hidden;
+  }
+  .masthead::after{
+    content:"";position:absolute;right:-70px;top:-70px;width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle,rgba(195,166,224,.30),transparent 68%);
+  }
+  .kicker{
+    font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.26em;text-transform:uppercase;
+    color:var(--lilac);margin:0 0 14px;
+  }
+  h1{
+    font-family:"Noto Serif TC",serif;font-weight:700;
+    font-size:clamp(1.6rem,5.2vw,2.5rem);line-height:1.28;margin:0 0 12px;letter-spacing:.01em;
+  }
+  h1 .hl{color:var(--lilac);}
+  .sub{color:var(--muted);font-size:.95rem;margin:0;max-width:52ch;}
+  .metaline{
+    display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:22px;padding-top:18px;
+    border-top:1px solid var(--line);
+    font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.06em;color:var(--muted);
+  }
+  .metaline b{color:var(--rose);font-weight:600;}
+
+  /* ---------- toc ---------- */
+  .toc{
+    margin:22px 0 8px;border:1px solid var(--line);border-radius:16px;background:var(--panel);
+    padding:18px 20px;
+  }
+  .toc h2{
+    font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--muted);margin:0 0 12px;font-weight:600;
+  }
+  .toc ol{margin:0;padding-left:0;list-style:none;counter-reset:t;display:grid;gap:6px;}
+  .toc li{counter-increment:t;font-size:.88rem;}
+  .toc li::before{
+    content:counter(t,decimal-leading-zero);font-family:"JetBrains Mono",monospace;
+    color:var(--purple);font-size:.74rem;margin-right:10px;
+  }
+  .toc a{color:var(--text);text-decoration:none;border-bottom:1px solid transparent;}
+  .toc a:hover{color:var(--lilac);border-bottom-color:var(--purple);}
+
+  /* ---------- sections ---------- */
+  section{margin-top:46px;scroll-margin-top:20px;}
+  .sech{
+    font-family:"Noto Serif TC",serif;font-weight:600;font-size:clamp(1.2rem,3.6vw,1.6rem);
+    margin:0 0 6px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+  }
+  .sech .num{
+    font-family:"JetBrains Mono",monospace;font-size:.78rem;color:var(--gold);letter-spacing:.1em;font-weight:600;
+  }
+  .lead{color:var(--muted);font-size:.92rem;margin:0 0 20px;max-width:64ch;}
+  p{margin:0 0 14px;font-size:.94rem;}
+
+  .card{
+    border:1px solid var(--line);border-radius:16px;background:var(--panel);
+    padding:20px 22px;margin-bottom:14px;break-inside:avoid;
+  }
+  .card h3{
+    font-size:1.02rem;margin:0 0 10px;font-weight:600;
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  }
+  .card h3 .dot{width:8px;height:8px;border-radius:50%;background:var(--lilac);flex:0 0 auto;}
+  .card p:last-child{margin-bottom:0;}
+  .card ul{margin:8px 0 0;padding-left:0;list-style:none;}
+  .card ul li{position:relative;padding-left:18px;margin-bottom:7px;font-size:.91rem;}
+  .card ul li::before{
+    content:"";position:absolute;left:2px;top:.68em;width:7px;height:7px;border-radius:50%;
+    background:var(--purple);opacity:.85;
+  }
+  .card ul li:last-child{margin-bottom:0;}
+
+  /* ---------- palette ---------- */
+  .palette{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;}
+  .sw{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);}
+  .sw .chip{height:78px;}
+  .sw .meta{padding:12px 14px;}
+  .sw .name{font-size:.9rem;font-weight:600;margin:0 0 3px;}
+  .sw .role{font-size:.76rem;color:var(--muted);margin:0 0 6px;}
+  .sw code{font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--lilac);}
+
+  /* ---------- table ---------- */
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--panel);}
+  table{width:100%;border-collapse:collapse;min-width:620px;font-size:.86rem;}
+  thead th{
+    background:linear-gradient(180deg,rgba(143,108,189,.34),rgba(143,108,189,.14));
+    text-align:left;padding:12px 14px;font-weight:600;font-size:.82rem;white-space:nowrap;
+    border-bottom:1px solid var(--line);
+  }
+  tbody td{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top;}
+  tbody tr:nth-child(even) td{background:rgba(255,255,255,.022);}
+  tbody tr:last-child td{border-bottom:none;}
+  td.money{font-family:"JetBrains Mono",monospace;color:var(--rose);white-space:nowrap;text-align:right;}
+  .tblwrap .cap{font-size:.76rem;color:var(--muted);padding:10px 14px;border-top:1px solid var(--line);}
+
+  /* ---------- tiers ---------- */
+  .tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;}
+  .tier{
+    border:1px solid var(--line);border-radius:16px;padding:20px 18px;background:var(--panel);
+    display:flex;flex-direction:column;
+  }
+  .tier.best{border-color:rgba(195,166,224,.55);background:linear-gradient(160deg,rgba(143,108,189,.22),rgba(255,255,255,.035));}
+  .tier .tagline{
+    font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--gold);margin:0 0 8px;
+  }
+  .tier .price{font-family:"JetBrains Mono",monospace;font-size:1.3rem;color:var(--text);margin:0 0 12px;font-weight:600;}
+  .tier ul{margin:0;padding-left:0;list-style:none;font-size:.86rem;}
+  .tier ul li{padding-left:16px;position:relative;margin-bottom:6px;color:var(--muted);}
+  .tier ul li::before{content:"→";position:absolute;left:0;color:var(--purple);font-size:.8rem;}
+
+  /* ---------- callout ---------- */
+  .callout{
+    border-left:3px solid var(--gold);background:linear-gradient(90deg,rgba(201,160,107,.13),transparent 72%);
+    border-radius:0 14px 14px 0;padding:16px 20px;margin:18px 0;break-inside:avoid;
+  }
+  .callout.dark{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.16),transparent 72%);}
+  .callout strong{color:var(--paper);}
+  .callout p{margin:0;font-size:.9rem;}
+
+  /* ---------- zone grid ---------- */
+  .zones{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;}
+  .zone{border:1px solid var(--line);border-radius:16px;padding:18px 20px;background:var(--panel);break-inside:avoid;}
+  .zone .zlabel{
+    font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.14em;color:var(--rose);
+    text-transform:uppercase;margin:0 0 6px;
+  }
+  .zone h3{margin:0 0 10px;font-size:1rem;font-weight:600;}
+  .zone ol{margin:0;padding-left:20px;font-size:.88rem;}
+  .zone ol li{margin-bottom:6px;color:var(--muted);}
+  .zone ol li:last-child{margin-bottom:0;}
+  .zone ol li b{color:var(--text);font-weight:500;}
+
+  /* ---------- steps ---------- */
+  .steps{counter-reset:s;margin:0;padding:0;list-style:none;}
+  .steps li{
+    counter-increment:s;position:relative;padding:14px 18px 14px 58px;margin-bottom:10px;
+    border:1px solid var(--line);border-radius:14px;background:var(--panel);font-size:.9rem;break-inside:avoid;
+  }
+  .steps li::before{
+    content:counter(s);position:absolute;left:16px;top:50%;transform:translateY(-50%);
+    width:28px;height:28px;border-radius:9px;display:grid;place-items:center;
+    background:rgba(143,108,189,.28);border:1px solid rgba(195,166,224,.4);
+    font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--lilac);font-weight:600;
+  }
+  .steps li b{display:block;margin-bottom:2px;font-weight:600;}
+  .steps li span{color:var(--muted);font-size:.86rem;}
+
+  /* ---------- purchase list ---------- */
+  .shop{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:6px 0;margin-bottom:14px;}
+  .shop .row{padding:13px 20px;border-bottom:1px solid rgba(255,255,255,.06);font-size:.89rem;}
+  .shop .row:last-child{border-bottom:none;}
+  .shop .nm{font-weight:600;display:block;margin-bottom:2px;}
+  .shop .nm em{font-style:normal;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--lilac);margin-left:8px;}
+  .shop .ds{color:var(--muted);font-size:.85rem;}
+
+  /* ---------- back to top ---------- */
+  .top{
+    display:inline-flex;align-items:center;gap:8px;margin-top:16px;
+    font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.08em;
+    color:var(--lilac);text-decoration:none;border:1px solid rgba(195,166,224,.35);
+    border-radius:999px;padding:7px 16px;background:rgba(143,108,189,.10);
+  }
+  .top:hover{background:rgba(143,108,189,.22);color:#fff;}
+
+  /* ---------- footer ---------- */
+  .foot{
+    margin-top:60px;padding-top:22px;border-top:1px solid var(--line);
+    font-size:.8rem;color:var(--muted);
+  }
+  .foot p{margin:0 0 6px;font-size:.8rem;}
+
+  @media print{
+    body{background:#fff;color:#1a1520;}
+    .wrap{max-width:100%;}
+    .masthead,.card,.zone,.tier,.tblwrap,.toc,.shop,.steps li{background:#faf8f4;border-color:#d8d2c6;}
+    .sech,.card h3,.zone h3,h1{color:#1a1520;}
+    .lead,p,.card ul li,.zone ol li,.shop .ds{color:#4a4453;}
+    .top{display:none;}
+    .card,.zone,.tier,.tblwrap,.shop,.steps li,.callout,h2,h3{break-inside:avoid;}
+  }
+  @media (max-width:560px){
+    .wrap{padding:16px 12px 70px;}
+    .masthead{padding:24px 20px;}
+    .card,.zone{padding:16px 16px;}
+    .tblwrap table{min-width:560px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="kicker">Desk Styling Proposal / 2026</p>
+    <h1>教員室工作位佈置提案<br><span class="hl">Kuromi × Anna Sui 輕奢紫</span></h1>
+    <p class="sub">新裝修嘅淺木紋工作位，唔需要換傢俬，靠色彩紀律、統一金屬色同收納可見化，就已經有輕奢感。以下係按你相片實際結構逐格寫嘅清單。</p>
+    <div class="metaline">
+      <span>工作位結構 <b>L 型 · 吊櫃 3 格 · 高身層架 4–5 層</b></span>
+      <span>主色 <b>輕奢紫</b></span>
+      <span>預算 <b>HK$300 / 800 / 1,500</b></span>
+    </div>
+  </header>
+
+  <nav class="toc">
+    <h2>目錄</h2>
+    <ol>
+      <li><a href="#start">你的起點：已經有咗嘅嘢</a></li>
+      <li><a href="#site">現場條件（由相片讀出嚟）</a></li>
+      <li><a href="#color">色彩計劃：點解紫色配淺木紋會高級</a></li>
+      <li><a href="#rules">輕奢感 5 條紀律</a></li>
+      <li><a href="#zones">逐格佈置：6 個位置嘅正確答案</a></li>
+      <li><a href="#buy">購物清單（含預算）</a></li>
+      <li><a href="#tiers">三檔預算方案</a></li>
+      <li><a href="#where">香港邊度買</a></li>
+      <li><a href="#plan">一星期落地清單</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section id="start">
+    <h2 class="sech"><span class="num">01</span>你的起點：已經有咗嘅嘢</h2>
+    <p class="lead">最重要嘅一樣：你已經有一套 <strong>Kuromi × Anna Sui</strong> 系列嘅 mouse、keyboard、桌墊。呢個係成套 system，唔係散件 —— 所以佈置方向唔應該係「再加多啲 Kuromi」，而係「幫呢套 system 造一個配得上佢嘅舞台」。</p>
+    <div class="callout dark">
+      <p><strong>核心方向：</strong>Anna Sui 嘅語言係黑 + 蕾絲 + 玫瑰 + 復古華麗；Kuromi 嘅語言係黑 + 紫 + 小小反叛。兩者交集就係<strong>「深色為底、紫色為魂、金屬為貴」</strong> —— 呢個就係你要嘅輕奢感，而唔係粉紅色可愛風。</p>
+    </div>
+    <div class="card">
+      <h3><span class="dot"></span>所以佈置要避開嘅三樣</h3>
+      <ul>
+        <li><b>唔好再加彩色卡通小物</b>—— 同 Anna Sui 嘅華麗感會互相打架，變成雜亂。</li>
+        <li><b>唔好混金屬色</b>—— 有玫瑰金就唔好再出亮銀、亮金，三種金屬一齊即變廉價。</li>
+        <li><b>唔好把每格層架都塞滿</b>—— 輕奢感嘅一半來自空間留白，塞滿就變雜貨舖。</li>
+      </ul>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 2 -->
+  <section id="site">
+    <h2 class="sech"><span class="num">02</span>現場條件（由你三張相片讀出嚟）</h2>
+    <p class="lead">佈置建議一定要配合實際尺寸，否則買完放唔落。以下係相片量度到嘅可用空間：</p>
+    <div class="tblwrap">
+      <table>
+        <thead>
+          <tr><th>位置</th><th>結構</th><th>可用空間</th><th>適合放</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>上方吊櫃</b></td>
+            <td>3 格開放格，白色收邊</td>
+            <td>每格內高約 30–35cm，深約 30cm</td>
+            <td>展示型擺設（唔好放雜物）</td>
+          </tr>
+          <tr>
+            <td><b>左側高身層架</b></td>
+            <td>4–5 層開放層板</td>
+            <td>每層高約 30cm 左右</td>
+            <td>文件、收納盒、分類小托盤</td>
+          </tr>
+          <tr>
+            <td><b>L 型主檯面</b></td>
+            <td>沿牆一列，上方有吊櫃</td>
+            <td>約 120×60cm，但吊櫃佔去後方約 30cm，<b>前方實際可用深約 30cm</b></td>
+            <td>顯示器、桌燈、筆筒（前後唔可以放太高）</td>
+          </tr>
+          <tr>
+            <td><b>L 型側檯面</b></td>
+            <td>向前延伸一段，末端有弧形分隔板</td>
+            <td>約 100×60cm，<b>無吊櫃遮擋，全深可用</b></td>
+            <td>手枕、杯、托盤、放鬆區</td>
+          </tr>
+          <tr>
+            <td><b>檯下</b></td>
+            <td>拉出式鍵盤盤 + 主機層板</td>
+            <td>鍵盤盤可放標準 keyboard + mouse</td>
+            <td>你嘅 Kuromi keyboard / mouse 就係呢度</td>
+          </tr>
+          <tr>
+            <td><b>下方儲物櫃</b></td>
+            <td>左一門 + 右兩抽屜（皆有鎖）</td>
+            <td>約 40cm 寬 × 60cm 高</td>
+            <td>私人物品、後備文具、清潔用品</td>
+          </tr>
+          <tr>
+            <td><b>地面</b></td>
+            <td>灰白色方磚，白填縫</td>
+            <td>工作位前方約 1.2m 走道</td>
+            <td>圓形地墊（性價比最高嘅升級）</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="cap">尺寸為相片目測推算（對照標準辦公傢俬尺寸），實際以你現場量度為準 —— 買收納盒前一定要量一次吊櫃內格。</div>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 3 -->
+  <section id="color">
+    <h2 class="sech"><span class="num">03</span>色彩計劃：點解紫色配淺木紋會高級</h2>
+    <p class="lead">你嘅傢俬係淺灰白木紋 + 白色收邊 + 灰地磚 —— 呢個底色其實係「中性偏冷」，非常夾紫色。關鍵係紫色只用<strong>一個調</strong>，唔好又薰衣草紫又葡萄紫又粉紫。</p>
+    <div class="palette">
+      <div class="sw">
+        <div class="chip" style="background:linear-gradient(140deg,#8f6cbd,#5d3f86)"></div>
+        <div class="meta">
+          <p class="name">輕奢紫（主色）</p>
+          <p class="role">布料、收納盒、地墊 · 佔 30%</p>
+          <code>#7B5EA7</code>
+        </div>
+      </div>
+      <div class="sw">
+        <div class="chip" style="background:linear-gradient(140deg,#241c2e,#120e18)"></div>
+        <div class="meta">
+          <p class="name">墨黑（底）</p>
+          <p class="role">相框、托盤、亞克力底座 · 佔 20%</p>
+          <code>#1A1520</code>
+        </div>
+      </div>
+      <div class="sw">
+        <div class="chip" style="background:linear-gradient(140deg,#e6c3a0,#c9a06b)"></div>
+        <div class="meta">
+          <p class="name">玫瑰金（貴氣）</p>
+          <p class="role">全場只出一種金屬 · 佔 10%</p>
+          <code>#C9A06B</code>
+        </div>
+      </div>
+      <div class="sw">
+        <div class="chip" style="background:linear-gradient(140deg,#f5f1e8,#e4ddcd)"></div>
+        <div class="meta">
+          <p class="name">米白（呼吸）</p>
+          <p class="role">中和紫色，唔好全深色 · 佔 35%</p>
+          <code>#F2EDE4</code>
+        </div>
+      </div>
+      <div class="sw">
+        <div class="chip" style="background:linear-gradient(140deg,#f7c2d5,#e58aae)"></div>
+        <div class="meta">
+          <p class="name">Kuromi 粉（點綴）</p>
+          <p class="role">只用在 Kuromi 骷髏頭色 · 5% 以內</p>
+          <code>#F0A8C4</code>
+        </div>
+      </div>
+    </div>
+    <div class="callout">
+      <p><strong>點解淺木紋加紫色會顯得貴？</strong>淺木色明度高、彩度低，本身就係「和紙／北歐」質感；紫色一放上去就成為唯一嘅色彩事件，視覺上自動變成焦點 —— 前提係其他嘢要夠安靜（白、灰、黑、金屬）。呢個就係陳列室同家居嘅分別。</p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 4 -->
+  <section id="rules">
+    <h2 class="sech"><span class="num">04</span>輕奢感 5 條紀律</h2>
+    <p class="lead">呢 5 條係「貴氣」同「可愛雜貨」嘅分界線。做到，就算全部係平價嘢都會靚；做唔到，就算買正版 Kuromi 都會亂。</p>
+    <ol class="steps">
+      <li><b>統一金屬色，只出一種</b><span>建議玫瑰金（最配淺木紋同紫色）。買之前 check 一次：你檯面已經有咩金屬色？門鉸、抽屜鎖孔、鍵盤邊。如果係銀色，就改用啞光黑金屬，唔好硬加玫瑰金。</span></li>
+      <li><b>收納可見化：透明 > 有蓋 > 雜色塑膠</b><span>亞克力／玻璃收納盒會反射環境光，係最平嘅「高級感」來源。同價位下，透明亞克力盒永遠比彩色塑膠盒靚。</span></li>
+      <li><b>留白 40%</b><span>3 格吊櫃只放滿 2 格；每層層架最多放 3 組物件；桌面同時出現在視線內嘅物件唔超過 7 件。多出嚟嘅收落抽屜。</span></li>
+      <li><b>一盞暖白燈，勝過十件擺設</b><span>2700–3000K 暖白小桌燈，放喺 L 型轉角（即顯示器旁邊）。有光就有層次，冇光就算擺幾靚都係平面。</span></li>
+      <li><b>高度節奏：高低錯落</b><span>同一格層架內，唔好三件一樣高。用「一件高（20–25cm 擺件）＋一件矮（托盤／小盒）＋一件平（文件）」嘅組合，視覺即刻有設計感。</span></li>
+    </ol>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 5 -->
+  <section id="zones">
+    <h2 class="sech"><span class="num">05</span>逐格佈置：6 個位置嘅正確答案</h2>
+    <p class="lead">由高處開始佈置（因為視線最先掃到上面），最後才處理檯面。以下每一格都係按你相片嘅實際格數寫。</p>
+    <div class="zones">
+
+      <div class="zone">
+        <p class="zlabel">Zone A · 上方吊櫃 3 格</p>
+        <h3>展示區 —— 只放「想被人睇到」嘅嘢</h3>
+        <ol>
+          <li><b>左格</b>：Kuromi 毛公仔／公仔擺設單獨一件，下面墊一塊<b>黑色絨布托盤</b>（即時有專櫃陳列感）。</li>
+          <li><b>中格</b>：透明亞克力展示盒 1–2 個，放 Kuromi 扭蛋、貼紙、小文具。</li>
+          <li><b>右格</b>：香薰（擴香石或小蠟燭）＋ 一小束紫色乾花／永生花。呢格係「氣味＋顏色」擔當。</li>
+          <li>三格全部走同一高度範圍，唔好一格滿一格空。</li>
+        </ol>
+      </div>
+
+      <div class="zone">
+        <p class="zlabel">Zone B · 左側高身層架</p>
+        <h3>由上而下：展示 → 收納 → 隱藏</h3>
+        <ol>
+          <li><b>第 1–2 層（視線高度）</b>：文件夾／書，但<b>只放黑、紫、米白三色系</b>。呢個係最易被忽略但最影響觀感嘅一步。</li>
+          <li><b>第 3 層</b>：透明亞克力筆筒（放你日常用筆）＋ 一個紫絨布小收納盒。</li>
+          <li><b>第 4 層</b>：小托盤放鎖匙、門卡、耳機 —— 有托盤就唔會散。</li>
+          <li><b>最底層</b>：藤籃或素色收納籃，放紙巾、茶包、備用文具（呢層最唔顯眼，用來「消化」雜物）。</li>
+        </ol>
+      </div>
+
+      <div class="zone">
+        <p class="zlabel">Zone C · L 型轉角</p>
+        <h3>視覺重心 —— 顯示器 ＋ 燈</h3>
+        <ol>
+          <li>顯示器放轉角正中，兩邊留對稱空間，呢個係整個工作位嘅「軸」。</li>
+          <li>桌燈放顯示器其中一側（建議左手邊，如果你右手寫字就唔會擋影）。</li>
+          <li>注意吊櫃佔去後方約 30cm，所以前方只放<b>矮身</b>物件，唔好放高擺件阻擋視線。</li>
+        </ol>
+      </div>
+
+      <div class="zone">
+        <p class="zlabel">Zone D · 側檯面（無吊櫃）</p>
+        <h3>唯一嘅「生活區」</h3>
+        <ol>
+          <li>呢度係全檯唯一有 60cm 全深嘅位置，用嚟放杯墊 ＋ 手枕（Kuromi 款）。</li>
+          <li>加一個<b>黑色圓形托盤</b>放水杯／小食，托盤一放，雜物即刻變陳列。</li>
+          <li>弧形分隔板內側可以貼一張小卡／明信片（用無痕膠），唔阻隔板本身。</li>
+        </ol>
+      </div>
+
+      <div class="zone">
+        <p class="zlabel">Zone E · 鍵盤盤</p>
+        <h3>你嘅 Kuromi 主場 —— 最緊要係「乾淨」</h3>
+        <ol>
+          <li>Mouse ＋ keyboard 已經係焦點，周圍唔好再放雜物。</li>
+          <li>用深紫或黑色<b>魔術貼理線帶</b>把所有線綁成一束，貼喺檯底邊。</li>
+          <li>鍵盤盤後面唔好塞紙張，會積塵同影響收推。</li>
+        </ol>
+      </div>
+
+      <div class="zone">
+        <p class="zlabel">Zone F · 地面 ＋ 櫃側</p>
+        <h3>性價比最高嘅升級位</h3>
+        <ol>
+          <li><b>圓形地墊（直徑 60–80cm，灰紫或深紫）</b>放在座位前方 —— 單一改動已經令整個工作位「有咗界線」，係最似樣板房嘅一步。</li>
+          <li>儲物櫃門鎖孔／把手可以加<b>玫瑰金貼片或小拉手</b>，幾十蚊，但換走嘅係整排櫃嘅平價感。</li>
+          <li>抽屜內用絨布分隔盒，開櫃嘅一刻都整齊（呢個係「內部輕奢」）。</li>
+        </ol>
+      </div>
+
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 6 -->
+  <section id="buy">
+    <h2 class="sech"><span class="num">06</span>購物清單（含預算）</h2>
+    <p class="lead">按上面 6 個 Zone 拆出嘅實際採購項目。分「必買」同「加分」兩類 —— 必買嘅係撐起輕奢骨架，加分嘅係個性。</p>
+    <div class="tblwrap">
+      <table>
+        <thead>
+          <tr><th>項目</th><th>放邊</th><th>建議規格</th><th>預算（HK$）</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><b>黑色絨布托盤</b></td><td>Zone A 左格</td><td>約 20×30cm，有邊</td><td class="money">40 – 80</td></tr>
+          <tr><td><b>透明亞克力展示盒</b> ×2</td><td>Zone A 中格</td><td>約 20×15×15cm，有蓋可疊</td><td class="money">80 – 160</td></tr>
+          <tr><td><b>亞克力筆筒</b></td><td>Zone B 第 3 層</td><td>透明或玫瑰金金屬，一個夠</td><td class="money">40 – 120</td></tr>
+          <tr><td><b>紫絨布／布藝收納盒</b> ×2</td><td>Zone B 第 3–4 層</td><td>約 25×18×10cm</td><td class="money">60 – 140</td></tr>
+          <tr><td><b>素色藤籃／收納籃</b></td><td>Zone B 最底層</td><td>米白或灰，一個</td><td class="money">50 – 100</td></tr>
+          <tr><td><b>暖白小桌燈</b></td><td>Zone C 顯示器側</td><td>2700–3000K，可調光</td><td class="money">150 – 400</td></tr>
+          <tr><td><b>黑色圓形托盤</b></td><td>Zone D</td><td>直徑約 25cm</td><td class="money">50 – 120</td></tr>
+          <tr><td><b>魔術貼理線帶</b></td><td>Zone E</td><td>深紫／黑，一包</td><td class="money">20 – 40</td></tr>
+          <tr><td><b>圓形地墊</b></td><td>Zone F</td><td>直徑 60–80cm，灰紫或深紫</td><td class="money">120 – 350</td></tr>
+          <tr><td><b>玫瑰金櫃門小拉手／貼片</b></td><td>Zone F</td><td>2 個（配合你櫃門數）</td><td class="money">40 – 120</td></tr>
+          <tr><td><b>香薰／擴香石</b></td><td>Zone A 右格</td><td>素色瓶身優先</td><td class="money">80 – 250</td></tr>
+          <tr><td><b>Kuromi × Anna Sui 正品周邊</b></td><td>Zone A／D</td><td>毛公仔連隨身鏡／化妝袋／小袋（期間限定）</td><td class="money">100 – 350</td></tr>
+        </tbody>
+      </table>
+      <div class="cap">價錢為 2026-09 市面參考區間，會隨季節同通路變動；限定聯乘款售完即止，價格亦可能被炒高。買之前上網／門市格一次價。</div>
+    </div>
+    <div class="callout">
+      <p><strong>唔夠錢嘅話，先買呢三樣：</strong>① 圓形地墊 ② 暖白小桌燈 ③ 透明亞克力筆筒 ＋ 展示盒。呢三樣加起來約 HK$300，但已經做出 70% 嘅視覺效果 —— 因為佢哋分別解決咗「界線、層次、質感」。</p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 7 -->
+  <section id="tiers">
+    <h2 class="sech"><span class="num">07</span>三檔預算方案</h2>
+    <p class="lead">由淺入深；建議由「標準」開始 —— 呢一檔最完整、亦最唔會後悔。</p>
+    <div class="tiers">
+      <div class="tier">
+        <p class="tagline">Tier 1 · 入門</p>
+        <p class="price">約 $300</p>
+        <ul>
+          <li>透明亞克力筆筒 ×1</li>
+          <li>亞克力展示盒 ×2</li>
+          <li>黑色絨布托盤 ×1</li>
+          <li>魔術貼理線帶</li>
+          <li>效果：桌面即時整齊，有質感起點</li>
+        </ul>
+      </div>
+      <div class="tier best">
+        <p class="tagline">Tier 2 · 標準 ★ 建議</p>
+        <p class="price">約 $800</p>
+        <ul>
+          <li>Tier 1 全部</li>
+          <li>暖白小桌燈（3000K）</li>
+          <li>紫絨布收納盒 ×2</li>
+          <li>圓形地墊（灰紫）</li>
+          <li>黑色圓形托盤</li>
+          <li>效果：層次 ＋ 界線 ＋ 貴氣都齊</li>
+        </ul>
+      </div>
+      <div class="tier">
+        <p class="tagline">Tier 3 · 完整</p>
+        <p class="price">約 $1,500</p>
+        <ul>
+          <li>Tier 2 全部</li>
+          <li>Kuromi × Anna Sui 正品周邊 ×1–2 件</li>
+          <li>香薰／擴香石</li>
+          <li>玫瑰金櫃門拉手／貼片</li>
+          <li>亞克力多層收納架</li>
+          <li>效果：成套 design concept，最似專櫃</li>
+        </ul>
+      </div>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 8 -->
+  <section id="where">
+    <h2 class="sech"><span class="num">08</span>香港邊度買</h2>
+    <p class="lead">分三條線：Kuromi 正品、家居收納、平價補給。價錢敏感嘅項目（亞克力、地墊）用網購最平；正品周邊就一定要認官方通路。</p>
+
+    <div class="shop">
+      <div class="row">
+        <span class="nm">Kuromi 正品周邊 <em>SANRIO GIFT GATE HK</em></span>
+        <span class="ds">Sanrio 香港官方網店 sanriogiftgate.com.hk，設 KUROMI 專區，文具、桌面小物、毛公仔最齊，有門市。想買「正版」就由呢度入手。</span>
+      </div>
+      <div class="row">
+        <span class="nm">Kuromi 文具／桌面系列 <em>LOG-ON</em></span>
+        <span class="ds">city'super 旗下，門市（銅鑼灣、尖沙咀等）＋ 網店 logon.citysuper.com.hk。過往出過 Kuromi 主題辦公系列，適合揀「黑紫系」文具同收納。</span>
+      </div>
+      <div class="row">
+        <span class="nm">Anna Sui × Sanrio 限定款 <em>7-Eleven HK</em></span>
+        <span class="ds">便利店換購檔期出過 Anna Sui × Sanrio 隨行 Mini Box、Kuromi 毛公仔連可拆式隨身鏡（可當座檯鏡／手機架）、Kuromi 3D 投影燈。<b>屬期間限定＋換購制</b>，要留意新一期推廣時間。</span>
+      </div>
+      <div class="row">
+        <span class="nm">收納盒／亞克力／地墊 <em>HKTVmall</em></span>
+        <span class="ds">本地送貨、退貨方便，桌面收納、亞克力展示盒、化妝品級收納盒選擇多，適合買「要試尺寸」嘅嘢。</span>
+      </div>
+      <div class="row">
+        <span class="nm">輕奢金屬件／玫瑰金配件 <em>淘寶 · 天貓</em></span>
+        <span class="ds">「輕奢桌面收納」「玫瑰金筆筒」類目最齊、最平，運費加起都仍比香港平。適合買金屬筆筒、托盤、拉手。</span>
+      </div>
+      <div class="row">
+        <span class="nm">底層收納（最抵） <em>IKEA HK</em></span>
+        <span class="ds">洞洞板 SKÅDIS 系列（板約 $150、配件 $40 起）、NOJIG 貯物盒（約 $13 起）。用嚟做「唔顯眼嘅底層收納」性價比最高，唔使買貴嘢。</span>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>買正品嘅自保法：</strong>Kuromi × Anna Sui 系列係期間限定，網絡上炒價同仿品都有。認官方通路（Sanrio 官方網店、LOG-ON、便利店換購），留意產品上有 Sanrio 授權標籤；價錢離譜地低就係警號。</p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 9 -->
+  <section id="plan">
+    <h2 class="sech"><span class="num">09</span>一星期落地清單</h2>
+    <p class="lead">唔好一次過買齊 —— 先清空、然後逐區做，做完一區睇一次效果。呢個次序係為了避免買完發現尺寸唔對。</p>
+    <ol class="steps">
+      <li><b>第 1 日：清空 ＋ 量度</b><span>全部層架清空一次，用尺量齊：吊櫃每格內闊／高／深、層架每層高、檯面可用深度。寫落手機。順手丟掉過期文件同壞筆。</span></li>
+      <li><b>第 2 日：定色調</b><span>決定金屬色（建議玫瑰金）。檢查檯面現有金屬件係咩色，唔一致就統一換，唔好混。</span></li>
+      <li><b>第 3 日：處理地面（Zone F）</b><span>買圓形地墊、理線帶、櫃門拉手。呢日做好，你已經會感覺到「有咗個位」。</span></li>
+      <li><b>第 4 日：買收納（Zone A、B）</b><span>亞克力筆筒 ＋ 展示盒 ＋ 紫絨布盒。記住按第 1 日量到嘅尺寸買，唔好靠估。</span></li>
+      <li><b>第 5 日：上架陳列</b><span>先放 Zone A 三格吊櫃（每格 1–2 件，留白），再放 Zone B 層架（高低錯落）。</span></li>
+      <li><b>第 6 日：加光（Zone C）</b><span>裝桌燈，試 2700K 同 3000K 邊個順眼。燈位放顯示器側，唔好正面打眼。</span></li>
+      <li><b>第 7 日：檢視 ＋ 微調</b><span>企遠 2 米望一次：桌面視線內物件係唔係 ≤7 件？紫色係唔係只有一個調？係就收工。</span></li>
+    </ol>
+    <div class="callout dark">
+      <p><strong>完成標準（自己 check）：</strong>① 桌面同時見到嘅物件 ≤7 件 ② 全場只有一種金屬色 ③ 3 格吊櫃至少一格半空 ④ 有一盞暖白燈 ⑤ 有一件 Kuromi 或 Anna Sui 元素做主視覺 —— 做到呢 5 點，就係輕奢，唔係雜貨。</p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <footer class="foot">
+    <p>教員室工作位佈置提案 · Kuromi × Anna Sui 輕奢紫 · 2026 年 9 月</p>
+    <p>尺寸為相片目測推算，實際擺位前請現場量度一次。商品價格及供應情況會變動，購買前請自行格價。</p>
+  </footer>
+
+</div>
+</body>
+</html>
