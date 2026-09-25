@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>用具配襯評估 · Kuromi × Anna Sui 輕奢紫</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#120e18;--panel:rgba(255,255,255,.045);--line:rgba(255,255,255,.10);
+    --text:#ece7f2;--muted:#a89fba;--purple:#8f6cbd;--purple-deep:#5d3f86;
+    --lilac:#c3a6e0;--rose:#dfae9e;--gold:#c9a06b;--pink:#f0a8c4;--paper:#f2ede4;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:auto;overflow-x:hidden;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1100px 520px at 12% -6%, rgba(143,108,189,.20), transparent 62%),
+      radial-gradient(900px 460px at 92% 6%, rgba(223,174,158,.10), transparent 60%),
+      var(--bg);
+    color:var(--text);font-family:"Noto Sans TC","PingFang TC",system-ui,sans-serif;
+    line-height:1.85;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:840px;margin:0 auto;padding:30px 20px 90px;}
+
+  .masthead{border:1px solid var(--line);border-radius:20px;
+    background:linear-gradient(150deg,rgba(143,108,189,.20),rgba(255,255,255,.03) 52%,rgba(223,174,158,.10));
+    padding:34px 30px 30px;position:relative;overflow:hidden;}
+  .masthead::after{content:"";position:absolute;right:-70px;top:-70px;width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle,rgba(195,166,224,.30),transparent 68%);}
+  .kicker{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.26em;
+    text-transform:uppercase;color:var(--lilac);margin:0 0 14px;}
+  h1{font-family:"Noto Serif TC",serif;font-weight:700;font-size:clamp(1.5rem,5vw,2.3rem);
+    line-height:1.3;margin:0 0 12px;}
+  h1 .hl{color:var(--lilac);}
+  .sub{color:var(--muted);font-size:.95rem;margin:0;max-width:54ch;}
+  .verdictbar{display:flex;flex-wrap:wrap;gap:14px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line);}
+  .vbox{flex:1 1 150px;}
+  .vbox .lb{font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);margin:0 0 4px;}
+  .vbox .vl{font-size:1.02rem;font-weight:600;margin:0;}
+  .vbox .vl.pass{color:#9ede9a;}
+  .vbox .vl.warn{color:var(--gold);}
+  .vbox .vl .stars{font-family:"JetBrains Mono",monospace;font-size:.9rem;color:var(--lilac);}
+
+  section{margin-top:44px;scroll-margin-top:20px;}
+  .sech{font-family:"Noto Serif TC",serif;font-weight:600;font-size:clamp(1.15rem,3.5vw,1.5rem);
+    margin:0 0 6px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .sech .num{font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--gold);
+    letter-spacing:.1em;font-weight:600;}
+  .lead{color:var(--muted);font-size:.92rem;margin:0 0 20px;max-width:66ch;}
+  p{margin:0 0 14px;font-size:.94rem;}
+
+  .card{border:1px solid var(--line);border-radius:16px;background:var(--panel);
+    padding:20px 22px;margin-bottom:14px;break-inside:avoid;}
+  .card h3{font-size:1.02rem;margin:0 0 10px;font-weight:600;
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .card p:last-child{margin-bottom:0;}
+  .card ul{margin:8px 0 0;padding-left:0;list-style:none;}
+  .card ul li{position:relative;padding-left:18px;margin-bottom:7px;font-size:.91rem;}
+  .card ul li::before{content:"";position:absolute;left:2px;top:.68em;width:7px;height:7px;
+    border-radius:50%;background:var(--purple);opacity:.85;}
+
+  .scorehead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:4px;}
+  .badge{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.1em;
+    border-radius:999px;padding:3px 11px;white-space:nowrap;}
+  .badge.yes{background:rgba(120,200,120,.16);color:#9ede9a;border:1px solid rgba(120,200,120,.4);}
+  .badge.mid{background:rgba(201,160,107,.16);color:var(--gold);border:1px solid rgba(201,160,107,.45);}
+  .badge.no{background:rgba(220,120,120,.14);color:#ec9a9a;border:1px solid rgba(220,120,120,.4);}
+  .score{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:.82rem;color:var(--lilac);white-space:nowrap;}
+
+  .why{font-size:.9rem;color:var(--text);}
+  .why b{color:var(--paper);}
+  .fix{border-left:3px solid var(--gold);background:linear-gradient(90deg,rgba(201,160,107,.12),transparent 74%);
+    border-radius:0 12px 12px 0;padding:12px 16px;margin-top:12px;font-size:.88rem;break-inside:avoid;}
+  .fix.ok{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.15),transparent 74%);}
+  .fix strong{color:var(--paper);}
+
+  .fig{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.03);
+    padding:18px 16px 10px;margin:18px 0;break-inside:avoid;}
+  .fig svg{width:100%;height:auto;display:block;overflow:visible;}
+  .fig .cap{font-size:.78rem;color:var(--muted);margin:10px 2px 0;line-height:1.6;}
+
+  .steps{counter-reset:s;margin:0;padding:0;list-style:none;}
+  .steps li{counter-increment:s;position:relative;padding:14px 18px 14px 58px;margin-bottom:10px;
+    border:1px solid var(--line);border-radius:14px;background:var(--panel);font-size:.9rem;break-inside:avoid;}
+  .steps li::before{content:counter(s);position:absolute;left:16px;top:50%;transform:translateY(-50%);
+    width:28px;height:28px;border-radius:9px;display:grid;place-items:center;
+    background:rgba(143,108,189,.28);border:1px solid rgba(195,166,224,.4);
+    font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--lilac);font-weight:600;}
+  .steps li b{display:block;margin-bottom:2px;font-weight:600;}
+  .steps li span{color:var(--muted);font-size:.86rem;}
+
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--panel);}
+  table{width:100%;border-collapse:collapse;min-width:540px;font-size:.86rem;}
+  thead th{background:linear-gradient(180deg,rgba(143,108,189,.34),rgba(143,108,189,.14));
+    text-align:left;padding:12px 14px;font-weight:600;font-size:.82rem;white-space:nowrap;
+    border-bottom:1px solid var(--line);}
+  tbody td{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top;}
+  tbody tr:nth-child(even) td{background:rgba(255,255,255,.022);}
+  tbody tr:last-child td{border-bottom:none;}
+  .yes-c{color:#9ede9a;font-weight:600;}
+  .no-c{color:#ec9a9a;font-weight:600;}
+  .mid-c{color:var(--gold);font-weight:600;}
+
+  .top{display:inline-flex;align-items:center;gap:8px;margin-top:16px;
+    font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.08em;
+    color:var(--lilac);text-decoration:none;border:1px solid rgba(195,166,224,.35);
+    border-radius:999px;padding:7px 16px;background:rgba(143,108,189,.10);}
+  .top:hover{background:rgba(143,108,189,.22);color:#fff;}
+
+  .foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted);}
+  .foot p{margin:0 0 6px;font-size:.8rem;}
+
+  @media print{
+    body{background:#fff;color:#1a1520;}
+    .masthead,.card,.fig,.tblwrap,.steps li,.fix{background:#faf8f4;border-color:#d8d2c6;}
+    h1,.sech,.card h3{color:#1a1520;}
+    .sub,.lead,p,.card ul li,.steps li span,.fig .cap{color:#4a4453;}
+    .top{display:none;}
+    .card,.fig,.tblwrap,.steps li,.fix,h2,h3{break-inside:avoid;}
+  }
+  @media (max-width:560px){
+    .wrap{padding:16px 12px 70px;}
+    .masthead{padding:24px 20px;}
+    .card{padding:16px 16px;}
+    .score{margin-left:0;width:100%;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="kicker">Item Compatibility Check / 2026</p>
+    <h1>你揀嘅 5 件用具<br><span class="hl">配襯評估 ＋ 層架擺位</span></h1>
+    <p class="sub">逐件打分，同時回答你嘅問題：上層放水壺、下層放杯 —— 呢個安排<strong>可行</strong>，而且係唯一可行。但有兩個位要改。</p>
+    <div class="verdictbar">
+      <div class="vbox"><p class="lb">整體</p><p class="vl warn">3.5 / 5 <span class="stars">★★★☆☆</span></p></div>
+      <div class="vbox"><p class="lb">配</p><p class="vl pass">層架 · Kuromi 壺 · 水晶杯</p></div>
+      <div class="vbox"><p class="lb">唔配</p><p class="vl warn">彩虹閃粉杯</p></div>
+      <div class="vbox"><p class="lb">結論</p><p class="vl">換走 1 件就成套</p></div>
+    </div>
+  </header>
+
+  <!-- 1 -->
+  <section id="verdict">
+    <h2 class="sech"><span class="num">01</span>一句總結</h2>
+    <p class="lead">你嘅眼光其實幾準 —— 層架、Kuromi 保溫壺、紫色水晶杯三件都係同一條線（黑／灰為底、紫色為魂）。問題只有一個：<strong>彩虹閃粉杯</strong>。佢引入咗紫粉、青綠、金黃三個色系再加上閃粉，同「輕奢」係相反方向。</p>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>用具</th><th>評分</th><th>判定</th><th>一句原因</th></tr></thead>
+        <tbody>
+          <tr><td><b>兩層桌面層架</b><br><span style="color:var(--muted);font-size:.82rem">灰木紋 ＋ 黑金屬腳</span></td><td>★★★★</td><td class="yes-c">配</td><td>黑色金屬腳正好符合「黑＋紫」；灰色要留意同檯面淺木紋嘅色差</td></tr>
+          <tr><td><b>Kuromi 保溫壺</b><br><span style="color:var(--muted);font-size:.82rem">白身 ＋ 淺紫蓋／底座</span></td><td>★★★★</td><td class="yes-c">配</td><td>你做主視覺嘅 Kuromi 元素，就係佢；淺紫比深紫更輕盈，唔會壓場</td></tr>
+          <tr><td><b>紫色水晶切割杯</b><br><span style="color:var(--muted);font-size:.82rem">連禮盒 15×15×11.5cm</span></td><td>★★★★★</td><td class="yes-c">最配</td><td>呢件就係「輕奢」本體 —— 切割面折射、深淺紫漸層，同 Anna Sui 語言一致</td></tr>
+          <tr><td><b>Panasonic 保溫杯</b><br><span style="color:var(--muted);font-size:.82rem">米白 ＋ 深灰底</span></td><td>★★★</td><td class="mid-c">中性</td><td>米白本身配「呼吸色」，唔搶眼；問題係同 Kuromi 壺功能重複</td></tr>
+          <tr><td><b>彩虹閃粉馬克杯</b><br><span style="color:var(--muted);font-size:.82rem">86×95mm，亮面閃粉</span></td><td>★★</td><td class="no-c">唔配</td><td>彩虹漸變 ＋ 閃粉 ＝ 4 個色系；「單一金屬／單一紫色」紀律即刻破功</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 2 -->
+  <section id="detail">
+    <h2 class="sech"><span class="num">02</span>逐件評：點解配、邊度要改</h2>
+
+    <div class="card">
+      <div class="scorehead">
+        <h3 style="margin:0">① 兩層桌面層架</h3>
+        <span class="badge yes">配 ✔</span>
+        <span class="score">★★★★☆</span>
+      </div>
+      <p class="why"><b>好處：</b>黑金屬圓柱腳其實係一件好事 —— 你嘅工作位原本有白色收邊、銀色鎖孔，而家用黑腳做「底」，全場金屬色就有紀律：<strong>啞黑做底、玫瑰金只出一件小物（櫃門拉手）</strong>，唔會亂。黑色亦同 Kuromi 嘅黑、Anna Sui 嘅黑對得上。</p>
+      <p class="why"><b>要留意：</b>層板係<strong>冷灰木紋</strong>，你檯面係淺灰白木紋 —— 兩個灰調唔完全一樣。放埋一齊會有機會睇落似「兩件傢俬」而唔係「一套」。</p>
+      <div class="fix"><strong>處理法：</strong>層架下面墊一塊 <strong>米白亞麻墊或深紫絨布墊</strong>（比層架底板稍大 2–3cm）。墊一層之後，灰色同淺木紋之間有咗緩衝，反而變成「刻意分層」。同時層架唔好緊貼檯邊，留 5cm。</div>
+    </div>
+
+    <div class="card">
+      <div class="scorehead">
+        <h3 style="margin:0">② Kuromi 保溫壺</h3>
+        <span class="badge yes">配 ✔</span>
+        <span class="score">★★★★☆</span>
+      </div>
+      <p class="why"><b>好處：</b>壺身白色亮面、蓋同底座係淺紫霧面 —— 呢個「亮面 × 霧面」對比其實好高級，唔係廉價塑膠感。淺紫係整檯唯一嘅柔紫，配你嘅深紫水晶杯會形成<strong>同色系深淺層次</strong>（淺紫 = 日用，深紫 = 陳列），係最好嘅配色結構。</p>
+      <p class="why"><b>要留意：</b>壺身有 Kuromi 圖案 ＋ 粉紅小花，呢個係「可愛」語言。它可以存在，但<strong>全檯只可以有一件</strong>咁嘅嘢 —— 佢就係嗰件，所以其他位要夠安靜。</p>
+      <div class="fix ok"><strong>擺位：</strong>層架上層，壺嘴向牆（唔好向着你），咁正面見到嘅就係最乾淨嘅一面。倒水時轉 180°。</div>
+    </div>
+
+    <div class="card">
+      <div class="scorehead">
+        <h3 style="margin:0">③ 紫色水晶切割杯</h3>
+        <span class="badge yes">最配 ★</span>
+        <span class="score">★★★★★</span>
+      </div>
+      <p class="why"><b>好處：</b>江戶切子式切割（菊華紋＋星芒紋＋劍菱紋），紫色有深淺漸層 —— 呢件係你 5 件之中<strong>最撐得起「輕奢」嘅一件</strong>。而且有專屬禮盒，本身就係「禮物級」物件，放喺檯面自動拉高整個位嘅檔次。</p>
+      <p class="why"><b>要留意：</b>杯身高約 9–10cm，杯口約 8–9cm，同你嘅馬克杯差不多高。放喺層架下層要量清楚。另外水晶杯有重量（厚底），<strong>唔好放層架上層</strong> —— 撞跌風險高。</p>
+      <div class="fix ok"><strong>擺位：</strong>層架下層正中，杯口向上、唔好倒扣。如果係當擺設，可以放一個小亞克力底座墊高 1cm，光線打落切割面會更閃。</div>
+    </div>
+
+    <div class="card">
+      <div class="scorehead">
+        <h3 style="margin:0">④ Panasonic 保溫杯</h3>
+        <span class="badge mid">中性</span>
+        <span class="score">★★★☆☆</span>
+      </div>
+      <p class="why"><b>好處：</b>米白 ＋ 深灰底，完全中性，唔會同任何嘢打架。米白其實正正係我之前講嘅「35% 呼吸色」，佢有存在價值。</p>
+      <p class="why"><b>問題：</b>同 Kuromi 壺<strong>功能完全重複</strong>。一個 1.5m 工作位放兩個保溫壺，加上兩隻杯，就係 4 件飲具 —— 超出「桌面視線內 ≤7 件」嘅紀律，會開始似茶水間。</p>
+      <div class="fix"><strong>處理法（三個選擇）：</strong>① 最乾淨：Panasonic 留喺屋企，學校只放 Kuromi 壺。② 想兩個都用：Panasonic 放<strong>側檯面（D 區）</strong>，同層架分開至少 40cm，唔好同時入一個視線框。③ 收落抽屜，做後備。</div>
+    </div>
+
+    <div class="card">
+      <div class="scorehead">
+        <h3 style="margin:0">⑤ 彩虹閃粉馬克杯</h3>
+        <span class="badge no">唔配 ✘</span>
+        <span class="score">★★☆☆☆</span>
+      </div>
+      <p class="why"><b>問題有三個：</b></p>
+      <ul>
+        <li><b>色系太多</b>：紫粉 → 青綠 → 金黃，一cup 就引入三個色系。你全場嘅紀律係「單一紫色調 ＋ 單一金屬色」，呢隻杯直接推翻。</li>
+        <li><b>閃粉 ＝ 可愛語言</b>：閃粉顆粒嘅光學效果係「活潑、童趣」，同切割水晶嘅「華麗、內斂」係兩種完全唔同嘅貴氣。放埋一齊會互相削弱。</li>
+        <li><b>杯內深灰</b>：內壁深灰同外壁彩虹反差大，視覺上會顯得雜。</li>
+      </ul>
+      <div class="fix"><strong>處理法：</strong>唔係要你丟掉 —— 係<strong>唔好同水晶杯同時出場</strong>。兩個做法：① 彩虹杯留喺屋企／做周末用；② 如果真係想帶返學校，就只可以在「水晶杯收埋」嘅時候出現，兩隻杯輪住用，永遠得一隻喺檯面。層架下層嗰個位，留俾水晶杯。</div>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 3 -->
+  <section id="heights">
+    <h2 class="sech"><span class="num">03</span>層架高度對照：你嘅擺法係唯一可行</h2>
+    <p class="lead">你問「上層放水壺、下層放杯」合適唔合適 —— 用高度計一計，答案係：<strong>呢個係唯一可行嘅擺法</strong>，因為下層淨空只有約 10–12cm，水壺根本塞唔入去。</p>
+
+    <div class="fig">
+      <svg viewBox="0 0 600 300" role="img" aria-label="兩層桌面層架高度對照示意圖：上層放保溫壺，下層放杯">
+        <defs>
+          <linearGradient id="wood" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#9a939e"/><stop offset="100%" stop-color="#847d89"/>
+          </linearGradient>
+          <linearGradient id="thermos" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#c0a8dc"/><stop offset="100%" stop-color="#f4f0f8"/>
+          </linearGradient>
+        </defs>
+
+        <!-- desk surface -->
+        <rect x="70" y="250" width="460" height="4" rx="2" fill="#6b5f78" opacity="0.85"/>
+        <text x="76" y="270" font-family="JetBrains Mono, monospace" font-size="10" fill="#a89fba">檯面（淺灰白木紋）</text>
+
+        <!-- base board -->
+        <rect x="180" y="238" width="135" height="9" rx="2" fill="url(#wood)"/>
+        <!-- upper board -->
+        <rect x="180" y="193" width="135" height="9" rx="2" fill="url(#wood)"/>
+        <!-- black metal legs (lightened so they read against the dark page) -->
+        <rect x="196" y="202" width="5" height="38" rx="2" fill="#6f6579"/>
+        <rect x="196" y="202" width="5" height="38" rx="2" fill="none" stroke="#cfc4dd" stroke-width="0.7" opacity="0.55"/>
+        <rect x="294" y="202" width="5" height="38" rx="2" fill="#6f6579"/>
+        <rect x="294" y="202" width="5" height="38" rx="2" fill="none" stroke="#cfc4dd" stroke-width="0.7" opacity="0.55"/>
+
+        <!-- thermos on upper board -->
+        <path d="M262 150 C274 150 274 170 262 170" stroke="#c0a8dc" stroke-width="4" fill="none"/>
+        <rect x="232" y="140" width="30" height="53" rx="4" fill="url(#thermos)"/>
+        <rect x="232" y="127" width="30" height="13" rx="3" fill="#b9a0d6"/>
+        <rect x="226" y="131" width="8" height="6" rx="2" fill="#b9a0d6"/>
+        <!-- kuromi mark on body -->
+        <circle cx="247" cy="164" r="7" fill="#f0a8c4" opacity="0.9"/>
+        <circle cx="247" cy="164" r="3" fill="#1a1520" opacity="0.8"/>
+
+        <!-- crystal glass on base board -->
+        <path d="M262 218 C270 218 270 234 262 234" stroke="#b18fd0" stroke-width="3.5" fill="none"/>
+        <rect x="236" y="209" width="26" height="29" rx="3" fill="#9a74c4" fill-opacity="0.72" stroke="#c3a6e0" stroke-width="1.2"/>
+        <line x1="240" y1="213" x2="240" y2="235" stroke="#e0cdf0" stroke-width="0.8" opacity="0.7"/>
+        <line x1="247" y1="212" x2="247" y2="236" stroke="#e0cdf0" stroke-width="0.8" opacity="0.7"/>
+        <line x1="254" y1="213" x2="254" y2="235" stroke="#e0cdf0" stroke-width="0.8" opacity="0.7"/>
+
+        <!-- labels -->
+        <text x="174" y="158" text-anchor="end" font-family="Noto Sans TC, sans-serif" font-size="12" fill="#c3a6e0">保溫壺 ≈20–23cm</text>
+        <text x="174" y="174" text-anchor="end" font-family="Noto Sans TC, sans-serif" font-size="11" fill="#a89fba">（下層塞唔入）</text>
+
+        <text x="342" y="152" font-family="Noto Sans TC, sans-serif" font-size="12" fill="#9ede9a">① 上層：上方開放</text>
+        <text x="342" y="169" font-family="Noto Sans TC, sans-serif" font-size="11" fill="#a89fba">高度不限 → 保溫壺放呢度</text>
+        <text x="342" y="210" font-family="Noto Sans TC, sans-serif" font-size="12" fill="#c9a06b">② 下層淨空 10–12cm</text>
+        <text x="342" y="227" font-family="Noto Sans TC, sans-serif" font-size="11" fill="#a89fba">杯 9–9.5cm → 剛好入，要量</text>
+        <text x="342" y="248" font-family="Noto Sans TC, sans-serif" font-size="11" fill="#a89fba">（水晶杯厚底，預留 1cm）</text>
+      </svg>
+      <p class="cap">示意圖，比例約 1cm ≈ 3px。層架尺寸由相片目測推算，實際淨空請用尺量一次 —— 尤其係下層，因為你嘅杯同淨空只差 0.5–2cm。</p>
+    </div>
+
+    <div class="card">
+      <h3>⚠️ 但有兩個實用問題要處理</h3>
+      <ul>
+        <li><b>重心問題：</b>保溫壺裝滿水（約 1–1.5kg）放上層，層架只有 4 隻幼金屬腳 —— 頭重腳輕，撞到會翻。建議：<strong>壺唔好裝滿</strong>，或者壺放上層但靠牆、貼近腳柱位置。</li>
+        <li><b>取水要舉手：</b>上層離檯面約 35–40cm，每次倒水都要舉高拎落嚟。如果你一日倒幾次，<strong>可以考慮將壺放側檯面（D 區）</strong>，層架專做陳列 —— 但咁樣層架上層就要擺其他嘢（例如 Kuromi 毛公仔）。兩個做法都合理，你揀順手嘅。</li>
+      </ul>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 4 -->
+  <section id="final">
+    <h2 class="sech"><span class="num">04</span>最終建議陳列組合</h2>
+    <p class="lead">按你嘅物件，我建議呢個組合。全部入到「單一紫色調、單一金屬色、≤7 件視線物件、只一件 Kuromi」四條紀律。</p>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>位置</th><th>放咩</th><th>備註</th></tr></thead>
+        <tbody>
+          <tr><td><b>層架上層</b></td><td>Kuromi 保溫壺（唯一 Kuromi 主視覺）</td><td>壺嘴向牆；唔裝滿水；靠牆放</td></tr>
+          <tr><td><b>層架下層</b></td><td>紫色水晶切割杯</td><td>唔倒扣；可墊 1cm 亞克力底座</td></tr>
+          <tr><td><b>側檯面（D 區）</b></td><td>Panasonic 保溫杯（如果你要兩個都用）</td><td>同層架分開 ≥40cm</td></tr>
+          <tr><td><b>唔上檯</b></td><td>彩虹閃粉馬克杯</td><td>留屋企，或同水晶杯輪住用</td></tr>
+          <tr><td><b>層架下墊</b></td><td>米白亞麻墊／深紫絨布墊</td><td>緩衝灰木紋同淺木紋嘅色差</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>一句記法</h3>
+      <p><strong>「紫要一調、金要一種、Kuromi 要一件、杯要一隻。」</strong>你 5 件之中，改走彩虹杯、收起一個水壺，就已經成套 —— 水晶杯係你最靚嘅選擇，唔好讓佢同閃粉杯一齊出場。</p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <footer class="foot">
+    <p>用具配襯評估 · Kuromi × Anna Sui 輕奢紫 · 2026 年 9 月</p>
+    <p>尺寸為相片目測推算（對照標準辦公傢俬尺寸）；層架淨空、杯身高度請現場量度一次再落位。商品價格及供應會變動。</p>
+  </footer>
+
+</div>
+</body>
+</html>
