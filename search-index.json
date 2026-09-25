@@ -92,11 +92,11 @@
    "text": ":root{ --bg:#0f172a; --panel:#1e293b; --panel2:#273449; --fg:#e2e8f0; --muted:#94a3b8; --accent:#38bdf8; --accent2:#a78bfa; --ok:#4ade80; --warn:#fbbf24; --bad:#f87171; --border:#334155; --code:#0b1120; --tencent:#0ecd9b; } *{box-sizing:border-box} html{background-color:#0f172a} body{margin:0;font-family:\"PingFang TC\",\"Noto Sans TC\",\"Microsoft JhengHei\",system-ui,sans-serif; background:#0f172a;background:var(--bg);color:#e2e8f0;color:var(--fg);line-height:1.75;font-size:16px} .wrap{max-width:900px;margin:0 auto;padding:32px 20px 80px} header.hero{background:linear-gradient(135deg,#0052d9 0%,#0a5ce8 45%,#0ecd9b 130%); border-radius:20px;padding:40px 36px;color:#fff;margin-bottom:36px; box-shadow:0 10px 40px rgba(14,205,155,.22);position:relative} .home-btn{position:absolute;top:18px;right:18px;background:rgba(255,255,255,.16);color:#fff; text-decoration:none;padding:6px 14px;border-radius:999px;font-size:.85rem; backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.25);transition:.15s} .home-btn:hover{background:rgba(255,255,255,.32)} header.hero h1{margin:0 0 8px;font-size:2.1rem;line-height:1.3;letter-spacing:.5px} header.hero p{margin:0;opacity:.92;font-size:1.05rem} .meta"
   },
   {
-   "title": "教師工作位佈置提案 · Kuromi × Anna Sui 輕奢紫",
-   "h1": "教師工作位佈置提案 · Kuromi × Anna Sui 輕奢紫",
+   "title": "教師工作位佈置提案 · Kuromi × Anna Sui 輕奢紫（54cm 實測）",
+   "h1": "教師工作位佈置提案 · Kuromi × Anna Sui 輕奢紫（54cm 實測）",
    "path": "notes/kuromi-desk-styling.html",
    "category": "blog",
-   "text": "教員室 工作位 佈置 Kuromi Anna Sui 輕奢 紫色 收納 桌面 地墊 桌燈 亞克力 香港 購買 預算 教員室"
+   "text": "教員室 工作位 佈置 Kuromi Anna Sui 輕奢 紫色 收納 桌面 地墊 桌燈 香港 購買 預算 54cm 實測"
   },
   {
    "title": "用具配襯評估 · Kuromi × Anna Sui 輕奢紫（54cm 實測更正）",
