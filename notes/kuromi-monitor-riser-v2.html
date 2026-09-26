@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>電腦增高架選款建議 · 第 2 批 ＋ 最終排名</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#120e18;--panel:rgba(255,255,255,.045);--line:rgba(255,255,255,.10);
+    --text:#ece7f2;--muted:#a89fba;--purple:#8f6cbd;--lilac:#c3a6e0;--rose:#dfae9e;
+    --gold:#c9a06b;--pink:#f0a8c4;--paper:#f2ede4;}
+  *{box-sizing:border-box;}
+  html,body{height:auto;overflow-x:hidden;}
+  body{margin:0;background:
+      radial-gradient(1100px 520px at 12% -6%, rgba(143,108,189,.20), transparent 62%),
+      radial-gradient(900px 460px at 92% 6%, rgba(223,174,158,.10), transparent 60%), var(--bg);
+    color:var(--text);font-family:"Noto Sans TC","PingFang TC",system-ui,sans-serif;
+    line-height:1.85;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:840px;margin:0 auto;padding:30px 20px 90px;}
+  .masthead{border:1px solid var(--line);border-radius:20px;
+    background:linear-gradient(150deg,rgba(143,108,189,.20),rgba(255,255,255,.03) 52%,rgba(223,174,158,.10));
+    padding:34px 30px 30px;position:relative;overflow:hidden;}
+  .masthead::after{content:"";position:absolute;right:-70px;top:-70px;width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle,rgba(195,166,224,.30),transparent 68%);}
+  .kicker{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.26em;
+    text-transform:uppercase;color:var(--lilac);margin:0 0 14px;}
+  h1{font-family:"Noto Serif TC",serif;font-weight:700;font-size:clamp(1.5rem,5vw,2.3rem);
+    line-height:1.3;margin:0 0 12px;} h1 .hl{color:var(--lilac);}
+  .sub{color:var(--muted);font-size:.95rem;margin:0;max-width:56ch;}
+  .verdictbar{display:flex;flex-wrap:wrap;gap:14px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line);}
+  .vbox{flex:1 1 150px;}
+  .vbox .lb{font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);margin:0 0 4px;}
+  .vbox .vl{font-size:1.02rem;font-weight:600;margin:0;}
+  .vbox .vl.pass{color:#9ede9a;} .vbox .vl.warn{color:var(--gold);} .vbox .vl.no{color:#ec9a9a;}
+  section{margin-top:44px;scroll-margin-top:20px;}
+  .sech{font-family:"Noto Serif TC",serif;font-weight:600;font-size:clamp(1.15rem,3.5vw,1.5rem);
+    margin:0 0 6px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .sech .num{font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--gold);letter-spacing:.1em;font-weight:600;}
+  .lead{color:var(--muted);font-size:.92rem;margin:0 0 20px;max-width:68ch;}
+  p{margin:0 0 14px;font-size:.94rem;}
+  .card{border:1px solid var(--line);border-radius:16px;background:var(--panel);
+    padding:20px 22px;margin-bottom:14px;break-inside:avoid;}
+  .card h3{font-size:1.02rem;margin:0 0 10px;font-weight:600;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .card p:last-child{margin-bottom:0;}
+  .card ul{margin:8px 0 0;padding-left:0;list-style:none;}
+  .card ul li{position:relative;padding-left:18px;margin-bottom:7px;font-size:.91rem;}
+  .card ul li::before{content:"";position:absolute;left:2px;top:.68em;width:7px;height:7px;border-radius:50%;
+    background:var(--purple);opacity:.85;}
+  .pick{border-color:rgba(195,166,224,.55);
+    background:linear-gradient(160deg,rgba(143,108,189,.22),rgba(255,255,255,.035));}
+  .scorehead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:4px;}
+  .badge{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.1em;border-radius:999px;padding:3px 11px;white-space:nowrap;}
+  .badge.yes{background:rgba(120,200,120,.16);color:#9ede9a;border:1px solid rgba(120,200,120,.4);}
+  .badge.mid{background:rgba(201,160,107,.16);color:var(--gold);border:1px solid rgba(201,160,107,.45);}
+  .badge.no{background:rgba(220,120,120,.14);color:#ec9a9a;border:1px solid rgba(220,120,120,.4);}
+  .badge.top{background:rgba(195,166,224,.22);color:#d9c2f0;border:1px solid rgba(195,166,224,.6);}
+  .score{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:.82rem;color:var(--lilac);white-space:nowrap;}
+  .why{font-size:.9rem;} .why b{color:var(--paper);}
+  .fix{border-left:3px solid var(--gold);background:linear-gradient(90deg,rgba(201,160,107,.12),transparent 74%);
+    border-radius:0 12px 12px 0;padding:12px 16px;margin-top:12px;font-size:.88rem;break-inside:avoid;}
+  .fix.ok{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.15),transparent 74%);}
+  .fix.bad{border-left-color:#ec9a9a;background:linear-gradient(90deg,rgba(220,120,120,.13),transparent 74%);}
+  .fix strong{color:var(--paper);}
+  .callout{border-left:3px solid var(--gold);background:linear-gradient(90deg,rgba(201,160,107,.13),transparent 72%);
+    border-radius:0 14px 14px 0;padding:16px 20px;margin:18px 0;break-inside:avoid;}
+  .callout.dark{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.16),transparent 72%);}
+  .callout strong{color:var(--paper);} .callout p{margin:0;font-size:.9rem;}
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--panel);}
+  table{width:100%;border-collapse:collapse;min-width:620px;font-size:.85rem;}
+  thead th{background:linear-gradient(180deg,rgba(143,108,189,.34),rgba(143,108,189,.14));
+    text-align:left;padding:12px 14px;font-weight:600;font-size:.82rem;white-space:nowrap;border-bottom:1px solid var(--line);}
+  tbody td{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top;}
+  tbody tr:nth-child(even) td{background:rgba(255,255,255,.022);}
+  tbody tr:last-child td{border-bottom:none;}
+  .yes-c{color:#9ede9a;font-weight:600;} .no-c{color:#ec9a9a;font-weight:600;} .mid-c{color:var(--gold);font-weight:600;}
+  .swatch{display:inline-block;width:13px;height:13px;border-radius:3px;vertical-align:-2px;margin-right:5px;border:1px solid rgba(255,255,255,.25);}
+  .top{display:inline-flex;align-items:center;gap:8px;margin-top:16px;
+    font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.08em;color:var(--lilac);
+    text-decoration:none;border:1px solid rgba(195,166,224,.35);border-radius:999px;padding:7px 16px;background:rgba(143,108,189,.10);}
+  .top:hover{background:rgba(143,108,189,.22);color:#fff;}
+  .fig{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.03);padding:18px 16px 10px;margin:18px 0;break-inside:avoid;}
+  .fig svg{width:100%;height:auto;display:block;overflow:visible;}
+  .fig .cap{font-size:.78rem;color:var(--muted);margin:10px 2px 0;line-height:1.6;}
+  .foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted);}
+  .foot p{margin:0 0 6px;font-size:.8rem;}
+  @media print{body{background:#fff;color:#1a1520;}
+    .masthead,.card,.tblwrap,.fix,.callout,.fig{background:#faf8f4;border-color:#d8d2c6;}
+    h1,.sech,.card h3{color:#1a1520;} .sub,.lead,p,.card ul li,.fig .cap{color:#4a4453;}
+    .top{display:none;} .card,.tblwrap,.fix,.callout,.fig,h2,h3{break-inside:avoid;}}
+  @media (max-width:560px){.wrap{padding:16px 12px 70px;}.masthead{padding:24px 20px;}
+    .card{padding:16px 16px;}.score{margin-left:0;width:100%;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="kicker">Monitor Riser Selection / Batch 2 + Final Ranking</p>
+    <h1>電腦增高架選款建議<br><span class="hl">第 2 批 8 款 ＋ 17 款總排名</span></h1>
+    <p class="sub">第 2 批出現一個重要發現：<strong>人體工學上你應該揀更低嘅增高架，唔係更高。</strong>我上次推薦 8.5cm 都要修正 —— 連佢都偏低唔夠。</p>
+    <div class="verdictbar">
+      <div class="vbox"><p class="lb">🏆 最終首選</p><p class="vl pass">BN-3012 彩繪 5.5cm 段</p></div>
+      <div class="vbox"><p class="lb">🥈 次選</p><p class="vl pass">BN-3011 彩繪 5.5cm 段</p></div>
+      <div class="vbox"><p class="lb">✗ 明確避開</p><p class="vl no">12cm 大理石款</p></div>
+      <div class="vbox"><p class="lb">⚠ 修正</p><p class="vl warn">8.5cm 唔夠低</p></div>
+    </div>
+  </header>
+
+  <!-- 1 -->
+  <section id="ergo">
+    <h2 class="sech"><span class="num">01</span>🔴 最重要發現：你應該揀更低，唔係更高</h2>
+    <p class="lead">第 2 批出現「高度可調 9／5.5cm」嘅款式，令我重新計一次人體工學。結果係：<strong>即使我上次推薦嘅 8.5cm 都偏高。</strong></p>
+
+    <div class="fig">
+      <svg viewBox="0 0 600 360" role="img" aria-label="增高架高度對照：不加增高架螢幕頂113.8公分落在眼睛舒適區，加12公分則達125.8公分過高">
+        <defs>
+          <linearGradient id="ok" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#9ede9a"/><stop offset="100%" stop-color="#5f9a5f"/></linearGradient>
+          <linearGradient id="bad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ec9a9a"/><stop offset="100%" stop-color="#a85f5f"/></linearGradient>
+          <linearGradient id="mid" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c9a06b"/><stop offset="100%" stop-color="#8f7148"/></linearGradient>
+        </defs>
+
+        <!-- eye comfort band 110-118cm : y 274 -> 170 -->
+        <rect x="70" y="170" width="470" height="104" fill="#c3a6e0" opacity="0.14"/>
+        <text x="544" y="167" text-anchor="end" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#c3a6e0">眼睛舒適區 110–118cm</text>
+
+        <!-- bars: floor-baseline y=300 = 108cm, 13px per cm upward -->
+        <!-- 0cm  -> 113.8 -> top 225 -->
+        <rect x="88" y="225" width="44" height="75" fill="url(#ok)"/>
+        <text x="110" y="219" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#9ede9a">113.8</text>
+        <text x="110" y="318" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#ece7f2">無架</text>
+        <text x="110" y="334" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10" fill="#9ede9a">✓ 最好</text>
+
+        <!-- 5.5 -> 119.3 -> top 153 -->
+        <rect x="152" y="153" width="44" height="147" fill="url(#ok)"/>
+        <text x="174" y="147" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#9ede9a">119.3</text>
+        <text x="174" y="318" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#ece7f2">5.5cm</text>
+        <text x="174" y="334" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10" fill="#9ede9a">✓ 最接近</text>
+
+        <!-- 8.5 -> 122.3 -> top 114 -->
+        <rect x="216" y="114" width="44" height="186" fill="url(#mid)"/>
+        <text x="238" y="108" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#c9a06b">122.3</text>
+        <text x="238" y="318" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#ece7f2">8.5cm</text>
+        <text x="238" y="334" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10" fill="#c9a06b">△ 偏高</text>
+
+        <!-- 9.5 -> 123.3 -> top 101 -->
+        <rect x="280" y="101" width="44" height="199" fill="url(#mid)"/>
+        <text x="302" y="95" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#c9a06b">123.3</text>
+        <text x="302" y="318" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#ece7f2">9.5cm</text>
+        <text x="302" y="334" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10" fill="#c9a06b">△ 偏高</text>
+
+        <!-- 10.7 -> 124.5 -> top 86 -->
+        <rect x="344" y="86" width="44" height="214" fill="url(#bad)"/>
+        <text x="366" y="80" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#ec9a9a">124.5</text>
+        <text x="366" y="318" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#ece7f2">10.7cm</text>
+        <text x="366" y="334" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10" fill="#ec9a9a">✗ 過高</text>
+
+        <!-- 12 -> 125.8 -> top 69 -->
+        <rect x="408" y="69" width="44" height="231" fill="url(#bad)"/>
+        <text x="430" y="63" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#ec9a9a">125.8</text>
+        <text x="430" y="318" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#ece7f2">12cm</text>
+        <text x="430" y="334" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10" fill="#ec9a9a">✗ 最高</text>
+
+        <!-- baseline -->
+        <line x1="70" y1="300" x2="540" y2="300" stroke="#6b5f78" stroke-width="2"/>
+        <text x="466" y="296" font-family="JetBrains Mono, monospace" font-size="10" fill="#a89fba">檯面基準</text>
+      </svg>
+      <p class="cap">柱高 = 螢幕面板頂離地高度（檯面 75cm ＋ 原裝底座 5cm ＋ 27 吋 16:9 面板高 33.8cm ＋ 增高架高度）。紫帶 = 成人坐姿眼睛高度 110–118cm。</p>
+    </div>
+
+    <div class="card">
+      <h3>📐 理想增高高度（反推）</h3>
+      <ul>
+        <li>眼睛 115cm → 理想增高 <b>約 1cm</b></li>
+        <li>眼睛 118cm → 理想增高 <b>約 4cm</b></li>
+        <li>眼睛 120cm → 理想增高 <b>約 6cm</b></li>
+      </ul>
+      <div class="fix bad"><strong>所以理想範圍係 0–6cm，而你嘅螢幕本身（0cm ＝ 113.8cm）已經落在舒適區內。</strong>5.5cm 係「最接近」嘅選項（119.3cm，只略高於 118cm 上限）；8.5cm 以上開始明顯偏高；<b>12cm 最差（125.8cm），會令你要抬頭，長期頸痛。</b></div>
+      <div class="fix ok"><strong>所以 BN 彩繪系列嘅「可調 9／5.5cm」係咁多款之中唯一有意義嘅高度選擇</strong> —— 因為佢畀你揀 5.5cm，其他款全部 8.5cm 起跳。<br><strong>但講到底：增高架對你嘅價值係「收納＋整齊」，唔係「矯正姿勢」。</strong>你嘅姿勢本身冇問題。</div>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 2 -->
+  <section id="batch2">
+    <h2 class="sech"><span class="num">02</span>第 2 批 8 款逐件評</h2>
+    <p class="lead">評分標準：① 高度是否接近理想（0–6cm 最佳）② 色彩衝擊 ③ 60cm 螢幕尺寸適配 ④ 材質語言會唔會又多一套。</p>
+
+    <div class="card pick">
+      <div class="scorehead">
+        <h3 style="margin:0">④ BN-3012 彩繪（白粉漸變）　59.3×19.3×9／5.5cm</h3>
+        <span class="badge top">🏆 最終首選</span>
+        <span class="score">★★★★★</span>
+      </div>
+      <p class="why"><b>高度：</b><strong>可調 9／5.5cm</strong> —— 揀低段 <b>5.5cm</b>，呢個係全場最貼近理想（1–6cm）嘅高度。單憑呢點已經勝出。</p>
+      <p class="why"><b>尺寸：</b>59.3cm 長 —— 你螢幕 60cm，<strong>差 0.7cm，幾乎齊邊</strong>，視覺最整齊。深 19.3cm。</p>
+      <p class="why"><b>顏色：</b>我實測漸變偏 <b>#d1baad</b>（暖白粉），飽和度只有 36 —— <strong>低飽和，唔刺眼</strong>。左側帶少少藍紫調，呢個藍紫調其實呼應你嘅紫色系。</p>
+      <p class="why"><b>點解係首選：</b>① 高度可調 = 唯一可以配合你人體工學嘅款；② 59.3cm 幾乎等於螢幕寬；③ 透明亞克力腳 = 同你嘅展示盒同族；④ 白粉漸變係暖色，同你嘅淺木紋檯面同調，唔會打架。</p>
+      <div class="fix ok"><strong>建議：</strong>買呢款，<strong>用 5.5cm 低段</strong>。</div>
+    </div>
+
+    <div class="card pick">
+      <div class="scorehead">
+        <h3 style="margin:0">③ BN-3011 彩繪（粉黃藍漸變）　59.3×19.3×9／5.5cm</h3>
+        <span class="badge top">🥈 次選</span>
+        <span class="score">★★★★☆</span>
+      </div>
+      <p class="why"><b>同 ④ 幾乎一樣</b>：同尺寸、同可調 9／5.5cm、同透明腳。差別只係彩繪圖案。</p>
+      <p class="why"><b>顏色：</b>粉紅＋淡黃＋淺藍三色漸變，實測 <b>#d4baac</b>（飽和 40，比 ④ 略高）。<strong>三個顏色 = 三個色系</strong>，呢個係扣分位 —— 你嘅檯面需要克制。</p>
+      <div class="fix"><strong>判斷：</strong>如果 ④ 缺貨就揀呢款。兩者功能完全一樣，④ 顏色更收斂。</div>
+    </div>
+
+    <div class="card">
+      <div class="scorehead">
+        <h3 style="margin:0">⑥ 透明加長款帶燈　80×20×9.5cm</h3>
+        <span class="badge mid">有條件</span>
+        <span class="score">★★★☆☆</span>
+      </div>
+      <p class="why"><b>優點：</b>透明亞克力 ＋ 暖白 LED 燈帶。燈帶令亞克力邊緣發光，<strong>呢個效果同你嘅切割水晶杯折射係同一種「光學語言」</strong>，其實好配。</p>
+      <p class="why"><b>問題：</b>① 高 9.5cm —— 偏高（面板頂 123.3cm）；② 80cm 比你螢幕長 <strong>20cm</strong>，會左右突出；③ 多一條 USB 電線，桌面又多一個電源（你已有電熱水杯）；④ 日光充足時 LED 效果被蓋過。</p>
+      <div class="fix bad"><strong>判斷：</strong>如果你會長期開燈做氛圍就值得；否則無燈款更實際。<strong>LED 燈帶會發熱，唔好放喺電熱水杯旁邊。</strong></div>
+    </div>
+
+    <div class="card">
+      <div class="scorehead">
+        <h3 style="margin:0">⑤ 黑色加長款帶燈　80×20×9.5cm（亮面）</h3>
+        <span class="badge mid">有條件</span>
+        <span class="score">★★★☆☆</span>
+      </div>
+      <p class="why"><b>顏色：</b>黑色亮面（鋼琴烤漆）＋ 白色燈帶。黑係你核心色 ✓，但<strong>亮面黑係指紋收集器</strong>，教員室日日用會好明顯。</p>
+      <p class="why"><b>問題：</b>同上 —— 9.5cm 偏高、80cm 過長。另外亮面黑 ＋ 你螢幕黑邊框會連成一大塊黑，視覺好重。</p>
+      <div class="fix"><strong>判斷：</strong>如果你想要戲劇性嘅「黑 ＋ 發光」效果可以考慮，但實用性低於 BN 彩繪款。</div>
+    </div>
+
+    <div class="card">
+      <div class="scorehead">
+        <h3 style="margin:0">① 透粉色　80×20×9.5cm（無燈）</h3>
+        <span class="badge mid">尺寸偏大</span>
+        <span class="score">★★★☆☆</span>
+      </div>
+      <p class="why"><b>顏色：</b>我實測 <b>#d7c9ca</b>，飽和度只有 14 —— <strong>近乎灰粉，係全場最低飽和嘅粉</strong>，其實幾高級。銀色 U 型金屬腳 ✓（呼應你嘅金屬紀律）。</p>
+      <p class="why"><b>問題：</b>① 80cm 比你螢幕長 20cm；② 高 9.5cm 偏高；③ 透明粉係「夢幻少女」語言。</p>
+      <div class="fix"><strong>判斷：</strong>顏色其實唔錯（低飽和），但尺寸同高度都唔理想。如果佢有 60cm 版本就會好值得考慮。</div>
+    </div>
+
+    <div class="card">
+      <div class="scorehead">
+        <h3 style="margin:0">② 碳鋼加厚 鋼琴黑加長款　60×21×10.7cm（有抽屜）</h3>
+        <span class="badge no">✗ 高度過高</span>
+        <span class="score">★★☆☆☆</span>
+      </div>
+      <p class="why"><b>結構最實用：</b>雙層 ＋ 兩個抽屜 ＋ 下方開放收納 —— <strong>收納能力係全場最強</strong>。60×21 尺寸亦好合適。</p>
+      <p class="why"><b>但高度 10.7cm 過高</b>（面板頂 124.5cm），你會要抬頭。而且亮面鋼琴黑 ＋ 抽屜 ＝ 「辦公傢俬」語言，唔係輕奢。</p>
+      <div class="fix bad"><strong>判斷：</strong>如果你最重視收納（例如要放 Switch、書本），呢款功能最好。但為咗你嘅頸，我唔建議 —— 或者你要同時調低椅子。</div>
+    </div>
+
+    <div class="card">
+      <div class="scorehead">
+        <h3 style="margin:0">⑦ 亮光意大利淺灰（大理石紋）　60×20×12cm</h3>
+        <span class="badge no">✗ 明確避開</span>
+        <span class="score">★★☆☆☆</span>
+      </div>
+      <p class="why"><b>問題一：高度 12cm 過高</b>（面板頂 125.8cm）—— <strong>全場最高，最傷頸</strong>。</p>
+      <p class="why"><b>問題二：亮光大理石係你上次問過嘅同一款</b>，我當時講過三個問題：亮面反射一切、同你啞光檯面打架、最顯指紋。</p>
+      <p class="why"><b>問題三：材質語言又加一套</b> —— 木紋（檯面）＋ 灰木（層架）＋ 大理石（增高架）＝ 三個材質故事。</p>
+      <div class="fix bad"><strong>判斷：</strong>12cm 高度 ＋ 亮面 ＋ 大理石，三個問題疊埋。<strong>明確避開。</strong></div>
+    </div>
+
+    <div class="card">
+      <div class="scorehead">
+        <h3 style="margin:0">⑧ 啞光維克淺灰　60×20×12cm</h3>
+        <span class="badge mid">比亮光好，但高度仍過高</span>
+        <span class="score">★★★☆☆</span>
+      </div>
+      <p class="why"><b>比亮光版好：</b>啞光處理 —— 唔反光、唔顯指紋、同你嘅啞光檯面同族。呢個係正確方向。</p>
+      <p class="why"><b>但高度仍然 12cm</b>（面板頂 125.8cm），同亮光版一樣過高。</p>
+      <div class="fix"><strong>判斷：</strong>如果呢款有 6cm 版本，會係好選擇。12cm 就唔建議。</div>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 3 -->
+  <section id="final">
+    <h2 class="sech"><span class="num">03</span>17 款總排名（兩批合併）</h2>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>#</th><th>款式</th><th>尺寸</th><th>高度評價</th><th>色彩衝擊</th><th>總分</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><b>BN-3012 彩繪（白粉漸變）</b></td><td>59.3×19.3×<b>5.5</b>/9</td><td class="yes-c">✓ 可調低段最佳</td><td>低飽和暖白粉</td><td class="yes-c">★★★★★</td></tr>
+          <tr><td>2</td><td><b>BN-3011 彩繪（粉黃藍）</b></td><td>59.3×19.3×<b>5.5</b>/9</td><td class="yes-c">✓ 可調低段最佳</td><td>三色漸變 △</td><td class="yes-c">★★★★☆</td></tr>
+          <tr><td>3</td><td>透明 ＋ 粉爪墊 ＋ 手機架</td><td>未標</td><td>— 待確認</td><td>透明主體 ✓</td><td class="yes-c">★★★★☆</td></tr>
+          <tr><td>4</td><td>典雅黑 ＋ 透明 L 腳</td><td>60×20×8.5</td><td>△ 稍高</td><td>黑（核心色）✓</td><td class="yes-c">★★★★☆</td></tr>
+          <tr><td>5</td><td>全透明亞克力</td><td>60×20×8.5</td><td>△ 稍高</td><td>無 ✓✓</td><td class="mid-c">★★★☆☆</td></tr>
+          <tr><td>6</td><td>透粉色（無燈）</td><td>80×20×9.5</td><td>△ 稍高＋過長</td><td>極低飽和 ✓</td><td class="mid-c">★★★☆☆</td></tr>
+          <tr><td>7</td><td>透明帶燈（短款 ¥245.52）</td><td>短款</td><td>— 待確認</td><td>LED ＋ 電線 △</td><td class="mid-c">★★★☆☆</td></tr>
+          <tr><td>8</td><td>透明加長款帶燈</td><td>80×20×9.5</td><td>△ 稍高＋過長</td><td>LED ＋ 電線 △</td><td class="mid-c">★★★☆☆</td></tr>
+          <tr><td>9</td><td>黑色加長款帶燈（亮面）</td><td>80×20×9.5</td><td>△ 稍高＋過長</td><td>亮面黑 △</td><td class="mid-c">★★★☆☆</td></tr>
+          <tr><td>10</td><td>黑短款 ＋ 粉紅爪墊</td><td>短款</td><td>— 待確認</td><td>黑 ✓ ＋ 粉爪 △</td><td class="mid-c">★★★☆☆</td></tr>
+          <tr><td>11</td><td>啞光維克淺灰</td><td>60×20×<b>12</b></td><td class="no-c">✗ 過高</td><td>啞光 ✓</td><td class="mid-c">★★★☆☆</td></tr>
+          <tr><td>12</td><td>粉紅貓爪短款（無燈）</td><td>短款</td><td>— 待確認</td><td>大面積粉 △</td><td class="mid-c">★★★☆☆</td></tr>
+          <tr><td>13</td><td>碳鋼加厚 鋼琴黑（有抽屜）</td><td>60×21×<b>10.7</b></td><td class="no-c">✗ 過高</td><td>亮面黑 △</td><td class="no-c">★★☆☆☆</td></tr>
+          <tr><td>14</td><td>貓爪亞克力層架</td><td>80×23.5×9</td><td>△ 且功能重複</td><td>粉最明顯 ✗</td><td class="no-c">★★☆☆☆</td></tr>
+          <tr><td>15</td><td>亮光意大利淺灰大理石</td><td>60×20×<b>12</b></td><td class="no-c">✗ 最高最傷頸</td><td>亮面大理石 ✗</td><td class="no-c">★★☆☆☆</td></tr>
+          <tr><td>16</td><td>壁掛玻璃層板</td><td>未標</td><td>— 唔適用</td><td>浴室五金 ✗</td><td class="no-c">★★☆☆☆</td></tr>
+          <tr><td>17</td><td>透明短款帶燈（¥245.52）</td><td>短款</td><td>— 待確認</td><td>LED △</td><td class="mid-c">★★★☆☆</td></tr>
+        </tbody>
+      </table>
+      <div class="cap">「高度評價」以理想增高 0–6cm 為標準。12cm 款全部排後，因為面板頂會到 125.8cm（遠高於眼睛舒適區 110–118cm）。</div>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 4 -->
+  <section id="buy">
+    <h2 class="sech"><span class="num">04</span>最終建議</h2>
+    <div class="card pick">
+      <h3>🏆 買 BN-3012 彩繪（白粉漸變），用 5.5cm 低段</h3>
+      <p><strong>三個決定性理由：</strong></p>
+      <ul>
+        <li><b>唯一配合人體工學：</b>可調 9／5.5cm，你用 5.5cm 正好落在理想區（1–6cm）。其他款全部 8.5cm 以上，偏離舒適區。</li>
+        <li><b>尺寸近乎完美：</b>59.3cm vs 你螢幕 60cm —— 差 0.7cm，視覺齊邊。</li>
+        <li><b>顏色收斂：</b>低飽和暖白粉（#d1baad, sat 36），而且左側帶藍紫調，隱約呼應你嘅紫色系。</li>
+      </ul>
+      <div class="fix ok"><strong>次選：</strong>BN-3011（同款不同彩繪），或「透明＋粉爪＋手機架」（如果佢都有 5.5cm 段）。</div>
+    </div>
+
+    <div class="callout dark">
+      <p><strong>📌 我要修正上次嘅建議：</strong>我上次推薦「全透明亞克力 60×20×8.5cm」做首選。<strong>就顏色而言佢仍然最好（零色彩衝擊）</strong>，但 8.5cm 高度令面板頂到 122.3cm，已超出舒適區。所以佢由「首選」降到「顏色最佳但高度稍高」。<strong>如果佢有 5.5cm 版本，就係完美選擇。</strong></p>
+    </div>
+
+    <div class="card">
+      <h3>⚠️ 安裝後一定要做嘅一件事</h3>
+      <p>放好之後，<strong>坐直、望正前方</strong>：螢幕頂應該<span style="color:#9ede9a">同你眼睛平齊或者略低</span>。</p>
+      <ul>
+        <li>要<b>抬頭</b> → 太高，換低段或拿走</li>
+        <li>要<b>低頭</b> → 太低，可以加高</li>
+        <li>平視 → 正確</li>
+      </ul>
+      <div class="fix"><strong>唔好用「買高啲可以加高」嘅心態</strong> —— 你螢幕 27 吋本身已經夠高，加太高只會傷頸。增高架對你嘅價值係「收納 ＋ 整齊」，唔係「矯正姿勢」。</div>
+    </div>
+
+    <div class="card">
+      <h3>🛒 如果只可以講一句</h3>
+      <p><strong>買 BN-3012，用 5.5cm 段，唔好買 12cm 任何款。</strong></p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <footer class="foot">
+    <p>電腦增高架選款建議（第 2 批 8 款 ＋ 17 款總排名）· Kuromi × Anna Sui 輕奢紫 · 2026 年 9 月</p>
+    <p>尺寸為商品標示；色彩為相片實測取色；人體工學計算基於檯面 75cm、原裝底座 5cm、27 吋 16:9 面板高 33.8cm、成人坐姿眼睛高度 110–118cm 區間。實際感受請以你本人坐姿測試為準。</p>
+  </footer>
+
+</div>
+</body>
+</html>
