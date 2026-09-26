@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>邊款增高架最有輕奢感？ · Kuromi × Anna Sui</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#120e18;--panel:rgba(255,255,255,.045);--line:rgba(255,255,255,.10);
+    --text:#ece7f2;--muted:#a89fba;--purple:#8f6cbd;--lilac:#c3a6e0;--rose:#dfae9e;
+    --gold:#c9a06b;--pink:#f0a8c4;--paper:#f2ede4;}
+  *{box-sizing:border-box;}
+  html,body{height:auto;overflow-x:hidden;}
+  body{margin:0;background:
+      radial-gradient(1100px 520px at 12% -6%, rgba(143,108,189,.20), transparent 62%),
+      radial-gradient(900px 460px at 92% 6%, rgba(223,174,158,.10), transparent 60%), var(--bg);
+    color:var(--text);font-family:"Noto Sans TC","PingFang TC",system-ui,sans-serif;
+    line-height:1.85;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:840px;margin:0 auto;padding:30px 20px 90px;}
+  .masthead{border:1px solid var(--line);border-radius:20px;
+    background:linear-gradient(150deg,rgba(143,108,189,.20),rgba(255,255,255,.03) 52%,rgba(223,174,158,.10));
+    padding:34px 30px 30px;position:relative;overflow:hidden;}
+  .masthead::after{content:"";position:absolute;right:-70px;top:-70px;width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle,rgba(195,166,224,.30),transparent 68%);}
+  .kicker{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.26em;
+    text-transform:uppercase;color:var(--lilac);margin:0 0 14px;}
+  h1{font-family:"Noto Serif TC",serif;font-weight:700;font-size:clamp(1.5rem,5vw,2.3rem);
+    line-height:1.3;margin:0 0 12px;} h1 .hl{color:var(--lilac);}
+  .sub{color:var(--muted);font-size:.95rem;margin:0;max-width:58ch;}
+  .verdictbar{display:flex;flex-wrap:wrap;gap:14px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line);}
+  .vbox{flex:1 1 150px;}
+  .vbox .lb{font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);margin:0 0 4px;}
+  .vbox .vl{font-size:1.02rem;font-weight:600;margin:0;}
+  .vbox .vl.pass{color:#9ede9a;} .vbox .vl.warn{color:var(--gold);} .vbox .vl.no{color:#ec9a9a;}
+  section{margin-top:44px;scroll-margin-top:20px;}
+  .sech{font-family:"Noto Serif TC",serif;font-weight:600;font-size:clamp(1.15rem,3.5vw,1.5rem);
+    margin:0 0 6px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .sech .num{font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--gold);letter-spacing:.1em;font-weight:600;}
+  .lead{color:var(--muted);font-size:.92rem;margin:0 0 20px;max-width:68ch;}
+  p{margin:0 0 14px;font-size:.94rem;}
+  .card{border:1px solid var(--line);border-radius:16px;background:var(--panel);
+    padding:20px 22px;margin-bottom:14px;break-inside:avoid;}
+  .card h3{font-size:1.02rem;margin:0 0 10px;font-weight:600;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .card p:last-child{margin-bottom:0;}
+  .card ul{margin:8px 0 0;padding-left:0;list-style:none;}
+  .card ul li{position:relative;padding-left:18px;margin-bottom:7px;font-size:.91rem;}
+  .card ul li::before{content:"";position:absolute;left:2px;top:.68em;width:7px;height:7px;border-radius:50%;
+    background:var(--purple);opacity:.85;}
+  .pick{border-color:rgba(195,166,224,.55);
+    background:linear-gradient(160deg,rgba(143,108,189,.22),rgba(255,255,255,.035));}
+  .scorehead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:4px;}
+  .badge{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.1em;border-radius:999px;padding:3px 11px;white-space:nowrap;}
+  .badge.yes{background:rgba(120,200,120,.16);color:#9ede9a;border:1px solid rgba(120,200,120,.4);}
+  .badge.mid{background:rgba(201,160,107,.16);color:var(--gold);border:1px solid rgba(201,160,107,.45);}
+  .badge.no{background:rgba(220,120,120,.14);color:#ec9a9a;border:1px solid rgba(220,120,120,.4);}
+  .badge.top{background:rgba(195,166,224,.22);color:#d9c2f0;border:1px solid rgba(195,166,224,.6);}
+  .score{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:.82rem;color:var(--lilac);white-space:nowrap;}
+  .why{font-size:.9rem;} .why b{color:var(--paper);}
+  .fix{border-left:3px solid var(--gold);background:linear-gradient(90deg,rgba(201,160,107,.12),transparent 74%);
+    border-radius:0 12px 12px 0;padding:12px 16px;margin-top:12px;font-size:.88rem;break-inside:avoid;}
+  .fix.ok{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.15),transparent 74%);}
+  .fix.bad{border-left-color:#ec9a9a;background:linear-gradient(90deg,rgba(220,120,120,.13),transparent 74%);}
+  .fix strong{color:var(--paper);}
+  .callout{border-left:3px solid var(--gold);background:linear-gradient(90deg,rgba(201,160,107,.13),transparent 72%);
+    border-radius:0 14px 14px 0;padding:16px 20px;margin:18px 0;break-inside:avoid;}
+  .callout.dark{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.16),transparent 72%);}
+  .callout strong{color:var(--paper);} .callout p{margin:0;font-size:.9rem;}
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--panel);}
+  table{width:100%;border-collapse:collapse;min-width:640px;font-size:.85rem;}
+  thead th{background:linear-gradient(180deg,rgba(143,108,189,.34),rgba(143,108,189,.14));
+    text-align:left;padding:12px 14px;font-weight:600;font-size:.8rem;white-space:nowrap;border-bottom:1px solid var(--line);}
+  tbody td{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top;}
+  tbody tr:nth-child(even) td{background:rgba(255,255,255,.022);}
+  tbody tr:last-child td{border-bottom:none;}
+  .yes-c{color:#9ede9a;font-weight:600;} .no-c{color:#ec9a9a;font-weight:600;} .mid-c{color:var(--gold);font-weight:600;}
+  .tick{color:#9ede9a;} .cross{color:#ec9a9a;opacity:.75;}
+  .top{display:inline-flex;align-items:center;gap:8px;margin-top:16px;
+    font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.08em;color:var(--lilac);
+    text-decoration:none;border:1px solid rgba(195,166,224,.35);border-radius:999px;padding:7px 16px;background:rgba(143,108,189,.10);}
+  .top:hover{background:rgba(143,108,189,.22);color:#fff;}
+  .fig{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.03);padding:18px 16px 10px;margin:18px 0;break-inside:avoid;}
+  .fig svg{width:100%;height:auto;display:block;overflow:visible;}
+  .fig .cap{font-size:.78rem;color:var(--muted);margin:10px 2px 0;line-height:1.6;}
+  .foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted);}
+  .foot p{margin:0 0 6px;font-size:.8rem;}
+  @media print{body{background:#fff;color:#1a1520;}
+    .masthead,.card,.tblwrap,.fix,.callout,.fig{background:#faf8f4;border-color:#d8d2c6;}
+    h1,.sech,.card h3{color:#1a1520;} .sub,.lead,p,.card ul li,.fig .cap{color:#4a4453;}
+    .top{display:none;} .card,.tblwrap,.fix,.callout,.fig,h2,h3{break-inside:avoid;}}
+  @media (max-width:560px){.wrap{padding:16px 12px 70px;}.masthead{padding:24px 20px;}
+    .card{padding:16px 16px;}.score{margin-left:0;width:100%;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="kicker">Luxury Feel Ranking / 2026</p>
+    <h1>邊款增高架最有輕奢感？<br><span class="hl">答案：啞光維克淺灰（腿橫放 6cm）</span></h1>
+    <p class="sub">呢個問題令我重新排名 —— 因為我之前按「尺寸＋人體工學」排，BN-3012 第一。<strong>但如果你最重視輕奢感，BN-3012 唔合格。</strong>以下係按輕奢標準重排。</p>
+    <div class="verdictbar">
+      <div class="vbox"><p class="lb">🏆 最輕奢</p><p class="vl pass">啞光維克淺灰 6cm</p></div>
+      <div class="vbox"><p class="lb">🥈 次選</p><p class="vl pass">典雅黑＋透明L腳</p></div>
+      <div class="vbox"><p class="lb">✗ 唔輕奢</p><p class="vl no">彩繪漸變款</p></div>
+      <div class="vbox"><p class="lb">⚠ 高度權衡</p><p class="vl warn">8.5cm 稍高</p></div>
+    </div>
+  </header>
+
+  <!-- 1 -->
+  <section id="definition">
+    <h2 class="sech"><span class="num">01</span>先定義：輕奢感到底係咩</h2>
+    <p class="lead">「輕奢」唔係貴、唔係靚、唔係可愛。佢係 <strong>quiet luxury（安靜的奢華）</strong> —— 用質感同克制去表達貴氣，而唔係用顏色同圖案去搶眼。</p>
+
+    <div class="card">
+      <h3>📋 輕奢感 5 個必要條件</h3>
+      <ul>
+        <li><b>① 大面積要靜</b> —— 純色或透明。大面積有漸變／彩繪／圖案 ＝ 即時出局。</li>
+        <li><b>② 材質有質感</b> —— 啞光、透明亞克力、金屬。亮面塑膠、花紋印刷都唔算。</li>
+        <li><b>③ 有金屬或貴氣點綴</b> —— 一條金屬線、一個金屬腳、一道邊，就夠。</li>
+        <li><b>④ 有深色作錨點</b> —— 全淺色會「浮」；要有黑或深灰壓住底部。</li>
+        <li><b>⑤ 無卡通／彩繪圖案</b> —— 角色圖、漸變色、插畫 ＝ 可愛風，唔係輕奢。</li>
+      </ul>
+      <div class="fix ok"><strong>關鍵理解：</strong>輕奢係「減法」。一件物件要做到輕奢，往往係<u>拿掉</u>顏色、拿掉圖案、拿掉裝飾 —— 而唔係加上去。<br><strong>所以你揀增高架嘅時候，最緊要問：「佢有冇靜？」而唔係「佢靚唔靚？」</strong></div>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 2 -->
+  <section id="ranking">
+    <h2 class="sech"><span class="num">02</span>逐款按輕奢標準評分</h2>
+
+    <div class="tblwrap">
+      <table>
+        <thead>
+          <tr><th>款式</th><th>①靜</th><th>②質感</th><th>③金屬</th><th>④深色錨</th><th>⑤無圖案</th><th>輕奢分</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><b>啞光維克淺灰（6cm）</b></td><td class="tick">✓</td><td class="tick">✓</td><td class="tick">✓</td><td class="tick">✓</td><td class="tick">✓</td><td class="yes-c">5/5</td></tr>
+          <tr><td><b>典雅黑＋透明 L 腳</b></td><td class="tick">✓</td><td class="tick">✓</td><td class="tick">✓</td><td class="tick">✓</td><td class="tick">✓</td><td class="yes-c">5/5</td></tr>
+          <tr><td>鋼琴黑碳鋼（10.7cm）</td><td class="tick">✓</td><td class="cross">✗</td><td class="tick">✓</td><td class="tick">✓</td><td class="tick">✓</td><td class="mid-c">4/5</td></tr>
+          <tr><td>亮光大理石（12cm）</td><td class="tick">✓</td><td class="cross">✗</td><td class="tick">✓</td><td class="tick">✓</td><td class="tick">✓</td><td class="mid-c">4/5</td></tr>
+          <tr><td>全透明亞克力（8.5cm）</td><td class="tick">✓</td><td class="tick">✓</td><td class="cross">✗</td><td class="cross">✗</td><td class="tick">✓</td><td class="mid-c">3/5</td></tr>
+          <tr><td>透明帶燈（9.5cm）</td><td class="tick">✓</td><td class="tick">✓</td><td class="cross">✗</td><td class="cross">✗</td><td class="tick">✓</td><td class="mid-c">3/5</td></tr>
+          <tr><td><b>BN-3012 彩繪（5.5cm）</b></td><td class="cross">✗</td><td class="tick">✓</td><td class="cross">✗</td><td class="cross">✗</td><td class="cross">✗</td><td class="no-c">1/5</td></tr>
+          <tr><td><b>BN-3011 彩繪（5.5cm）</b></td><td class="cross">✗</td><td class="tick">✓</td><td class="cross">✗</td><td class="cross">✗</td><td class="cross">✗</td><td class="no-c">1/5</td></tr>
+        </tbody>
+      </table>
+      <div class="cap">「靜」＝ 大面積純色或透明、無漸變。「質感」＝ 啞光／亞克力／金屬，非亮面塑膠。「金屬」＝ 有金屬腳或金屬邊。「深色錨」＝ 有黑或深灰壓底。</div>
+    </div>
+
+    <div class="callout dark">
+      <p><strong>📌 我要更正自己嘅排名：</strong>我上次排 BN-3012 第一，係按「高度＋尺寸」排。<strong>但輕奢分只有 1/5</strong> —— 因為大面積彩繪漸變係「可愛／少女風」，同輕奢係相反方向。<strong>如果你要輕奢，BN-3012 唔應該買。</strong>呢個係我上次冇區分清楚嘅錯。</p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 3 -->
+  <section id="winner">
+    <h2 class="sech"><span class="num">03</span>🏆 最輕奢：啞光維克淺灰（腿橫放 6cm）</h2>
+    <p class="lead">因為銷售商確認「腿可以橫放降到約 6cm」，呢款同時滿足<strong>輕奢 5/5</strong> 同<strong>高度合格</strong> —— 係唯一兩者兼得嘅款。</p>
+
+    <div class="card pick">
+      <div class="scorehead">
+        <h3 style="margin:0">啞光維克淺灰　60×20×12cm（橫放腿 → 約 6cm）</h3>
+        <span class="badge top">🏆 最輕奢</span>
+        <span class="score">輕奢 5/5</span>
+      </div>
+      <p class="why"><b>① 夠靜：</b>純色啞光，無大理石紋、無圖案、無漸變。<strong>呢個係輕奢嘅第一條件，佢完全做到。</strong></p>
+      <p class="why"><b>② 質感：</b>啞光處理 —— 吸光、唔反光、唔顯指紋。亮面會反射雜光變成視覺噪音，啞光就係「安靜」。</p>
+      <p class="why"><b>③ 金屬＋④ 深色錨：</b>深灰／黑色 L 型折角腳。呢個一石二鳥 —— 深色壓住底部令整體「穩」，同時黑色係你嘅核心色（Kuromi 黑、Anna Sui 黑）。</p>
+      <p class="why"><b>⑤ 無圖案：</b>完全冇。</p>
+      <p class="why"><b>最重要一點 —— 我實測過色：</b>增高架 <b>#7e7c7a → #cac8c0</b>（飽和 4–10），你嘅工作位檯面／層架 <b>#a7a6a4 → #b4b4b2</b>（飽和 2–3）。<strong>兩者係同一個冷灰家族。</strong>即係佢唔係「加一件嘢」，而係「本來就屬於呢個環境」—— 呢個就係最高級嘅融入。</p>
+      <div class="fix ok"><strong>結論：</strong>呢款係你嘅答案。輕奢感唔係靠佢自己靚，而係靠<strong>佢同成個工作位同一種語言，同時提供材質層次（啞光灰 ＋ 深色金屬腳）</strong>。</div>
+    </div>
+
+    <div class="card pick">
+      <div class="scorehead">
+        <h3 style="margin:0">🥈 次選：典雅黑 ＋ 透明 L 型腳　60×20×8.5cm</h3>
+        <span class="badge top">次選</span>
+        <span class="score">輕奢 5/5</span>
+      </div>
+      <p class="why"><b>同樣 5/5</b>，但有一個取捨：<b>高度 8.5cm 偏高</b>（螢幕頂 122.3cm，超出舒適區 4.3cm）。</p>
+      <p class="why"><b>顏色上更「戲劇」：</b>啞黑台面 ＋ 透明 L 腳 ＝ 黑與透明的對比，比灰色更有存在感。<strong>如果你想要增高架成為視覺焦點多過融入，揀呢款。</strong></p>
+      <div class="fix"><strong>取捨：</strong>灰款＝融入環境（更輕奢）／黑款＝有存在感（更個性）。高度上灰款（6cm）勝。</div>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 4 -->
+  <section id="why-not">
+    <h2 class="sech"><span class="num">04</span>點解透明款唔係最輕奢？</h2>
+    <p class="lead">呢點值得講清楚，因為直覺上「透明」聽落好高級。</p>
+    <div class="card">
+      <h3>透明亞克力：3/5，唔係 5/5</h3>
+      <p><b>透明做到「靜」（①）同「質感」（②），但缺兩樣：</b></p>
+      <ul>
+        <li><b>缺金屬（③）：</b>全透明＝無金屬語言，冇「貴氣點綴」。</li>
+        <li><b>缺深色錨（④）：</b>全透明喺淺木紋檯面上會「浮」—— 冇重量感。輕奢需要底部有壓。</li>
+      </ul>
+      <div class="fix"><strong>所以透明款嘅定位：</strong>「乾淨、現代、科技感」，唔係「輕奢」。<strong>如果你嘅檯面本身已經夠重（深色），透明會好靚；但你檯面係淺木紋，透明會浮。</strong></div>
+    </div>
+    <div class="card">
+      <h3>帶燈款：更加唔係輕奢</h3>
+      <p>LED 燈帶 = <b>主動發光</b>。輕奢係「安靜」，發光係「說話」。而且多一條電線。</p>
+      <p><b>唯一例外：</b>如果你會長期開燈做氛圍（例如放學後留低備課、環境暗），LED 邊緣光會令亞克力發亮 —— 呢個同你嘅切割水晶杯折射係同一種光學語言，可以好靚。<strong>但呢個係「氛圍」而唔係「輕奢」。</strong></p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 5 -->
+  <section id="context">
+    <h2 class="sech"><span class="num">05</span>一句話總結 ＋ 買前確認</h2>
+
+    <div class="fig">
+      <svg viewBox="0 0 600 240" role="img" aria-label="輕奢感雷達對比：啞光維克淺灰五項全中，彩繪款只有一項">
+        <defs>
+          <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c3a6e0"/><stop offset="100%" stop-color="#8f6cbd"/></linearGradient>
+        </defs>
+        <!-- header -->
+        <text x="20" y="24" font-family="Noto Sans TC, sans-serif" font-size="12" fill="#c3a6e0">輕奢五項對比：</text>
+        <text x="118" y="24" font-family="Noto Sans TC, sans-serif" font-size="12" fill="#9ede9a">啞光維克淺灰（5/5）</text>
+        <text x="272" y="24" font-family="Noto Sans TC, sans-serif" font-size="12" fill="#a89fba">vs</text>
+        <text x="300" y="24" font-family="Noto Sans TC, sans-serif" font-size="12" fill="#ec9a9a">BN-3012 彩繪（1/5）</text>
+
+        <!-- five rows -->
+        <g font-family="Noto Sans TC, sans-serif" font-size="11.5">
+          <!-- row 1 y=56 -->
+          <text x="24" y="60" fill="#a89fba">① 大面積要靜</text>
+          <rect x="196" y="48" width="34" height="16" rx="4" fill="#9ede9a" opacity=".85"/><text x="213" y="60" text-anchor="middle" font-size="10" fill="#120e18">✓</text>
+          <rect x="330" y="48" width="34" height="16" rx="4" fill="#ec9a9a" opacity=".5"/><text x="347" y="60" text-anchor="middle" font-size="10" fill="#120e18">✗</text>
+          <text x="392" y="60" fill="#a89fba">彩繪漸變 = 唔靜</text>
+
+          <!-- row 2 y=88 -->
+          <text x="24" y="92" fill="#a89fba">② 材質有質感</text>
+          <rect x="196" y="80" width="34" height="16" rx="4" fill="#9ede9a" opacity=".85"/><text x="213" y="92" text-anchor="middle" font-size="10" fill="#120e18">✓</text>
+          <rect x="330" y="80" width="34" height="16" rx="4" fill="#9ede9a" opacity=".85"/><text x="347" y="92" text-anchor="middle" font-size="10" fill="#120e18">✓</text>
+          <text x="392" y="92" fill="#a89fba">兩者都做到</text>
+
+          <!-- row 3 y=120 -->
+          <text x="24" y="124" fill="#a89fba">③ 有金屬點綴</text>
+          <rect x="196" y="112" width="34" height="16" rx="4" fill="#9ede9a" opacity=".85"/><text x="213" y="124" text-anchor="middle" font-size="10" fill="#120e18">✓</text>
+          <rect x="330" y="112" width="34" height="16" rx="4" fill="#ec9a9a" opacity=".5"/><text x="347" y="124" text-anchor="middle" font-size="10" fill="#120e18">✗</text>
+          <text x="392" y="124" fill="#a89fba">彩繪款無金屬腳</text>
+
+          <!-- row 4 y=152 -->
+          <text x="24" y="156" fill="#a89fba">④ 有深色錨點</text>
+          <rect x="196" y="144" width="34" height="16" rx="4" fill="#9ede9a" opacity=".85"/><text x="213" y="156" text-anchor="middle" font-size="10" fill="#120e18">✓</text>
+          <rect x="330" y="144" width="34" height="16" rx="4" fill="#ec9a9a" opacity=".5"/><text x="347" y="156" text-anchor="middle" font-size="10" fill="#120e18">✗</text>
+          <text x="392" y="156" fill="#a89fba">彩繪款全淺色會浮</text>
+
+          <!-- row 5 y=184 -->
+          <text x="24" y="188" fill="#a89fba">⑤ 無卡通圖案</text>
+          <rect x="196" y="176" width="34" height="16" rx="4" fill="#9ede9a" opacity=".85"/><text x="213" y="188" text-anchor="middle" font-size="10" fill="#120e18">✓</text>
+          <rect x="330" y="176" width="34" height="16" rx="4" fill="#ec9a9a" opacity=".5"/><text x="347" y="188" text-anchor="middle" font-size="10" fill="#120e18">✗</text>
+          <text x="392" y="188" fill="#a89fba">漸變彩繪 = 圖案</text>
+        </g>
+
+        <!-- totals -->
+        <line x1="20" y1="204" x2="580" y2="204" stroke="#6b5f78" stroke-width="1" opacity=".6"/>
+        <text x="24" y="226" font-family="JetBrains Mono, monospace" font-size="11" fill="#9ede9a">總分 5 / 5</text>
+        <text x="330" y="226" font-family="JetBrains Mono, monospace" font-size="11" fill="#ec9a9a">總分 1 / 5</text>
+      </svg>
+      <p class="cap">左欄（綠）= 啞光維克淺灰，右欄（紅）= BN-3012 彩繪。五項之中，彩繪款只在「材質」一項達標。</p>
+    </div>
+
+    <div class="card pick">
+      <h3>🏆 直接答你</h3>
+      <p><strong>買啞光維克淺灰，腿橫放降到約 6cm。</strong></p>
+      <p>理由一句：<strong>佢係唯一同時做到「輕奢 5/5」同「高度合格」嘅款。</strong>灰色調同你工作位同族（實測色值一致），啞光純色夠靜，深色 L 腳提供金屬感同視覺錨點。</p>
+    </div>
+
+    <div class="card">
+      <h3>🛒 買前要同銷售商確認三件事</h3>
+      <ul>
+        <li><b>橫放腿之後仍然穩固？</b>要問清楚有無官方說明／實測；橫放改變承重方式，可能有虛位。</li>
+        <li><b>橫放後實際高度係幾多？</b>佢講「大約 6cm」—— 要確認係 6、6.5 定 7cm。</li>
+        <li><b>橫放後台面深度有無改變？</b>腿橫放可能令佔位變深，要確認仍放得落你檯面。</li>
+      </ul>
+      <div class="fix"><strong>如果橫放唔穩：</strong>退而求其次買「典雅黑＋透明 L 腳」（輕奢 5/5，但 8.5cm 稍高）。<strong>兩者都買唔到：</strong>全透明款（3/5）—— 乾淨但唔算輕奢。</div>
+    </div>
+
+    <div class="callout">
+      <p><strong>最後提醒（關於你自己嘅美學）：</strong>你今次問「邊款有輕奢感」，其實已經問到重點 —— 你嘅工作位由 Kuromi × Anna Sui 開始（黑＋紫＋華麗），再慢慢加入咗貝母、彩繪、貓爪、粉紅。<strong>輕奢感最容易被「加東西」沖淡。</strong>呢款啞光灰增高架嘅價值，係佢唔加任何新語言 —— 佢只係提供層次。</p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <footer class="foot">
+    <p>邊款增高架最有輕奢感 · Kuromi × Anna Sui 輕奢紫 · 2026 年 9 月</p>
+    <p>輕奢評分為本頁定義之 5 項標準（靜、質感、金屬、深色錨、無圖案）之主觀判斷；色值為相片實測取樣；高度計算基於檯面 75cm、原裝底座 5cm、27 吋 16:9 面板高 33.8cm、眼睛舒適區 110–118cm。</p>
+  </footer>
+
+</div>
+</body>
+</html>
