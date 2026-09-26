@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>紙巾盒選款建議 · 50 張相逐款篩選</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#120e18;--panel:rgba(255,255,255,.045);--line:rgba(255,255,255,.10);
+    --text:#ece7f2;--muted:#a89fba;--purple:#8f6cbd;--lilac:#c3a6e0;--rose:#dfae9e;
+    --gold:#c9a06b;--pink:#f0a8c4;--paper:#f2ede4;}
+  *{box-sizing:border-box;}
+  html,body{height:auto;overflow-x:hidden;}
+  body{margin:0;background:
+      radial-gradient(1100px 520px at 12% -6%, rgba(143,108,189,.20), transparent 62%),
+      radial-gradient(900px 460px at 92% 6%, rgba(223,174,158,.10), transparent 60%), var(--bg);
+    color:var(--text);font-family:"Noto Sans TC","PingFang TC",system-ui,sans-serif;
+    line-height:1.85;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:860px;margin:0 auto;padding:30px 20px 90px;}
+  .masthead{border:1px solid var(--line);border-radius:20px;
+    background:linear-gradient(150deg,rgba(143,108,189,.20),rgba(255,255,255,.03) 52%,rgba(223,174,158,.10));
+    padding:34px 30px 30px;position:relative;overflow:hidden;}
+  .masthead::after{content:"";position:absolute;right:-70px;top:-70px;width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle,rgba(195,166,224,.30),transparent 68%);}
+  .kicker{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.26em;
+    text-transform:uppercase;color:var(--lilac);margin:0 0 14px;}
+  h1{font-family:"Noto Serif TC",serif;font-weight:700;font-size:clamp(1.5rem,5vw,2.3rem);
+    line-height:1.3;margin:0 0 12px;} h1 .hl{color:var(--lilac);}
+  .sub{color:var(--muted);font-size:.95rem;margin:0;max-width:58ch;}
+  .verdictbar{display:flex;flex-wrap:wrap;gap:14px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line);}
+  .vbox{flex:1 1 150px;}
+  .vbox .lb{font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);margin:0 0 4px;}
+  .vbox .vl{font-size:1.02rem;font-weight:600;margin:0;}
+  .vbox .vl.pass{color:#9ede9a;} .vbox .vl.warn{color:var(--gold);} .vbox .vl.no{color:#ec9a9a;}
+  section{margin-top:44px;scroll-margin-top:20px;}
+  .sech{font-family:"Noto Serif TC",serif;font-weight:600;font-size:clamp(1.15rem,3.5vw,1.5rem);
+    margin:0 0 6px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .sech .num{font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--gold);letter-spacing:.1em;font-weight:600;}
+  .lead{color:var(--muted);font-size:.92rem;margin:0 0 20px;max-width:68ch;}
+  p{margin:0 0 14px;font-size:.94rem;}
+  .card{border:1px solid var(--line);border-radius:16px;background:var(--panel);
+    padding:20px 22px;margin-bottom:14px;break-inside:avoid;}
+  .card h3{font-size:1.02rem;margin:0 0 10px;font-weight:600;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .card p:last-child{margin-bottom:0;}
+  .card ul{margin:8px 0 0;padding-left:0;list-style:none;}
+  .card ul li{position:relative;padding-left:18px;margin-bottom:7px;font-size:.91rem;}
+  .card ul li::before{content:"";position:absolute;left:2px;top:.68em;width:7px;height:7px;border-radius:50%;
+    background:var(--purple);opacity:.85;}
+  .pick{border-color:rgba(195,166,224,.55);
+    background:linear-gradient(160deg,rgba(143,108,189,.22),rgba(255,255,255,.035));}
+  .scorehead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:4px;}
+  .badge{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.1em;border-radius:999px;padding:3px 11px;white-space:nowrap;}
+  .badge.yes{background:rgba(120,200,120,.16);color:#9ede9a;border:1px solid rgba(120,200,120,.4);}
+  .badge.mid{background:rgba(201,160,107,.16);color:var(--gold);border:1px solid rgba(201,160,107,.45);}
+  .badge.no{background:rgba(220,120,120,.14);color:#ec9a9a;border:1px solid rgba(220,120,120,.4);}
+  .badge.top{background:rgba(195,166,224,.22);color:#d9c2f0;border:1px solid rgba(195,166,224,.6);}
+  .score{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:.82rem;color:var(--lilac);white-space:nowrap;}
+  .why{font-size:.9rem;} .why b{color:var(--paper);}
+  .fix{border-left:3px solid var(--gold);background:linear-gradient(90deg,rgba(201,160,107,.12),transparent 74%);
+    border-radius:0 12px 12px 0;padding:12px 16px;margin-top:12px;font-size:.88rem;break-inside:avoid;}
+  .fix.ok{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.15),transparent 74%);}
+  .fix.bad{border-left-color:#ec9a9a;background:linear-gradient(90deg,rgba(220,120,120,.13),transparent 74%);}
+  .fix strong{color:var(--paper);}
+  .callout{border-left:3px solid var(--gold);background:linear-gradient(90deg,rgba(201,160,107,.13),transparent 72%);
+    border-radius:0 14px 14px 0;padding:16px 20px;margin:18px 0;break-inside:avoid;}
+  .callout.dark{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.16),transparent 72%);}
+  .callout strong{color:var(--paper);} .callout p{margin:0;font-size:.9rem;}
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--panel);}
+  table{width:100%;border-collapse:collapse;min-width:660px;font-size:.84rem;}
+  thead th{background:linear-gradient(180deg,rgba(143,108,189,.34),rgba(143,108,189,.14));
+    text-align:left;padding:11px 13px;font-weight:600;font-size:.79rem;white-space:nowrap;border-bottom:1px solid var(--line);}
+  tbody td{padding:10px 13px;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top;}
+  tbody tr:nth-child(even) td{background:rgba(255,255,255,.022);}
+  tbody tr:last-child td{border-bottom:none;}
+  .yes-c{color:#9ede9a;font-weight:600;} .no-c{color:#ec9a9a;font-weight:600;} .mid-c{color:var(--gold);font-weight:600;}
+  .top{display:inline-flex;align-items:center;gap:8px;margin-top:16px;
+    font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.08em;color:var(--lilac);
+    text-decoration:none;border:1px solid rgba(195,166,224,.35);border-radius:999px;padding:7px 16px;background:rgba(143,108,189,.10);}
+  .top:hover{background:rgba(143,108,189,.22);color:#fff;}
+  .fig{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.03);padding:18px 16px 10px;margin:18px 0;break-inside:avoid;}
+  .fig svg{width:100%;height:auto;display:block;overflow:visible;}
+  .fig .cap{font-size:.78rem;color:var(--muted);margin:10px 2px 0;line-height:1.6;}
+  .foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted);}
+  .foot p{margin:0 0 6px;font-size:.8rem;}
+  @media print{body{background:#fff;color:#1a1520;}
+    .masthead,.card,.tblwrap,.fix,.callout,.fig{background:#faf8f4;border-color:#d8d2c6;}
+    h1,.sech,.card h3{color:#1a1520;} .sub,.lead,p,.card ul li,.fig .cap{color:#4a4453;}
+    .top{display:none;} .card,.tblwrap,.fix,.callout,.fig,h2,h3{break-inside:avoid;}}
+  @media (max-width:560px){.wrap{padding:16px 12px 70px;}.masthead{padding:24px 20px;}
+    .card{padding:16px 16px;}.score{margin-left:0;width:100%;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="kicker">Tissue Box Selection / 50 Photos Reviewed</p>
+    <h1>紙巾盒選款建議<br><span class="hl">最輕奢：紫色浮雕玻璃紙抽盒</span></h1>
+    <p class="sub">你 Drive「紙巾盒」文件夾 50 張相全部睇完（用 OCR 抽規格 ＋ 逐張視覺檢查）。篩到最後有 2 個答案，視乎你想要「融入」定「有個性」。</p>
+    <div class="verdictbar">
+      <div class="vbox"><p class="lb">🏆 最有個性</p><p class="vl pass">紫色浮雕玻璃</p></div>
+      <div class="vbox"><p class="lb">🥈 最融入</p><p class="vl pass">煙灰色亞克力</p></div>
+      <div class="vbox"><p class="lb">✗ 避開</p><p class="vl no">炫彩／七彩／鏡面</p></div>
+      <div class="vbox"><p class="lb">⚠ 留意</p><p class="vl warn">玻璃易碎、1.7kg</p></div>
+    </div>
+  </header>
+
+  <!-- 1 -->
+  <section id="winners">
+    <h2 class="sech"><span class="num">01</span>🏆 首選：紫色浮雕玻璃紙抽盒</h2>
+    <p class="lead">呢款係 50 張相之中，唯一同時做到「輕奢」同「呼應你主色」嘅一款。</p>
+
+    <div class="card pick">
+      <div class="scorehead">
+        <h3 style="margin:0">紫色｜浮雕玻璃紙抽盒</h3>
+        <span class="badge top">🏆 首選</span>
+        <span class="score">輕奢 5/5</span>
+      </div>
+      <p class="why"><b>我實測過色 —— 呢個係關鍵：</b>紫色玻璃實測 <b>#7b6480</b>（飽和 28），你嘅「輕奢紫」係 <b>#7b5ea7</b>。<strong>兩者紅色分量完全一樣（0x7b = 123），距離只有 39.5 —— 係咁多款之中最近你紫色系嘅一件。</strong></p>
+      <p class="why"><b>點解輕奢：</b>浮雕玻璃的切割紋會折射光線，產生「水晶」效果 —— <strong>呢個同你已經擁有嘅「紫色水晶切割杯」係完全相同嘅光學語言</strong>。兩件一齊放，會互相強化，唔會打架。</p>
+      <p class="why"><b>規格：</b>高 8.8cm、長 21.7cm（帶把手 24.6cm）、重約 1.7kg。玻璃，頂蓋開合。</p>
+      <div class="fix ok"><strong>擺位建議：</strong>放喺你嘅紫色水晶杯附近（層架或側檯面），形成「一組紫色玻璃器物」。<strong>呢個組合會係你整個工作位最貴氣嘅一角。</strong></div>
+      <div class="fix bad"><strong>⚠️ 三個注意：</strong>① <b>玻璃易碎 ＋ 1.7kg</b> —— 唔好放層架上層（撞跌風險），放檯面或層架下層；② 官方明講「局部偶有小氣泡、柳線」為正常工藝現象；③ 清洗唔可以用金屬或尼龍布，只能用柔軟海綿。</div>
+    </div>
+
+    <div class="card">
+      <div class="scorehead">
+        <h3 style="margin:0">紫色玻璃紙抽盒（帶把手款）</h3>
+        <span class="badge mid">同族，但把手扣分</span>
+        <span class="score">★★★★☆</span>
+      </div>
+      <p class="why"><b>同樣係紫色玻璃</b>（實測 #614d5b，紫距離 44.5），浮雕係水波／流沙紋。</p>
+      <p class="why"><b>扣分位：</b>有一體式玻璃把手（帶把手 24.6cm）。<strong>把手係「提籃」語言 —— 功能上多餘（你唔會提住紙巾盒走），視覺上多一條線。</strong></p>
+      <div class="fix"><strong>判斷：</strong>如果無把手版買唔到，可以要呢款 —— 但首選仍然係無把手嘅浮雕款。</div>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 2 -->
+  <section id="runnerup">
+    <h2 class="sech"><span class="num">02</span>🥈 次選：煙灰色亞克力紙巾盒</h2>
+    <div class="card pick">
+      <div class="scorehead">
+        <h3 style="margin:0">煙灰色亞克力紙巾盒</h3>
+        <span class="badge top">🥈 最融入環境</span>
+        <span class="score">★★★★☆</span>
+      </div>
+      <p class="why"><b>實測色：#959391（飽和只有 4）。</b>你檯面係 #a7a6a4（飽和 2–3）、層架 #b4b4b2（飽和 2）。<strong>三個數字幾乎一樣 —— 呢款係你環境嘅「同族」。</strong></p>
+      <p class="why"><b>點解好：</b>煙灰透明亞克力會隨光線呈現冷灰漸層，多球體造型有雕塑感。放喺你淺木／灰檯面上，係「本來就屬於呢個環境」而唔係「加一件嘢」。</p>
+      <div class="fix"><strong>取捨：</strong>佢唔會出錯，但亦唔會驚喜 —— <b>如果你想要一件「安靜」嘅紙巾盒（唔搶你紫色系嘅戲），揀呢款。</b>如果你想要紙巾盒成為一個亮點，揀紫色玻璃。</div>
+    </div>
+    <div class="card">
+      <h3>其他灰色系（都合格，但唔及煙灰）</h3>
+      <ul>
+        <li><b>透明色亞克力</b>（#b5b5b4, sat 1）—— 最中性，但全透明喺淺檯面上會「浮」，缺重量感。</li>
+        <li><b>奶油色亞克力</b>（#c3c1c0, sat 3）—— 最接近你嘅「米白呼吸色」，柔和。但奶油色 ＋ 球體造型偏「可愛」，唔算輕奢。</li>
+        <li><b>灰色浮雕玻璃</b>（#aea7a5, sat 9）—— <strong>呢款其實唔錯</strong>：灰玻璃 ＋ 浮雕切割 ＝ 水晶感 ＋ 融入環境。如果你唔想要紫色，呢個係最好嘅灰色選擇。</li>
+        <li><b>長方形水波紋紙巾盒</b>（20×12.5×6.5cm）—— 透明水波紋，低矮扁平，清冷精緻。尺寸最細，最唔佔位。</li>
+      </ul>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 3 -->
+  <section id="reject">
+    <h2 class="sech"><span class="num">03</span>✗ 要避開嘅款（同原因）</h2>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>款式</th><th>問題</th><th>判定</th></tr></thead>
+        <tbody>
+          <tr><td><b>炫彩／七彩／幻彩亞克力</b><br><span style="color:var(--muted);font-size:.8rem">18×12.5×8.5 / 22×11.9×8.8 / 冰紋款</span></td><td>虹彩鍍膜會隨角度出粉紫藍綠黃橙 —— <strong>等於一次過引入 5 個色系</strong>。同你嘅彩虹閃粉杯係同一個問題。</td><td class="no-c">✗ 唔配</td></tr>
+          <tr><td><b>銀鏡／灰鏡亞克力</b></td><td>鏡面反光率極高，會反射天花燈同你嘅身影。同你啞光檯面打架，最顯指紋。</td><td class="no-c">✗ 唔配</td></tr>
+          <tr><td><b>金邊玻璃鏡面款</b><br><span style="color:var(--muted);font-size:.8rem">23×12×11 / 15×10×10</span></td><td>金邊 ＋ 鏡面 ＝ 兩個高反光元素。而且金色係你色盤外嘅第二種金屬（你已經用玫瑰金）。</td><td class="no-c">✗ 唔配</td></tr>
+          <tr><td><b>高級灰皮革金邊</b><br><span style="color:var(--muted);font-size:.8rem">22×13×10 不鏽鋼＋皮革</span></td><td>鱷魚紋壓花皮 ＋ 金邊 ＝ <strong>商務酒店風</strong>，唔係輕奢。鱷魚紋本身係「張揚富貴」語言。</td><td class="mid-c">△ 偏商務</td></tr>
+          <tr><td><b>摩艾巨石像陶瓷</b>（鍍銀／潑墨）</td><td>石像造型 ＝ 趣味擺件。體積大（22×16×16cm）會佔你檯面。</td><td class="no-c">✗ 唔配</td></tr>
+          <tr><td><b>麋鹿／芭蕾舞蹈／小夜燈款</b><br><span style="color:var(--muted);font-size:.8rem">樹脂、發光、相框</span></td><td>造型擺件 ＋ 發光 ＝ 「裝飾品」而唔係輕奢。而且樹脂質感本身唔及玻璃／亞克力／金屬。</td><td class="no-c">✗ 唔配</td></tr>
+          <tr><td><b>雲朵／泡泡造型</b></td><td>球體堆疊造型偏「可愛療癒」，同 Anna Sui 華麗方向唔同。</td><td class="mid-c">△ 偏可愛</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 4 -->
+  <section id="decision">
+    <h2 class="sech"><span class="num">04</span>決定：一句話幫你揀</h2>
+
+    <div class="fig">
+      <svg viewBox="0 0 600 240" role="img" aria-label="紙巾盒色彩距離對照：紫色浮雕玻璃最接近輕奢紫，灰色系最接近環境灰">
+        <defs>
+          <linearGradient id="pg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#c3a6e0"/><stop offset="100%" stop-color="#7b5ea7"/></linearGradient>
+        </defs>
+        <text x="20" y="22" font-family="Noto Sans TC, sans-serif" font-size="11.5" fill="#c3a6e0">同你嘅色盤距離（越短越好）</text>
+
+        <!-- rows: distance bar, scale: 130 units -> 380px -->
+        <g font-family="Noto Sans TC, sans-serif" font-size="11">
+          <!-- 1 purple 39.5 -->
+          <text x="20" y="54" fill="#ece7f2">紫色浮雕玻璃</text>
+          <rect x="150" y="44" width="115" height="14" rx="4" fill="url(#pg)"/>
+          <text x="275" y="55" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#9ede9a">39.5　✓ 最接近紫</text>
+
+          <!-- 2 smoke 63 -->
+          <text x="20" y="86" fill="#ece7f2">煙灰色亞克力</text>
+          <rect x="150" y="76" width="184" height="14" rx="4" fill="#8f8d8b"/>
+          <text x="344" y="87" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#9ede9a">63.0　✓ 最近環境灰</text>
+
+          <!-- 3 grey relief 89.1 -->
+          <text x="20" y="118" fill="#ece7f2">灰色浮雕玻璃</text>
+          <rect x="150" y="108" width="260" height="14" rx="4" fill="#b5adaa"/>
+          <text x="420" y="119" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#a89fba">89.1</text>
+
+          <!-- 4 high grey leather 70.4 -->
+          <text x="20" y="150" fill="#ece7f2">高級灰皮革金邊</text>
+          <rect x="150" y="140" width="205" height="14" rx="4" fill="#9e9791"/>
+          <text x="365" y="151" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#a89fba">70.4</text>
+
+          <!-- 5 transparent 105.4 -->
+          <text x="20" y="182" fill="#ece7f2">透明色亞克力</text>
+          <rect x="150" y="172" width="308" height="14" rx="4" fill="#b5b5b4"/>
+          <text x="468" y="183" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#a89fba">105.4</text>
+
+          <!-- 6 cream 124.9 -->
+          <text x="20" y="214" fill="#ece7f2">奶油色亞克力</text>
+          <rect x="150" y="204" width="365" height="14" rx="4" fill="#c9c7c5"/>
+          <text x="525" y="215" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#a89fba">124.9</text>
+        </g>
+      </svg>
+      <p class="cap">距離 ＝ 實測色值與你色盤（輕奢紫 #7b5ea7／米白 #f2ede4）之最短 RGB 距離。紫色浮雕玻璃以 39.5 排第一。</p>
+    </div>
+
+    <div class="card pick">
+      <h3>🏆 直接答你</h3>
+      <p><strong>買紫色浮雕玻璃紙抽盒。</strong></p>
+      <p>理由：<strong>你嘅工作位已經有「紫色水晶切割杯」—— 呢款紫色浮雕玻璃同佢係同一種光學語言（切割玻璃折射）。兩件一齊放會互相強化，形成整個工作位最貴氣嘅一角。</strong></p>
+      <p>實測色 #7b6480 同你嘅輕奢紫 #7b5ea7 紅色分量完全一致（0x7b），距離只有 39.5 —— 係 50 張相之中最接近你色系嘅一件。</p>
+    </div>
+
+    <div class="card">
+      <h3>如果你想要「安靜」版</h3>
+      <p><strong>揀煙灰色亞克力（#959391, 飽和 4）</strong> —— 佢同你檯面（sat 2–3）、層架（sat 2）幾乎完全同色。唔會出錯，但亦唔會成為亮點。</p>
+      <div class="fix"><strong>或者灰色浮雕玻璃</strong> —— 折衷方案：有玻璃浮雕嘅水晶感（輕奢），但用灰色（融入）。<strong>如果你覺得紫色太搶，呢個係最好嘅中間選擇。</strong></div>
+    </div>
+
+    <div class="callout dark">
+      <p><strong>📌 一個原則：</strong>你已經有 Kuromi 壺（可愛語言）、水晶杯（華麗語言）、層架（工業語言）。<strong>紙巾盒係功能性物件，佢嘅最佳角色係「加入其中一種語言」而唔係「發明新語言」。</strong>紫色玻璃 ＝ 加入水晶杯嘅語言（最佳）；炫彩／鏡面 ＝ 發明新語言（最差）。</p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <footer class="foot">
+    <p>紙巾盒選款建議（50 張相）· Kuromi × Anna Sui 輕奢紫 · 2026 年 9 月</p>
+    <p>規格由商品圖 OCR 抽取（Vision framework），色值為相片量化取樣。玻璃製品易碎，擺位請避開層架上層；尺寸請以實物為準。</p>
+  </footer>
+
+</div>
+</body>
+</html>
