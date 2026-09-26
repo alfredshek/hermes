@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>電腦增高架選款建議 · Kuromi × Anna Sui 輕奢紫</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#120e18;--panel:rgba(255,255,255,.045);--line:rgba(255,255,255,.10);
+    --text:#ece7f2;--muted:#a89fba;--purple:#8f6cbd;--lilac:#c3a6e0;--rose:#dfae9e;
+    --gold:#c9a06b;--pink:#f0a8c4;--paper:#f2ede4;}
+  *{box-sizing:border-box;}
+  html,body{height:auto;overflow-x:hidden;}
+  body{margin:0;background:
+      radial-gradient(1100px 520px at 12% -6%, rgba(143,108,189,.20), transparent 62%),
+      radial-gradient(900px 460px at 92% 6%, rgba(223,174,158,.10), transparent 60%), var(--bg);
+    color:var(--text);font-family:"Noto Sans TC","PingFang TC",system-ui,sans-serif;
+    line-height:1.85;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:840px;margin:0 auto;padding:30px 20px 90px;}
+  .masthead{border:1px solid var(--line);border-radius:20px;
+    background:linear-gradient(150deg,rgba(143,108,189,.20),rgba(255,255,255,.03) 52%,rgba(223,174,158,.10));
+    padding:34px 30px 30px;position:relative;overflow:hidden;}
+  .masthead::after{content:"";position:absolute;right:-70px;top:-70px;width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle,rgba(195,166,224,.30),transparent 68%);}
+  .kicker{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.26em;
+    text-transform:uppercase;color:var(--lilac);margin:0 0 14px;}
+  h1{font-family:"Noto Serif TC",serif;font-weight:700;font-size:clamp(1.5rem,5vw,2.3rem);
+    line-height:1.3;margin:0 0 12px;} h1 .hl{color:var(--lilac);}
+  .sub{color:var(--muted);font-size:.95rem;margin:0;max-width:56ch;}
+  .verdictbar{display:flex;flex-wrap:wrap;gap:14px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line);}
+  .vbox{flex:1 1 150px;}
+  .vbox .lb{font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);margin:0 0 4px;}
+  .vbox .vl{font-size:1.02rem;font-weight:600;margin:0;}
+  .vbox .vl.pass{color:#9ede9a;} .vbox .vl.warn{color:var(--gold);}
+  section{margin-top:44px;scroll-margin-top:20px;}
+  .sech{font-family:"Noto Serif TC",serif;font-weight:600;font-size:clamp(1.15rem,3.5vw,1.5rem);
+    margin:0 0 6px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .sech .num{font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--gold);letter-spacing:.1em;font-weight:600;}
+  .lead{color:var(--muted);font-size:.92rem;margin:0 0 20px;max-width:68ch;}
+  p{margin:0 0 14px;font-size:.94rem;}
+  .card{border:1px solid var(--line);border-radius:16px;background:var(--panel);
+    padding:20px 22px;margin-bottom:14px;break-inside:avoid;}
+  .card h3{font-size:1.02rem;margin:0 0 10px;font-weight:600;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .card p:last-child{margin-bottom:0;}
+  .card ul{margin:8px 0 0;padding-left:0;list-style:none;}
+  .card ul li{position:relative;padding-left:18px;margin-bottom:7px;font-size:.91rem;}
+  .card ul li::before{content:"";position:absolute;left:2px;top:.68em;width:7px;height:7px;border-radius:50%;
+    background:var(--purple);opacity:.85;}
+  .pick{border-color:rgba(195,166,224,.55);
+    background:linear-gradient(160deg,rgba(143,108,189,.22),rgba(255,255,255,.035));}
+  .scorehead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:4px;}
+  .badge{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.1em;border-radius:999px;padding:3px 11px;white-space:nowrap;}
+  .badge.yes{background:rgba(120,200,120,.16);color:#9ede9a;border:1px solid rgba(120,200,120,.4);}
+  .badge.mid{background:rgba(201,160,107,.16);color:var(--gold);border:1px solid rgba(201,160,107,.45);}
+  .badge.no{background:rgba(220,120,120,.14);color:#ec9a9a;border:1px solid rgba(220,120,120,.4);}
+  .badge.top{background:rgba(195,166,224,.22);color:#d9c2f0;border:1px solid rgba(195,166,224,.6);}
+  .score{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:.82rem;color:var(--lilac);white-space:nowrap;}
+  .why{font-size:.9rem;}
+  .why b{color:var(--paper);}
+  .fix{border-left:3px solid var(--gold);background:linear-gradient(90deg,rgba(201,160,107,.12),transparent 74%);
+    border-radius:0 12px 12px 0;padding:12px 16px;margin-top:12px;font-size:.88rem;break-inside:avoid;}
+  .fix.ok{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.15),transparent 74%);}
+  .fix.bad{border-left-color:#ec9a9a;background:linear-gradient(90deg,rgba(220,120,120,.13),transparent 74%);}
+  .fix strong{color:var(--paper);}
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--panel);}
+  table{width:100%;border-collapse:collapse;min-width:600px;font-size:.85rem;}
+  thead th{background:linear-gradient(180deg,rgba(143,108,189,.34),rgba(143,108,189,.14));
+    text-align:left;padding:12px 14px;font-weight:600;font-size:.82rem;white-space:nowrap;border-bottom:1px solid var(--line);}
+  tbody td{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top;}
+  tbody tr:nth-child(even) td{background:rgba(255,255,255,.022);}
+  tbody tr:last-child td{border-bottom:none;}
+  .yes-c{color:#9ede9a;font-weight:600;} .no-c{color:#ec9a9a;font-weight:600;} .mid-c{color:var(--gold);font-weight:600;}
+  .swatch{display:inline-block;width:13px;height:13px;border-radius:3px;vertical-align:-2px;margin-right:5px;border:1px solid rgba(255,255,255,.25);}
+  .top{display:inline-flex;align-items:center;gap:8px;margin-top:16px;
+    font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.08em;color:var(--lilac);
+    text-decoration:none;border:1px solid rgba(195,166,224,.35);border-radius:999px;padding:7px 16px;background:rgba(143,108,189,.10);}
+  .top:hover{background:rgba(143,108,189,.22);color:#fff;}
+  .foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted);}
+  .foot p{margin:0 0 6px;font-size:.8rem;}
+  @media print{body{background:#fff;color:#1a1520;}
+    .masthead,.card,.tblwrap,.fix{background:#faf8f4;border-color:#d8d2c6;}
+    h1,.sech,.card h3{color:#1a1520;} .sub,.lead,p,.card ul li{color:#4a4453;}
+    .top{display:none;} .card,.tblwrap,.fix,h2,h3{break-inside:avoid;}}
+  @media (max-width:560px){.wrap{padding:16px 12px 70px;}.masthead{padding:24px 20px;}
+    .card{padding:16px 16px;}.score{margin-left:0;width:100%;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="kicker">Monitor Riser Selection / Batch 1 of 2</p>
+    <h1>電腦增高架選款建議<br><span class="hl">第一批 9 款逐件評</span></h1>
+    <p class="sub">先更正兩件事：<strong>54cm 係間隔板高度（喺螢幕後方），坐位正前方冇頂櫃。</strong>所以你之前所有「頂櫃」顧慮全部唔存在。以下按你嘅 Kuromi × Anna Sui 輕奢紫方向，逐款打分。</p>
+    <div class="verdictbar">
+      <div class="vbox"><p class="lb">🏆 首選</p><p class="vl pass">⑥ 全透明 60×20×8.5</p></div>
+      <div class="vbox"><p class="lb">🥈 次選</p><p class="vl pass">⑧ 典雅黑＋透明 L 腳</p></div>
+      <div class="vbox"><p class="lb">✗ 避開</p><p class="vl warn">① 貓爪層架 80cm</p></div>
+      <div class="vbox"><p class="lb">⚠ 注意</p><p class="vl warn">LED 帶燈 = 多一種電源</p></div>
+    </div>
+  </header>
+
+  <!-- 1 -->
+  <section id="correction">
+    <h2 class="sech"><span class="num">01</span>先更正：我誤解咗 54cm</h2>
+    <p class="lead">我之前把 54cm 當成「吊櫃底至檯面淨空」，所以講咗三次「會頂櫃」。你今次講清楚：<strong>54cm 係間隔板高度，而間隔板喺螢幕後方，坐位正前方冇頂櫃、上方全開放。</strong></p>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>我當時嘅講法</th><th>事實</th><th>狀態</th></tr></thead>
+        <tbody>
+          <tr><td>「增高架＋顯示器 57cm 會超」</td><td>前方開放，放得落</td><td class="no-c">已撤回</td></tr>
+          <tr><td>「層架＋壺 36cm 會頂吊櫃」</td><td>前方無頂櫃</td><td class="no-c">已撤回</td></tr>
+          <tr><td>「檯面可用深只 30cm」</td><td>全 60cm 深可用</td><td class="no-c">已撤回</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <p><strong>📌 所以：增高架唔單止放得落，仲係完全自由選擇。</strong>你嘅唯一限制係「螢幕 60cm 闊」同「層架下層淨空 11cm」（呢個係另一件嘢，唔關增高架事）。</p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 2 -->
+  <section id="ergonomics">
+    <h2 class="sech"><span class="num">02</span>先講一個實話：你未必需要增高架</h2>
+    <p class="lead">我幫你計過人體工學，呢點比配色重要 —— 買錯高度會搞到頸痛。</p>
+    <div class="card">
+      <h3>📐 高度實算（螢幕 60cm 闊 ＝ 27 吋級，16:9 面板高約 33.8cm）</h3>
+      <ul>
+        <li><b>唔用增高架：</b>檯面 75cm ＋ 原裝底座約 5cm ＋ 面板 33.8cm ＝ 面板頂約 <b>113.8cm</b></li>
+        <li><b>用 8.5cm 增高架：</b>面板頂升至約 <b>122.2cm</b></li>
+        <li><b>成人坐姿眼睛高度：</b>約 <b>110–118cm</b></li>
+      </ul>
+      <div class="fix bad"><strong>結論：</strong>你嘅螢幕唔加增高架，面板頂已經喺 113.8cm —— <strong>大致落在舒適區</strong>。加 8.5cm 之後變 122.2cm，<strong>會略高於舒適區，可能要微微抬頭</strong>。<br><strong>所以增高架對你嚟講，主要係「收納＋美觀」價值，唔係「矯正姿勢」價值。</strong>呢個唔係叫你唔買 —— 而係話你知：買 8.5cm 已經係上限，<u>唔好買 10cm 或 12cm</u>。</div>
+      <div class="fix ok"><strong>如果買：</strong>揀 <b>8.5cm</b>（唔要 9cm 或以上）。放好之後試坐 15 分鐘，如果覺得要抬頭，就加高椅子或者墊高坐墊，唔好靠再買嘢解決。</div>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 3 -->
+  <section id="scores">
+    <h2 class="sech"><span class="num">03</span>9 款逐件評</h2>
+    <p class="lead">評分標準：① 同你「黑紫輕奢」嘅色彩紀律 ② 60cm 螢幕嘅尺寸適配 ③ 材質語言會唔會又多一套 ④ 實用性（收納、清潔、穩定性）。</p>
+
+    <div class="card pick">
+      <div class="scorehead">
+        <h3 style="margin:0">⑥ 全透明亞克力 60×20×8.5cm</h3>
+        <span class="badge top">🏆 首選</span>
+        <span class="score">★★★★★</span>
+      </div>
+      <p class="why"><b>尺寸：</b>長 60cm —— 同你螢幕 60cm <strong>完全一樣</strong>，左右齊邊，視覺最整齊。深 20cm、高 8.5cm（正好係我建議嘅上限）。</p>
+      <p class="why"><b>顏色：</b>純透明、無圖案、無顏色。<strong>零顏色衝擊</strong> —— 唔會同你嘅紫色、Kuromi、Anna Sui 爭。</p>
+      <p class="why"><b>點解最好：</b>你嘅工作位已經有 4 種顏色語言（紫晶、黑紫可愛、灰木、貝母）。<strong>增高架係大面積物件，如果佢帶顏色，就會變成第 5 種。</strong>透明係唯一「自動融入」嘅選擇 —— 佢唔係一個顏色，佢係一個「透明層」。</p>
+      <p class="why"><b>材質：</b>透明亞克力其實係「展示盒」material（同你嘅公仔展示盒同族），所以佢係加入你現有系統，唔係新增一個。</p>
+      <div class="fix ok"><strong>建議：</strong>買呢款。側板係一整塊透明板（前後開放），唔會擋住裡面嘅鍵盤。<strong>記住：買 8.5cm，唔好買更高。</strong></div>
+    </div>
+
+    <div class="card pick">
+      <div class="scorehead">
+        <h3 style="margin:0">⑧ 典雅黑 ＋ 透明 L 型腳 60×20×8.5cm</h3>
+        <span class="badge top">🥈 次選</span>
+        <span class="score">★★★★☆</span>
+      </div>
+      <p class="why"><b>尺寸：</b>同 ⑥ 一樣 60×20×8.5，完美貼合你螢幕。</p>
+      <p class="why"><b>顏色：</b>啞黑台面 ＋ 透明 L 型腳。<strong>黑色正正係你嘅核心色之一</strong>（Kuromi 黑、Anna Sui 黑），所以佢「加入」你嘅系統而唔係打破。</p>
+      <p class="why"><b>為何次於 ⑥：</b>黑色台面係大面積實色，會喺淺木紋檯面形成一條明顯橫帶。而你螢幕本身係<strong>黑色邊框</strong>，黑色台面＋黑色邊框會連成一塊，視覺上「重」咗。透明款冇呢個問題。</p>
+      <div class="fix"><strong>適合情況：</strong>如果你重視「黑 ＋ 紫」嘅戲劇效果，或者你嘅檯面物件本身偏淺色，想要一個視覺錨點 —— 呢款係好選擇。否則 ⑥ 更安全。</div>
+    </div>
+
+    <div class="card">
+      <div class="scorehead">
+        <h3 style="margin:0">⑤ 黑色短款 ＋ 粉紅爪墊（無燈）</h3>
+        <span class="badge mid">可以，但要接受粉爪</span>
+        <span class="score">★★★☆☆</span>
+      </div>
+      <p class="why"><b>顏色：</b>黑啞面本體 ✓（符合你嘅黑），但爪墊係<strong>實體粉紅墊</strong>。我實測爪墊 RGB 約 <b>#cdbbb6</b>，飽和度只有 23 —— 即係<strong>偏灰嘅奶油粉，唔係鮮粉</strong>。</p>
+      <p class="why"><b>好消息：</b>呢個粉同你嘅 <strong>Kuromi 粉 #f0a8c4 距離 42</strong>（唔算遠），而且佢係細面積（爪墊），可以當「呼應」處理。</p>
+      <p class="why"><b>要留意：</b>貓爪係「可愛」語言。你檯面已經有 Kuromi 壺做主視覺 —— <strong>再加貓爪就係兩件可愛符號</strong>。要二選一。</p>
+      <div class="fix"><strong>判斷：</strong>如果你打算把 Kuromi 壺搬去側檯面（我上次建議），咁呢款爪墊就可以放喺增高架上做主視覺。否則唔建議。</div>
+    </div>
+
+    <div class="card">
+      <div class="scorehead">
+        <h3 style="margin:0">⑦ 透明 ＋ 粉紅爪墊 ＋ 手機架</h3>
+        <span class="badge mid">比 ⑤ 好，但爪墊係立體</span>
+        <span class="score">★★★★☆</span>
+      </div>
+      <p class="why"><b>顏色：</b>透明本體 ✓✓（同 ⑥ 同級），粉紅爪墊係<strong>實體立體墊</strong>（我確認過，唔係印刷）。</p>
+      <p class="why"><b>點解高分：</b>透明主體 ＝ 自動融入；粉爪墊係細面積點綴 ＝ 可以接受。而且附手機架，實用性加分。</p>
+      <p class="why"><b>風險：</b>立體爪墊會積塵（凸出嘅矽膠／軟膠件最易黐灰），而教員室粉塵多。另外「透明 ＋ 粉爪」同 ③ 帶燈款係同一個 design family，如果你最終買帶燈款，兩件會重複。</p>
+      <div class="fix ok"><strong>判斷：</strong>值得考慮。<strong>比 ⑥ 差半級（因為多咗立體件＋清潔問題），但比 ⑤ 好（因為透明主體）。</strong></div>
+    </div>
+
+    <div class="card">
+      <div class="scorehead">
+        <h3 style="margin:0">③ / ② 透明帶燈（短款 ¥245.52）＋ LED 燈帶</h3>
+        <span class="badge mid">有條件</span>
+        <span class="score">★★★☆☆</span>
+      </div>
+      <p class="why"><b>顏色：</b>透明本體 ✓。但 LED 燈帶沿平台同貓爪輪廓走一圈，發光係<strong>暖白／柔黃</strong>，效果偏「氛圍燈」。</p>
+      <p class="why"><b>優點：</b>燈光會令亞克力邊緣發亮 —— 呢個<strong>其實係好高級嘅效果</strong>（同你嘅切割水晶杯折射係同一種「光學語言」）。</p>
+      <p class="why"><b>問題有三個：</b>① 多一條電線，桌面又多一個電源（你已經有電熱水杯要插電）；② 帶燈要 USB 供電，關燈後 LED 仍然存在，日光下會見到燈條輪廓；③ <strong>價格 ¥245.52 比無燈款貴一截</strong>，而你嘅工作位本身靠窗（我見相片有百葉簾），日光充足時 LED 效果會被蓋過。</p>
+      <div class="fix bad"><strong>判斷：</strong>除非你打算長期開燈做氛圍（例如你鍾意放學後留低備課），否則<strong>唔值得為 LED 多付錢同多一條線</strong>。無燈透明款（⑥）已經有 90% 效果。</div>
+    </div>
+
+    <div class="card">
+      <div class="scorehead">
+        <h3 style="margin:0">④ 粉紅貓爪短款（無燈）</h3>
+        <span class="badge mid">可愛風，非輕奢</span>
+        <span class="score">★★★☆☆</span>
+      </div>
+      <p class="why"><b>顏色：</b>我實測粉紅 RGB 約 <b>#d6c3c1</b>，飽和度 21 —— 即係<strong>近乎灰粉</strong>，唔係鮮粉，其實唔算刺眼。同 Kuromi 粉距離 37.6。</p>
+      <p class="why"><b>問題：</b>大面積半透明粉紅 ＝ 「少女可愛」語言。你嘅方向係 <strong>Anna Sui 式華麗</strong>，唔係甜美可愛。兩者唔同路。</p>
+      <p class="why"><b>另外：</b>粉色大板會同你嘅淺木紋檯面「互相搶」—— 兩個都係暖調淺色，加埋會變「日系雜貨」。</p>
+      <div class="fix"><strong>判斷：</strong>如果你真係好愛粉紅色，可以揀 <b>⑦</b>（透明主體＋粉爪墊），保留粉元素但主體係透明，效果高一級。</div>
+    </div>
+
+    <div class="card">
+      <div class="scorehead">
+        <h3 style="margin:0">① 貓爪亞克力層架（80×23.5×9 ／ 60×23.5×9）</h3>
+        <span class="badge no">✗ 唔建議</span>
+        <span class="score">★★☆☆☆</span>
+      </div>
+      <p class="why"><b>呢件唔係增高架，係層架</b> —— 高 9cm、深 23.5cm，有 4 條圓柱腳。<strong>同你現有嘅兩層桌面層架功能完全重複</strong>（都係枱面加層＋底下收納）。</p>
+      <p class="why"><b>尺寸問題：</b>80cm 款比你螢幕 60cm 長 <strong>20cm</strong>，會左右突出，視覺上唔整齊（除非你刻意要突出做不對稱設計）。60cm 款剛好，但同你現有層架更重複。</p>
+      <p class="why"><b>顏色：</b>baby pink 半透明板，我實測 <b>#d8b0ae</b>，飽和度 42（係咁多款粉紅之中最高）—— 即係<strong>最明顯嘅粉</strong>。</p>
+      <div class="fix bad"><strong>判斷：</strong>你已經有兩層層架。再加一個，就會變「層架陣」。如果真係想換走現有層架，可以考慮 60cm 款 —— 但要留意佢高 9cm 比你現有嘅（15cm 總高）矮，收納力反而少。</div>
+    </div>
+
+    <div class="card">
+      <div class="scorehead">
+        <h3 style="margin:0">⑨ 壁掛玻璃層板 ＋ 金屬支架</h3>
+        <span class="badge no">✗ 唔適用</span>
+        <span class="score">★★☆☆☆</span>
+      </div>
+      <p class="why"><b>呢件要鎖牆</b> —— 係浴室／廚房壁掛層板，唔係桌面增高架。你嘅工作位係半開放式間隔（有 54cm 間隔板），唔適合鑽牆，而且學校傢俬唔應該私自鑽孔。</p>
+      <p class="why"><b>顏色：</b>玻璃 ＋ 金屬支架 ＝ 「浴室五金」語言，同你嘅方向無關。</p>
+      <div class="fix bad"><strong>判斷：</strong>唔適用。如果你想要玻璃質感，用透明亞克力增高架（⑥）已經係同一種視覺（透明、輕盈、反光）。</div>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 4 -->
+  <section id="summary">
+    <h2 class="sech"><span class="num">04</span>一表睇完 ＋ 決定</h2>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>款</th><th>尺寸</th><th>色彩衝擊</th><th>評分</th><th>判定</th></tr></thead>
+        <tbody>
+          <tr><td>⑥ 全透明亞克力</td><td>60×20×8.5</td><td>無 ✓</td><td>★★★★★</td><td class="yes-c">🏆 買呢款</td></tr>
+          <tr><td>⑧ 典雅黑＋透明L腳</td><td>60×20×8.5</td><td>黑（你核心色）✓</td><td>★★★★☆</td><td class="yes-c">次選</td></tr>
+          <tr><td>⑦ 透明＋粉爪＋手機架</td><td>未標</td><td>細面積粉 △</td><td>★★★★☆</td><td class="mid-c">可以</td></tr>
+          <tr><td>②/③ 透明帶燈</td><td>未標／短款</td><td>加 LED ＋ 電線 △</td><td>★★★☆☆</td><td class="mid-c">有條件</td></tr>
+          <tr><td>⑤ 黑＋粉爪墊</td><td>短款</td><td>粉爪 △</td><td>★★★☆☆</td><td class="mid-c">要二選一</td></tr>
+          <tr><td>④ 粉紅貓爪</td><td>短款</td><td>大面積粉 ✗</td><td>★★★☆☆</td><td class="mid-c">偏可愛</td></tr>
+          <tr><td>① 貓爪層架 80cm</td><td>80×23.5×9</td><td>粉最明顯 ✗</td><td>★★☆☆☆</td><td class="no-c">功能重複</td></tr>
+          <tr><td>⑨ 壁掛玻璃層板</td><td>未標</td><td>浴室五金 ✗</td><td>★★☆☆☆</td><td class="no-c">唔適用</td></tr>
+        </tbody>
+      </table>
+      <div class="cap">「色彩衝擊」＝ 呢件會唔會為你嘅工作位新增一個色系／材質語言。你已經有 4 種（紫晶、黑紫可愛、灰木、貝母），所以「無新增」係最高分項。</div>
+    </div>
+
+    <div class="card pick">
+      <h3>🏆 我嘅建議</h3>
+      <p><strong>買 ⑥ 全透明亞克力 60×20×8.5cm。</strong>理由三點：</p>
+      <ul>
+        <li><b>尺寸剛好：</b>60cm 同你螢幕一樣長，左右齊邊，最整齊。8.5cm 係人體工學上限，唔會令你要抬頭。</li>
+        <li><b>零色彩衝擊：</b>透明唔係一個顏色，佢係「透明層」—— 自動融入你現有嘅 4 種語言，唔會變成第 5 種。</li>
+        <li><b>材質同族：</b>透明亞克力同你嘅公仔展示盒係同一種 material，等於「加入系統」而唔係「新增系統」。</li>
+      </ul>
+      <div class="fix ok"><strong>如果 ⑥ 缺貨：</strong>揀 ⑧（典雅黑＋透明 L 腳），同尺寸、黑係你核心色。<strong>兩者都買唔到：</strong>揀 ⑦（透明＋粉爪），但要接受粉爪係可愛元素，同 Kuromi 壺要二選一。</div>
+    </div>
+
+    <div class="card">
+      <h3>⚠️ 三個要注意（唔理買邊款）</h3>
+      <ul>
+        <li><b>高度唔好超過 8.5cm。</b>你螢幕唔加已經喺舒適區（面板頂 113.8cm），8.5cm 之後係 122.2cm，已經略高。再高會頸痛。</li>
+        <li><b>唔好同你現有嘅兩層層架功能重複。</b>增高架（抬螢幕）同層架（枱面加層）係兩件事，但如果兩個一齊放，會變一排橫層，視覺切碎。</li>
+        <li><b>透明亞克力要定期抹。</b>透光件最顯指紋同水痕，一星期用微濕布抹一次就夠。唔好用酒精（會令亞克力霧化）。</li>
+      </ul>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <footer class="foot">
+    <p>電腦增高架選款建議（第一批 9 款）· Kuromi × Anna Sui 輕奢紫 · 2026 年 9 月</p>
+    <p>尺寸：60cm 螢幕、54cm 間隔板為你現場提供；其餘為商品標示或目測。人體工學計算基於成人坐姿眼睛高度 110–118cm 區間。商品價格及供應會變動。</p>
+  </footer>
+
+</div>
+</body>
+</html>
