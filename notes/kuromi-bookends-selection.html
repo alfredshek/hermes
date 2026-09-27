@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>地球儀書立 配襯評估 · 顏色選擇</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#120e18;--panel:rgba(255,255,255,.045);--line:rgba(255,255,255,.10);
+    --text:#ece7f2;--muted:#a89fba;--purple:#8f6cbd;--lilac:#c3a6e0;--rose:#dfae9e;
+    --gold:#c9a06b;--pink:#f0a8c4;--paper:#f2ede4;}
+  *{box-sizing:border-box;}
+  html,body{height:auto;overflow-x:hidden;}
+  body{margin:0;background:
+      radial-gradient(1100px 520px at 12% -6%, rgba(143,108,189,.20), transparent 62%),
+      radial-gradient(900px 460px at 92% 6%, rgba(223,174,158,.10), transparent 60%), var(--bg);
+    color:var(--text);font-family:"Noto Sans TC","PingFang TC",system-ui,sans-serif;
+    line-height:1.85;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:860px;margin:0 auto;padding:30px 20px 90px;}
+  .masthead{border:1px solid var(--line);border-radius:20px;
+    background:linear-gradient(150deg,rgba(143,108,189,.20),rgba(255,255,255,.03) 52%,rgba(223,174,158,.10));
+    padding:34px 30px 30px;position:relative;overflow:hidden;}
+  .masthead::after{content:"";position:absolute;right:-70px;top:-70px;width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle,rgba(195,166,224,.30),transparent 68%);}
+  .kicker{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.26em;
+    text-transform:uppercase;color:var(--lilac);margin:0 0 14px;}
+  h1{font-family:"Noto Serif TC",serif;font-weight:700;font-size:clamp(1.5rem,5vw,2.3rem);
+    line-height:1.3;margin:0 0 12px;} h1 .hl{color:var(--lilac);}
+  .sub{color:var(--muted);font-size:.95rem;margin:0;max-width:58ch;}
+  .verdictbar{display:flex;flex-wrap:wrap;gap:14px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line);}
+  .vbox{flex:1 1 150px;}
+  .vbox .lb{font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);margin:0 0 4px;}
+  .vbox .vl{font-size:1.02rem;font-weight:600;margin:0;}
+  .vbox .vl.pass{color:#9ede9a;} .vbox .vl.warn{color:var(--gold);} .vbox .vl.no{color:#ec9a9a;}
+  section{margin-top:44px;scroll-margin-top:20px;}
+  .sech{font-family:"Noto Serif TC",serif;font-weight:600;font-size:clamp(1.15rem,3.5vw,1.5rem);
+    margin:0 0 6px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .sech .num{font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--gold);letter-spacing:.1em;font-weight:600;}
+  .lead{color:var(--muted);font-size:.92rem;margin:0 0 20px;max-width:68ch;}
+  p{margin:0 0 14px;font-size:.94rem;}
+  .card{border:1px solid var(--line);border-radius:16px;background:var(--panel);
+    padding:20px 22px;margin-bottom:14px;break-inside:avoid;}
+  .card h3{font-size:1.02rem;margin:0 0 10px;font-weight:600;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .card p:last-child{margin-bottom:0;}
+  .card ul{margin:8px 0 0;padding-left:0;list-style:none;}
+  .card ul li{position:relative;padding-left:18px;margin-bottom:7px;font-size:.91rem;}
+  .card ul li::before{content:"";position:absolute;left:2px;top:.68em;width:7px;height:7px;border-radius:50%;
+    background:var(--purple);opacity:.85;}
+  .pick{border-color:rgba(195,166,224,.55);
+    background:linear-gradient(160deg,rgba(143,108,189,.22),rgba(255,255,255,.035));}
+  .scorehead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:4px;}
+  .badge{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.1em;border-radius:999px;padding:3px 11px;white-space:nowrap;}
+  .badge.yes{background:rgba(120,200,120,.16);color:#9ede9a;border:1px solid rgba(120,200,120,.4);}
+  .badge.mid{background:rgba(201,160,107,.16);color:var(--gold);border:1px solid rgba(201,160,107,.45);}
+  .badge.no{background:rgba(220,120,120,.14);color:#ec9a9a;border:1px solid rgba(220,120,120,.4);}
+  .badge.top{background:rgba(195,166,224,.22);color:#d9c2f0;border:1px solid rgba(195,166,224,.6);}
+  .score{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:.82rem;color:var(--lilac);white-space:nowrap;}
+  .why{font-size:.9rem;} .why b{color:var(--paper);}
+  .fix{border-left:3px solid var(--gold);background:linear-gradient(90deg,rgba(201,160,107,.12),transparent 74%);
+    border-radius:0 12px 12px 0;padding:12px 16px;margin-top:12px;font-size:.88rem;break-inside:avoid;}
+  .fix.ok{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.15),transparent 74%);}
+  .fix.bad{border-left-color:#ec9a9a;background:linear-gradient(90deg,rgba(220,120,120,.13),transparent 74%);}
+  .fix strong{color:var(--paper);}
+  .callout{border-left:3px solid var(--gold);background:linear-gradient(90deg,rgba(201,160,107,.13),transparent 72%);
+    border-radius:0 14px 14px 0;padding:16px 20px;margin:18px 0;break-inside:avoid;}
+  .callout.dark{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.16),transparent 72%);}
+  .callout strong{color:var(--paper);} .callout p{margin:0;font-size:.9rem;}
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--panel);}
+  table{width:100%;border-collapse:collapse;min-width:620px;font-size:.85rem;}
+  thead th{background:linear-gradient(180deg,rgba(143,108,189,.34),rgba(143,108,189,.14));
+    text-align:left;padding:11px 13px;font-weight:600;font-size:.8rem;white-space:nowrap;border-bottom:1px solid var(--line);}
+  tbody td{padding:10px 13px;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top;}
+  tbody tr:nth-child(even) td{background:rgba(255,255,255,.022);}
+  tbody tr:last-child td{border-bottom:none;}
+  .yes-c{color:#9ede9a;font-weight:600;} .no-c{color:#ec9a9a;font-weight:600;} .mid-c{color:var(--gold);font-weight:600;}
+  .top{display:inline-flex;align-items:center;gap:8px;margin-top:16px;
+    font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.08em;color:var(--lilac);
+    text-decoration:none;border:1px solid rgba(195,166,224,.35);border-radius:999px;padding:7px 16px;background:rgba(143,108,189,.10);}
+  .top:hover{background:rgba(143,108,189,.22);color:#fff;}
+  .fig{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.03);padding:18px 16px 10px;margin:18px 0;break-inside:avoid;}
+  .fig svg{width:100%;height:auto;display:block;overflow:visible;}
+  .fig .cap{font-size:.78rem;color:var(--muted);margin:10px 2px 0;line-height:1.6;}
+  .foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted);}
+  .foot p{margin:0 0 6px;font-size:.8rem;}
+  @media print{body{background:#fff;color:#1a1520;}
+    .masthead,.card,.tblwrap,.fix,.callout,.fig{background:#faf8f4;border-color:#d8d2c6;}
+    h1,.sech,.card h3{color:#1a1520;} .sub,.lead,p,.card ul li,.fig .cap{color:#4a4453;}
+    .top{display:none;} .card,.tblwrap,.fix,.callout,.fig,h2,h3{break-inside:avoid;}}
+  @media (max-width:560px){.wrap{padding:16px 12px 70px;}.masthead{padding:24px 20px;}
+    .card{padding:16px 16px;}.score{margin-left:0;width:100%;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="kicker">Globe Bookends / Colour Selection</p>
+    <h1>地球儀書立配襯評估<br><span class="hl">買「黑金版」，唔好買黑白版</span></h1>
+    <p class="sub">已確認你嘅書架係<strong>裝修一部份</strong>（灰木 #a7a6a4 ＋ 白封邊，5 層開放式，每格淨高 30–35cm）。尺寸完全放得落，顏色就係關鍵。</p>
+    <div class="verdictbar">
+      <div class="vbox"><p class="lb">✓ 建議</p><p class="vl pass">黑金版</p></div>
+      <div class="vbox"><p class="lb">✗ 避免</p><p class="vl warn">黑白版＋金線</p></div>
+      <div class="vbox"><p class="lb">金屬吻合</p><p class="vl pass">距離玫瑰金 34</p></div>
+      <div class="vbox"><p class="lb">風格提醒</p><p class="vl warn">復古學術，非輕奢</p></div>
+    </div>
+  </header>
+
+  <!-- 1 -->
+  <section id="size">
+    <h2 class="sech"><span class="num">01</span>尺寸：完全放得落</h2>
+    <div class="card">
+      <h3>📐 書立 vs 你嘅層架</h3>
+      <ul>
+        <li><b>書立高 22cm</b>（黑金版 20cm）→ 每格淨高 30–35cm → <b>餘 8–13cm</b> ✓</li>
+        <li><b>一對總長 23cm</b> → 層架深 30–35cm → <b>夠深</b> ✓</li>
+        <li><b>單個底面積</b> 11.5 × 9.8cm ＝ 113cm² → 唔會佔太多層板</li>
+      </ul>
+      <div class="fix ok"><strong>結論：</strong>尺寸冇問題，放一層層架綽綽有餘。甚至放喺最底層都夠位。</div>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 2 -->
+  <section id="colour">
+    <h2 class="sech"><span class="num">02</span>顏色：實測數據決定答案</h2>
+    <p class="lead">我量化比較咗兩個版本。關鍵指標係「金色同你嘅玫瑰金紀律有幾近」。</p>
+
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>版本</th><th>金色實測</th><th>vs 玫瑰金 #c9a06b</th><th>黑色佔比</th><th>白色佔比</th><th>判定</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>黑金版</b></td>
+            <td><code>#b18964</code></td>
+            <td class="yes-c">距離 34 ✓</td>
+            <td>65%</td>
+            <td>1%</td>
+            <td class="yes-c">✓ 買呢款</td>
+          </tr>
+          <tr>
+            <td><b>黑白版＋金線</b></td>
+            <td><code>#9a8c73</code></td>
+            <td class="mid-c">距離 52 △</td>
+            <td>24.6%</td>
+            <td>7.6%</td>
+            <td class="no-c">✗ 避免</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="cap">金色實測為書立中央區域量化取樣；玫瑰金 #c9a06b 為你嘅既有金屬紀律（已有物件所用）。</div>
+    </div>
+
+    <div class="card pick">
+      <h3>🏆 黑金版（黑色海洋＋金色陸地）</h3>
+      <p><b>金屬色吻合度最高：</b>實測 #b18964，距離你嘅玫瑰金只有 <b>34</b> —— 係你所有外購物件之中，金屬色最接近你紀律嘅一件。</p>
+      <p><b>黑色佔 65%：</b>同你嘅核心色「墨黑 #1a1520」同族。放喺<b>灰木 #a7a6a4 層架</b>上，會形成一個明顯嘅深色錨點 —— 呢個正正係輕奢需要嘅視覺重量。</p>
+      <div class="fix ok"><strong>點解係首選：</strong>灰木層架 ＋ 黑金書立 ＝ 「淺底深物」，對比清晰但唔刺眼。金色線條呼應你嘅金屬紀律，黑色呼應 Kuromi／Anna Sui 嘅黑。</div>
+    </div>
+
+    <div class="card">
+      <h3>✗ 點解唔揀黑白版</h3>
+      <p><b>白色佔 7.6%，而且係冷白。</b>你嘅色盤有「米白 #f2ede4」（暖調），但黑白版地球儀嘅白係<b>冷白</b> —— 兩者唔同調，放埋一齊會互相削弱。</p>
+      <p><b>金色偏啞：</b>實測 #9a8c73 距離玫瑰金 52，比黑金版遠。呢個金偏向「古銅／做舊金」，同你嘅玫瑰金唔同世代。</p>
+      <div class="fix bad"><strong>結論：</strong>黑白版喺灰木層架上，白色地球儀會「跳」出嚟搶焦點，但搶嘅唔係你想要嘅方向（唔係華麗，而係「學術圖鑑」感）。</div>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 3 -->
+  <section id="style">
+    <h2 class="sech"><span class="num">03</span>⚠️ 但我要講清楚：呢款係「復古學術」唔係「輕奢」</h2>
+    <p class="lead">你要留意呢點 —— 佢會令你嘅工作位多一種美學語言。</p>
+    <div class="card">
+      <h3>你現有嘅美學語言</h3>
+      <ul>
+        <li><b>黑紫華麗</b> —— Anna Sui 水晶杯、Kuromi（主線）</li>
+        <li><b>冷灰極簡</b> —— 灰木層架、啞光增高架、煙灰紙巾盒</li>
+        <li><b>可愛反叛</b> —— Kuromi 壺、貓爪（如果買）</li>
+        <li><b>自然貝母</b> —— 托盤（如果買）</li>
+      </ul>
+      <div class="fix"><strong>地球儀書立 ＝ 第 5 種語言：「dark academia」復古學術。</b><br>呢個唔係壞事 —— 但佢係「老派書房、旅行探索」語言，同 Anna Sui 嘅<b>時裝華麗</b>係兩套唔同嘅貴氣。<br><strong>如果你接受呢個係「個人藏書品味」而唔係「輕奢陳列」，咁完全可以。如果目標係統一輕奢感，就要留意。</strong></div>
+    </div>
+
+    <div class="fig">
+      <svg viewBox="0 0 600 250" role="img" aria-label="金色吻合度對比：黑金版距離玫瑰金34，黑白版52">
+        <text x="20" y="24" font-family="Noto Sans TC, sans-serif" font-size="11.5" fill="#c3a6e0">金色 vs 你嘅玫瑰金 #c9a06b（距離越短越吻合）</text>
+
+        <!-- scale: 60 units -> 400px, so 1 unit = 6.67px ; start x=190 -->
+        <!-- 黑金版 34 -> 227px -->
+        <text x="20" y="66" fill="#ece7f2" font-family="Noto Sans TC, sans-serif" font-size="11.5">黑金版 ★</text>
+        <rect x="190" y="55" width="227" height="15" rx="4" fill="#c9a06b"/>
+        <text x="427" y="67" font-family="JetBrains Mono, monospace" font-size="11" fill="#9ede9a">34　✓ 最接近</text>
+
+        <!-- 黑白版 52 -> 347px, bar ends at 190+347=537 -->
+        <text x="20" y="110" fill="#ece7f2" font-family="Noto Sans TC, sans-serif" font-size="11.5">黑白版＋金線</text>
+        <rect x="190" y="99" width="300" height="15" rx="4" fill="#9a8c73"/>
+        <text x="500" y="111" font-family="JetBrains Mono, monospace" font-size="11" fill="#c9a06b">52</text>
+
+        <!-- reference line -->
+        <line x1="190" y1="140" x2="590" y2="140" stroke="#6b5f78" stroke-width="1" opacity="0.5"/>
+        <text x="20" y="144" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#a89fba">0 = 完全一致</text>
+
+        <!-- conclusion -->
+        <rect x="20" y="168" width="560" height="62" rx="10" fill="#c3a6e0" opacity="0.10"/>
+        <text x="34" y="192" font-family="Noto Sans TC, sans-serif" font-size="11.5" fill="#9ede9a">黑金版金色距離 34 → 你所有外購物件之中金屬色最接近嘅一件</text>
+        <text x="34" y="214" font-family="Noto Sans TC, sans-serif" font-size="11.5" fill="#a89fba">黑白版金色偏「古銅做舊」→ 同你嘅玫瑰金唔同世代</text>
+      </svg>
+      <p class="cap">距離 ＝ 實測金色 RGB 與玫瑰金 #c9a06b 之歐氏距離。數值越細代表金屬色越吻合你嘅既有紀律。</p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 4 -->
+  <section id="howto">
+    <h2 class="sech"><span class="num">04</span>正確用法 ＋ 買前確認</h2>
+    <div class="card pick">
+      <h3>🏆 直接答你</h3>
+      <p><strong>可以放，買黑金版。</strong></p>
+      <p>尺寸完全放得落（書立 22cm vs 層架每格淨高 30–35cm），而且黑金版嘅金色實測距離你嘅玫瑰金只有 34 —— 係你所有外購物件之中金屬色最吻合嘅一件。黑色佔 65%，喺灰木層架上形成深色錨點，正合輕奢需要。</p>
+    </div>
+
+    <div class="card">
+      <h3>📌 擺位建議</h3>
+      <ul>
+        <li><b>放層架第 2 或第 3 層（視線高度）</b> —— 書立係要「被看見」嘅物件，唔好放最底層。</li>
+        <li><b>用書立夾一本深色書</b> —— 書脊最好係黑、深紫或深灰。示範圖用《Scarface》黑色書脊，效果好好。</li>
+        <li><b>唔好同 Kuromi 壺（可愛語言）放同一格</b> —— 兩者語言衝突。</li>
+        <li><b>左右放一對，中間夾 3–5 本書</b> —— 呢個係書立嘅標準用法，亦係最好睇嘅比例。</li>
+      </ul>
+      <div class="fix ok"><strong>配搭建議：</strong>書立（黑金）＋ 深色書脊 ＋ 旁邊留白。<b>唔好塞滿書</b> —— 書架留白係輕奢嘅一半。</div>
+    </div>
+
+    <div class="card">
+      <h3>🛒 買前確認</h3>
+      <ul>
+        <li><b>兩個版本嘅尺寸有少少唔同：</b>黑白版標示「長11.5 × 寬9.8 × 高22cm，總長23cm」；黑金版標示「單個 12×10×20cm」。<strong>黑金版矮 2cm，更易放。</strong></li>
+        <li><b>材質：</b>呢類書立通常係樹脂仿金屬（唔係真黃銅）。確認下係實心定空殼 —— 空殼太輕就夾唔實書。</li>
+        <li><b>重量：</b>問清楚單個幾重。書立要夠重（每個 ≥0.8kg）才夾得住厚書，否則會翻。</li>
+      </ul>
+    </div>
+
+    <div class="callout dark">
+      <p><strong>📌 一句總結：</strong>買<b>黑金版</b>（金色距離玫瑰金僅 34、黑色佔 65%），放喺層架<b>第 2–3 層視線高度</b>，夾一本<b>深色書脊</b>嘅書。尺寸完全冇問題。<br><strong>但要記得：</strong>呢件係「復古學術」語言，唔係「輕奢」—— 佢會為你嘅工作位加第 5 種美學。如果你接受呢個係個人品味，就可以買。</p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <footer class="foot">
+    <p>地球儀書立配襯評估 · Kuromi × Anna Sui 輕奢紫 · 2026 年 9 月</p>
+    <p>書立尺寸為商品標示；層架尺寸由相片推算（每格淨高 30–35cm）；色值為相片量化取樣，金色實測為中央區域平均值。</p>
+  </footer>
+
+</div>
+</body>
+</html>
