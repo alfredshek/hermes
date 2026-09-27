@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>餐具選購建議 · 收納型（唔放檯面）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#120e18;--panel:rgba(255,255,255,.045);--line:rgba(255,255,255,.10);
+    --text:#ece7f2;--muted:#a89fba;--purple:#8f6cbd;--lilac:#c3a6e0;--rose:#dfae9e;
+    --gold:#c9a06b;--pink:#f0a8c4;--paper:#f2ede4;}
+  *{box-sizing:border-box;}
+  html,body{height:auto;overflow-x:hidden;}
+  body{margin:0;background:
+      radial-gradient(1100px 520px at 12% -6%, rgba(143,108,189,.20), transparent 62%),
+      radial-gradient(900px 460px at 92% 6%, rgba(223,174,158,.10), transparent 60%), var(--bg);
+    color:var(--text);font-family:"Noto Sans TC","PingFang TC",system-ui,sans-serif;
+    line-height:1.85;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:860px;margin:0 auto;padding:30px 20px 90px;}
+  .masthead{border:1px solid var(--line);border-radius:20px;
+    background:linear-gradient(150deg,rgba(143,108,189,.20),rgba(255,255,255,.03) 52%,rgba(223,174,158,.10));
+    padding:34px 30px 30px;position:relative;overflow:hidden;}
+  .masthead::after{content:"";position:absolute;right:-70px;top:-70px;width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle,rgba(195,166,224,.30),transparent 68%);}
+  .kicker{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.26em;
+    text-transform:uppercase;color:var(--lilac);margin:0 0 14px;}
+  h1{font-family:"Noto Serif TC",serif;font-weight:700;font-size:clamp(1.5rem,5vw,2.3rem);
+    line-height:1.3;margin:0 0 12px;} h1 .hl{color:var(--lilac);}
+  .sub{color:var(--muted);font-size:.95rem;margin:0;max-width:58ch;}
+  .verdictbar{display:flex;flex-wrap:wrap;gap:14px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line);}
+  .vbox{flex:1 1 150px;}
+  .vbox .lb{font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);margin:0 0 4px;}
+  .vbox .vl{font-size:1.02rem;font-weight:600;margin:0;}
+  .vbox .vl.pass{color:#9ede9a;} .vbox .vl.warn{color:var(--gold);} .vbox .vl.no{color:#ec9a9a;}
+  section{margin-top:44px;scroll-margin-top:20px;}
+  .sech{font-family:"Noto Serif TC",serif;font-weight:600;font-size:clamp(1.15rem,3.5vw,1.5rem);
+    margin:0 0 6px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .sech .num{font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--gold);letter-spacing:.1em;font-weight:600;}
+  .lead{color:var(--muted);font-size:.92rem;margin:0 0 20px;max-width:68ch;}
+  p{margin:0 0 14px;font-size:.94rem;}
+  .card{border:1px solid var(--line);border-radius:16px;background:var(--panel);
+    padding:20px 22px;margin-bottom:14px;break-inside:avoid;}
+  .card h3{font-size:1.02rem;margin:0 0 10px;font-weight:600;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .card p:last-child{margin-bottom:0;}
+  .card ul{margin:8px 0 0;padding-left:0;list-style:none;}
+  .card ul li{position:relative;padding-left:18px;margin-bottom:7px;font-size:.91rem;}
+  .card ul li::before{content:"";position:absolute;left:2px;top:.68em;width:7px;height:7px;border-radius:50%;
+    background:var(--purple);opacity:.85;}
+  .pick{border-color:rgba(195,166,224,.55);
+    background:linear-gradient(160deg,rgba(143,108,189,.22),rgba(255,255,255,.035));}
+  .scorehead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:4px;}
+  .badge{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.1em;border-radius:999px;padding:3px 11px;white-space:nowrap;}
+  .badge.yes{background:rgba(120,200,120,.16);color:#9ede9a;border:1px solid rgba(120,200,120,.4);}
+  .badge.mid{background:rgba(201,160,107,.16);color:var(--gold);border:1px solid rgba(201,160,107,.45);}
+  .badge.no{background:rgba(220,120,120,.14);color:#ec9a9a;border:1px solid rgba(220,120,120,.4);}
+  .badge.top{background:rgba(195,166,224,.22);color:#d9c2f0;border:1px solid rgba(195,166,224,.6);}
+  .score{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:.82rem;color:var(--lilac);white-space:nowrap;}
+  .why{font-size:.9rem;} .why b{color:var(--paper);}
+  .fix{border-left:3px solid var(--gold);background:linear-gradient(90deg,rgba(201,160,107,.12),transparent 74%);
+    border-radius:0 12px 12px 0;padding:12px 16px;margin-top:12px;font-size:.88rem;break-inside:avoid;}
+  .fix.ok{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.15),transparent 74%);}
+  .fix.bad{border-left-color:#ec9a9a;background:linear-gradient(90deg,rgba(220,120,120,.13),transparent 74%);}
+  .fix strong{color:var(--paper);}
+  .callout{border-left:3px solid var(--gold);background:linear-gradient(90deg,rgba(201,160,107,.13),transparent 72%);
+    border-radius:0 14px 14px 0;padding:16px 20px;margin:18px 0;break-inside:avoid;}
+  .callout.dark{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.16),transparent 72%);}
+  .callout strong{color:var(--paper);} .callout p{margin:0;font-size:.9rem;}
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--panel);}
+  table{width:100%;border-collapse:collapse;min-width:640px;font-size:.84rem;}
+  thead th{background:linear-gradient(180deg,rgba(143,108,189,.34),rgba(143,108,189,.14));
+    text-align:left;padding:11px 13px;font-weight:600;font-size:.79rem;white-space:nowrap;border-bottom:1px solid var(--line);}
+  tbody td{padding:10px 13px;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top;}
+  tbody tr:nth-child(even) td{background:rgba(255,255,255,.022);}
+  tbody tr:last-child td{border-bottom:none;}
+  .yes-c{color:#9ede9a;font-weight:600;} .no-c{color:#ec9a9a;font-weight:600;} .mid-c{color:var(--gold);font-weight:600;}
+  .top{display:inline-flex;align-items:center;gap:8px;margin-top:16px;
+    font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.08em;color:var(--lilac);
+    text-decoration:none;border:1px solid rgba(195,166,224,.35);border-radius:999px;padding:7px 16px;background:rgba(143,108,189,.10);}
+  .top:hover{background:rgba(143,108,189,.22);color:#fff;}
+  .fig{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.03);padding:18px 16px 10px;margin:18px 0;break-inside:avoid;}
+  .fig svg{width:100%;height:auto;display:block;overflow:visible;}
+  .fig .cap{font-size:.78rem;color:var(--muted);margin:10px 2px 0;line-height:1.6;}
+  .foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted);}
+  .foot p{margin:0 0 6px;font-size:.8rem;}
+  @media print{body{background:#fff;color:#1a1520;}
+    .masthead,.card,.tblwrap,.fix,.callout,.fig{background:#faf8f4;border-color:#d8d2c6;}
+    h1,.sech,.card h3{color:#1a1520;} .sub,.lead,p,.card ul li,.fig .cap{color:#4a4453;}
+    .top{display:none;} .card,.tblwrap,.fix,.callout,.fig,h2,h3{break-inside:avoid;}}
+  @media (max-width:560px){.wrap{padding:16px 12px 70px;}.masthead{padding:24px 20px;}
+    .card{padding:16px 16px;}.score{margin-left:0;width:100%;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="kicker">Tableware / Storage-First Selection</p>
+    <h1>餐具選購建議<br><span class="hl">唔放檯面，需要時才用</span></h1>
+    <p class="sub">呢個條件改變咗判斷標準 —— 首要唔係「靚」，而係<strong>收得埋、拎得出、唔會爛</strong>。以下按你嘅實際收納空間同使用場景畀建議。</p>
+    <div class="verdictbar">
+      <div class="vbox"><p class="lb">🏆 最適合</p><p class="vl pass">骨瓷 4 件組</p></div>
+      <div class="vbox"><p class="lb">🥈 最耐用</p><p class="vl pass">不鏽鋼</p></div>
+      <div class="vbox"><p class="lb">✗ 避開</p><p class="vl no">玻璃（放抽屜）</p></div>
+      <div class="vbox"><p class="lb">關鍵</p><p class="vl warn">要「可疊可套」</p></div>
+    </div>
+  </header>
+
+  <!-- 1 -->
+  <section id="logic">
+    <h2 class="sech"><span class="num">01</span>先講清楚：呢個條件改變咗乜</h2>
+    <p class="lead">餐具唔放檯面 ≠ 可以隨便買。因為你仍然會：<strong>拎出嚟用（同事見到）、用完即刻洗（要有水槽）、收返抽屜（要夠位、唔會撞爛）</strong>。</p>
+    <div class="card">
+      <h3>四個真實約束</h3>
+      <ul>
+        <li><b>收納空間有限</b> —— 你嘅檯下儲物櫃（左門 ＋ 右兩抽屜，皆可鎖）要同時放文件、文具、私人物品</li>
+        <li><b>日日開合抽屜</b> —— 陶瓷／玻璃反覆碰撞會崩邊，玻璃更會碎</li>
+        <li><b>教員室唔一定有水槽</b> —— 如果無，用完要拎去洗手間洗，所以要<b>輕</b></li>
+        <li><b>拎出嚟同事會見到</b> —— 所以款式仍然要顧，唔可以太隨便</li>
+      </ul>
+      <div class="fix"><strong>所以排序係：</strong>可疊性 ＞ 耐用 ＞ 輕 ＞ 款式 ＞ 顏色。<br><b>而你問嘅「輕奢感」排最後</b> —— 因為用完會收埋，唔係成日見到。</div>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 2 -->
+  <section id="space">
+    <h2 class="sech"><span class="num">02</span>實際要幾多空間（實算）</h2>
+    <div class="fig">
+      <svg viewBox="0 0 600 210" role="img" aria-label="餐具收納體積：淨體積2258立方公分，需3520立方公分收納盒">
+        <text x="20" y="24" font-family="Noto Sans TC, sans-serif" font-size="11.5" fill="#c3a6e0">一人份餐具收納需求</text>
+
+        <!-- bars: 0-4000 cm3 -> 460px, 1 unit = 0.115px ; start x=150 -->
+        <!-- net 2258 -> 260px -->
+        <text x="20" y="62" fill="#a89fba" font-family="Noto Sans TC, sans-serif" font-size="11">淨體積</text>
+        <rect x="150" y="51" width="260" height="15" rx="4" fill="#6b5f78"/>
+        <text x="420" y="63" font-family="JetBrains Mono, monospace" font-size="11" fill="#a89fba">2258 cm³</text>
+
+        <!-- box 3520 -> 405px, bar ends 150+405=555; label INSIDE bar (no room outside) -->
+        <text x="20" y="106" fill="#ece7f2" font-family="Noto Sans TC, sans-serif" font-size="11">所需收納盒</text>
+        <rect x="150" y="95" width="405" height="15" rx="4" fill="#c9a06b"/>
+        <text x="547" y="106.5" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#241c12" text-anchor="end" font-weight="600">3520 cm³</text>
+
+        <line x1="150" y1="132" x2="565" y2="132" stroke="#6b5f78" stroke-width="1" opacity="0.45"/>
+        <text x="150" y="150" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#a89fba">0</text>
+
+        <text x="20" y="178" font-family="Noto Sans TC, sans-serif" font-size="11.5" fill="#9ede9a">→ 一個 22×16×10cm 盒（3520 cm³）剛好裝齊</text>
+        <text x="20" y="198" font-family="Noto Sans TC, sans-serif" font-size="11.5" fill="#c9a06b">→ 全部可疊：可縮到 22×16×8cm（省 20% 高）</text>
+      </svg>
+      <p class="cap">淨體積 ＝ 有蓋茶杯 9×9×10 ＋ 小碗 11×11×6 ＋ 小碟 15×15×2.5 ＋ 餐具袋 20×4×2 之和。收納盒需加 40–60% 空隙。</p>
+    </div>
+
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>部件</th><th>建議尺寸</th><th>收納要點</th></tr></thead>
+        <tbody>
+          <tr><td><b>有蓋茶杯</b></td><td>口徑 ≤9cm，高 ≤10cm</td><td>有蓋防塵（放抽屜必須）</td></tr>
+          <tr><td><b>小碗</b></td><td>口徑 ≤11cm，高 ≤6cm</td><td>要可套疊（省高）</td></tr>
+          <tr><td><b>小碟</b></td><td>≤15cm</td><td>平放，最薄</td></tr>
+          <tr><td><b>餐具</b></td><td>布袋／盒裝</td><td>唔好散放（會撞花）</td></tr>
+        </tbody>
+      </table>
+      <div class="cap">⚠️ 你檯下儲物櫃嘅內部尺寸我未實測 —— 落位前請量抽屜內闊／深／高。</div>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 3 -->
+  <section id="material">
+    <h2 class="sech"><span class="num">03</span>材質：四種比較</h2>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>材質</th><th>優點</th><th>缺點</th><th>抽屜適用</th></tr></thead>
+        <tbody>
+          <tr><td><b>骨瓷／陶瓷</b></td><td>茶味最好、最靚、有手感</td><td>重、會崩邊</td><td class="mid-c">★★★☆☆</td></tr>
+          <tr><td><b>玻璃</b></td><td>最靚（配你嘅水晶杯）</td><td>重、最易爛、碎咗危險</td><td class="no-c">★★☆☆☆</td></tr>
+          <tr><td><b>不鏽鋼 304</b></td><td>輕、耐用、唔會爛、易洗</td><td>有金屬味風險、食堂感</td><td class="yes-c">★★★★☆</td></tr>
+          <tr><td>小麥秸稈</td><td>輕、便宜</td><td>質感差、易染色</td><td class="mid-c">★★☆☆☆</td></tr>
+        </tbody>
+      </table>
+      <div class="cap">「抽屜適用」＝ 放抽屜、日日開合嘅耐受度。玻璃放抽屜最危險（碰撞碎裂），陶瓷次之。</div>
+    </div>
+
+    <div class="card pick">
+      <h3>🏆 推薦：骨瓷／陶瓷 4 件組</h3>
+      <p><b>理由：</b>放抽屜反而係陶瓷最好嘅用法 —— 唔會日日碰撞，只需要<b>墊一塊布或矽膠墊</b>就解決崩邊問題。而且陶瓷茶味最好。</p>
+      <div class="fix ok"><strong>關鍵做法：</strong>買「<b>可疊可套</b>」設計（碗要套疊、杯要疊、碟平放）。收埋之後佔位最少，拎出嚟又完整成套。<br><b>加一塊薄矽膠墊墊底</b> —— 幾十蚊，解決碰撞問題。</div>
+    </div>
+
+    <div class="card">
+      <h3>🥈 次選：不鏽鋼（304）</h3>
+      <p><b>優點：</b>最耐用、最輕、唔怕撞。如果你教員室<b>冇水槽</b>要拎去洗，不鏽鋼最實際。</p>
+      <p><b>缺點：</b>有金屬味風險（尤其裝茶或咖啡），而且「食堂感」較重。</p>
+      <div class="fix"><strong>適合情況：</strong>如果你主要飲水、少飲茶，或者經常要拎出拎入 —— 不鏽鋼勝陶瓷。</div>
+    </div>
+
+    <div class="card">
+      <h3>✗ 避開：玻璃餐具</h3>
+      <p>雖然玻璃最配你嘅風格（水晶杯），但<b>放抽屜日日開合</b>會碎。碎玻璃喺抽屜內極危險（要全清潔）。</p>
+      <div class="fix bad"><strong>玻璃留返檯面陳列用（你嘅水晶杯），唔好做抽屜餐具。</strong></div>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 4 -->
+  <section id="style">
+    <h2 class="sech"><span class="num">04</span>款式：拎出嚟同事見到，點揀？</h2>
+    <p class="lead">收埋唔代表可以隨便 —— 你每次用都會「出場」幾分鐘。呢個時候款式就發揮作用。</p>
+    <div class="card pick">
+      <h3>顏色首選：純白骨瓷</h3>
+      <p><b>純白係最安全、最耐看、最唔會出錯。</b>而且同你嘅工作位完全冇衝突 —— 白色唔屬於任何一套美學語言，所以唔會加入「第 6 種語言」。</p>
+      <div class="fix ok"><strong>點解唔建議其他顏色：</strong><ul style="margin-top:8px">
+        <li><b>紫色：</b>你已經有輕奢紫（水晶杯、紙巾盒）—— 再加一套紫餐具會「紫色過量」</li>
+        <li><b>黑／深灰：</b>食物喺深色碟上唔靚，而且教員室用會太「型」</li>
+        <li><b>粉色／卡通：</b>會同 Kuromi 搶，而且成套買會太甜</li>
+        <li><b>彩色：</b>食安上色料風險較高（尤其平價）</li>
+      </ul></div>
+    </div>
+
+    <div class="card">
+      <h3>可接受嘅細節變化（純白之上）</h3>
+      <ul>
+        <li><b>白 + 一條玫瑰金／金色邊</b> —— 呼應你嘅金屬紀律，係最好嘅選擇 ✓</li>
+        <li><b>白 + 浮雕／凹凸紋</b> —— 有質感但唔加顏色 ✓</li>
+        <li><b>白 + 淺灰底</b> —— 低調有層次 ✓</li>
+        <li><b>磨砂白／手捏感陶瓷</b> —— 日系簡約，配任何風格 ✓</li>
+      </ul>
+      <div class="fix"><strong>避免：</strong>印字（例如 "Hello" "Good Day"）、logo、卡通圖案。呢啲會令成套餐具變「學生用品」。</div>
+    </div>
+
+    <div class="card">
+      <h3>🍱 便當盒：如果要帶飯</h3>
+      <p>如果你會帶飯，<b>唔銹鋼或不鏽鋼分格便當盒</b>比陶瓷實際得多（輕、唔怕倒）。</p>
+      <p>款式建議：<b>單色（素白／不鏽鋼原色／淺灰）</b>，避免卡通圖案。日系便當盒通常設計最簡潔。</p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 5 -->
+  <section id="buy">
+    <h2 class="sech"><span class="num">05</span>購買清單 ＋ 三個提醒</h2>
+    <div class="card pick">
+      <h3>🏆 建議清單（一人份）</h3>
+      <ul>
+        <li><b>有蓋茶杯</b> ×1（口徑 ≤9cm，高 ≤10cm，純白或白＋金邊）</li>
+        <li><b>可套疊小碗</b> ×1（口徑 ≤11cm，高 ≤6cm）</li>
+        <li><b>小碟</b> ×1（≤15cm，可當茶托或點心碟）</li>
+        <li><b>不鏽鋼餐具</b> 刀叉匙筷各1（用布袋或盒裝）</li>
+        <li><b>薄矽膠墊</b> ×1（墊抽屜底，防碰撞）</li>
+        <li><b>收納盒</b> ×1（22×16×10cm，或 22×16×8cm 如果全可疊）</li>
+      </ul>
+      <div class="fix ok"><strong>總價估算：</strong>骨瓷 4 件組（¥60–150）＋ 不鏽鋼餐具（¥30–60）＋ 矽膠墊（¥15）＋ 收納盒（¥30–50）≈ <b>¥135–275</b>。</div>
+    </div>
+
+    <div class="card">
+      <h3>⚠️ 三個提醒</h3>
+      <ul>
+        <li><b>買之前量抽屜</b> —— 你檯下儲物櫃嘅內部尺寸我未實測。特別係<b>內高</b>（茶杯 10cm ＋ 盒厚，可能需要 12cm 以上）。</li>
+        <li><b>考慮清潔方式</b> —— 教員室有水槽嗎？如果冇，要日日拎去洗手間洗 → 選輕啲嘅（不鏽鋼），並備一個防水袋。</li>
+        <li><b>唔好買成套大組</b> —— 一人份 4 件夠。買 12 件組會裝唔落抽屜，變成放檯面雜物。</li>
+      </ul>
+    </div>
+
+    <div class="callout dark">
+      <p><strong>📌 一句總結：</strong>買<b>純白（或白＋金邊）骨瓷 4 件組</b>，全部<b>可疊可套</b>，配<b>不鏽鋼餐具</b>同<b>薄矽膠墊</b>，收入 <b>22×16×10cm 盒</b>放抽屜。<br><b>顏色揀純白</b> —— 因為你已經有 5 種美學語言（黑紫華麗、冷灰極簡、可愛反叛、自然貝母、復古學術），餐具唔應該再加第 6 種。白色唔屬於任何一套，所以最安全。</p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <footer class="foot">
+    <p>餐具選購建議（收納型）· Kuromi × Anna Sui 輕奢紫 · 2026 年 9 月</p>
+    <p>尺寸為建議值，按一人份餐具標準估算；收納體積計算含 40–60% 空隙；儲物櫃內部尺寸未實測，購買前請量度。</p>
+  </footer>
+
+</div>
+</body>
+</html>
