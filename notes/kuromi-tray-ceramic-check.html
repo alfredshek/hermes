@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>陶瓷托盤評估 · 夢幻紫蝴蝶結</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#120e18;--panel:rgba(255,255,255,.045);--line:rgba(255,255,255,.10);
+    --text:#ece7f2;--muted:#a89fba;--purple:#8f6cbd;--lilac:#c3a6e0;
+    --gold:#c9a06b;--paper:#f2ede4;--pink:#d4b9c2;}
+  *{box-sizing:border-box;}
+  html,body{height:auto;overflow-x:hidden;}
+  body{margin:0;background:
+      radial-gradient(1100px 520px at 12% -6%, rgba(143,108,189,.20), transparent 62%),
+      radial-gradient(900px 460px at 92% 6%, rgba(212,185,194,.12), transparent 60%), var(--bg);
+    color:var(--text);font-family:"Noto Sans TC","PingFang TC",system-ui,sans-serif;
+    line-height:1.85;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:860px;margin:0 auto;padding:30px 20px 90px;}
+  .masthead{border:1px solid var(--line);border-radius:20px;
+    background:linear-gradient(150deg,rgba(143,108,189,.20),rgba(255,255,255,.03) 52%,rgba(212,185,194,.14));
+    padding:34px 30px 30px;position:relative;overflow:hidden;}
+  .masthead::after{content:"";position:absolute;right:-70px;top:-70px;width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle,rgba(195,166,224,.30),transparent 68%);}
+  .kicker{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.26em;
+    text-transform:uppercase;color:var(--lilac);margin:0 0 14px;}
+  h1{font-family:"Noto Serif TC",serif;font-weight:700;font-size:clamp(1.5rem,5vw,2.3rem);
+    line-height:1.3;margin:0 0 12px;} h1 .hl{color:var(--pink);}
+  .sub{color:var(--muted);font-size:.95rem;margin:0;max-width:58ch;}
+  .verdictbar{display:flex;flex-wrap:wrap;gap:14px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line);}
+  .vbox{flex:1 1 140px;}
+  .vbox .lb{font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);margin:0 0 4px;}
+  .vbox .vl{font-size:1.02rem;font-weight:600;margin:0;}
+  .vbox .vl.pass{color:#9ede9a;} .vbox .vl.warn{color:var(--gold);} .vbox .vl.no{color:#ec9a9a;}
+  section{margin-top:44px;scroll-margin-top:20px;}
+  .sech{font-family:"Noto Serif TC",serif;font-weight:600;font-size:clamp(1.15rem,3.5vw,1.5rem);
+    margin:0 0 6px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .sech .num{font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--gold);letter-spacing:.1em;font-weight:600;}
+  .lead{color:var(--muted);font-size:.92rem;margin:0 0 20px;max-width:68ch;}
+  p{margin:0 0 14px;font-size:.94rem;}
+  .card{border:1px solid var(--line);border-radius:16px;background:var(--panel);
+    padding:20px 22px;margin-bottom:14px;break-inside:avoid;}
+  .card h3{font-size:1.02rem;margin:0 0 10px;font-weight:600;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .card p:last-child{margin-bottom:0;}
+  .card ul{margin:8px 0 0;padding-left:0;list-style:none;}
+  .card ul li{position:relative;padding-left:18px;margin-bottom:7px;font-size:.91rem;}
+  .card ul li::before{content:"";position:absolute;left:2px;top:.68em;width:7px;height:7px;border-radius:50%;
+    background:var(--purple);opacity:.85;}
+  .pick{border-color:rgba(195,166,224,.55);
+    background:linear-gradient(160deg,rgba(143,108,189,.22),rgba(255,255,255,.035));}
+  .badge{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.1em;border-radius:999px;padding:3px 11px;white-space:nowrap;}
+  .badge.yes{background:rgba(120,200,120,.16);color:#9ede9a;border:1px solid rgba(120,200,120,.4);}
+  .badge.mid{background:rgba(201,160,107,.16);color:var(--gold);border:1px solid rgba(201,160,107,.45);}
+  .badge.no{background:rgba(220,120,120,.14);color:#ec9a9a;border:1px solid rgba(220,120,120,.4);}
+  .score{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:.82rem;color:var(--lilac);white-space:nowrap;}
+  .why{font-size:.9rem;} .why b{color:var(--paper);}
+  .fix{border-left:3px solid var(--gold);background:linear-gradient(90deg,rgba(201,160,107,.12),transparent 74%);
+    border-radius:0 12px 12px 0;padding:12px 16px;margin-top:12px;font-size:.88rem;break-inside:avoid;}
+  .fix.ok{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.15),transparent 74%);}
+  .fix.bad{border-left-color:#ec9a9a;background:linear-gradient(90deg,rgba(220,120,120,.13),transparent 74%);}
+  .fix strong{color:var(--paper);}
+  .callout{border-left:3px solid var(--gold);background:linear-gradient(90deg,rgba(201,160,107,.13),transparent 72%);
+    border-radius:0 14px 14px 0;padding:16px 20px;margin:18px 0;break-inside:avoid;}
+  .callout.dark{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.16),transparent 72%);}
+  .callout strong{color:var(--paper);} .callout p{margin:0;font-size:.9rem;}
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--panel);}
+  table{width:100%;border-collapse:collapse;min-width:600px;font-size:.84rem;}
+  thead th{background:linear-gradient(180deg,rgba(143,108,189,.34),rgba(143,108,189,.14));
+    text-align:left;padding:11px 13px;font-weight:600;font-size:.79rem;white-space:nowrap;border-bottom:1px solid var(--line);}
+  tbody td{padding:10px 13px;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top;}
+  tbody tr:nth-child(even) td{background:rgba(255,255,255,.022);}
+  tbody tr:last-child td{border-bottom:none;}
+  .yes-c{color:#9ede9a;font-weight:600;} .no-c{color:#ec9a9a;font-weight:600;} .mid-c{color:var(--gold);font-weight:600;}
+  .top{display:inline-flex;align-items:center;gap:8px;margin-top:16px;
+    font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.08em;color:var(--lilac);
+    text-decoration:none;border:1px solid rgba(195,166,224,.35);border-radius:999px;padding:7px 16px;background:rgba(143,108,189,.10);}
+  .top:hover{background:rgba(143,108,189,.22);color:#fff;}
+  .fig{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.03);padding:18px 16px 10px;margin:18px 0;break-inside:avoid;}
+  .fig svg{width:100%;height:auto;display:block;overflow:visible;}
+  .fig .cap{font-size:.78rem;color:var(--muted);margin:10px 2px 0;line-height:1.6;}
+  .foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted);}
+  .foot p{margin:0 0 6px;font-size:.8rem;}
+  @media print{body{background:#fff;color:#1a1520;}
+    .masthead,.card,.tblwrap,.fix,.callout,.fig{background:#faf8f4;border-color:#d8d2c6;}
+    h1,.sech,.card h3{color:#1a1520;} .sub,.lead,p,.card ul li,.fig .cap{color:#4a4453;}
+    .top{display:none;} .card,.tblwrap,.fix,.callout,.fig,h2,h3{break-inside:avoid;}}
+  @media (max-width:560px){.wrap{padding:16px 12px 70px;}.masthead{padding:24px 20px;}
+    .card{padding:16px 16px;}.score{margin-left:0;width:100%;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="kicker">Ceramic Tray / Colour Audit</p>
+    <h1>陶瓷托盤評估<br><span class="hl">「夢幻紫」其實係粉紅</span></h1>
+    <p class="sub">實測主體色 <strong>#d4b9c2（H340 S13%）</strong> —— 低飽和係優點，但色相落在<strong>粉紅區</strong>，距離你嘅輕奢紫 <strong>130</strong>。</p>
+    <div class="verdictbar">
+      <div class="vbox"><p class="lb">顏色</p><p class="vl warn">△ 中性偏粉</p></div>
+      <div class="vbox"><p class="lb">金屬邊</p><p class="vl pass">✓ 距離 42</p></div>
+      <div class="vbox"><p class="lb">飽和度</p><p class="vl pass">✓ S13% 極低</p></div>
+      <div class="vbox"><p class="lb">放壺</p><p class="vl no">✗ 每邊 0.5cm</p></div>
+    </div>
+  </header>
+
+  <!-- 1 -->
+  <section id="color">
+    <h2 class="sech"><span class="num">01</span>顏色實測：粉，唔係紫</h2>
+    <p class="lead">「夢幻紫」係賣家嘅命名，唔係色值。實測結果同命名唔一致。</p>
+
+    <div class="fig">
+      <svg viewBox="0 0 600 260" role="img" aria-label="色相對比：輕奢紫H264，托盤H340，相差76度">
+        <text x="20" y="24" font-family="Noto Sans TC, sans-serif" font-size="11.5" fill="#c3a6e0">色相環位置（0–360°）</text>
+
+        <!-- hue axis 0-360 -> x 40..560 -->
+        <line x1="40" y1="70" x2="560" y2="70" stroke="#6b5f78" stroke-width="1.2"/>
+        <!-- purple band 270-285 -> x = 40 + h/360*520 -->
+        <rect x="430" y="60" width="22" height="20" rx="3" fill="#7b5ea7" opacity="0.85"/>
+        <text x="441" y="52" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#c3a6e0">紫</text>
+        <!-- pink band 330-355 -->
+        <rect x="517" y="60" width="36" height="20" rx="3" fill="#d4b9c2" opacity="0.85"/>
+        <text x="535" y="52" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#d4b9c2">粉</text>
+
+        <!-- marker: 輕奢紫 H264 -> x=40+264/360*520=421 -->
+        <line x1="421" y1="58" x2="421" y2="86" stroke="#c9a06b" stroke-width="2"/>
+        <text x="421" y="102" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#c9a06b">H264</text>
+        <text x="421" y="118" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#c9a06b">輕奢紫</text>
+
+        <!-- marker: tray H340 -> x=40+340/360*520=531 -->
+        <line x1="531" y1="58" x2="531" y2="86" stroke="#d4b9c2" stroke-width="2"/>
+        <text x="531" y="102" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#d4b9c2">H340</text>
+        <text x="531" y="118" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#d4b9c2">托盤</text>
+
+        <!-- delta arc -->
+        <path d="M421 140 Q476 158 531 140" stroke="#9ede9a" stroke-width="1.4" fill="none" stroke-dasharray="4 3"/>
+        <text x="476" y="176" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#9ede9a" font-weight="600">相差 76°</text>
+
+        <text x="20" y="212" font-family="Noto Sans TC, sans-serif" font-size="11.5" fill="#a89fba">色相 76° 差距 ＝ 視覺上讀成兩個唔同顏色（紫 vs 粉）</text>
+        <text x="20" y="234" font-family="Noto Sans TC, sans-serif" font-size="11.5" fill="#9ede9a">但飽和度 S13% ✓ 極低 —— 呢點符合你嘅「低飽和＝高級」原則</text>
+      </svg>
+      <p class="cap">色相距離 76° 係「唔同色」，唔係「同色深淺」。所以托盤唔會同你嘅紫色物件「連成一線」。</p>
+    </div>
+
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>對比</th><th>色值</th><th>距離</th><th>判定</th></tr></thead>
+        <tbody>
+          <tr><td>托盤主體</td><td><b>#d4b9c2</b>（H340 S13%）</td><td>—</td><td>基準</td></tr>
+          <tr><td>vs 輕奢紫</td><td>#7b5ea7</td><td class="no-c">130.1</td><td class="no-c">✗ 完全唔同</td></tr>
+          <tr><td>vs 墨黑</td><td>#1a1520</td><td class="no-c">296.2</td><td class="no-c">✗ 完全唔同</td></tr>
+          <tr><td>vs 玫瑰金</td><td>#c9a06b</td><td class="mid-c">91.2</td><td class="mid-c">△ 中距</td></tr>
+          <tr><td>vs 米白</td><td>#f2ede4</td><td class="mid-c">69.0</td><td class="mid-c">△ 最近但仍唔係同族</td></tr>
+          <tr><td><b>托盤金屬邊</b></td><td>#af8063</td><td class="yes-c">42</td><td class="yes-c">✓ 可接受</td></tr>
+        </tbody>
+      </table>
+      <div class="cap">距離 &gt;100 ＝ 唔同色系；60–100 ＝ 同色系唔同調；&lt;60 ＝ 同族可配。</div>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 2 -->
+  <section id="fit">
+    <h2 class="sech"><span class="num">02</span>尺寸：最窄嘅一個</h2>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>托盤</th><th>尺寸</th><th>放 Kuromi 壺（直徑10cm）</th><th>放 Kuromi 杯（口徑8.5cm）</th></tr></thead>
+        <tbody>
+          <tr><td>絨面 P07002</td><td>20×12×2cm</td><td class="mid-c">每邊餘 1.0cm △</td><td class="yes-c">餘 1.8cm ✓</td></tr>
+          <tr><td>絨面 P08901 橢圓</td><td>22.5×15×2.5cm</td><td class="yes-c">餘 2.5cm ✓</td><td class="yes-c">餘 3.3cm ✓</td></tr>
+          <tr><td><b>陶瓷（呢隻）</b></td><td>19.5×11cm</td><td class="no-c">每邊僅 0.5cm ✗</td><td class="mid-c">餘 1.2cm △</td></tr>
+        </tbody>
+      </table>
+      <div class="cap">⚠️ 賣家寫「直徑19.5×11cm」係筆誤 —— 呢隻係長方形，應讀作長19.5 × 闊11cm。</div>
+    </div>
+    <div class="fix bad"><strong>致命點：</strong>闊只 11cm，Kuromi 壺直徑 10cm → 每邊只餘 0.5cm。壺放上去等於「企喺邊緣」，移動時一撞就翻。</div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 3 -->
+  <section id="verdict">
+    <h2 class="sech"><span class="num">03</span>結論：兩面，要分開講</h2>
+
+    <div class="card pick">
+      <h3>✅ 值得肯定嘅兩點</h3>
+      <ul>
+        <li><b>飽和度 S13% 極低</b> —— 呢個完全符合你嘅「低飽和＝高級」原則。呢隻色唔會刺眼。</li>
+        <li><b>金屬邊實測 #af8063，距離玫瑰金 42</b> —— 可接受，係第二好嘅金屬吻合度（僅次於書立嘅 34）。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3><span class="badge no">✗ 但要留意</span><span class="score">顏色：中性偏粉</span></h3>
+      <ul>
+        <li><b>色相 H340 ＝ 粉紅區</b>，距離輕奢紫 130 → 唔會同你嘅紫色系「連成一線」</li>
+        <li><b>闊 11cm 放壺只餘 0.5cm</b> → 唔可以用嚟放 Kuromi 壺（你嘅主要計劃）</li>
+        <li><b>立體蝴蝶結 ＋ 波浪花邊 ＋ 金邊 ＝ 三種裝飾同時出現</b> → 呢個係「甜系少女」語言，唔係 Anna Sui 嘅時裝華麗</li>
+      </ul>
+      <div class="fix"><strong>⚠️ 但呢點唔算致命：</strong>低飽和補救咗大半。粉紫同 Kuromi 本身嘅粉紫蝴蝶結係<b>同一個家族</b> —— 所以呢個托盤同 Kuromi 主題係配嘅，只係同「輕奢紫紀律」唔完全一致。</div>
+    </div>
+
+    <div class="callout dark">
+      <p><strong>📌 一句總結：</strong>呢隻托盤<strong>配 Kuromi，但唔完全配你嘅「輕奢紫」紀律</strong>。<br>
+      • 如果你想維持統一嘅輕奢紫 → <b>唔好買</b>（色相距 76°）<br>
+      • 如果你當佢係「Kuromi 收藏展示盤」→ <b>可以買</b>（低飽和 ＋ 金屬距離 42 都合格）<br>
+      <b>唯一硬傷：闊 11cm 放唔到 Kuromi 壺（餘 0.5cm）。</b>要放壺就要揀 P08901 橢圓 22.5×15cm。</p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <footer class="foot">
+    <p>陶瓷托盤評估 · Kuromi × Anna Sui 輕奢紫 · 2026 年 9 月</p>
+    <p>色值由商品相片抽樣（有效樣本 61,176 點）；色相／飽和度以 HSV 計算；距離為 RGB 歐氏距離。尺寸依賣家標示。</p>
+  </footer>
+
+</div>
+</body>
+</html>
