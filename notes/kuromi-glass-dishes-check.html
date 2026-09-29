@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>玻璃小碟評估 · 貓頭碗 vs 虹彩貝殼碟</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#120e18;--panel:rgba(255,255,255,.045);--line:rgba(255,255,255,.10);
+    --text:#ece7f2;--muted:#a89fba;--purple:#8f6cbd;--lilac:#c3a6e0;
+    --gold:#c9a06b;--paper:#f2ede4;--cat:#cfd8dc;--iri:#7fd4c8;
+    --ok:#9ede9a;--warn:#e8c07a;--bad:#ec9a9a;}
+  *{box-sizing:border-box;}
+  html,body{height:auto;overflow-x:hidden;}
+  body{margin:0;background:
+      radial-gradient(1100px 520px at 10% -8%, rgba(127,212,200,.13), transparent 62%),
+      radial-gradient(900px 480px at 94% 4%, rgba(143,108,189,.20), transparent 60%), var(--bg);
+    color:var(--text);font-family:"Noto Sans TC","PingFang TC",system-ui,sans-serif;
+    line-height:1.85;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:900px;margin:0 auto;padding:30px 20px 90px;}
+  .masthead{border:1px solid var(--line);border-radius:20px;
+    background:linear-gradient(150deg,rgba(143,108,189,.20),rgba(255,255,255,.03) 50%,rgba(127,212,200,.13));
+    padding:34px 30px 30px;position:relative;overflow:hidden;}
+  .masthead::after{content:"";position:absolute;right:-70px;top:-70px;width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle,rgba(195,166,224,.28),transparent 68%);}
+  .kicker{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.26em;
+    text-transform:uppercase;color:var(--lilac);margin:0 0 14px;}
+  h1{font-family:"Noto Serif TC",serif;font-weight:700;font-size:clamp(1.5rem,5vw,2.3rem);
+    line-height:1.3;margin:0 0 12px;} h1 .hl{color:var(--iri);}
+  .sub{color:var(--muted);font-size:.95rem;margin:0;max-width:60ch;}
+  .verdictbar{display:flex;flex-wrap:wrap;gap:14px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line);}
+  .vbox{flex:1 1 150px;}
+  .vbox .lb{font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);margin:0 0 4px;}
+  .vbox .vl{font-size:1.02rem;font-weight:600;margin:0;}
+  .vbox .vl.pass{color:var(--ok);} .vbox .vl.warn{color:var(--warn);} .vbox .vl.no{color:var(--bad);}
+  section{margin-top:44px;scroll-margin-top:20px;}
+  .sech{font-family:"Noto Serif TC",serif;font-weight:600;font-size:clamp(1.15rem,3.5vw,1.5rem);
+    margin:0 0 6px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .sech .num{font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--gold);letter-spacing:.1em;font-weight:600;}
+  .lead{color:var(--muted);font-size:.92rem;margin:0 0 20px;max-width:70ch;}
+  p{margin:0 0 14px;font-size:.94rem;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;}
+  @media (max-width:700px){.grid2{grid-template-columns:1fr;}}
+  .card{border:1px solid var(--line);border-radius:16px;background:var(--panel);
+    padding:20px 22px;margin-bottom:14px;break-inside:avoid;}
+  .card h3{font-size:1.02rem;margin:0 0 10px;font-weight:600;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .card p:last-child{margin-bottom:0;}
+  .card ul{margin:8px 0 0;padding-left:0;list-style:none;}
+  .card ul li{position:relative;padding-left:18px;margin-bottom:7px;font-size:.91rem;}
+  .card ul li::before{content:"";position:absolute;left:2px;top:.68em;width:7px;height:7px;border-radius:50%;
+    background:var(--purple);opacity:.85;}
+  .pick{border-color:rgba(158,222,154,.5);background:linear-gradient(160deg,rgba(120,200,120,.16),rgba(255,255,255,.03));}
+  .drop{border-color:rgba(236,154,154,.42);background:linear-gradient(160deg,rgba(220,120,120,.12),rgba(255,255,255,.03));}
+  .badge{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.1em;border-radius:999px;padding:3px 11px;white-space:nowrap;}
+  .badge.yes{background:rgba(120,200,120,.16);color:var(--ok);border:1px solid rgba(120,200,120,.4);}
+  .badge.mid{background:rgba(232,192,122,.15);color:var(--warn);border:1px solid rgba(232,192,122,.42);}
+  .badge.no{background:rgba(220,120,120,.14);color:var(--bad);border:1px solid rgba(220,120,120,.4);}
+  .score{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:.82rem;color:var(--lilac);white-space:nowrap;}
+  .fix{border-left:3px solid var(--warn);background:linear-gradient(90deg,rgba(232,192,122,.12),transparent 74%);
+    border-radius:0 12px 12px 0;padding:12px 16px;margin-top:12px;font-size:.88rem;break-inside:avoid;}
+  .fix.ok{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.15),transparent 74%);}
+  .fix.bad{border-left-color:var(--bad);background:linear-gradient(90deg,rgba(220,120,120,.13),transparent 74%);}
+  .fix strong{color:var(--paper);}
+  .callout{border-left:3px solid var(--gold);background:linear-gradient(90deg,rgba(201,160,107,.13),transparent 72%);
+    border-radius:0 14px 14px 0;padding:16px 20px;margin:18px 0;break-inside:avoid;}
+  .callout.dark{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.16),transparent 72%);}
+  .callout.danger{border-left-color:var(--bad);background:linear-gradient(90deg,rgba(220,120,120,.15),transparent 72%);}
+  .callout strong{color:var(--paper);} .callout p{margin:0 0 8px;font-size:.9rem;} .callout p:last-child{margin:0;}
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--panel);}
+  table{width:100%;border-collapse:collapse;min-width:620px;font-size:.84rem;}
+  thead th{background:linear-gradient(180deg,rgba(143,108,189,.34),rgba(143,108,189,.14));
+    text-align:left;padding:11px 13px;font-weight:600;font-size:.79rem;white-space:nowrap;border-bottom:1px solid var(--line);}
+  tbody td{padding:10px 13px;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top;}
+  tbody tr:nth-child(even) td{background:rgba(255,255,255,.022);}
+  tbody tr:last-child td{border-bottom:none;}
+  .yes-c{color:var(--ok);font-weight:600;} .no-c{color:var(--bad);font-weight:600;} .mid-c{color:var(--warn);font-weight:600;}
+  .top{display:inline-flex;align-items:center;gap:8px;margin-top:16px;
+    font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.08em;color:var(--lilac);
+    text-decoration:none;border:1px solid rgba(195,166,224,.35);border-radius:999px;padding:7px 16px;background:rgba(143,108,189,.10);}
+  .top:hover{background:rgba(143,108,189,.22);color:#fff;}
+  .fig{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.03);padding:18px 16px 10px;margin:18px 0;break-inside:avoid;}
+  .fig svg{width:100%;height:auto;display:block;overflow:visible;}
+  .fig .cap{font-size:.78rem;color:var(--muted);margin:10px 2px 0;line-height:1.6;}
+  .foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted);}
+  .foot p{margin:0 0 6px;font-size:.8rem;}
+  @media print{body{background:#fff;color:#1a1520;}
+    .masthead,.card,.tblwrap,.fix,.callout,.fig{background:#faf8f4;border-color:#d8d2c6;}
+    h1,.sech,.card h3{color:#1a1520;} .sub,.lead,p,.card ul li,.fig .cap{color:#4a4453;}
+    .top{display:none;} .card,.tblwrap,.fix,.callout,.fig,h2,h3{break-inside:avoid;}}
+  @media (max-width:560px){.wrap{padding:16px 12px 70px;}.masthead{padding:24px 20px;}
+    .card{padding:16px 16px;}.score{margin-left:0;width:100%;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="kicker">Glass Dish Audit / Two Directions</p>
+    <h1>兩隻玻璃小碟<br><span class="hl">一隻配得，一隻係第 6 種語言</span></h1>
+    <p class="sub">貓頭碗實測飽和像素 <strong>0.15%</strong>（＝純透明，最靜）；虹彩貝殼碟 <strong>1.74%</strong>，而且分散 <strong>6 個色相家族</strong> —— 由紅到藍紫全部出現。</p>
+    <div class="verdictbar">
+      <div class="vbox"><p class="lb">貓頭碗</p><p class="vl pass">✓ 可以（併入 Kuromi）</p></div>
+      <div class="vbox"><p class="lb">虹彩貝殼碟</p><p class="vl no">✗ 第 6 種語言</p></div>
+      <div class="vbox"><p class="lb">共同風險</p><p class="vl warn">△ 玻璃＝撞即碎</p></div>
+      <div class="vbox"><p class="lb">鍍膜耐久</p><p class="vl no">✗ 洗碗機會甩</p></div>
+    </div>
+  </header>
+
+  <!-- 1 -->
+  <section id="data">
+    <h2 class="sech"><span class="num">01</span>實測：兩隻嘅「靜」差 12 倍</h2>
+    <p class="lead">我唔用「靚唔靚」判斷，我用飽和像素比例 —— 因為「大面積要靜」係你嘅第①條件。</p>
+
+    <div class="fig">
+      <svg viewBox="0 0 620 300" role="img" aria-label="飽和像素比例對比：貓頭碗0.15%，虹彩貝殼碟1.74%">
+        <text x="20" y="24" font-family="Noto Sans TC, sans-serif" font-size="11.5" fill="#c3a6e0">有顏色嘅像素佔比（越低越靜）</text>
+
+        <!-- axis -->
+        <line x1="150" y1="70" x2="580" y2="70" stroke="#6b5f78" stroke-width="1"/>
+        <text x="150" y="62" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#a89fba">0%</text>
+        <text x="365" y="62" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#a89fba">1%</text>
+        <text x="580" y="62" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#a89fba">2%</text>
+
+        <!-- 貓頭碗 bar: 0.15% -> width = 0.15/2*430 = 32 -->
+        <rect x="150" y="82" width="32" height="26" rx="4" fill="#cfd8dc" opacity="0.9"/>
+        <text x="140" y="100" text-anchor="end" font-family="Noto Sans TC, sans-serif" font-size="11.5" fill="#ece7f2">貓頭碗</text>
+        <text x="192" y="100" font-family="JetBrains Mono, monospace" font-size="11.5" fill="#9ede9a" font-weight="600">0.15%</text>
+
+        <!-- 貝殼碟 bar: 1.74% -> width = 1.74/2*430 = 374 -->
+        <rect x="150" y="122" width="374" height="26" rx="4" fill="#7fd4c8" opacity="0.9"/>
+        <text x="140" y="140" text-anchor="end" font-family="Noto Sans TC, sans-serif" font-size="11.5" fill="#ece7f2">虹彩貝殼碟</text>
+        <text x="534" y="140" font-family="JetBrains Mono, monospace" font-size="11.5" fill="#ec9a9a" font-weight="600">1.74%</text>
+
+        <line x1="150" y1="164" x2="580" y2="164" stroke="#6b5f78" stroke-width="1" stroke-dasharray="3 3"/>
+        <text x="365" y="182" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="11" fill="#9ede9a">↑ 相差 11.6 倍</text>
+
+        <!-- 虹彩色相家族 -->
+        <text x="20" y="218" font-family="Noto Sans TC, sans-serif" font-size="11.5" fill="#c3a6e0">虹彩貝殼碟出現嘅色相家族（6 個）</text>
+        <g>
+          <rect x="20" y="230" width="52" height="24" rx="4" fill="#8f2b2b"/><text x="46" y="247" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#fff">H0</text>
+          <rect x="78" y="230" width="52" height="24" rx="4" fill="#a8823c"/><text x="104" y="247" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#fff">H30</text>
+          <rect x="136" y="230" width="52" height="24" rx="4" fill="#3f7a4a"/><text x="162" y="247" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#fff">H150</text>
+          <rect x="194" y="230" width="52" height="24" rx="4" fill="#2f7a7a"/><text x="220" y="247" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#fff">H180</text>
+          <rect x="252" y="230" width="52" height="24" rx="4" fill="#2f4f8f"/><text x="278" y="247" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#fff">H210</text>
+          <rect x="310" y="230" width="52" height="24" rx="4" fill="#4a3f8f"/><text x="336" y="247" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#fff">H240</text>
+        </g>
+        <text x="378" y="247" font-family="Noto Sans TC, sans-serif" font-size="11" fill="#ec9a9a">紅→金→綠→青→藍→藍紫 = 虹彩鍍膜</text>
+        <text x="20" y="280" font-family="Noto Sans TC, sans-serif" font-size="11" fill="#a89fba">貓頭碗只有 4 個微弱色相族群（反射光邊），實質＝無色透明</text>
+      </svg>
+      <p class="cap">「靜」係可以量化嘅：有顏色嘅像素越少，物件越靜。呢個數字直接對應你嘅第①條件。</p>
+    </div>
+
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>項目</th><th>貓頭玻璃碗</th><th>虹彩貝殼碟</th></tr></thead>
+        <tbody>
+          <tr><td>飽和像素佔比</td><td class="yes-c">0.15%</td><td class="no-c">1.74%</td></tr>
+          <tr><td>色相家族</td><td class="yes-c">4（微弱）</td><td class="no-c">6（明顯）</td></tr>
+          <tr><td>估計尺寸</td><td>內徑 12–14cm、高 4–6cm</td><td>14×11cm、深 1.5cm</td></tr>
+          <tr><td>玻璃結構</td><td>單層 2–3mm，平底無腳圈</td><td>單層，浮雕放射紋</td></tr>
+          <tr><td>圖案／文字</td><td class="yes-c">無 ✓</td><td class="no-c">金色草寫字 ✗</td></tr>
+          <tr><td>第① 大面積要靜</td><td class="yes-c">✓ 最靜</td><td class="no-c">✗ 最唔靜</td></tr>
+          <tr><td>第⑤ 無圖案</td><td class="mid-c">△ 造型語言</td><td class="no-c">✗ 有字</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 2 -->
+  <section id="verdict">
+    <h2 class="sech"><span class="num">02</span>兩隻分開判</h2>
+
+    <div class="grid2">
+      <div class="card pick">
+        <h3><span class="badge yes">✓ 可以買</span></h3>
+        <p><b>貓頭玻璃碗</b></p>
+        <ul>
+          <li>純透明，實測飽和 0.15% → 完全符合「大面積要靜」</li>
+          <li>無圖案、無文字 → 符合第⑤</li>
+          <li>貓造型 → 併入你已有嘅<b>可愛反叛（Kuromi）</b>語言，<b>唔加新語言</b></li>
+        </ul>
+        <div class="fix ok"><strong>建議用法：</strong>當<b>首飾／髮夾／小物收納碟</b>放層架。唔好當水碗（單層玻璃燙手）。</div>
+      </div>
+
+      <div class="card drop">
+        <h3><span class="badge no">✗ 唔建議</span></h3>
+        <p><b>虹彩貝殼碟</b></p>
+        <ul>
+          <li>虹彩＝<b>動態多色反光</b>，同一表面同時出紅綠藍紫 → 最唔「靜」</li>
+          <li>金色草寫字「Let's be mermaids」→ 違反第⑤</li>
+          <li>貝殼＋美人魚 → <b>「海洋美人魚」係第 6 種美學語言</b></li>
+        </ul>
+        <div class="fix bad"><strong>⚠️ 你已有 5 種語言，再加就變雜貨。</strong>呢隻碟單獨睇靚，但會令整個工作位嘅美學紀律鬆散。</div>
+      </div>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 3 -->
+  <section id="risk">
+    <h2 class="sech"><span class="num">03</span>辦公室實用風險（兩隻都有）</h2>
+    <p class="lead">呢啲同美學無關，係教員室真實環境嘅問題。</p>
+
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>風險</th><th>邊隻</th><th>情況</th></tr></thead>
+        <tbody>
+          <tr><td class="no-c">玻璃碎</td><td>兩隻</td><td>教員室有人行過、學生交功課撞到檯邊 → <b>玻璃碎成尖片</b>，唔似陶瓷只崩邊</td></tr>
+          <tr><td class="no-c">鍍膜褪色</td><td>貝殼碟</td><td><b>洗碗機會令虹彩層剝落</b>（高溫＋強鹼）。外國玻璃收藏社群已確認此問題</td></tr>
+          <tr><td class="mid-c">藏塵</td><td>貝殼碟</td><td>浮雕坑紋 ＋ 虹彩反光 → <b>抹唔乾淨都睇唔出</b>；平滑面好抹好多</td></tr>
+          <tr><td class="mid-c">金字磨蝕</td><td>貝殼碟</td><td>碟底金字，若用嚟放鎖匙／萬字夾就日日刮 → 金字係印花<b>非金屬</b>，會磨走</td></tr>
+          <tr><td class="mid-c">貓耳斷</td><td>貓頭碗</td><td>兩隻耳係<b>空心薄玻璃</b>，最凸出、最易撞；斷咗變尖角</td></tr>
+          <tr><td class="mid-c">燙手</td><td>貓頭碗</td><td>單層玻璃直接傳熱，裝熱水燙手（雙層玻璃才有隔熱）</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout danger">
+      <p><strong>⚠️ 最重要一點：兩隻都係玻璃，放教員室檯面有實際危險。</strong></p>
+      <p>你之前已決定「玻璃唔放檯面、放層架」。如果呢兩隻要放層架下層 —— <strong>下層淨空只有 11cm，而層架係 4 條幼金屬腳</strong>，抽文件時會撞。玻璃撞幼腳 = 碎片跌落下層。</p>
+      <p><strong>建議：玻璃小物全部放層架上層（同 Kuromi 壺一齊），或者收落儲物箱。</strong></p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 4 -->
+  <section id="summary">
+    <h2 class="sech"><span class="num">04</span>一句總結</h2>
+    <div class="callout dark">
+      <p><strong>貓頭玻璃碗 → 可以買。</strong>純透明最靜，併入 Kuromi 可愛反叛語言，唔加新語言。當首飾碟用，唔好當水杯。</p>
+      <p><strong>虹彩貝殼碟 → 唔建議。</strong>佢唔係「唔靚」，係<b>「多一種語言」</b>：虹彩動態反光 ＋ 貝殼 ＋ 美人魚文字。你已經有 5 種語言，第 6 種會令工作位由「輕奢」變「雜貨」。</p>
+      <p><strong>兩隻共同風險：</strong>都係玻璃。教員室檯面建議全部改陶瓷／骨瓷（唔碎、唔燙手）。玻璃留返放層架上層當收藏。</p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <footer class="foot">
+    <p>玻璃小碟評估 · Kuromi × Anna Sui 輕奢紫 · 2026 年 9 月</p>
+    <p>色值由商品相片抽樣（貓頭碗 621,816 點；貝殼碟 1,184,023 點，已扣除木紋背景）；飽和度以 HSV 計算。尺寸為相片比例估算，實際須量度實物。</p>
+  </footer>
+
+</div>
+</body>
+</html>
