@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>兩層架尺寸核算 · 29×15×12 莫蘭迪灰</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#120e18;--panel:rgba(255,255,255,.045);--line:rgba(255,255,255,.10);
+    --text:#ece7f2;--muted:#a89fba;--purple:#8f6cbd;--lilac:#c3a6e0;
+    --gold:#c9a06b;--paper:#f2ede4;--anchor:#765c8c;--champ:#f2cb84;
+    --ok:#9ede9a;--warn:#e8c07a;--bad:#ec9a9a;}
+  *{box-sizing:border-box;}
+  html,body{height:auto;overflow-x:hidden;}
+  body{margin:0;background:
+      radial-gradient(1100px 520px at 10% -8%, rgba(118,92,140,.26), transparent 62%),
+      radial-gradient(900px 480px at 94% 4%, rgba(158,222,154,.10), transparent 60%), var(--bg);
+    color:var(--text);font-family:"Noto Sans TC","PingFang TC",system-ui,sans-serif;
+    line-height:1.85;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:920px;margin:0 auto;padding:30px 20px 90px;}
+  .masthead{border:1px solid var(--line);border-radius:20px;
+    background:linear-gradient(150deg,rgba(118,92,140,.28),rgba(255,255,255,.03) 52%,rgba(158,222,154,.11));
+    padding:34px 30px 30px;position:relative;overflow:hidden;}
+  .masthead::after{content:"";position:absolute;right:-70px;top:-70px;width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle,rgba(158,222,154,.20),transparent 68%);}
+  .kicker{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.26em;
+    text-transform:uppercase;color:var(--lilac);margin:0 0 14px;}
+  h1{font-family:"Noto Serif TC",serif;font-weight:700;font-size:clamp(1.5rem,5vw,2.3rem);
+    line-height:1.3;margin:0 0 12px;} h1 .hl{color:var(--ok);}
+  .sub{color:var(--muted);font-size:.95rem;margin:0;max-width:62ch;}
+  .verdictbar{display:flex;flex-wrap:wrap;gap:14px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line);}
+  .vbox{flex:1 1 130px;}
+  .vbox .lb{font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);margin:0 0 4px;}
+  .vbox .vl{font-size:1.02rem;font-weight:600;margin:0;}
+  .vbox .vl.pass{color:var(--ok);} .vbox .vl.warn{color:var(--warn);} .vbox .vl.no{color:var(--bad);}
+  section{margin-top:44px;scroll-margin-top:20px;}
+  .sech{font-family:"Noto Serif TC",serif;font-weight:600;font-size:clamp(1.15rem,3.5vw,1.5rem);
+    margin:0 0 6px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .sech .num{font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--gold);letter-spacing:.1em;font-weight:600;}
+  .lead{color:var(--muted);font-size:.92rem;margin:0 0 20px;max-width:70ch;}
+  p{margin:0 0 14px;font-size:.94rem;}
+  .card{border:1px solid var(--line);border-radius:16px;background:var(--panel);
+    padding:20px 22px;margin-bottom:14px;break-inside:avoid;}
+  .card h3{font-size:1.02rem;margin:0 0 10px;font-weight:600;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .card p:last-child{margin-bottom:0;}
+  .card ul{margin:8px 0 0;padding-left:0;list-style:none;}
+  .card ul li{position:relative;padding-left:18px;margin-bottom:7px;font-size:.91rem;}
+  .card ul li::before{content:"";position:absolute;left:2px;top:.68em;width:7px;height:7px;border-radius:50%;
+    background:var(--purple);opacity:.85;}
+  .pick{border-color:rgba(158,222,154,.5);background:linear-gradient(160deg,rgba(120,200,120,.14),rgba(255,255,255,.03));}
+  .hold{border-color:rgba(232,192,122,.45);background:linear-gradient(160deg,rgba(232,192,122,.13),rgba(255,255,255,.03));}
+  .badge{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.1em;border-radius:999px;padding:3px 11px;white-space:nowrap;}
+  .badge.yes{background:rgba(120,200,120,.16);color:var(--ok);border:1px solid rgba(120,200,120,.4);}
+  .badge.mid{background:rgba(232,192,122,.15);color:var(--warn);border:1px solid rgba(232,192,122,.42);}
+  .badge.no{background:rgba(220,120,120,.14);color:var(--bad);border:1px solid rgba(220,120,120,.4);}
+  .score{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:.82rem;color:var(--lilac);white-space:nowrap;}
+  .fix{border-left:3px solid var(--warn);background:linear-gradient(90deg,rgba(232,192,122,.12),transparent 74%);
+    border-radius:0 12px 12px 0;padding:12px 16px;margin-top:12px;font-size:.88rem;break-inside:avoid;}
+  .fix.ok{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.15),transparent 74%);}
+  .fix.bad{border-left-color:var(--bad);background:linear-gradient(90deg,rgba(220,120,120,.13),transparent 74%);}
+  .fix strong{color:var(--paper);}
+  .callout{border-left:3px solid var(--gold);background:linear-gradient(90deg,rgba(201,160,107,.13),transparent 72%);
+    border-radius:0 14px 14px 0;padding:16px 20px;margin:18px 0;break-inside:avoid;}
+  .callout.dark{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.16),transparent 72%);}
+  .callout.gold{border-left-color:var(--champ);background:linear-gradient(90deg,rgba(242,203,132,.15),transparent 72%);}
+  .callout.danger{border-left-color:var(--bad);background:linear-gradient(90deg,rgba(220,120,120,.15),transparent 72%);}
+  .callout strong{color:var(--paper);} .callout p{margin:0 0 8px;font-size:.9rem;} .callout p:last-child{margin:0;}
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--panel);}
+  table{width:100%;border-collapse:collapse;min-width:640px;font-size:.84rem;}
+  thead th{background:linear-gradient(180deg,rgba(143,108,189,.34),rgba(143,108,189,.14));
+    text-align:left;padding:11px 13px;font-weight:600;font-size:.79rem;white-space:nowrap;border-bottom:1px solid var(--line);}
+  tbody td{padding:10px 13px;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top;}
+  tbody tr:nth-child(even) td{background:rgba(255,255,255,.022);}
+  tbody tr:last-child td{border-bottom:none;}
+  .yes-c{color:var(--ok);font-weight:600;} .no-c{color:var(--bad);font-weight:600;} .mid-c{color:var(--warn);font-weight:600;}
+  .sw{display:inline-block;width:13px;height:13px;border-radius:3px;vertical-align:-2px;margin-right:7px;border:1px solid rgba(255,255,255,.28);}
+  .top{display:inline-flex;align-items:center;gap:8px;margin-top:16px;
+    font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.08em;color:var(--lilac);
+    text-decoration:none;border:1px solid rgba(195,166,224,.35);border-radius:999px;padding:7px 16px;background:rgba(143,108,189,.10);}
+  .top:hover{background:rgba(143,108,189,.22);color:#fff;}
+  .fig{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.03);padding:18px 16px 10px;margin:18px 0;break-inside:avoid;}
+  .fig svg{width:100%;height:auto;display:block;overflow:visible;}
+  .fig .cap{font-size:.78rem;color:var(--muted);margin:10px 2px 0;line-height:1.6;}
+  .foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted);}
+  .foot p{margin:0 0 6px;font-size:.8rem;}
+  @media print{body{background:#fff;color:#1a1520;}
+    .masthead,.card,.tblwrap,.fix,.callout,.fig{background:#faf8f4;border-color:#d8d2c6;}
+    h1,.sech,.card h3{color:#1a1520;} .sub,.lead,p,.card ul li,.fig .cap{color:#4a4453;}
+    .top{display:none;} .card,.tblwrap,.fix,.callout,.fig,h2,h3{break-inside:avoid;}}
+  @media (max-width:560px){.wrap{padding:16px 12px 70px;}.masthead{padding:24px 20px;}
+    .card{padding:16px 16px;}.score{margin-left:0;width:100%;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="kicker">Shelf Dimensions / Resolved</p>
+    <h1>兩層架尺寸核算<br><span class="hl">顏色極準，但淨空矮過你現有嗰個</span></h1>
+    <p class="sub">標示 <strong>29×15×12cm</strong>（上層深只有 10cm）。實測灰 <strong>#a2a09f</strong>，距你書架 <strong>#a7a6a4 只 9.3</strong> —— 係目前全部物件中色值最準嘅一件。但下層淨空只有 <strong>8–10cm</strong>。</p>
+    <div class="verdictbar">
+      <div class="vbox"><p class="lb">顏色</p><p class="vl pass">✓✓ 距書架 9.3</p></div>
+      <div class="vbox"><p class="lb">下層淨空</p><p class="vl no">✗ 8–10cm</p></div>
+      <div class="vbox"><p class="lb">上層深度</p><p class="vl warn">△ 只 10cm</p></div>
+      <div class="vbox"><p class="lb">放大壺</p><p class="vl no">✗ 15cm 塞唔入</p></div>
+    </div>
+  </header>
+
+  <!-- 1 -->
+  <section id="dim">
+    <h2 class="sech"><span class="num">01</span>尺寸標註：29×15×12，上層深 10</h2>
+    <p class="lead">呢張圖終於有明確尺寸 —— 正好回答我之前問嘅淨空問題。</p>
+
+    <div class="fig">
+      <svg viewBox="0 0 640 300" role="img" aria-label="兩層架側視圖：總高12cm，下層淨空10cm，上層深10cm，下層深15cm，統一10px每cm真比例">
+        <text x="20" y="18" font-family="Noto Sans TC, sans-serif" font-size="11.5" fill="#c3a6e0">側視圖（統一 10px/cm 真比例）</text>
+
+        <!-- 上層深度 10cm = 100px -->
+        <line x1="100" y1="48" x2="200" y2="48" stroke="#9ede9a" stroke-width="1.4"/>
+        <line x1="100" y1="42" x2="100" y2="54" stroke="#9ede9a" stroke-width="1.4"/>
+        <line x1="200" y1="42" x2="200" y2="54" stroke="#9ede9a" stroke-width="1.4"/>
+        <text x="205" y="52" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#9ede9a">上層深 10cm</text>
+
+        <!-- 上層板 1cm 厚 -->
+        <rect x="100" y="56" width="100" height="10" rx="3" fill="#a2a09f"/>
+        <!-- 腳：上層板底 y=66 → 下層板面 y=166 -->
+        <rect x="106" y="66" width="8" height="100" rx="2" fill="#2a2520"/>
+        <rect x="186" y="66" width="8" height="100" rx="2" fill="#2a2520"/>
+        <!-- 下層板 1cm 厚 -->
+        <rect x="100" y="166" width="150" height="10" rx="3" fill="#a2a09f"/>
+        <!-- 桌面 -->
+        <line x1="80" y1="176" x2="290" y2="176" stroke="#6b5f78" stroke-width="2"/>
+        <text x="296" y="180" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#a89fba">桌面</text>
+
+        <!-- 總高 12cm = 120px (56→176) -->
+        <line x1="76" y1="56" x2="76" y2="176" stroke="#e8c07a" stroke-width="1.4"/>
+        <line x1="70" y1="56" x2="82" y2="56" stroke="#e8c07a" stroke-width="1.4"/>
+        <line x1="70" y1="176" x2="82" y2="176" stroke="#e8c07a" stroke-width="1.4"/>
+        <text x="66" y="112" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="11" fill="#e8c07a" font-weight="600">12cm</text>
+        <text x="66" y="128" text-anchor="end" font-family="Noto Sans TC, sans-serif" font-size="10" fill="#a89fba">總高</text>
+
+        <!-- 淨空 10cm = 100px (66→166) -->
+        <line x1="270" y1="66" x2="270" y2="166" stroke="#ec9a9a" stroke-width="1.4" stroke-dasharray="4 3"/>
+        <line x1="264" y1="66" x2="276" y2="66" stroke="#ec9a9a" stroke-width="1.4"/>
+        <line x1="264" y1="166" x2="276" y2="166" stroke="#ec9a9a" stroke-width="1.4"/>
+        <text x="282" y="112" font-family="JetBrains Mono, monospace" font-size="11" fill="#ec9a9a" font-weight="600">10cm</text>
+        <text x="282" y="128" font-family="Noto Sans TC, sans-serif" font-size="10" fill="#a89fba">淨空（板厚1cm）</text>
+
+        <!-- 下層深度 15cm = 150px -->
+        <line x1="100" y1="210" x2="250" y2="210" stroke="#c3a6e0" stroke-width="1.4"/>
+        <line x1="100" y1="204" x2="100" y2="216" stroke="#c3a6e0" stroke-width="1.4"/>
+        <line x1="250" y1="204" x2="250" y2="216" stroke="#c3a6e0" stroke-width="1.4"/>
+        <text x="255" y="214" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#c3a6e0">下層深 15cm</text>
+
+        <text x="20" y="248" font-family="Noto Sans TC, sans-serif" font-size="11" fill="#a89fba">上層比下層淺 5cm → 上層只放得落淺物件</text>
+        <text x="20" y="270" font-family="Noto Sans TC, sans-serif" font-size="11" fill="#e8c07a">板厚 1cm 時淨空 10cm；板厚 2cm 時只剩 8cm</text>
+        <text x="20" y="292" font-family="Noto Sans TC, sans-serif" font-size="11" fill="#ec9a9a">兩個情況都放唔入 15cm 嘅 Kuromi 壺</text>
+      </svg>
+      <p class="cap">總高 12cm 係「桌面 → 上層板面」。下層淨空要扣兩塊板厚，所以係 8–10cm。</p>
+    </div>
+
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>項目</th><th>標示</th><th>備註</th></tr></thead>
+        <tbody>
+          <tr><td>闊度</td><td class="mid-c">29–30cm</td><td>底部文字寫 29×15×12；圖中箭頭寫 30cm（四捨五入）</td></tr>
+          <tr><td>下層深度</td><td>15cm</td><td>—</td></tr>
+          <tr><td>上層深度</td><td class="no-c">只 10cm</td><td>比下層淺 5cm</td></tr>
+          <tr><td>總高</td><td>12cm</td><td>桌面 → 上層板面</td></tr>
+          <tr><td><b>下層淨空</b></td><td class="no-c"><b>8–10cm</b></td><td>扣兩塊板厚（每塊 1–2cm）</td></tr>
+          <tr><td>層板顏色</td><td><span class="sw" style="background:#a2a09f"></span>#a2a09f</td><td>莫蘭迪灰，實測</td></tr>
+          <tr><td>腳</td><td>黑色圓柱金屬</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 2 -->
+  <section id="color">
+    <h2 class="sech"><span class="num">02</span>顏色：目前全部物件中最準</h2>
+
+    <div class="card pick">
+      <h3><span class="badge yes">✓✓ 色值最準</span><span class="score">距書架 9.3</span></h3>
+      <ul>
+        <li>實測 <b>#a2a09f（H20 S2% V64%）</b> —— <b>飽和度只有 2%</b>，幾乎完全中性灰</li>
+        <li>距你<b>書架 #a7a6a4 只 9.3</b> → 係全部物件中<b>色值最接近</b>嘅一件（比紙巾盒嘅 15.3 更貼）</li>
+        <li>距你<b>檯面 #b4b4b2 → 32.9</b> ✓ 同族</li>
+      </ul>
+      <div class="fix ok"><strong>顏色方面完全冇問題</strong> —— 「莫蘭迪灰」同你房入面嘅灰木系係同一個家族。</div>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 3 -->
+  <section id="fit">
+    <h2 class="sech"><span class="num">03</span>但高度：比你現有層架矮</h2>
+
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>層架</th><th>總高</th><th>下層淨空</th><th>闊度</th></tr></thead>
+        <tbody>
+          <tr><td><b>呢個（莫蘭迪灰）</b></td><td>12cm</td><td class="no-c">8–10cm</td><td>29–30cm</td></tr>
+          <tr><td>你現有嗰個</td><td>15cm</td><td class="yes-c">11cm</td><td>約 60cm</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout danger">
+      <p><strong>⚠️ 呢個新架比你現有嘅矮 1–3cm。</strong></p>
+      <p>你現有層架淨空 <b>11cm</b>；呢個只有 <b>8–10cm</b>。即係話<b>呢個架放得落嘅嘢更少</b>。</p>
+    </div>
+
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>物件</th><th>高</th><th>下層（8cm）</th><th>下層（10cm）</th><th>上層（深只10cm）</th></tr></thead>
+        <tbody>
+          <tr><td>Kuromi 壺（直徑10cm）</td><td>15.0cm</td><td class="no-c">✗</td><td class="no-c">✗</td><td class="no-c">✗ 直徑10＝貼邊</td></tr>
+          <tr><td>Panasonic NC-KC30A</td><td>21.3cm</td><td class="no-c">✗</td><td class="no-c">✗</td><td class="mid-c">△ 直徑7.4，但高</td></tr>
+          <tr><td>Kuromi 玻璃杯</td><td>7.5cm</td><td class="mid-c">△ 剛好</td><td class="yes-c">✓</td><td class="yes-c">✓</td></tr>
+          <tr><td>紙巾盒（紫浮雕）</td><td>9.0cm</td><td class="no-c">✗</td><td class="mid-c">△ 剛好</td><td class="mid-c">△ 深12＞10</td></tr>
+        </tbody>
+      </table>
+      <div class="cap">⚠️ 上層深度只有 10cm —— Kuromi 壺直徑剛好 10cm，會「貼邊」，移動時易翻。</div>
+    </div>
+
+    <div class="callout dark">
+      <p><strong>📌 所以呢個架只放得落：</strong>玻璃杯、文具、小碟、化妝品類嘅矮物件。</p>
+      <p><strong>壺同電熱水杯兩個都塞唔入</strong>（15cm 同 21.3cm），要繼續放喺你現有嗰個層架（淨空 11cm 都唔夠放壺，所以壺係放層架<b>頂</b>上面）。</p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 4 -->
+  <section id="verdict">
+    <h2 class="sech"><span class="num">04</span>結論</h2>
+    <div class="callout gold">
+      <p><strong>✅ 顏色：買得過。</strong>實測距你書架 9.3，係最準嘅一件。莫蘭迪灰同全屋灰木系完全同族。</p>
+      <p><strong>⚠️ 但功能要接受限制：</strong></p>
+      <p><strong>① 只放矮嘢</strong>（≤8–10cm）—— 壺同電熱水杯都塞唔入。<br>
+      <strong>② 上層深只 10cm</strong> —— 放唔落直徑 10cm 以上嘅嘢（壺會貼邊）。<br>
+      <strong>③ 闊 29–30cm</strong> —— 比你現有嘅窄一半，載物量細。</p>
+    </div>
+
+    <div class="card hold">
+      <h3><span class="badge mid">△ 買之前想清楚</span></h3>
+      <ul>
+        <li><b>你要用佢放咩？</b>如果係放玻璃杯、文具、小碟 → 完全冇問題 ✓</li>
+        <li><b>如果打算放壺／電熱水杯 → 唔得</b>，要另覓位置</li>
+        <li><b>如果你想要 60cm 闊嘅版本</b>（我之前建議嘅 60×20×12）→ 呢個唔係，佢係 29cm 細版</li>
+      </ul>
+      <div class="fix"><strong>建議：</strong>如果只係想要一小格放矮物件、補足桌面收納 → <b>買得過，顏色係全部最準嘅一件</b>。<br>
+      如果打算用嚟放壺／大件 → <b>唔好買</b>，淨空同深度都唔夠。</div>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <footer class="foot">
+    <p>兩層架尺寸核算 · Anna Sui × Sanrio 輕奢紫工作位 · 2026 年 9 月</p>
+    <p>尺寸依商品標示（29×15×12cm，上層深10cm）；下層淨空按層板厚 1–2cm 推算。灰值由商品圖抽樣（6,125 點，已排除背景牆及底部橫幅）；RGB 歐氏距離。</p>
+    <p>© 2023 SANRIO CO., LTD. 商標屬原持有人所有，此頁僅作個人配襯分析用途。</p>
+  </footer>
+
+</div>
+</body>
+</html>
