@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>錨評估 · Anna Sui × Sanrio 實測</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#120e18;--panel:rgba(255,255,255,.045);--line:rgba(255,255,255,.10);
+    --text:#ece7f2;--muted:#a89fba;--purple:#8f6cbd;--lilac:#c3a6e0;
+    --gold:#c9a06b;--paper:#f2ede4;--anchor:#765c8c;--champ:#f2cb84;
+    --ok:#9ede9a;--warn:#e8c07a;--bad:#ec9a9a;}
+  *{box-sizing:border-box;}
+  html,body{height:auto;overflow-x:hidden;}
+  body{margin:0;background:
+      radial-gradient(1100px 520px at 10% -8%, rgba(118,92,140,.28), transparent 62%),
+      radial-gradient(900px 480px at 94% 4%, rgba(242,203,132,.12), transparent 60%), var(--bg);
+    color:var(--text);font-family:"Noto Sans TC","PingFang TC",system-ui,sans-serif;
+    line-height:1.85;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:900px;margin:0 auto;padding:30px 20px 90px;}
+  .masthead{border:1px solid var(--line);border-radius:20px;
+    background:linear-gradient(150deg,rgba(118,92,140,.30),rgba(255,255,255,.03) 50%,rgba(242,203,132,.15));
+    padding:34px 30px 30px;position:relative;overflow:hidden;}
+  .masthead::after{content:"";position:absolute;right:-70px;top:-70px;width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle,rgba(242,203,132,.22),transparent 68%);}
+  .kicker{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.26em;
+    text-transform:uppercase;color:var(--lilac);margin:0 0 14px;}
+  h1{font-family:"Noto Serif TC",serif;font-weight:700;font-size:clamp(1.5rem,5vw,2.3rem);
+    line-height:1.3;margin:0 0 12px;} h1 .hl{color:var(--champ);}
+  .sub{color:var(--muted);font-size:.95rem;margin:0;max-width:60ch;}
+  .verdictbar{display:flex;flex-wrap:wrap;gap:14px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line);}
+  .vbox{flex:1 1 150px;}
+  .vbox .lb{font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);margin:0 0 4px;}
+  .vbox .vl{font-size:1.02rem;font-weight:600;margin:0;}
+  .vbox .vl.pass{color:var(--ok);} .vbox .vl.warn{color:var(--warn);} .vbox .vl.no{color:var(--bad);}
+  section{margin-top:44px;scroll-margin-top:20px;}
+  .sech{font-family:"Noto Serif TC",serif;font-weight:600;font-size:clamp(1.15rem,3.5vw,1.5rem);
+    margin:0 0 6px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .sech .num{font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--gold);letter-spacing:.1em;font-weight:600;}
+  .lead{color:var(--muted);font-size:.92rem;margin:0 0 20px;max-width:70ch;}
+  p{margin:0 0 14px;font-size:.94rem;}
+  .card{border:1px solid var(--line);border-radius:16px;background:var(--panel);
+    padding:20px 22px;margin-bottom:14px;break-inside:avoid;}
+  .card h3{font-size:1.02rem;margin:0 0 10px;font-weight:600;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .card p:last-child{margin-bottom:0;}
+  .card ul{margin:8px 0 0;padding-left:0;list-style:none;}
+  .card ul li{position:relative;padding-left:18px;margin-bottom:7px;font-size:.91rem;}
+  .card ul li::before{content:"";position:absolute;left:2px;top:.68em;width:7px;height:7px;border-radius:50%;
+    background:var(--purple);opacity:.85;}
+  .pick{border-color:rgba(158,222,154,.5);background:linear-gradient(160deg,rgba(120,200,120,.15),rgba(255,255,255,.03));}
+  .key{border-color:rgba(242,203,132,.5);background:linear-gradient(160deg,rgba(242,203,132,.16),rgba(255,255,255,.03));}
+  .badge{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.1em;border-radius:999px;padding:3px 11px;white-space:nowrap;}
+  .badge.yes{background:rgba(120,200,120,.16);color:var(--ok);border:1px solid rgba(120,200,120,.4);}
+  .badge.mid{background:rgba(232,192,122,.15);color:var(--warn);border:1px solid rgba(232,192,122,.42);}
+  .badge.no{background:rgba(220,120,120,.14);color:var(--bad);border:1px solid rgba(220,120,120,.4);}
+  .score{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:.82rem;color:var(--lilac);white-space:nowrap;}
+  .fix{border-left:3px solid var(--warn);background:linear-gradient(90deg,rgba(232,192,122,.12),transparent 74%);
+    border-radius:0 12px 12px 0;padding:12px 16px;margin-top:12px;font-size:.88rem;break-inside:avoid;}
+  .fix.ok{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.15),transparent 74%);}
+  .fix.bad{border-left-color:var(--bad);background:linear-gradient(90deg,rgba(220,120,120,.13),transparent 74%);}
+  .fix strong{color:var(--paper);}
+  .callout{border-left:3px solid var(--gold);background:linear-gradient(90deg,rgba(201,160,107,.13),transparent 72%);
+    border-radius:0 14px 14px 0;padding:16px 20px;margin:18px 0;break-inside:avoid;}
+  .callout.dark{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.16),transparent 72%);}
+  .callout.gold{border-left-color:var(--champ);background:linear-gradient(90deg,rgba(242,203,132,.16),transparent 72%);}
+  .callout strong{color:var(--paper);} .callout p{margin:0 0 8px;font-size:.9rem;} .callout p:last-child{margin:0;}
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--panel);}
+  table{width:100%;border-collapse:collapse;min-width:620px;font-size:.84rem;}
+  thead th{background:linear-gradient(180deg,rgba(143,108,189,.34),rgba(143,108,189,.14));
+    text-align:left;padding:11px 13px;font-weight:600;font-size:.79rem;white-space:nowrap;border-bottom:1px solid var(--line);}
+  tbody td{padding:10px 13px;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top;}
+  tbody tr:nth-child(even) td{background:rgba(255,255,255,.022);}
+  tbody tr:last-child td{border-bottom:none;}
+  .yes-c{color:var(--ok);font-weight:600;} .no-c{color:var(--bad);font-weight:600;} .mid-c{color:var(--warn);font-weight:600;}
+  .sw{display:inline-block;width:13px;height:13px;border-radius:3px;vertical-align:-2px;margin-right:7px;border:1px solid rgba(255,255,255,.28);}
+  .top{display:inline-flex;align-items:center;gap:8px;margin-top:16px;
+    font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.08em;color:var(--lilac);
+    text-decoration:none;border:1px solid rgba(195,166,224,.35);border-radius:999px;padding:7px 16px;background:rgba(143,108,189,.10);}
+  .top:hover{background:rgba(143,108,189,.22);color:#fff;}
+  .fig{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.03);padding:18px 16px 10px;margin:18px 0;break-inside:avoid;}
+  .fig svg{width:100%;height:auto;display:block;overflow:visible;}
+  .fig .cap{font-size:.78rem;color:var(--muted);margin:10px 2px 0;line-height:1.6;}
+  .foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted);}
+  .foot p{margin:0 0 6px;font-size:.8rem;}
+  @media print{body{background:#fff;color:#1a1520;}
+    .masthead,.card,.tblwrap,.fix,.callout,.fig{background:#faf8f4;border-color:#d8d2c6;}
+    h1,.sech,.card h3{color:#1a1520;} .sub,.lead,p,.card ul li,.fig .cap{color:#4a4453;}
+    .top{display:none;} .card,.tblwrap,.fix,.callout,.fig,h2,h3{break-inside:avoid;}}
+  @media (max-width:560px){.wrap{padding:16px 12px 70px;}.masthead{padding:24px 20px;}
+    .card{padding:16px 16px;}.score{margin-left:0;width:100%;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="kicker">The Anchor / Recalibrated</p>
+    <h1>終於見到「錨」<br><span class="hl">我原本嘅基準偏咗</span></h1>
+    <p class="sub">實測桌墊紫 <strong>#765c8c（H273 S34% V55%）</strong> —— 比我假設嘅 <strong>#7b5ea7</strong> 更深、更灰、更暗（距離 27.5）。而且錨本身就有 <strong>3 層紫</strong>。</p>
+    <div class="verdictbar">
+      <div class="vbox"><p class="lb">配襯嗎</p><p class="vl pass">✓ 配（但規則要改）</p></div>
+      <div class="vbox"><p class="lb">錨佔桌面</p><p class="vl warn">△ 60–70%</p></div>
+      <div class="vbox"><p class="lb">金色</p><p class="vl no">✗ 香檳金，非玫瑰金</p></div>
+      <div class="vbox"><p class="lb">角色數</p><p class="vl warn">△ 3 個，非 Kuromi 單一</p></div>
+    </div>
+  </header>
+
+  <!-- 1 -->
+  <section id="anchor">
+    <h2 class="sech"><span class="num">01</span>錨嘅實測色：3 層紫 + 香檳金 + 墨黑</h2>
+    <p class="lead">我之前一直用「輕奢紫 #7b5ea7」做基準 —— 但嗰個係我假設出嚟嘅，唔係你實物嘅色。現在有實物數據。</p>
+
+    <div class="fig">
+      <svg viewBox="0 0 640 340" role="img" aria-label="錨的三層紫色與香檳金實測色值及距離">
+        <text x="20" y="24" font-family="Noto Sans TC, sans-serif" font-size="11.5" fill="#c3a6e0">錨嘅色系（實測，已排除木枱背景）</text>
+
+        <!-- 色塊列 -->
+        <rect x="20" y="42" width="140" height="46" rx="7" fill="#765c8c"/>
+        <text x="90" y="62" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="11" fill="#fff">桌墊深紫</text>
+        <text x="90" y="79" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#fff">H273 S34 V55</text>
+
+        <rect x="172" y="42" width="140" height="46" rx="7" fill="#2f2c57"/>
+        <text x="242" y="62" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="11" fill="#fff">鍵盤機身</text>
+        <text x="242" y="79" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#fff">H244 S49 V34</text>
+
+        <rect x="324" y="42" width="140" height="46" rx="7" fill="#9891c9"/>
+        <text x="394" y="62" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="11" fill="#231f38">鍵帽淺紫</text>
+        <text x="394" y="79" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#231f38">H248 S28 V79</text>
+
+        <rect x="476" y="42" width="140" height="46" rx="7" fill="#f2cb84"/>
+        <text x="546" y="62" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="11" fill="#3a2e12">香檳金</text>
+        <text x="546" y="79" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#3a2e12">H39 S45 V95</text>
+
+        <!-- 色相位置軸 -->
+        <text x="20" y="120" font-family="Noto Sans TC, sans-serif" font-size="11" fill="#c3a6e0">色相位置（H240 → H273 = 藍紫家族，跨度 29°）</text>
+        <line x1="40" y1="150" x2="600" y2="150" stroke="#6b5f78" stroke-width="1.2"/>
+        <text x="40" y="142" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#a89fba">240</text>
+        <text x="320" y="142" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#a89fba">260</text>
+        <text x="600" y="142" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#a89fba">280</text>
+
+        <!-- 鍵盤機身 H244 -> x=40+(244-240)/40*560=96 -->
+        <line x1="96" y1="138" x2="96" y2="162" stroke="#8f8fd8" stroke-width="2.5"/>
+        <text x="96" y="178" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#8f8fd8">H244</text>
+        <!-- 鍵帽 H248 -> x=152 -->
+        <line x1="152" y1="138" x2="152" y2="162" stroke="#9891c9" stroke-width="2.5"/>
+        <text x="152" y="178" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#9891c9">H248</text>
+        <!-- 桌墊 H273 -> x=502 -->
+        <line x1="502" y1="138" x2="502" y2="162" stroke="#765c8c" stroke-width="2.5"/>
+        <text x="502" y="178" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#a98fc4">H273</text>
+
+        <path d="M96 196 Q299 214 502 196" stroke="#9ede9a" stroke-width="1.4" fill="none" stroke-dasharray="4 3"/>
+        <text x="299" y="230" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="11" fill="#9ede9a">同族 ✓（唔係同一色，但同一家族）</text>
+
+        <text x="20" y="262" font-family="Noto Sans TC, sans-serif" font-size="11" fill="#e8c07a">金色對比：</text>
+        <rect x="96" y="250" width="80" height="18" rx="4" fill="#f2cb84"/>
+        <text x="186" y="264" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#e8c07a">錨金 #f2cb84（V95）</text>
+        <rect x="330" y="250" width="80" height="18" rx="4" fill="#c9a06b"/>
+        <text x="420" y="264" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#ec9a9a">我假設嘅玫瑰金 #c9a06b（V63）</text>
+        <text x="20" y="298" font-family="Noto Sans TC, sans-serif" font-size="11.5" fill="#ec9a9a">兩者距離 64.5 → 唔係同一種金。錨係亮香檳金，唔係啞玫瑰金。</text>
+        <text x="20" y="320" font-family="Noto Sans TC, sans-serif" font-size="11.5" fill="#9ede9a">好消息：紫浮雕玻璃紙巾盒 #7b6480 距錨紫只 15.3 → 全部物件中最準</text>
+      </svg>
+      <p class="cap">關鍵唔係「同一個色」，而係「同一個家族」。錨自己都用 3 層紫（H244／248／273），跨度 29°。</p>
+    </div>
+
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>錨嘅構成</th><th>實測色值</th><th>角色</th></tr></thead>
+        <tbody>
+          <tr><td>桌墊深紫（60–70% 桌面）</td><td><span class="sw" style="background:#765c8c"></span>#765c8c</td><td>主色，最大面積</td></tr>
+          <tr><td>鍵盤機身深紫藍</td><td><span class="sw" style="background:#2f2c57"></span>#2f2c57</td><td>第二層紫</td></tr>
+          <tr><td>鍵帽淺紫（薰衣草）</td><td><span class="sw" style="background:#9891c9"></span>#9891c9</td><td>第三層紫</td></tr>
+          <tr><td>香檳金線條／logo</td><td><span class="sw" style="background:#f2cb84"></span>#f2cb84</td><td>金屬點綴（亮金）</td></tr>
+          <tr><td>黑漸層／護腕／角色頭巾</td><td><span class="sw" style="background:#1b181b"></span>#1b181b</td><td>深色錨點 ✓</td></tr>
+          <tr><td>角色色（粉／白藍／黑粉）</td><td>—</td><td>My Melody／Cinnamoroll／Kuromi</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 2 -->
+  <section id="finding">
+    <h2 class="sech"><span class="num">02</span>最重要發現：錨自己就係「極繁」</h2>
+    <p class="lead">我之前一直叫你「大面積要靜」。但睇到你實景之後 —— 錨本身就違反呢條規則。</p>
+
+    <div class="callout gold">
+      <p><strong>桌墊佔桌面 60–70%，上面有：</strong>玫瑰、蝴蝶、星星、藤蔓、蕾絲、3 個角色、金線描邊。</p>
+      <p><strong>呢個係 maximalist（極繁）設計。</strong>即係話你嘅第①條件「大面積要靜」—— 錨自己做唔到。</p>
+      <p><strong>✅ 所以正確策略唔係「全部都要靜」，而係：</strong>錨＝唯一嘅極繁主角；其餘所有物件必須退後做背景。</p>
+      <p><strong>理由：</strong>60–70% 桌面已經好滿。再加花紋物件 = 視覺爆炸。呢個唔係美學偏好，係面積算術。</p>
+    </div>
+
+    <div class="card key">
+      <h3><span class="badge mid">規則更新</span><span class="score">紀律口訣要改</span></h3>
+      <p><b>舊口訣：</b>「紫要一調、金要一種、Kuromi 要一件、杯要一隻、電器唔上架」</p>
+      <p><b>新理解：</b></p>
+      <ul>
+        <li><b>「紫要一調」→ 放寬成「紫要同一家族」</b>（錨自己用 H244／248／273，跨度 29° 都係同族）</li>
+        <li><b>「金要一種」→ 仍然要守</b>，但「一種」應該係<b>香檳金 #f2cb84</b>，唔係玫瑰金 #c9a06b</li>
+        <li><b>「Kuromi 要一件」→ 改成「角色總數唔好過 3」</b>（錨已經有 3 個：My Melody／Cinnamoroll／Kuromi）</li>
+        <li><b>新增：「錨係唯一主角」</b>—— 其餘物件要有 70% 以上係純色／透明</li>
+      </ul>
+    </div>
+
+    <div class="callout dark">
+      <p><strong>⚠️ 一個重要更正：</strong>你一直講「Kuromi 嘅 mouse／keyboard／桌墊」，但實物係 <strong>My Melody ＋ Cinnamoroll ＋ Kuromi 三個角色</strong>同時出現（鍵盤空白鍵、滑鼠、桌墊都有齊三個）。</p>
+      <p><strong>所以你嘅語言唔係「Kuromi 反叛」，而係「三麗鷗哥德茶會」。</strong></p>
+      <p><strong>影響：</strong>唔應該再買任何「單一 Kuromi 圖案」嘅新物件 —— 會令角色總數變 4，而且變成 Kuromi 搶戲、其他兩個被邊緣化。</p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 3 -->
+  <section id="recalc">
+    <h2 class="sech"><span class="num">03</span>用真錨重算：之前所有物件</h2>
+    <p class="lead">我唔重覆之前嘅判斷，只用實測色值逐件重算距離。</p>
+
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>物件</th><th>色值</th><th>距錨紫 #765c8c</th><th>距錨金 #f2cb84</th><th>判定</th></tr></thead>
+        <tbody>
+          <tr><td>紫浮雕玻璃紙巾盒</td><td><span class="sw" style="background:#7b6480"></span>#7b6480</td><td class="yes-c">15.3</td><td>157.4</td><td class="yes-c">✓ 最準</td></tr>
+          <tr><td>陶瓷托盤 主體</td><td><span class="sw" style="background:#d4b9c2"></span>#d4b9c2</td><td class="no-c">142.8</td><td class="mid-c">71.2</td><td class="no-c">✗ 唔同色</td></tr>
+          <tr><td>樹脂書立 金部</td><td><span class="sw" style="background:#b18964"></span>#b18964</td><td class="mid-c">84.3</td><td class="mid-c">98.0</td><td class="mid-c">△ 靠深黑融入</td></tr>
+          <tr><td>陶瓷托盤 金邊</td><td><span class="sw" style="background:#af8063"></span>#af8063</td><td class="mid-c">78.9</td><td class="mid-c">105.8</td><td class="mid-c">△ 近同族</td></tr>
+          <tr><td>虹彩貝殼碟</td><td>6 色相家族</td><td class="no-c">—</td><td class="no-c">—</td><td class="no-c">✗ 判決不變</td></tr>
+        </tbody>
+      </table>
+      <div class="cap">距離 &lt;45 ＝ 同族；45–80 ＝ 近；&gt;80 ＝ 唔同。</div>
+    </div>
+
+    <div class="card pick">
+      <h3><span class="badge yes">✓ 好消息</span><span class="score">之前判斷方向冇錯</span></h3>
+      <ul>
+        <li><b>紫浮雕玻璃紙巾盒</b>距真錨紫只 <b>15.3</b> —— 用假設紫量係 39.5，實際<b>更接近</b>。確認買得準。</li>
+        <li>真錨距我原本假設只 <b>27.5</b> —— 即係我之前嘅判斷框架冇偏，只係數字要校準。</li>
+      </ul>
+      <div class="fix ok"><strong>結論：</strong>紙巾盒係目前全部物件之中，同錨最吻合嘅一件。買。</div>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 4 -->
+  <section id="verdict">
+    <h2 class="sech"><span class="num">04</span>配襯嗎？答案</h2>
+    <div class="callout dark">
+      <p><strong>✅ 配襯 —— 但唔係「因為佢靚」，係因為佢係錨。</strong></p>
+      <p>錨嘅功能係「定義規則」，唔係「跟規則」。你套 keyboard／mouse／桌墊本身就係工作位嘅色彩源頭 —— 之後所有物件都應該向佢校準，唔係相反。</p>
+      <p><strong>三點要留意：</strong></p>
+      <p><strong>① 錨已經好滿（60–70% ＋ 6 個色相家族）。</strong>所以之後每一件新物件，都應該比之前更靜、更素。</p>
+      <p><strong>② 金色要跟香檳金，唔係玫瑰金。</strong>錨用 #f2cb84（亮金 V95），同玫瑰金 #c9a06b 距離 64.5。如果你買玫瑰金物件，係第二種金。</p>
+      <p><strong>③ 角色數封頂 3 個。</strong>唔好再加單一 Kuromi 圖案物件。</p>
+    </div>
+
+    <div class="card">
+      <h3><span class="badge mid">實用建議</span></h3>
+      <ul>
+        <li><b>唔需要換錨。</b>呢套係你嘅起點，唔係問題。</li>
+        <li><b>唔好再加紫色花紋物件。</b>錨已經有玫瑰／蝴蝶／蕾絲／金線。</li>
+        <li><b>新物件揀「純色、透明、啞光」</b> —— 灰、白、透明、淺木、墨黑。</li>
+        <li><b>如果買金屬物件，揀亮金／香檳金</b>（跟 #f2cb84），或索性全部用墨黑／透明避免第二種金。</li>
+        <li><b>深色錨點你已經有</b>（黑護腕、黑漸層、角色頭巾）—— 唔需要再刻意加黑。</li>
+      </ul>
+    </div>
+
+    <div class="callout gold">
+      <p><strong>📌 一句總結：</strong>呢套 keyboard／mouse／桌墊<strong>唔單止配襯，佢就係定義你工作位嘅錨</strong>。我原本以為要「加紫色去配 Kuromi」—— 錯咗。實際係<strong>你已經有一個極繁嘅紫色主角，之後所有嘢都要退後</strong>。</p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <footer class="foot">
+    <p>錨評估 · Anna Sui × Sanrio 輕奢紫工作位 · 2026 年 9 月</p>
+    <p>色值由實物相片抽樣（桌墊實景 162,463 個紫系像素；鍵盤組 321,371 個深紫 + 198,617 個淺紫像素，已排除木枱背景）。色相／飽和度以 HSV 計算，距離為 RGB 歐氏距離。</p>
+    <p>© 2023 SANRIO CO., LTD. 商標屬原持有人所有，此頁僅作個人配襯分析用途。</p>
+  </footer>
+
+</div>
+</body>
+</html>
