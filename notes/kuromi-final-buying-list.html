@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>總清單 · 邊件買得邊件唔買得</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#120e18;--panel:rgba(255,255,255,.045);--line:rgba(255,255,255,.10);
+    --text:#ece7f2;--muted:#a89fba;--purple:#8f6cbd;--lilac:#c3a6e0;
+    --gold:#c9a06b;--paper:#f2ede4;--anchor:#765c8c;--champ:#f2cb84;
+    --ok:#9ede9a;--warn:#e8c07a;--bad:#ec9a9a;}
+  *{box-sizing:border-box;}
+  html,body{height:auto;overflow-x:hidden;}
+  body{margin:0;background:
+      radial-gradient(1100px 520px at 10% -8%, rgba(118,92,140,.26), transparent 62%),
+      radial-gradient(900px 480px at 94% 4%, rgba(158,222,154,.10), transparent 60%), var(--bg);
+    color:var(--text);font-family:"Noto Sans TC","PingFang TC",system-ui,sans-serif;
+    line-height:1.85;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:920px;margin:0 auto;padding:30px 20px 90px;}
+  .masthead{border:1px solid var(--line);border-radius:20px;
+    background:linear-gradient(150deg,rgba(118,92,140,.28),rgba(255,255,255,.03) 52%,rgba(158,222,154,.11));
+    padding:34px 30px 30px;position:relative;overflow:hidden;}
+  .masthead::after{content:"";position:absolute;right:-70px;top:-70px;width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle,rgba(158,222,154,.20),transparent 68%);}
+  .kicker{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.26em;
+    text-transform:uppercase;color:var(--lilac);margin:0 0 14px;}
+  h1{font-family:"Noto Serif TC",serif;font-weight:700;font-size:clamp(1.5rem,5vw,2.3rem);
+    line-height:1.3;margin:0 0 12px;} h1 .hl{color:var(--ok);}
+  .sub{color:var(--muted);font-size:.95rem;margin:0;max-width:62ch;}
+  .verdictbar{display:flex;flex-wrap:wrap;gap:14px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line);}
+  .vbox{flex:1 1 130px;}
+  .vbox .lb{font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);margin:0 0 4px;}
+  .vbox .vl{font-size:1.02rem;font-weight:600;margin:0;}
+  .vbox .vl.pass{color:var(--ok);} .vbox .vl.warn{color:var(--warn);} .vbox .vl.no{color:var(--bad);}
+  section{margin-top:44px;scroll-margin-top:20px;}
+  .sech{font-family:"Noto Serif TC",serif;font-weight:600;font-size:clamp(1.15rem,3.5vw,1.5rem);
+    margin:0 0 6px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .sech .num{font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--gold);letter-spacing:.1em;font-weight:600;}
+  .lead{color:var(--muted);font-size:.92rem;margin:0 0 20px;max-width:70ch;}
+  p{margin:0 0 14px;font-size:.94rem;}
+  .card{border:1px solid var(--line);border-radius:16px;background:var(--panel);
+    padding:20px 22px;margin-bottom:14px;break-inside:avoid;}
+  .card h3{font-size:1.02rem;margin:0 0 10px;font-weight:600;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .card p:last-child{margin-bottom:0;}
+  .card ul{margin:8px 0 0;padding-left:0;list-style:none;}
+  .card ul li{position:relative;padding-left:18px;margin-bottom:7px;font-size:.91rem;}
+  .card ul li::before{content:"";position:absolute;left:2px;top:.68em;width:7px;height:7px;border-radius:50%;
+    background:var(--purple);opacity:.85;}
+  .pick{border-color:rgba(158,222,154,.5);background:linear-gradient(160deg,rgba(120,200,120,.14),rgba(255,255,255,.03));}
+  .hold{border-color:rgba(232,192,122,.45);background:linear-gradient(160deg,rgba(232,192,122,.13),rgba(255,255,255,.03));}
+  .drop{border-color:rgba(236,154,154,.42);background:linear-gradient(160deg,rgba(220,120,120,.12),rgba(255,255,255,.03));}
+  .badge{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.1em;border-radius:999px;padding:3px 11px;white-space:nowrap;}
+  .badge.yes{background:rgba(120,200,120,.16);color:var(--ok);border:1px solid rgba(120,200,120,.4);}
+  .badge.mid{background:rgba(232,192,122,.15);color:var(--warn);border:1px solid rgba(232,192,122,.42);}
+  .badge.no{background:rgba(220,120,120,.14);color:var(--bad);border:1px solid rgba(220,120,120,.4);}
+  .score{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:.82rem;color:var(--lilac);white-space:nowrap;}
+  .fix{border-left:3px solid var(--warn);background:linear-gradient(90deg,rgba(232,192,122,.12),transparent 74%);
+    border-radius:0 12px 12px 0;padding:12px 16px;margin-top:12px;font-size:.88rem;break-inside:avoid;}
+  .fix.ok{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.15),transparent 74%);}
+  .fix.bad{border-left-color:var(--bad);background:linear-gradient(90deg,rgba(220,120,120,.13),transparent 74%);}
+  .fix strong{color:var(--paper);}
+  .callout{border-left:3px solid var(--gold);background:linear-gradient(90deg,rgba(201,160,107,.13),transparent 72%);
+    border-radius:0 14px 14px 0;padding:16px 20px;margin:18px 0;break-inside:avoid;}
+  .callout.dark{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.16),transparent 72%);}
+  .callout.gold{border-left-color:var(--champ);background:linear-gradient(90deg,rgba(242,203,132,.15),transparent 72%);}
+  .callout.danger{border-left-color:var(--bad);background:linear-gradient(90deg,rgba(220,120,120,.15),transparent 72%);}
+  .callout strong{color:var(--paper);} .callout p{margin:0 0 8px;font-size:.9rem;} .callout p:last-child{margin:0;}
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--panel);}
+  table{width:100%;border-collapse:collapse;min-width:660px;font-size:.84rem;}
+  thead th{background:linear-gradient(180deg,rgba(143,108,189,.34),rgba(143,108,189,.14));
+    text-align:left;padding:11px 13px;font-weight:600;font-size:.79rem;white-space:nowrap;border-bottom:1px solid var(--line);}
+  tbody td{padding:10px 13px;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top;}
+  tbody tr:nth-child(even) td{background:rgba(255,255,255,.022);}
+  tbody tr:last-child td{border-bottom:none;}
+  .yes-c{color:var(--ok);font-weight:600;} .no-c{color:var(--bad);font-weight:600;} .mid-c{color:var(--warn);font-weight:600;}
+  .sw{display:inline-block;width:13px;height:13px;border-radius:3px;vertical-align:-2px;margin-right:7px;border:1px solid rgba(255,255,255,.28);}
+  .top{display:inline-flex;align-items:center;gap:8px;margin-top:16px;
+    font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.08em;color:var(--lilac);
+    text-decoration:none;border:1px solid rgba(195,166,224,.35);border-radius:999px;padding:7px 16px;background:rgba(143,108,189,.10);}
+  .top:hover{background:rgba(143,108,189,.22);color:#fff;}
+  .fig{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.03);padding:18px 16px 10px;margin:18px 0;break-inside:avoid;}
+  .fig svg{width:100%;height:auto;display:block;overflow:visible;}
+  .fig .cap{font-size:.78rem;color:var(--muted);margin:10px 2px 0;line-height:1.6;}
+  .foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted);}
+  .foot p{margin:0 0 6px;font-size:.8rem;}
+  @media print{body{background:#fff;color:#1a1520;}
+    .masthead,.card,.tblwrap,.fix,.callout,.fig{background:#faf8f4;border-color:#d8d2c6;}
+    h1,.sech,.card h3{color:#1a1520;} .sub,.lead,p,.card ul li,.fig .cap{color:#4a4453;}
+    .top{display:none;} .card,.tblwrap,.fix,.callout,.fig,h2,h3{break-inside:avoid;}}
+  @media (max-width:560px){.wrap{padding:16px 12px 70px;}.masthead{padding:24px 20px;}
+    .card{padding:16px 16px;}.score{margin-left:0;width:100%;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="kicker">Final Buying List / Post-Anchor</p>
+    <h1>所以配套都可以買？<br><span class="hl">大部分可以，但有 2 件要改判</span></h1>
+    <p class="sub">錨出現之後，我重新計過每一件。結論：<strong>5 件買得、1 件有條件、4 件唔好買</strong>。另外我要更正自己之前一個唔準確嘅講法。</p>
+    <div class="verdictbar">
+      <div class="vbox"><p class="lb">可以買</p><p class="vl pass">✓ 5 件</p></div>
+      <div class="vbox"><p class="lb">有條件</p><p class="vl warn">△ 1 件</p></div>
+      <div class="vbox"><p class="lb">唔好買</p><p class="vl no">✗ 4 件</p></div>
+      <div class="vbox"><p class="lb">改判</p><p class="vl warn">△ 增高架</p></div>
+    </div>
+  </header>
+
+  <!-- 1 -->
+  <section id="list">
+    <h2 class="sech"><span class="num">01</span>逐件總表</h2>
+    <p class="lead">唔分先後，逐件對錨。買得嘅唔代表一定要買 —— 只代表「買咗唔會破壞整體」。</p>
+
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>物件</th><th>實測色</th><th>對錨</th><th>判定</th></tr></thead>
+        <tbody>
+          <tr><td><b>紫浮雕玻璃紙巾盒</b></td><td><span class="sw" style="background:#7b6480"></span>#7b6480</td><td class="yes-c">距錨紫 15.3</td><td class="yes-c">✓ 買（最準一件）</td></tr>
+          <tr><td><b>啞光維克淺灰增高架</b> 60×20×12</td><td><span class="sw" style="background:#cac8c0"></span>#cac8c0</td><td class="yes-c">同檯面／層架同族</td><td class="yes-c">✓ 買（仍然 5/5）</td></tr>
+          <tr><td><b>純白骨瓷 4 件組餐具</b></td><td><span class="sw" style="background:#faf8f4"></span>純白</td><td class="yes-c">白唔屬任何語言</td><td class="yes-c">✓ 買</td></tr>
+          <tr><td><b>不鏽鋼 304 餐具</b></td><td>銀灰</td><td class="yes-c">中性金屬</td><td class="yes-c">✓ 買（若無水槽）</td></tr>
+          <tr><td><b>儲物箱吸水墊／矽膠墊</b></td><td>—</td><td class="yes-c">功能件</td><td class="yes-c">✓ 買</td></tr>
+          <tr><td><b>樹脂書立 黑金版</b></td><td><span class="sw" style="background:#1a1a1a"></span>黑 65%＋金 #b18964</td><td class="mid-c">距錨黑 2.4 ✓／金 98 ✗</td><td class="mid-c">△ 有條件（見下）</td></tr>
+          <tr><td>陶瓷托盤 夢幻紫蝴蝶結</td><td><span class="sw" style="background:#d4b9c2"></span>#d4b9c2</td><td class="no-c">距錨紫 142.8</td><td class="no-c">✗ 唔買</td></tr>
+          <tr><td>虹彩貝殼碟「Let's be mermaids」</td><td>6 色相家族</td><td class="no-c">無單一最近色</td><td class="no-c">✗ 唔買</td></tr>
+          <tr><td>亮光大理石增高架</td><td>淺灰亮面</td><td class="mid-c">會反射錨上花紋</td><td class="no-c">✗ 降為唔買</td></tr>
+          <tr><td>BN-3012 彩繪增高架</td><td>彩繪</td><td class="no-c">違反純色原則</td><td class="no-c">✗ 唔買</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 2 -->
+  <section id="changed">
+    <h2 class="sech"><span class="num">02</span>錨出現後，改判嘅兩件</h2>
+
+    <div class="card hold">
+      <h3><span class="badge mid">△ 改判 1</span><span class="score">亮光大理石增高架：3/5 → 2/5</span></h3>
+      <p><b>之前：</b>3/5 中性（理由係亮面反射、材質語言多）。</p>
+      <p><b>現在：</b>你嘅桌墊佔桌面 60–70%，上面有玫瑰／蝴蝶／蕾絲／金線。<b>亮面大理石會把呢啲花紋反射出嚟</b> —— 錨越繁，反射越亂。</p>
+      <div class="fix bad"><strong>判定改為 ✗ 唔買。</strong>改用<b>啞光淺灰</b>（唔反射），保持 5/5。</div>
+    </div>
+
+    <div class="card hold">
+      <h3><span class="badge mid">△ 改判 2</span><span class="score">書立金屬金：需要重新理解</span></h3>
+      <p><b>問題：</b>書立金 #b18964 距錨金 #f2cb84 <b>98</b>。咁係唔係唔配？</p>
+      <p><b>答案：唔係 —— 因為呢個比較本身唔公平。</b></p>
+      <ul>
+        <li><b>錨嘅金 #f2cb84（V95）係印在布料上嘅金墨</b> —— 平面、亮、黃</li>
+        <li><b>書立嘅金 #b18964（V69）係電鍍金屬</b> —— 有立體反光、偏啞偏紅</li>
+        <li>印刷金墨<b>永遠</b>比金屬金亮。用金屬去對印刷墨，物理上對唔上</li>
+      </ul>
+      <div class="fix ok"><strong>所以正確規則唔係「金屬要對上錨金」，而係：全部金屬物件彼此要同一種金。</strong><br>
+      你嘅金屬金只有書立一件（托盤已否決）→ 「金要一種」✓ 成立，書立<b>買得</b>。</div>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 3 -->
+  <section id="correction">
+    <h2 class="sech"><span class="num">03</span>我要更正自己一個講法</h2>
+
+    <div class="callout danger">
+      <p><strong>我上一頁寫「會令角色總數變 4」—— 呢個講法唔準確，我講錯咗。</strong></p>
+      <p>再加 Kuromi-only 物件<b>唔會</b>增加角色數，因為 Kuromi 本身已經在錨裡面。</p>
+      <p><strong>真正嘅風險係【平衡走樣】：</strong></p>
+      <p>錨 ＝ <b>My Melody ＋ Cinnamoroll ＋ Kuromi 三人一組（茶會場景）</b>。<br>
+      若果你再加幾件 Kuromi-only 物件 → 桌面會被讀成「<b>Kuromi 檯</b>」。<br>
+      但錨講嘅故事係「<b>三人茶會</b>」→ 主題唔一致。</p>
+      <p><strong>✅ 你已經有嘅 Kuromi 壺／Kuromi 玻璃杯 → 完全冇問題</strong>，因為佢哋係三人組其中一員。<br>
+      <strong>風險只在你【繼續加】Kuromi-only 物件嗰陣。</strong></p>
+    </div>
+
+    <div class="fig">
+      <svg viewBox="0 0 640 250" role="img" aria-label="角色平衡：錨的三人組與Kuromi-only物件的影響">
+        <text x="20" y="22" font-family="Noto Sans TC, sans-serif" font-size="11.5" fill="#c3a6e0">角色平衡（唔係數量，係比例）</text>
+
+        <!-- 錨 -->
+        <text x="20" y="58" font-family="Noto Sans TC, sans-serif" font-size="11" fill="#ece7f2">錨（桌墊／鍵盤／滑鼠）</text>
+        <rect x="20" y="68" width="140" height="26" rx="4" fill="#e8a0c0"/>
+        <text x="90" y="85" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#3a1a28">My Melody</text>
+        <rect x="164" y="68" width="140" height="26" rx="4" fill="#a8d8e8"/>
+        <text x="234" y="85" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#1a3038">Cinnamoroll</text>
+        <rect x="308" y="68" width="140" height="26" rx="4" fill="#8a6aa8"/>
+        <text x="378" y="85" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#fff">Kuromi</text>
+        <text x="462" y="85" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#9ede9a">1:1:1 平衡 ✓</text>
+
+        <!-- 加 Kuromi-only -->
+        <text x="20" y="130" font-family="Noto Sans TC, sans-serif" font-size="11" fill="#ece7f2">再加 2 件 Kuromi-only 之後</text>
+        <rect x="20" y="140" width="140" height="26" rx="4" fill="#e8a0c0" opacity="0.5"/>
+        <text x="90" y="157" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#3a1a28">My Melody</text>
+        <rect x="164" y="140" width="140" height="26" rx="4" fill="#a8d8e8" opacity="0.5"/>
+        <text x="234" y="157" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#1a3038">Cinnamoroll</text>
+        <rect x="308" y="140" width="300" height="26" rx="4" fill="#8a6aa8"/>
+        <text x="458" y="157" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#fff">Kuromi ×3</text>
+        <text x="20" y="190" font-family="Noto Sans TC, sans-serif" font-size="11" fill="#ec9a9a">→ 讀成「Kuromi 檯」，三個角色淡出，錨講嘅「三人茶會」故事消失</text>
+
+        <text x="20" y="222" font-family="Noto Sans TC, sans-serif" font-size="11.5" fill="#9ede9a">✅ 現有 Kuromi 壺／杯＝三人組一員，冇問題</text>
+        <text x="20" y="242" font-family="Noto Sans TC, sans-serif" font-size="11.5" fill="#e8c07a">⚠️ 風險只在你【繼續加】Kuromi-only 物件</text>
+      </svg>
+      <p class="cap">角色數唔變，但比例會變。錨嘅價值在於「三人平衡」，加太多單一角色會令呢個平衡消失。</p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 4 -->
+  <section id="buy">
+    <h2 class="sech"><span class="num">04</span>建議購買順序</h2>
+
+    <div class="card pick">
+      <h3><span class="badge yes">✓ 第一批（最安全）</span></h3>
+      <ul>
+        <li><b>紫浮雕玻璃紙巾盒 #7b6480</b> —— 距錨紫 15.3，全部物件中最準</li>
+        <li><b>啞光維克淺灰增高架</b> 60×20×12cm —— 同檯面／層架同族，唔反射</li>
+        <li><b>純白骨瓷 4 件組 ＋ 不鏽鋼 304</b> —— 白屬中性，唔加語言</li>
+        <li><b>吸水墊／矽膠墊</b> —— 功能件，收儲物箱用</li>
+      </ul>
+    </div>
+
+    <div class="card hold">
+      <h3><span class="badge mid">△ 第二批（想清楚才買）</span></h3>
+      <ul>
+        <li><b>樹脂書立黑金版</b> —— 黑色距錨黑 2.4 ✓ 完美；金色係唯一金屬金，唔會撞。<br>
+        但要接受：<b>佢屬「復古學術」語言，唔係輕奢。</b>當「個人藏書品味」才買。</li>
+      </ul>
+      <div class="fix"><strong>買之前問自己：</strong>你要嘅係「統一嘅輕奢紫」定「有個人品味嘅混搭」？<br>
+      前者 → 唔買；後者 → 買，放層架第 2–3 層，夾 3–5 本深色書脊，唔好同 Kuromi 壺同格。</div>
+    </div>
+
+    <div class="callout gold">
+      <p><strong>📌 買嘢之前，最後檢查三條：</strong></p>
+      <p><strong>① 錨已經好滿（60–70% 桌面）。</strong>每件新物件都應該比之前更靜、更素。</p>
+      <p><strong>② 唔好再加紫色花紋。</strong>錨已有玫瑰／蝴蝶／蕾絲／金線。新物件揀純色、透明、啞光。</p>
+      <p><strong>③ 唔好再加 Kuromi-only 圖案。</strong>會令三人平衡走樣。</p>
+    </div>
+
+    <div class="callout dark">
+      <p><strong>一句答你：</strong>「配套」裡面 <strong>5 件買得、1 件有條件、4 件唔好買</strong>。</p>
+      <p>買得嘅當中，<strong>紙巾盒 ＋ 增高架 ＋ 餐具</strong>係最穩嘅三件 —— 佢哋分別代表「最接近錨紫」、「中性灰」、「中性白」，全部都係退後做背景嘅角色。</p>
+      <p><strong>而唔買嘅 4 件都有一個共通點：佢哋想搶戲。</strong>陶瓷托盤（粉紫＋蝴蝶結）、貝殼碟（6 色）、大理石增高架（反光）、彩繪增高架 —— 全部都係「加多一層」。你已經有主角，唔需要第二個。</p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <footer class="foot">
+    <p>總清單（錨後重校） · Anna Sui × Sanrio 輕奢紫工作位 · 2026 年 9 月</p>
+    <p>判定基於實測色值：錨紫 #765c8c、錨金 #f2cb84、錨黑 #1b181b；RGB 歐氏距離。距離 &lt;45 ＝ 同族；45–80 ＝ 近；&gt;80 ＝ 唔同。</p>
+    <p>© 2023 SANRIO CO., LTD. 商標屬原持有人所有，此頁僅作個人配襯分析用途。</p>
+  </footer>
+
+</div>
+</body>
+</html>
