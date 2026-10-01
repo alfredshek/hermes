@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>兩件再評估 · 江戶切子水晶杯 與 P07002 絨盤</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#120e18;--panel:rgba(255,255,255,.045);--line:rgba(255,255,255,.10);
+    --text:#ece7f2;--muted:#a89fba;--purple:#8f6cbd;--lilac:#c3a6e0;
+    --gold:#c9a06b;--paper:#f2ede4;--anchor:#765c8c;--champ:#f2cb84;--kiri:#83718f;
+    --ok:#9ede9a;--warn:#e8c07a;--bad:#ec9a9a;}
+  *{box-sizing:border-box;}
+  html,body{height:auto;overflow-x:hidden;}
+  body{margin:0;background:
+      radial-gradient(1100px 520px at 10% -8%, rgba(118,92,140,.26), transparent 62%),
+      radial-gradient(900px 480px at 94% 4%, rgba(131,113,143,.14), transparent 60%), var(--bg);
+    color:var(--text);font-family:"Noto Sans TC","PingFang TC",system-ui,sans-serif;
+    line-height:1.85;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:920px;margin:0 auto;padding:30px 20px 90px;}
+  .masthead{border:1px solid var(--line);border-radius:20px;
+    background:linear-gradient(150deg,rgba(118,92,140,.28),rgba(255,255,255,.03) 52%,rgba(131,113,143,.20));
+    padding:34px 30px 30px;position:relative;overflow:hidden;}
+  .masthead::after{content:"";position:absolute;right:-70px;top:-70px;width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle,rgba(195,166,224,.26),transparent 68%);}
+  .kicker{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.26em;
+    text-transform:uppercase;color:var(--lilac);margin:0 0 14px;}
+  h1{font-family:"Noto Serif TC",serif;font-weight:700;font-size:clamp(1.5rem,5vw,2.3rem);
+    line-height:1.3;margin:0 0 12px;} h1 .hl{color:var(--lilac);}
+  .sub{color:var(--muted);font-size:.95rem;margin:0;max-width:62ch;}
+  .verdictbar{display:flex;flex-wrap:wrap;gap:14px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line);}
+  .vbox{flex:1 1 140px;}
+  .vbox .lb{font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);margin:0 0 4px;}
+  .vbox .vl{font-size:1.02rem;font-weight:600;margin:0;}
+  .vbox .vl.pass{color:var(--ok);} .vbox .vl.warn{color:var(--warn);} .vbox .vl.no{color:var(--bad);}
+  section{margin-top:44px;scroll-margin-top:20px;}
+  .sech{font-family:"Noto Serif TC",serif;font-weight:600;font-size:clamp(1.15rem,3.5vw,1.5rem);
+    margin:0 0 6px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .sech .num{font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--gold);letter-spacing:.1em;font-weight:600;}
+  .lead{color:var(--muted);font-size:.92rem;margin:0 0 20px;max-width:70ch;}
+  p{margin:0 0 14px;font-size:.94rem;}
+  .card{border:1px solid var(--line);border-radius:16px;background:var(--panel);
+    padding:20px 22px;margin-bottom:14px;break-inside:avoid;}
+  .card h3{font-size:1.02rem;margin:0 0 10px;font-weight:600;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .card p:last-child{margin-bottom:0;}
+  .card ul{margin:8px 0 0;padding-left:0;list-style:none;}
+  .card ul li{position:relative;padding-left:18px;margin-bottom:7px;font-size:.91rem;}
+  .card ul li::before{content:"";position:absolute;left:2px;top:.68em;width:7px;height:7px;border-radius:50%;
+    background:var(--purple);opacity:.85;}
+  .pick{border-color:rgba(158,222,154,.5);background:linear-gradient(160deg,rgba(120,200,120,.14),rgba(255,255,255,.03));}
+  .drop{border-color:rgba(236,154,154,.45);background:linear-gradient(160deg,rgba(220,120,120,.13),rgba(255,255,255,.03));}
+  .hold{border-color:rgba(232,192,122,.45);background:linear-gradient(160deg,rgba(232,192,122,.13),rgba(255,255,255,.03));}
+  .badge{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.1em;border-radius:999px;padding:3px 11px;white-space:nowrap;}
+  .badge.yes{background:rgba(120,200,120,.16);color:var(--ok);border:1px solid rgba(120,200,120,.4);}
+  .badge.mid{background:rgba(232,192,122,.15);color:var(--warn);border:1px solid rgba(232,192,122,.42);}
+  .badge.no{background:rgba(220,120,120,.14);color:var(--bad);border:1px solid rgba(220,120,120,.4);}
+  .score{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:.82rem;color:var(--lilac);white-space:nowrap;}
+  .fix{border-left:3px solid var(--warn);background:linear-gradient(90deg,rgba(232,192,122,.12),transparent 74%);
+    border-radius:0 12px 12px 0;padding:12px 16px;margin-top:12px;font-size:.88rem;break-inside:avoid;}
+  .fix.ok{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.15),transparent 74%);}
+  .fix.bad{border-left-color:var(--bad);background:linear-gradient(90deg,rgba(220,120,120,.13),transparent 74%);}
+  .fix strong{color:var(--paper);}
+  .callout{border-left:3px solid var(--gold);background:linear-gradient(90deg,rgba(201,160,107,.13),transparent 72%);
+    border-radius:0 14px 14px 0;padding:16px 20px;margin:18px 0;break-inside:avoid;}
+  .callout.dark{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.16),transparent 72%);}
+  .callout.gold{border-left-color:var(--champ);background:linear-gradient(90deg,rgba(242,203,132,.15),transparent 72%);}
+  .callout.danger{border-left-color:var(--bad);background:linear-gradient(90deg,rgba(220,120,120,.15),transparent 72%);}
+  .callout strong{color:var(--paper);} .callout p{margin:0 0 8px;font-size:.9rem;} .callout p:last-child{margin:0;}
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--panel);}
+  table{width:100%;border-collapse:collapse;min-width:640px;font-size:.84rem;}
+  thead th{background:linear-gradient(180deg,rgba(143,108,189,.34),rgba(143,108,189,.14));
+    text-align:left;padding:11px 13px;font-weight:600;font-size:.79rem;white-space:nowrap;border-bottom:1px solid var(--line);}
+  tbody td{padding:10px 13px;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top;}
+  tbody tr:nth-child(even) td{background:rgba(255,255,255,.022);}
+  tbody tr:last-child td{border-bottom:none;}
+  .yes-c{color:var(--ok);font-weight:600;} .no-c{color:var(--bad);font-weight:600;} .mid-c{color:var(--warn);font-weight:600;}
+  .sw{display:inline-block;width:13px;height:13px;border-radius:3px;vertical-align:-2px;margin-right:7px;border:1px solid rgba(255,255,255,.28);}
+  .top{display:inline-flex;align-items:center;gap:8px;margin-top:16px;
+    font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.08em;color:var(--lilac);
+    text-decoration:none;border:1px solid rgba(195,166,224,.35);border-radius:999px;padding:7px 16px;background:rgba(143,108,189,.10);}
+  .top:hover{background:rgba(143,108,189,.22);color:#fff;}
+  .fig{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.03);padding:18px 16px 10px;margin:18px 0;break-inside:avoid;}
+  .fig svg{width:100%;height:auto;display:block;overflow:visible;}
+  .fig .cap{font-size:.78rem;color:var(--muted);margin:10px 2px 0;line-height:1.6;}
+  .foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted);}
+  .foot p{margin:0 0 6px;font-size:.8rem;}
+  @media print{body{background:#fff;color:#1a1520;}
+    .masthead,.card,.tblwrap,.fix,.callout,.fig{background:#faf8f4;border-color:#d8d2c6;}
+    h1,.sech,.card h3{color:#1a1520;} .sub,.lead,p,.card ul li,.fig .cap{color:#4a4453;}
+    .top{display:none;} .card,.tblwrap,.fix,.callout,.fig,h2,h3{break-inside:avoid;}}
+  @media (max-width:560px){.wrap{padding:16px 12px 70px;}.masthead{padding:24px 20px;}
+    .card{padding:16px 16px;}.score{margin-left:0;width:100%;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="kicker">Re-check / Post-Anchor</p>
+    <h1>兩件再評估<br><span class="hl">水晶杯買得，絨盤要重新考慮</span></h1>
+    <p class="sub">兩件我之前都評過 —— 但當時<strong>未見過錨</strong>。用真錨重算：切子杯 <strong>#83718f 距錨紫 24.9</strong>（幾乎同錨一樣）；絨盤 <strong>#3f1f3d 距錨紫 114</strong>，而且 <strong>S51% 係全部物件中最飽和</strong>。</p>
+    <div class="verdictbar">
+      <div class="vbox"><p class="lb">江戶切子水晶杯</p><p class="vl pass">✓✓ 買（距錨 24.9）</p></div>
+      <div class="vbox"><p class="lb">P07002 絨盤</p><p class="vl no">✗ 唔建議（飽和 51%）</p></div>
+      <div class="vbox"><p class="lb">絨盤功能</p><p class="vl warn">△ 同錨黑重複</p></div>
+      <div class="vbox"><p class="lb">杯尺寸</p><p class="vl warn">△ 未標示</p></div>
+    </div>
+  </header>
+
+  <!-- 1 -->
+  <section id="glass">
+    <h2 class="sech"><span class="num">01</span>江戶切子水晶杯 —— ✓✓ 買，數據最好</h2>
+
+    <div class="fig">
+      <svg viewBox="0 0 640 300" role="img" aria-label="切子水晶杯距錨紫24.9，與錨幾乎同色；飽和度21%屬低">
+        <text x="20" y="20" font-family="Noto Sans TC, sans-serif" font-size="11.5" fill="#c3a6e0">色值對比：切子杯幾乎同錨同色</text>
+
+        <!-- 色塊 -->
+        <rect x="20" y="36" width="120" height="42" rx="6" fill="#765c8c"/>
+        <text x="80" y="54" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#fff">錨（桌墊）</text>
+        <text x="80" y="70" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#fff">H273 S34 V55</text>
+
+        <rect x="152" y="36" width="120" height="42" rx="6" fill="#83718f"/>
+        <text x="212" y="54" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#fff">切子水晶杯</text>
+        <text x="212" y="70" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#fff">H276 S21 V56</text>
+
+        <rect x="284" y="36" width="120" height="42" rx="6" fill="#5d555f"/>
+        <text x="344" y="54" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#fff">紫絨墊(已有)</text>
+        <text x="344" y="70" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#fff">H288 S11 V37</text>
+
+        <rect x="416" y="36" width="120" height="42" rx="6" fill="#3f1f3d"/>
+        <text x="476" y="54" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#fff">P07002 絨盤</text>
+        <text x="476" y="70" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#fff">H304 S51 V25</text>
+
+        <!-- 飽和度條 -->
+        <text x="20" y="112" font-family="Noto Sans TC, sans-serif" font-size="11.5" fill="#c3a6e0">飽和度（越低＝越高級）</text>
+        <!-- scale 0-60% -> 430px, x from 150 -->
+        <text x="142" y="140" text-anchor="end" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#ece7f2">切子水晶杯</text>
+        <rect x="150" y="128" width="150" height="18" rx="4" fill="#9ede9a" opacity="0.85"/>
+        <text x="308" y="142" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#9ede9a" font-weight="600">S21%</text>
+
+        <text x="142" y="166" text-anchor="end" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#ece7f2">錨（桌墊）</text>
+        <rect x="150" y="154" width="243" height="18" rx="4" fill="#c3a6e0" opacity="0.75"/>
+        <text x="401" y="168" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#c3a6e0">S34%</text>
+
+        <text x="142" y="192" text-anchor="end" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#ece7f2">P07002 絨盤</text>
+        <rect x="150" y="180" width="366" height="18" rx="4" fill="#ec9a9a" opacity="0.85"/>
+        <text x="524" y="194" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#ec9a9a" font-weight="600">S51%</text>
+
+        <line x1="150" y1="212" x2="580" y2="212" stroke="#6b5f78" stroke-width="1" stroke-dasharray="3 3"/>
+        <text x="365" y="228" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#a89fba">錨 = 34% 為參考線</text>
+
+        <text x="20" y="256" font-family="Noto Sans TC, sans-serif" font-size="11.5" fill="#9ede9a">✓ 切子杯距錨紫只 24.9，而且比錨更低飽和 → 融入而唔搶戲</text>
+        <text x="20" y="278" font-family="Noto Sans TC, sans-serif" font-size="11.5" fill="#ec9a9a">✗ 絨盤 S51% 係全部物件之中最高，比錨仲要豔</text>
+      </svg>
+      <p class="cap">「低飽和＝高級」係你嘅原則。切子杯 S21% 比錨更靜；絨盤 S51% 係唯一超過錨嘅一件。</p>
+    </div>
+
+    <div class="card pick">
+      <h3><span class="badge yes">✓✓ 買</span><span class="score">距錨紫 24.9 · S21%</span></h3>
+      <ul>
+        <li><b>實測 #83718f（H276 S21% V56%）</b> → 距錨紫只 <b>24.9</b>，色相差 3°</li>
+        <li><b>飽和度 21%，比錨（34%）更低</b> → 呢個好緊要：比錨靜，即係「融入而唔搶」</li>
+        <li><b>江戶切子工藝 = 材質高級感</b>（第②條件：材質有質感）✓</li>
+        <li><b>無金邊、無卡通圖案</b> → 唔會加金屬、唔加角色 ✓</li>
+      </ul>
+      <div class="fix ok"><strong>我之前評「★★★★★ 你最靚嘅一件」—— 睇到錨之後，仍然成立，而且理由更強：</strong>佢唔止靚，佢同錨同一個紫色家族，而且比錨更靜。</div>
+    </div>
+
+    <div class="callout gold">
+      <p><strong>⚠️ 但有一件事要問賣家：</strong>商品圖<b>只標禮盒尺寸 15×15×11.5cm，冇標杯本身嘅尺寸／容量</b>。</p>
+      <p><strong>要問：</strong>① 杯高多少？② 口徑多少？③ 容量多少 ml？④ 係唔係單層（唔隔熱）？</p>
+      <p><strong>點解要問：</strong>你嘅桌面層架下層淨空只有 <b>11cm</b>。威士忌杯通常高 8–10cm，<b>剛好邊緣位</b> —— 超過 10cm 就放唔入。</p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 2 -->
+  <section id="tray">
+    <h2 class="sech"><span class="num">02</span>P07002 紫絨托盤 —— ✗ 兩點唔合格</h2>
+    <p class="lead">我之前推薦佢「當墨黑錨點用」。睇到錨之後，呢個理由站唔住。</p>
+
+    <div class="card drop">
+      <h3><span class="badge no">✗ 唔建議</span><span class="score">距錨紫 114 · S51% 最高</span></h3>
+      <p><b>① 色調唔同（距錨紫 114）</b></p>
+      <ul>
+        <li>實測 <b>#3f1f3d（H304 S51% V25%）</b> → 偏<b>酒紅紫／葡萄紫</b>，唔係藍紫</li>
+        <li>錨係 <b>H273 藍紫</b>；絨盤係 <b>H304 紅紫</b> → 色相差 <b>31°</b>，屬<b>另一個色相帶</b></li>
+        <li>距錨紫 <b>114</b> → 明顯唔同色系</li>
+      </ul>
+      <p><b>② 飽和度 51%，係全部物件之中最高</b></p>
+      <ul>
+        <li>你嘅原則係「<b>低飽和 ＝ 高級</b>」。全部物件由 S2%（莫蘭迪灰）到 S34%（錨）</li>
+        <li><b>絨盤 S51% 係唯一一件比錨更豔嘅</b> → 會搶戲，而你嘅錨已經係主角</li>
+      </ul>
+      <div class="fix bad"><strong>③ 而且「墨黑錨點」呢個功能已經被錨自己做咗。</strong><br>
+      錨本身已有黑護腕 ＋ 黑漸層。你唔再需要另一件深色物件去「提」個對比。</div>
+    </div>
+
+    <div class="callout danger">
+      <p><strong>⚠️ 仲有一個更實際嘅問題：你已經有一塊紫絨墊了。</strong></p>
+      <p>絨盤 #3f1f3d 距你已有嘅絨墊 #5d555f <b>70.5</b> → <b>兩件都係絨，但紫色唔同調</b>（一件酒紅、一件灰紫）。</p>
+      <p><strong>同時出現會變成「兩種紫絨」</strong> —— 違反「紫要同一家族」。</p>
+      <p><strong>而且絨面之前已記錄為「陳列底墊，唔係日用面」</strong> —— 你嘅絨墊已經用咗去覆蓋轉角木架，功能已經滿足。</p>
+    </div>
+
+    <div class="card hold">
+      <h3><span class="badge mid">△ 如果你真係想要</span></h3>
+      <ul>
+        <li><b>尺寸冇問題</b>：20×12×2cm、177g（同我舊記錄完全一致 ✓）</li>
+        <li><b>只可以當陳列底墊</b>放已定稿嘅小物（首飾、鎖匙），唔可以放壺／杯／任何會移動或濕嘅嘢</li>
+        <li><b>但唔好同絨墊放埋一齊</b> —— 兩塊紫絨會互相打架</li>
+      </ul>
+      <div class="fix"><strong>我嘅建議：唔買。</strong>如果你想加一件深紫，應該揀<b>距錨紫 &lt;45 嘅藍紫</b>（例如紙巾盒 #7b6480 距錨紫 15.3），唔係酒紅紫。</div>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 3 -->
+  <section id="summary">
+    <h2 class="sech"><span class="num">03</span>一句總結</h2>
+    <div class="callout dark">
+      <p><strong>① 江戶切子水晶杯 → ✓✓ 買。</strong>距錨紫 24.9，S21% 比錨更靜。我之前評 ★★★★★ 成立，而且理由更強。<br>
+      <strong>但買之前問清楚杯高同口徑</strong> —— 你層架下層淨空只有 11cm。</p>
+      <p><strong>② P07002 紫絨托盤 → ✗ 唔建議。</strong>距錨紫 114（酒紅 vs 藍紫，差 31°）、<b>S51% 全部物件中最豔</b>、功能同錨黑重複、而且同你已有嘅絨墊係「兩種紫絨」。</p>
+    </div>
+
+    <div class="callout gold">
+      <p><strong>📌 一個模式：</strong>你自己揀中嘅「貴價嘢」（切子杯、莫蘭迪層架、紙巾盒）全部都係<b>低飽和</b>；而飽和度最高嘅兩件（絨盤 S51%）係最易出錯嘅。</p>
+      <p><strong>你嘅直覺其實已經好準</strong> —— 水晶杯係你講過最鍾意嘅一件，佢亦係數據最好嘅一件。</p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <footer class="foot">
+    <p>兩件再評估（錨後） · Anna Sui × Sanrio 輕奢紫工作位 · 2026 年 9 月</p>
+    <p>色值由商品圖原圖抽樣（唔用縮圖，避免降採樣洗淡顏色）：切子杯 105,382 點、絨盤 96,349 點。RGB 歐氏距離，錨基準＝錨紫 #765c8c。距離 &lt;45 ＝ 同族；&gt;80 ＝ 唔同。</p>
+    <p>© 2023 SANRIO CO., LTD. 商標屬原持有人所有，此頁僅作個人配襯分析用途。</p>
+  </footer>
+
+</div>
+</body>
+</html>
