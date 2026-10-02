@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>換錨評估 · thecoopidea Kuromi 桌墊會推翻幾多件？</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#130f19;--panel:rgba(255,255,255,.045);--line:rgba(255,255,255,.10);
+    --text:#ece7f2;--muted:#a89fba;--purple:#8f6cbd;--lilac:#c3a6e0;
+    --gold:#c9a06b;--paper:#f2ede4;--old:#765c8c;--new:#b9accf;--champ:#f2cb84;
+    --ok:#9ede9a;--warn:#e8c07a;--bad:#ec9a9a;}
+  *{box-sizing:border-box;}
+  html,body{height:auto;overflow-x:hidden;}
+  body{margin:0;background:
+      radial-gradient(1100px 520px at 8% -8%, rgba(118,92,140,.24), transparent 62%),
+      radial-gradient(900px 500px at 94% 2%, rgba(185,172,207,.16), transparent 62%), var(--bg);
+    color:var(--text);font-family:"Noto Sans TC","PingFang TC",system-ui,sans-serif;
+    line-height:1.85;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:920px;margin:0 auto;padding:30px 20px 90px;}
+  .masthead{border:1px solid var(--line);border-radius:20px;
+    background:linear-gradient(150deg,rgba(118,92,140,.30),rgba(255,255,255,.03) 50%,rgba(185,172,207,.20));
+    padding:34px 30px 30px;position:relative;overflow:hidden;}
+  .masthead::after{content:"";position:absolute;right:-70px;top:-70px;width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle,rgba(185,172,207,.26),transparent 68%);}
+  .kicker{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.26em;
+    text-transform:uppercase;color:var(--lilac);margin:0 0 14px;}
+  h1{font-family:"Noto Serif TC",serif;font-weight:700;font-size:clamp(1.45rem,4.8vw,2.25rem);
+    line-height:1.3;margin:0 0 12px;} h1 .hl{color:var(--lilac);}
+  .sub{color:var(--muted);font-size:.95rem;margin:0;max-width:64ch;}
+  .verdictbar{display:flex;flex-wrap:wrap;gap:14px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line);}
+  .vbox{flex:1 1 132px;}
+  .vbox .lb{font-family:"JetBrains Mono",monospace;font-size:.63rem;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--muted);margin:0 0 4px;}
+  .vbox .vl{font-size:1rem;font-weight:600;margin:0;}
+  .vbox .vl.pass{color:var(--ok);} .vbox .vl.warn{color:var(--warn);} .vbox .vl.no{color:var(--bad);}
+  section{margin-top:44px;scroll-margin-top:20px;}
+  .sech{font-family:"Noto Serif TC",serif;font-weight:600;font-size:clamp(1.12rem,3.4vw,1.5rem);
+    margin:0 0 6px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .sech .num{font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--gold);letter-spacing:.1em;font-weight:600;}
+  .lead{color:var(--muted);font-size:.92rem;margin:0 0 20px;max-width:70ch;}
+  p{margin:0 0 14px;font-size:.94rem;}
+  .card{border:1px solid var(--line);border-radius:16px;background:var(--panel);
+    padding:20px 22px;margin-bottom:14px;break-inside:avoid;}
+  .card h3{font-size:1.02rem;margin:0 0 10px;font-weight:600;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .card p:last-child{margin-bottom:0;}
+  .card ul{margin:8px 0 0;padding-left:0;list-style:none;}
+  .card ul li{position:relative;padding-left:18px;margin-bottom:7px;font-size:.91rem;}
+  .card ul li::before{content:"";position:absolute;left:2px;top:.68em;width:7px;height:7px;border-radius:50%;
+    background:var(--purple);opacity:.85;}
+  .pick{border-color:rgba(158,222,154,.5);background:linear-gradient(160deg,rgba(120,200,120,.14),rgba(255,255,255,.03));}
+  .drop{border-color:rgba(236,154,154,.45);background:linear-gradient(160deg,rgba(220,120,120,.13),rgba(255,255,255,.03));}
+  .hold{border-color:rgba(232,192,122,.45);background:linear-gradient(160deg,rgba(232,192,122,.13),rgba(255,255,255,.03));}
+  .badge{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.1em;border-radius:999px;padding:3px 11px;white-space:nowrap;}
+  .badge.yes{background:rgba(120,200,120,.16);color:var(--ok);border:1px solid rgba(120,200,120,.4);}
+  .badge.mid{background:rgba(232,192,122,.15);color:var(--warn);border:1px solid rgba(232,192,122,.42);}
+  .badge.no{background:rgba(220,120,120,.14);color:var(--bad);border:1px solid rgba(220,120,120,.4);}
+  .score{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:.82rem;color:var(--lilac);white-space:nowrap;}
+  .fix{border-left:3px solid var(--warn);background:linear-gradient(90deg,rgba(232,192,122,.12),transparent 74%);
+    border-radius:0 12px 12px 0;padding:12px 16px;margin-top:12px;font-size:.88rem;break-inside:avoid;}
+  .fix.ok{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.15),transparent 74%);}
+  .fix.bad{border-left-color:var(--bad);background:linear-gradient(90deg,rgba(220,120,120,.13),transparent 74%);}
+  .fix strong{color:var(--paper);}
+  .callout{border-left:3px solid var(--gold);background:linear-gradient(90deg,rgba(201,160,107,.13),transparent 72%);
+    border-radius:0 14px 14px 0;padding:16px 20px;margin:18px 0;break-inside:avoid;}
+  .callout.dark{border-left-color:var(--purple);background:linear-gradient(90deg,rgba(143,108,189,.16),transparent 72%);}
+  .callout.gold{border-left-color:var(--champ);background:linear-gradient(90deg,rgba(242,203,132,.15),transparent 72%);}
+  .callout.danger{border-left-color:var(--bad);background:linear-gradient(90deg,rgba(220,120,120,.15),transparent 72%);}
+  .callout strong{color:var(--paper);} .callout p{margin:0 0 8px;font-size:.9rem;} .callout p:last-child{margin:0;}
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--panel);}
+  table{width:100%;border-collapse:collapse;min-width:600px;font-size:.84rem;}
+  thead th{background:linear-gradient(180deg,rgba(143,108,189,.34),rgba(143,108,189,.14));
+    text-align:left;padding:11px 13px;font-weight:600;font-size:.79rem;white-space:nowrap;border-bottom:1px solid var(--line);}
+  tbody td{padding:10px 13px;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top;}
+  tbody tr:nth-child(even) td{background:rgba(255,255,255,.022);}
+  tbody tr:last-child td{border-bottom:none;}
+  .yes-c{color:var(--ok);font-weight:600;} .no-c{color:var(--bad);font-weight:600;} .mid-c{color:var(--warn);font-weight:600;}
+  .sw{display:inline-block;width:13px;height:13px;border-radius:3px;vertical-align:-2px;margin-right:7px;border:1px solid rgba(255,255,255,.28);}
+  .top{display:inline-flex;align-items:center;gap:8px;margin-top:16px;
+    font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.08em;color:var(--lilac);
+    text-decoration:none;border:1px solid rgba(195,166,224,.35);border-radius:999px;padding:7px 16px;background:rgba(143,108,189,.10);}
+  .top:hover{background:rgba(143,108,189,.22);color:#fff;}
+  .fig{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.03);padding:18px 16px 10px;margin:18px 0;break-inside:avoid;}
+  .fig svg{width:100%;height:auto;display:block;overflow:visible;}
+  .fig .cap{font-size:.78rem;color:var(--muted);margin:10px 2px 0;line-height:1.6;}
+  .foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted);}
+  .foot p{margin:0 0 6px;font-size:.8rem;}
+  @media print{body{background:#fff;color:#1a1520;}
+    .masthead,.card,.tblwrap,.fix,.callout,.fig{background:#faf8f4;border-color:#d8d2c6;}
+    h1,.sech,.card h3{color:#1a1520;} .sub,.lead,p,.card ul li,.fig .cap{color:#4a4453;}
+    .top{display:none;} .card,.tblwrap,.fix,.callout,.fig,h2,h3{break-inside:avoid;}}
+  @media (max-width:560px){.wrap{padding:16px 12px 70px;}.masthead{padding:24px 20px;}
+    .card{padding:16px 16px;}.score{margin-left:0;width:100%;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="kicker">Anchor Swap / Impact Analysis</p>
+    <h1>換呢塊墊 <span class="hl">＝ 三件要報廢</span></h1>
+    <p class="sub">呢塊 thecoopidea Kuromi 墊實測 <strong>#b9accf（H262 S17% V81%）</strong>。佢同舊錨 <strong>色相差只 10°（同一個紫家族）</strong>，所以唔係「唔配」—— 而係<strong>濃淡相反</strong>：舊錨 S34% V55% 濃而深、新墊 S17% V81% 淡而淺。你之前批過嘅紫（切子杯、紙巾盒、Kuromi 壺）全部會<strong>由「同族」變成「距 100 以上」</strong>。</p>
+    <div class="verdictbar">
+      <div class="vbox"><p class="lb">換墊本身</p><p class="vl warn">△ 冇問題</p></div>
+      <div class="vbox"><p class="lb">但要換錨</p><p class="vl no">✗ 連鎖效應</p></div>
+      <div class="vbox"><p class="lb">紫系物件</p><p class="vl no">✗ 3 件報廢</p></div>
+      <div class="vbox"><p class="lb">金屬金</p><p class="vl no">✗ 幾乎冇（0.1%）</p></div>
+    </div>
+  </header>
+
+  <!-- 1 -->
+  <section id="what">
+    <h2 class="sech"><span class="num">01</span>先搞清楚：呢塊墊係咩？</h2>
+
+    <div class="card hold">
+      <h3><span class="badge mid">⚠️ 最重要嘅一點</span></h3>
+      <p><b>佢唔係單賣嘅滑鼠墊 —— 佢係跟機附送嘅 die-cut 墊。</b></p>
+      <ul>
+        <li>官方產品：<b>thecoopidea Sanrio RETRO TAPPY 無線鍵盤及滑鼠套裝</b>（型號 <b>CP-KB04</b>）</li>
+        <li>官方描述：<i>「Includes a die-cut Sanrio Characters mouse pad」</i> —— <b>墊係套裝其中一件</b></li>
+        <li>市價：官網 <b>HK$499</b>／LOG-ON、PriseMall 見 <b>HK$259–399</b>（經常有特價）</li>
+        <li>套裝內容：鍵盤 ×1、滑鼠 ×1、<b>die-cut 滑鼠墊 ×1</b>、說明書</li>
+      </ul>
+      <div class="fix"><strong>實務上：你想「換上呢塊墊」，就要買成套鍵鼠（HK$259–499）。</strong>官方冇單獨賣墊；要單買只可能靠二手（Carousell 有 thecoopidea 系列放售，但要碰運氣）。</div>
+    </div>
+
+    <div class="card">
+      <h3><span class="badge mid">△ 規格</span></h3>
+      <ul>
+        <li><b>die-cut 異形切割</b>：唔係四角方形，右邊跟 Kuromi 耳仔／蝴蝶結輪廓切波浪邊</li>
+        <li><b>墊本身尺寸官方冇公開</b>（同系 TAPPY 款嘅大墊係 52.5×18cm，但呢塊唔同款，唔可以照套）</li>
+        <li>鍵盤：10m 無線範圍、<b>2.4GHz ＋ 藍牙雙模</b>、內置手機／平板支架、AA／AAA 電池（唔包）</li>
+        <li>相容 Android、macOS、iOS、Windows 7+</li>
+        <li>相中墊上面嘅<b>透明壓克力架唔包括</b>，係另一件產品</li>
+      </ul>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 2 -->
+  <section id="data">
+    <h2 class="sech"><span class="num">02</span>實測數據 —— 同一家族，但濃淡相反</h2>
+    <p class="lead">我用原相（3840×1533）抽墊底 662,307 點，唔用縮圖（縮圖會洗淡顏色）。</p>
+
+    <div class="fig">
+      <svg viewBox="0 0 640 300" role="img" aria-label="新舊錨同屬紫家族但飽和度與明度相反；換錨後三件紫系物件距離由同族變成超過100">
+        <text x="20" y="18" font-family="Noto Sans TC, sans-serif" font-size="11.5" fill="#c3a6e0">新舊錨：色相只差 10°，但飽和差 −17、明度差 +26</text>
+
+        <rect x="20" y="30" width="150" height="44" rx="6" fill="#765c8c"/>
+        <text x="95" y="49" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#fff">舊錨 Anna Sui</text>
+        <text x="95" y="66" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#fff">H273 S34 V55</text>
+
+        <rect x="182" y="30" width="150" height="44" rx="6" fill="#b9accf"/>
+        <text x="257" y="49" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#241a2c">新墊 thecoopidea</text>
+        <text x="257" y="66" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#241a2c">H262 S17 V81</text>
+
+        <text x="352" y="48" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#9ede9a">色相差 10° → 同族 ✓</text>
+        <text x="352" y="66" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#ec9a9a">距離 124 → 完全唔同 ✗</text>
+
+        <!-- 三件報廢 -->
+        <text x="20" y="102" font-family="Noto Sans TC, sans-serif" font-size="11" fill="#ec9a9a">換錨後報廢（原本 ✓ 買）</text>
+        <text x="20" y="122" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#ece7f2">切子水晶杯 #83718f　24.9 → <tspan fill="#ec9a9a" font-weight="600">102.4</tspan></text>
+        <text x="20" y="140" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#ece7f2">紫浮雕紙巾盒 #7b6480　15.3 → <tspan fill="#ec9a9a" font-weight="600">123.6</tspan></text>
+        <text x="20" y="158" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#ece7f2">Kuromi 壺 #68547a　24.2 → <tspan fill="#ec9a9a" font-weight="600">146.7</tspan></text>
+
+        <line x1="20" y1="172" x2="620" y2="172" stroke="#6b5f78" stroke-width="1" stroke-dasharray="3 3"/>
+
+        <!-- 翻身 -->
+        <text x="20" y="192" font-family="Noto Sans TC, sans-serif" font-size="11" fill="#9ede9a">換錨後翻身（原本 ✗ 唔買）</text>
+        <text x="20" y="212" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#ece7f2">Anna Sui 鍵帽 #9891c9　87.7 → <tspan fill="#9ede9a" font-weight="600">43.1</tspan></text>
+        <text x="20" y="230" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#ece7f2">檯面灰／莫蘭迪灰 #b4b4b2、#a2a09f → <tspan fill="#9ede9a" font-weight="600">30.5 / 54.6</tspan></text>
+
+        <text x="20" y="258" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#a89fba">判定基準：距錨 &lt;45 ＝ 同族 ✓ ｜ &gt;80 ＝ 唔同 ✗（RGB 歐氏距離）</text>
+        <text x="20" y="278" font-family="Noto Sans TC, sans-serif" font-size="10.5" fill="#e8c07a">⚠️ 三件報廢嘅全部都係紫系 —— 因為錨嘅「濃淡」變了，唔係「色調」變了</text>
+      </svg>
+      <p class="cap">注意呢點：新舊錨色相只差 10°，同一個紫家族。問題唔係「唔同色」，而係<b>舊錨濃而深、新墊淡而淺</b> —— 你嘅紫系物件全部係照「濃紫」揀嘅。</p>
+    </div>
+
+    <div class="callout danger">
+      <p><strong>⚠️ 而且要留意：新墊幾乎冇金色。</strong></p>
+      <p>我量新墊相嘅金屬金／香檳色只有 <b>139 像素（0.1%）</b>（而且係木架反光，唔係墊上印刷）。</p>
+      <p><strong>舊錨（Anna Sui）有香檳金 #f2cb84 嘅金線印刷</strong> —— 呢個係佢「輕奢感」嘅主要來源。</p>
+      <p>你嘅「輕奢 5 條件」第 ③ 條係「<b>有金屬點綴</b>」。<b>換咗呢塊墊，第 ③ 條就冇咗。</b></p>
+    </div>
+
+    <div class="callout">
+      <p><strong>誠實講一個誤差：</strong>相片係喺木架上打燈影嘅，光度偏亮，所以 <b>V81 有可能係偏淺咗</b>（實物可能深幾度）。</p>
+      <p><strong>但兩個結論唔受影響：</strong>① 色相 H262（同舊錨 H273 係同一家族但唔同調）；② 幾乎冇金屬金。呢兩點係可靠嘅。</p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 3 -->
+  <section id="impact">
+    <h2 class="sech"><span class="num">03</span>連鎖效應：全部物件重算</h2>
+
+    <div class="tblwrap">
+      <table>
+        <thead>
+          <tr><th>物件</th><th>色值</th><th>距舊錨</th><th>距新墊</th><th>換錨後</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="sw" style="background:#83718f"></span>切子水晶杯</td><td><code>#83718f</code></td><td>24.9 <span class="yes-c">✓</span></td><td>102.4</td><td class="no-c">✗ 報廢</td></tr>
+          <tr><td><span class="sw" style="background:#7b6480"></span>紫浮雕紙巾盒</td><td><code>#7b6480</code></td><td>15.3 <span class="yes-c">✓</span></td><td>123.6</td><td class="no-c">✗ 報廢</td></tr>
+          <tr><td><span class="sw" style="background:#68547a"></span>Kuromi 保溫壺</td><td><code>#68547a</code></td><td>24.2 <span class="yes-c">✓</span></td><td>146.7</td><td class="no-c">✗ 報廢</td></tr>
+          <tr><td><span class="sw" style="background:#9891c9"></span>Anna Sui 鍵帽</td><td><code>#9891c9</code></td><td>87.7</td><td>43.1 <span class="yes-c">✓</span></td><td class="yes-c">✓ 翻身</td></tr>
+          <tr><td><span class="sw" style="background:#b4b4b2"></span>檯面灰</td><td><code>#b4b4b2</code></td><td>114.2</td><td>30.5 <span class="yes-c">✓</span></td><td class="yes-c">✓ 翻身</td></tr>
+          <tr><td><span class="sw" style="background:#a2a09f"></span>莫蘭迪灰層架</td><td><code>#a2a09f</code></td><td>83.2</td><td>54.6 <span class="mid-c">△</span></td><td class="mid-c">△ 更近</td></tr>
+          <tr><td><span class="sw" style="background:#5d555f"></span>紫絨墊（已有）</td><td><code>#5d555f</code></td><td>52.0</td><td>169.0</td><td class="mid-c">△ 更遠</td></tr>
+          <tr><td><span class="sw" style="background:#9cd4e2"></span>藍色飲品（墊上圖案）</td><td><code>#9cd4e2</code></td><td>152.4</td><td>52.9</td><td class="mid-c">△ 變近</td></tr>
+          <tr><td><span class="sw" style="background:#3f1f3d"></span>P07002 紫絨托盤</td><td><code>#3f1f3d</code></td><td>114.0</td><td>236.8</td><td class="no-c">✗ 更遠</td></tr>
+          <tr><td><span class="sw" style="background:#2f2c57"></span>Anna Sui 鍵盤機身</td><td><code>#2f2c57</code></td><td>100.8</td><td>223.2</td><td class="no-c">✗ 更遠</td></tr>
+          <tr><td><span class="sw" style="background:#44405b"></span>thecoopidea 鍵盤機身</td><td><code>#44405b</code></td><td>75.4</td><td>197.0</td><td class="mid-c">△ 中性</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout dark">
+      <p><strong>📌 一句講清：</strong>換咗之後，<strong>紫系物件全滅</strong>，反而<strong>淺灰系（檯面、莫蘭迪層架）同淺紫鍵帽變成同族</strong>。</p>
+      <p>呢個意味住：你唔係「換一塊墊」，你係<b>將整個工作位由「濃紫輕奢」轉去「淺紫清爽」</b>。</p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 4 -->
+  <section id="style">
+    <h2 class="sech"><span class="num">04</span>最重要嘅考慮：換咗之後會變成咩風格？</h2>
+
+    <div class="card drop">
+      <h3><span class="badge no">✗ 五項輕奢檢查：剩 2.5 項</span></h3>
+      <ul>
+        <li><b>① 大面積要靜 —— △</b>　新墊 S17% 淡過舊錨 S34%，更靜。但「淡＋淺＋大面積」容易變成<b>學生檯</b>，唔係輕奢（輕奢嘅靜係「啞光深色」，唔係「淺白」）</li>
+        <li><b>② 材質有質感 —— ✓</b>　印刷布墊，同舊錨同級</li>
+        <li><b>③ 有金屬點綴 —— ✗✗</b>　<b>新墊幾乎冇金（0.1%）</b>，舊錨有香檳金金線。<b>呢條係輕奢嘅命脈</b></li>
+        <li><b>④ 有深色錨點 —— △</b>　有黑字「KUROMI」＋Kuromi 黑帽（黑佔 8%），但唔似舊錨嘅黑漸層護腕成條橫跨</li>
+        <li><b>⑤ 無卡通圖案 —— ✗</b>　兩者都有角色（呢條本來就係你自願放棄嘅）</li>
+      </ul>
+      <div class="fix bad"><strong>核心問題：新墊係「單角色 + 一杯藍飲品」嘅 kawaii 風格</strong>，舊錨係「三麗鷗哥德茶會」嘅華麗風格（玫瑰／蝴蝶／星星／藤蔓／蕾絲／三角色／金線）。<br>
+      <b>由「時裝華麗」跌去「可愛卡通」</b> —— 呢個係風格降級，唔止係換色。</div>
+    </div>
+
+    <div class="card hold">
+      <h3><span class="badge mid">△ 而且墊上有一杯藍色飲品</span></h3>
+      <ul>
+        <li>實測 <b>#9cd4e2（H192 S31% V89%）</b>，佔墊面約 <b>1%</b></li>
+        <li>面積細，但 <b>H192 青藍對 H262 淡紫係補色系</b> → 喺淡底上<b>跳得好出</b></li>
+        <li>另外仲有<b>薄荷綠蝴蝶結</b>（#9dced3，H186）同<b>粉紅蝴蝶結</b>（#e4919f，H350）</li>
+        <li>→ 一個錨上多咗 <b>青藍／薄荷／粉紅</b> 三個新色相</li>
+      </ul>
+      <div class="fix"><strong>後果：</strong>你嘅「紫要同一家族」會變得更難守 —— 因為錨自己已經帶咗三個新色相入場。之後每件嘢都可以話「配錨上嗰杯藍飲品」。</div>
+    </div>
+
+    <div class="callout gold">
+      <p><strong>如果真係要換，配套係咁：</strong></p>
+      <p><b>要買：</b>thecoopidea Retro TAPPY 整套（HK$259–499）—— 唔止塊墊，鍵盤滑鼠都會換埋（因為 Anna Sui 深藍紫機身 #2f2c57 距新墊 223，放上去會「浮」起）。</p>
+      <p><b>要放棄：</b>切子水晶杯（102.4）、紫浮雕紙巾盒（123.6）、Kuromi 保溫壺（146.7）—— 呢三件係你最後買清單嘅主力。</p>
+      <p><b>可以留：</b>純白瓷餐具、不鏽鋼、莫蘭迪灰層架、淺灰檯面。</p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 5 -->
+  <section id="options">
+    <h2 class="sech"><span class="num">05</span>三個選擇</h2>
+
+    <div class="card pick">
+      <h3><span class="badge yes">① 我建議：唔換</span></h3>
+      <ul>
+        <li>Anna Sui 錨已經令<b>五件已批物件成立</b>，換咗就要重新嚟一次</li>
+        <li>舊錨有<b>金屬金</b>（輕奢命脈），新墊冇</li>
+        <li>舊錨係<b>華麗</b>，新墊係<b>可愛</b> —— 你嘅目標係「輕奢」，唔係「可愛」</li>
+      </ul>
+    </div>
+
+    <div class="card hold">
+      <h3><span class="badge mid">② 如果鍾意個款：加購當「副墊」</span></h3>
+      <ul>
+        <li>買套裝，但<b>墊放抽屜備用／放屋企</b>，主檯面繼續用 Anna Sui</li>
+        <li>咁樣 <b>紫系五件唔會報廢</b>，又收到個款</li>
+        <li>套裝嘅鍵鼠可以當<b>後備</b>（或送 Yudrre）</li>
+      </ul>
+    </div>
+
+    <div class="card drop">
+      <h3><span class="badge no">③ 如果一定要換：全套重做</span></h3>
+      <ul>
+        <li>要有心理準備：<b>切子杯、紙巾盒、Kuromi 壺三件要退／改買淺紫版本</b></li>
+        <li>金屬點綴要另外補（例如淺金／銅色小物），因為新墊冇金</li>
+        <li>角色數會由 3 個（Melody＋Cinnamoroll＋Kuromi）變成 <b>Kuromi 一個</b> —— 唔係加角色，而係<b>收窄到單角色</b></li>
+      </ul>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <!-- 6 -->
+  <section id="summary">
+    <h2 class="sech"><span class="num">06</span>一句總結</h2>
+    <div class="callout dark">
+      <p><strong>換呢塊墊唔係「換一件物件」，係「換錨」—— 全部規則要重寫。</strong></p>
+      <p><b>好消息：</b>新墊同舊錨 <b>色相差只 10°</b>，係同一個紫家族，唔係「撞色」。</p>
+      <p><b>壞消息：</b>① <b>濃淡相反</b>（S34→S17、V55→V81）→ 你之前批嘅三件濃紫全部報廢；② <b>幾乎冇金屬金</b>（0.1%）→ 輕奢第 ③ 條冇咗；③ 風格由<b>華麗</b>跌去<b>可愛卡通</b>；④ 墊唔單賣，要買成套 HK$259–499。</p>
+      <p><strong>我嘅建議：想要個款就買套裝、墊收埋做副墊，唔好換走 Anna Sui。</strong></p>
+    </div>
+
+    <div class="callout gold">
+      <p><strong>📌 一個好緊要嘅提醒：</strong>你之前問「之前提嘅配套都可以買？」我答「5 買 1 有條件」。但嗰個答案<strong>係綁死喺 Anna Sui 錨上面嘅</strong>。</p>
+      <p><strong>換錨＝嗰張清單即刻作廢。</strong>所以如果你心思思想換，<b>最好喺落單買紫系物件之前決定</b> —— 唔係買完先換墊，就要退貨。</p>
+    </div>
+    <a class="top" href="#">⬆ 回到最頂</a>
+  </section>
+
+  <footer class="foot">
+    <p>換錨影響評估 · Anna Sui × Sanrio 輕奢紫工作位 · 2026 年 9 月</p>
+    <p>色值由原相抽樣：新墊底 662,307 點（H262 S17% V81%）、金屬金 139 點（0.1%）、藍飲品 32,557 點（1.0%）、黑 253,245 點（8.0%）。套裝主色由 thecoopidea 官方商品圖（CP-KB04-KURO1–6）抽取。RGB 歐氏距離，基準＝錨紫。距離 &lt;45 ＝ 同族；&gt;80 ＝ 唔同。</p>
+    <p>「die-cut mouse pad 跟套裝附送」、「CP-KB04 HK$499」、「2.4GHz＋藍牙雙模」均取自 thecoopidea 官方產品頁；LOG-ON／PriseMall 見 HK$259–399 特價。</p>
+    <p>© 2024 SANRIO CO., LTD. / Distributed by The Coop Idea LTD. under the license of Sanrio Wave HK. 商標屬原持有人所有，此頁僅作個人配襯分析用途。</p>
+  </footer>
+
+</div>
+</body>
+</html>
